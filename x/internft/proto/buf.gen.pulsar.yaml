@@ -1,0 +1,17 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: api
+    except:
+      - buf.build/googleapis/googleapis
+      - buf.build/cosmos/cosmos-sdk
+      - buf.build/cosmos/gogo-proto
+      - buf.build/cosmos/cosmos-proto
+plugins:
+  - name: go-pulsar
+    out: ../api
+    opt: paths=source_relative,Mcosmos/app/v1alpha1/module.proto=cosmossdk.io/api/cosmos/app/v1alpha1,Mcosmos/base/query/v1beta1/pagination.proto=cosmossdk.io/api/cosmos/base/query/v1beta1
+  - name: go-grpc
+    out: ../api
+    opt: paths=source_relative,Mcosmos/app/v1alpha1/module.proto=cosmossdk.io/api/cosmos/app/v1alpha1
