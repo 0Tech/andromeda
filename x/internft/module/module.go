@@ -22,8 +22,8 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
 	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
-	// "github.com/0tech/andromeda/x/internft/client/cli"
 	modulev1alpha1 "github.com/0tech/andromeda/x/internft/api/andromeda/internft/module/v1alpha1"
+	"github.com/0tech/andromeda/x/internft/client/cli"
 	"github.com/0tech/andromeda/x/internft/keeper"
 )
 
@@ -55,14 +55,12 @@ func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *r
 
 // GetTxCmd returns the transaction commands for the module
 func (AppModuleBasic) GetTxCmd() *cobra.Command {
-	// return cli.NewTxCmd()
-	return nil
+	return cli.NewTxCmd()
 }
 
 // GetQueryCmd returns the cli query commands for the module
 func (AppModuleBasic) GetQueryCmd() *cobra.Command {
-	// return cli.NewQueryCmd()
-	return nil
+	return cli.NewQueryCmd()
 }
 
 // ____________________________________________________________________________
