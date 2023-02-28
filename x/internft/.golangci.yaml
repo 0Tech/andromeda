@@ -1,0 +1,15 @@
+linters:
+  enable:
+    - depguard
+    - dogsled
+    - exportloopref
+    - goconst
+    - gocritic
+    - gofumpt
+    - gosec
+    - misspell
+    - nakedret
+    - nolintlint
+    - revive
+    - stylecheck
+    - unconvert
