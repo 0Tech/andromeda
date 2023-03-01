@@ -1,4 +1,4 @@
-package keeper_test
+package internal_test
 
 import (
 	"google.golang.org/grpc/codes"

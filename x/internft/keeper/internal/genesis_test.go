@@ -1,4 +1,4 @@
-package keeper_test
+package internal_test
 
 import (
 	"testing"
@@ -18,7 +18,7 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
 	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
-	"github.com/0tech/andromeda/x/internft/keeper"
+	keeper "github.com/0tech/andromeda/x/internft/keeper/internal"
 	"github.com/0tech/andromeda/x/internft/module"
 )
 

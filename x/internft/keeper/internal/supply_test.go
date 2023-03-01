@@ -1,4 +1,4 @@
-package keeper_test
+package internal_test
 
 import (
 	"cosmossdk.io/math"
