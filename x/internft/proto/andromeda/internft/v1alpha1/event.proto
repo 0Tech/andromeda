@@ -1,48 +1,82 @@
 syntax = "proto3";
 package andromeda.internft.v1alpha1;
 
-import "google/protobuf/any.proto";
-import "gogoproto/gogo.proto";
-
-import "cosmos_proto/cosmos.proto";
-
 import "andromeda/internft/v1alpha1/types.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/any.proto";
 
 // EventSend is emitted on Msg/Send.
 message EventSend {
-  string sender   = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // the sender of the NFT
+  string sender = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the recipient of the NFT
   string receiver = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  NFT    nft      = 3 [(gogoproto.nullable) = false];
+
+  // the NFT sent
+  NFT nft = 3 [(gogoproto.nullable) = false];
 }
 
 // EventNewClass is emitted on Msg/NewClass.
 message EventNewClass {
-  Class class                = 1 [(gogoproto.nullable) = false];
-  repeated Trait      traits = 2 [(gogoproto.nullable) = false];
-  google.protobuf.Any data   = 3;
+  // the operator of the class
+  string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the new class to create
+  Class class = 2 [(gogoproto.nullable) = false];
+
+  // the traits of the new class
+  repeated Trait traits = 3 [(gogoproto.nullable) = false];
+
+  // app specific metadata of the new class
+  google.protobuf.Any data = 4;
 }
 
 // EventUpdateClass is emitted on Msg/UpdateClass.
 message EventUpdateClass {
-  Class class              = 1 [(gogoproto.nullable) = false];
-  google.protobuf.Any data = 2;
+  // the operator of the class
+  string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the class updated
+  Class class = 2 [(gogoproto.nullable) = false];
+
+  // app specific metadata of the class
+  google.protobuf.Any data = 3;
 }
 
 // EventMintNFT is emitted on Msg/MintNFT.
 message EventMintNFT {
-  NFT               nft        = 1 [(gogoproto.nullable) = false];
-  repeated Property properties = 2 [(gogoproto.nullable) = false];
-  string            recipient  = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // the operator of the class
+  string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the recipient of the new NFT
+  string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the new NFT minted
+  NFT nft = 3 [(gogoproto.nullable) = false];
+
+  // the properties of the new NFT
+  repeated Property properties = 4 [(gogoproto.nullable) = false];
 }
 
 // EventBurnNFT is emitted on Msg/BurnNFT.
 message EventBurnNFT {
+  // the owner of the NFT
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  NFT    nft   = 2 [(gogoproto.nullable) = false];
+
+  // the NFT burnt
+  NFT nft = 2 [(gogoproto.nullable) = false];
 }
 
 // EventUpdateNFT is emitted on Msg/UpdateNFT.
 message EventUpdateNFT {
-  NFT               nft        = 1 [(gogoproto.nullable) = false];
-  repeated Property properties = 2 [(gogoproto.nullable) = false];
+  // the owner of the NFT
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the NFT updated
+  NFT nft = 2 [(gogoproto.nullable) = false];
+
+  // the new properties
+  repeated Property properties = 3 [(gogoproto.nullable) = false];
 }

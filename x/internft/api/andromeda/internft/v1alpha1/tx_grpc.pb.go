@@ -31,17 +31,17 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgClient interface {
-	// Send defines a method to send an nft from one account to another account.
+	// Send defines a method to send an NFT from one account to another account.
 	Send(ctx context.Context, in *MsgSend, opts ...grpc.CallOption) (*MsgSendResponse, error)
 	// NewClass defines a method to create a class.
 	NewClass(ctx context.Context, in *MsgNewClass, opts ...grpc.CallOption) (*MsgNewClassResponse, error)
 	// UpdateClass defines a method to update a class.
 	UpdateClass(ctx context.Context, in *MsgUpdateClass, opts ...grpc.CallOption) (*MsgUpdateClassResponse, error)
-	// MintNFT defines a method to mint an nft.
+	// MintNFT defines a method to mint an NFT.
 	MintNFT(ctx context.Context, in *MsgMintNFT, opts ...grpc.CallOption) (*MsgMintNFTResponse, error)
-	// BurnNFT defines a method to burn an nft.
+	// BurnNFT defines a method to burn an NFT.
 	BurnNFT(ctx context.Context, in *MsgBurnNFT, opts ...grpc.CallOption) (*MsgBurnNFTResponse, error)
-	// UpdateNFT defines a method to update an nft.
+	// UpdateNFT defines a method to update an NFT.
 	UpdateNFT(ctx context.Context, in *MsgUpdateNFT, opts ...grpc.CallOption) (*MsgUpdateNFTResponse, error)
 }
 
@@ -111,17 +111,17 @@ func (c *msgClient) UpdateNFT(ctx context.Context, in *MsgUpdateNFT, opts ...grp
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
 type MsgServer interface {
-	// Send defines a method to send an nft from one account to another account.
+	// Send defines a method to send an NFT from one account to another account.
 	Send(context.Context, *MsgSend) (*MsgSendResponse, error)
 	// NewClass defines a method to create a class.
 	NewClass(context.Context, *MsgNewClass) (*MsgNewClassResponse, error)
 	// UpdateClass defines a method to update a class.
 	UpdateClass(context.Context, *MsgUpdateClass) (*MsgUpdateClassResponse, error)
-	// MintNFT defines a method to mint an nft.
+	// MintNFT defines a method to mint an NFT.
 	MintNFT(context.Context, *MsgMintNFT) (*MsgMintNFTResponse, error)
-	// BurnNFT defines a method to burn an nft.
+	// BurnNFT defines a method to burn an NFT.
 	BurnNFT(context.Context, *MsgBurnNFT) (*MsgBurnNFTResponse, error)
-	// UpdateNFT defines a method to update an nft.
+	// UpdateNFT defines a method to update an NFT.
 	UpdateNFT(context.Context, *MsgUpdateNFT) (*MsgUpdateNFTResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }

@@ -6,40 +6,35 @@ import "gogoproto/gogo.proto";
 // Params defines the parameters for the module.
 message Params {}
 
-// Trait defines a trait associated with a classification of nft.
+// Trait defines a trait associated with a classification of NFT.
 message Trait {
-  // indentifier of the trait
+  // the indentifier of the trait
   string id = 1;
 
-  // flag to tell whether a property value of the trait can be changed or not
+  // the flag to tell whether a property value of the trait can be changed or not
   bool variable = 2;
 }
 
-// Class defines a classification of nft.
+// Class defines a classification of NFT.
 message Class {
-  // identifier of the classfication
+  // the identifier of the classfication
   string id = 1;
 }
 
-// Property defines a property associated with an nft.
+// Property defines a property associated with an NFT.
 message Property {
-  // identifier of the property
+  // the identifier of the property
   string id = 1;
 
-  // fact associated with the property
+  // the fact associated with the property
   string fact = 2;
 }
 
 // NFT defines a non-fungible token.
 message NFT {
-  option (gogoproto.stringer)         = false;
-  option (gogoproto.goproto_stringer) = false;
-
-  // identifier of the class for the nft
+  // the identifier of the class for the NFT
   string class_id = 1;
 
-  // identifier of the nft
-  string id = 2
-	[(gogoproto.customtype) = "cosmossdk.io/math.Uint",
-	 (gogoproto.nullable) = false];
+  // the identifier of the NFT
+  string id = 2;
 }

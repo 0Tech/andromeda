@@ -45,15 +45,15 @@ type QueryClient interface {
 	Trait(ctx context.Context, in *QueryTraitRequest, opts ...grpc.CallOption) (*QueryTraitResponse, error)
 	// Traits queries all traits of a class.
 	Traits(ctx context.Context, in *QueryTraitsRequest, opts ...grpc.CallOption) (*QueryTraitsResponse, error)
-	// NFT queries an nft.
+	// NFT queries an NFT.
 	NFT(ctx context.Context, in *QueryNFTRequest, opts ...grpc.CallOption) (*QueryNFTResponse, error)
-	// NFTs queries all nfts.
+	// NFTs queries all NFTs.
 	NFTs(ctx context.Context, in *QueryNFTsRequest, opts ...grpc.CallOption) (*QueryNFTsResponse, error)
 	// Property queries a property of a class.
 	Property(ctx context.Context, in *QueryPropertyRequest, opts ...grpc.CallOption) (*QueryPropertyResponse, error)
 	// Properties queries all properties of a class.
 	Properties(ctx context.Context, in *QueryPropertiesRequest, opts ...grpc.CallOption) (*QueryPropertiesResponse, error)
-	// Owner queries the owner of an nft.
+	// Owner queries the owner of an NFT.
 	Owner(ctx context.Context, in *QueryOwnerRequest, opts ...grpc.CallOption) (*QueryOwnerResponse, error)
 }
 
@@ -169,15 +169,15 @@ type QueryServer interface {
 	Trait(context.Context, *QueryTraitRequest) (*QueryTraitResponse, error)
 	// Traits queries all traits of a class.
 	Traits(context.Context, *QueryTraitsRequest) (*QueryTraitsResponse, error)
-	// NFT queries an nft.
+	// NFT queries an NFT.
 	NFT(context.Context, *QueryNFTRequest) (*QueryNFTResponse, error)
-	// NFTs queries all nfts.
+	// NFTs queries all NFTs.
 	NFTs(context.Context, *QueryNFTsRequest) (*QueryNFTsResponse, error)
 	// Property queries a property of a class.
 	Property(context.Context, *QueryPropertyRequest) (*QueryPropertyResponse, error)
 	// Properties queries all properties of a class.
 	Properties(context.Context, *QueryPropertiesRequest) (*QueryPropertiesResponse, error)
-	// Owner queries the owner of an nft.
+	// Owner queries the owner of an NFT.
 	Owner(context.Context, *QueryOwnerRequest) (*QueryOwnerResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }

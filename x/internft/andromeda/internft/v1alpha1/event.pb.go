@@ -27,9 +27,12 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // EventSend is emitted on Msg/Send.
 type EventSend struct {
-	Sender   string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	// the sender of the NFT
+	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	// the recipient of the NFT
 	Receiver string `protobuf:"bytes,2,opt,name=receiver,proto3" json:"receiver,omitempty"`
-	Nft      NFT    `protobuf:"bytes,3,opt,name=nft,proto3" json:"nft"`
+	// the NFT sent
+	Nft NFT `protobuf:"bytes,3,opt,name=nft,proto3" json:"nft"`
 }
 
 func (m *EventSend) Reset()         { *m = EventSend{} }
@@ -88,9 +91,14 @@ func (m *EventSend) GetNft() NFT {
 
 // EventNewClass is emitted on Msg/NewClass.
 type EventNewClass struct {
-	Class  Class      `protobuf:"bytes,1,opt,name=class,proto3" json:"class"`
-	Traits []Trait    `protobuf:"bytes,2,rep,name=traits,proto3" json:"traits"`
-	Data   *types.Any `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	// the operator of the class
+	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
+	// the new class to create
+	Class Class `protobuf:"bytes,2,opt,name=class,proto3" json:"class"`
+	// the traits of the new class
+	Traits []Trait `protobuf:"bytes,3,rep,name=traits,proto3" json:"traits"`
+	// app specific metadata of the new class
+	Data *types.Any `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`
 }
 
 func (m *EventNewClass) Reset()         { *m = EventNewClass{} }
@@ -126,6 +134,13 @@ func (m *EventNewClass) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_EventNewClass proto.InternalMessageInfo
 
+func (m *EventNewClass) GetOperator() string {
+	if m != nil {
+		return m.Operator
+	}
+	return ""
+}
+
 func (m *EventNewClass) GetClass() Class {
 	if m != nil {
 		return m.Class
@@ -149,8 +164,12 @@ func (m *EventNewClass) GetData() *types.Any {
 
 // EventUpdateClass is emitted on Msg/UpdateClass.
 type EventUpdateClass struct {
-	Class Class      `protobuf:"bytes,1,opt,name=class,proto3" json:"class"`
-	Data  *types.Any `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	// the operator of the class
+	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
+	// the class updated
+	Class Class `protobuf:"bytes,2,opt,name=class,proto3" json:"class"`
+	// app specific metadata of the class
+	Data *types.Any `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
 }
 
 func (m *EventUpdateClass) Reset()         { *m = EventUpdateClass{} }
@@ -186,6 +205,13 @@ func (m *EventUpdateClass) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_EventUpdateClass proto.InternalMessageInfo
 
+func (m *EventUpdateClass) GetOperator() string {
+	if m != nil {
+		return m.Operator
+	}
+	return ""
+}
+
 func (m *EventUpdateClass) GetClass() Class {
 	if m != nil {
 		return m.Class
@@ -202,9 +228,14 @@ func (m *EventUpdateClass) GetData() *types.Any {
 
 // EventMintNFT is emitted on Msg/MintNFT.
 type EventMintNFT struct {
-	Nft        NFT        `protobuf:"bytes,1,opt,name=nft,proto3" json:"nft"`
-	Properties []Property `protobuf:"bytes,2,rep,name=properties,proto3" json:"properties"`
-	Recipient  string     `protobuf:"bytes,3,opt,name=recipient,proto3" json:"recipient,omitempty"`
+	// the operator of the class
+	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
+	// the recipient of the new NFT
+	Recipient string `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty"`
+	// the new NFT minted
+	Nft NFT `protobuf:"bytes,3,opt,name=nft,proto3" json:"nft"`
+	// the properties of the new NFT
+	Properties []Property `protobuf:"bytes,4,rep,name=properties,proto3" json:"properties"`
 }
 
 func (m *EventMintNFT) Reset()         { *m = EventMintNFT{} }
@@ -240,6 +271,20 @@ func (m *EventMintNFT) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_EventMintNFT proto.InternalMessageInfo
 
+func (m *EventMintNFT) GetOperator() string {
+	if m != nil {
+		return m.Operator
+	}
+	return ""
+}
+
+func (m *EventMintNFT) GetRecipient() string {
+	if m != nil {
+		return m.Recipient
+	}
+	return ""
+}
+
 func (m *EventMintNFT) GetNft() NFT {
 	if m != nil {
 		return m.Nft
@@ -254,17 +299,12 @@ func (m *EventMintNFT) GetProperties() []Property {
 	return nil
 }
 
-func (m *EventMintNFT) GetRecipient() string {
-	if m != nil {
-		return m.Recipient
-	}
-	return ""
-}
-
 // EventBurnNFT is emitted on Msg/BurnNFT.
 type EventBurnNFT struct {
+	// the owner of the NFT
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	Nft   NFT    `protobuf:"bytes,2,opt,name=nft,proto3" json:"nft"`
+	// the NFT burnt
+	Nft NFT `protobuf:"bytes,2,opt,name=nft,proto3" json:"nft"`
 }
 
 func (m *EventBurnNFT) Reset()         { *m = EventBurnNFT{} }
@@ -316,8 +356,12 @@ func (m *EventBurnNFT) GetNft() NFT {
 
 // EventUpdateNFT is emitted on Msg/UpdateNFT.
 type EventUpdateNFT struct {
-	Nft        NFT        `protobuf:"bytes,1,opt,name=nft,proto3" json:"nft"`
-	Properties []Property `protobuf:"bytes,2,rep,name=properties,proto3" json:"properties"`
+	// the owner of the NFT
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+	// the NFT updated
+	Nft NFT `protobuf:"bytes,2,opt,name=nft,proto3" json:"nft"`
+	// the new properties
+	Properties []Property `protobuf:"bytes,3,rep,name=properties,proto3" json:"properties"`
 }
 
 func (m *EventUpdateNFT) Reset()         { *m = EventUpdateNFT{} }
@@ -353,6 +397,13 @@ func (m *EventUpdateNFT) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_EventUpdateNFT proto.InternalMessageInfo
 
+func (m *EventUpdateNFT) GetOwner() string {
+	if m != nil {
+		return m.Owner
+	}
+	return ""
+}
+
 func (m *EventUpdateNFT) GetNft() NFT {
 	if m != nil {
 		return m.Nft
@@ -381,42 +432,43 @@ func init() {
 }
 
 var fileDescriptor_ef49296c453ca850 = []byte{
-	// 546 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x94, 0x4f, 0x6b, 0x13, 0x4f,
-	0x18, 0xc7, 0x33, 0x9b, 0x36, 0xfc, 0x32, 0xfd, 0x29, 0xb2, 0xe4, 0xb0, 0x6d, 0x71, 0x1b, 0x16,
-	0xa4, 0x39, 0xe8, 0xae, 0xad, 0x22, 0x12, 0x41, 0xcc, 0x8a, 0x95, 0x22, 0x0d, 0x21, 0x8d, 0x22,
-	0x12, 0x90, 0xe9, 0xee, 0x93, 0x75, 0x21, 0x99, 0x59, 0x66, 0xa7, 0xa9, 0x01, 0x2f, 0xbe, 0x03,
-	0x6f, 0xde, 0x3d, 0x0a, 0xde, 0xbc, 0xf9, 0x06, 0x8a, 0x20, 0x14, 0x4f, 0x9e, 0x44, 0x92, 0x9b,
-	0xaf, 0x42, 0x76, 0x76, 0x26, 0xe6, 0xb4, 0xb1, 0xe0, 0xc1, 0xdb, 0xec, 0x3c, 0x9f, 0xe7, 0x3b,
-	0xcf, 0x9f, 0x2f, 0x8b, 0xb7, 0x09, 0x0d, 0x39, 0x1b, 0x41, 0x48, 0xbc, 0x98, 0x0a, 0xe0, 0x74,
-	0x20, 0xbc, 0xf1, 0x0e, 0x19, 0x26, 0x2f, 0xc8, 0x8e, 0x07, 0x63, 0xa0, 0xc2, 0x4d, 0x38, 0x13,
-	0xcc, 0xdc, 0x9c, 0x83, 0xae, 0x06, 0x5d, 0x0d, 0x6e, 0xac, 0x47, 0x8c, 0x45, 0x43, 0xf0, 0x24,
-	0x7a, 0x74, 0x3c, 0xf0, 0x08, 0x9d, 0xe4, 0x79, 0x1b, 0xb5, 0x88, 0x45, 0x4c, 0x1e, 0xbd, 0xec,
-	0xa4, 0x6e, 0xd7, 0x03, 0x96, 0x8e, 0x58, 0xfa, 0x3c, 0x0f, 0xe4, 0x1f, 0x2a, 0x54, 0x58, 0x91,
-	0x98, 0x24, 0xa0, 0x40, 0xe7, 0x03, 0xc2, 0xd5, 0x07, 0x59, 0x85, 0x87, 0x40, 0x43, 0xf3, 0x3a,
-	0xae, 0xa4, 0x40, 0x43, 0xe0, 0x16, 0xaa, 0xa3, 0x46, 0xd5, 0xb7, 0xbe, 0x7e, 0xbc, 0x56, 0x53,
-	0xc2, 0xad, 0x30, 0xe4, 0x90, 0xa6, 0x87, 0x82, 0xc7, 0x34, 0xea, 0x2a, 0xce, 0xbc, 0x89, 0xff,
-	0xe3, 0x10, 0x40, 0x3c, 0x06, 0x6e, 0x19, 0x4b, 0x72, 0xe6, 0xa4, 0x79, 0x1b, 0x97, 0xe9, 0x40,
-	0x58, 0xe5, 0x3a, 0x6a, 0xac, 0xed, 0xd6, 0xdd, 0x82, 0xa9, 0xb8, 0xed, 0xbd, 0x9e, 0xbf, 0x72,
-	0xfa, 0x7d, 0xab, 0xd4, 0xcd, 0x52, 0x9c, 0x4f, 0x08, 0x5f, 0x90, 0xf5, 0xb6, 0xe1, 0xe4, 0xfe,
-	0x90, 0xa4, 0xa9, 0x79, 0x17, 0xaf, 0x06, 0xd9, 0x41, 0x96, 0xbc, 0xb6, 0xeb, 0x14, 0xaa, 0xc9,
-	0x14, 0xa5, 0x97, 0xa7, 0x99, 0xf7, 0x70, 0x45, 0x70, 0x12, 0x8b, 0xd4, 0x32, 0xea, 0xe5, 0xa5,
-	0x02, 0xbd, 0x0c, 0x55, 0x02, 0x2a, 0xcf, 0x6c, 0xe0, 0x95, 0x90, 0x08, 0xa2, 0xda, 0xa9, 0xb9,
-	0xf9, 0x1e, 0x5d, 0xbd, 0x47, 0xb7, 0x45, 0x27, 0x5d, 0x49, 0x38, 0xaf, 0xf0, 0x25, 0x59, 0xfc,
-	0xe3, 0x24, 0x24, 0x02, 0xfe, 0x4e, 0xfd, 0xfa, 0x75, 0x63, 0xe9, 0xeb, 0x5f, 0x10, 0xfe, 0x5f,
-	0x3e, 0x7f, 0x10, 0x53, 0xd1, 0xde, 0xeb, 0xe9, 0x35, 0xa0, 0x73, 0xaf, 0xc1, 0x7c, 0x84, 0x71,
-	0xc2, 0x59, 0x02, 0x5c, 0xc4, 0xa0, 0x07, 0x77, 0xa5, 0x50, 0xa0, 0x93, 0xe3, 0x13, 0xa5, 0xb2,
-	0x90, 0x6e, 0xde, 0xc2, 0x55, 0x0e, 0x41, 0x9c, 0xc4, 0x40, 0x73, 0x4f, 0x14, 0x99, 0xe8, 0x37,
-	0xea, 0xbc, 0x54, 0xed, 0xf8, 0xc7, 0x9c, 0x66, 0xed, 0xb8, 0x78, 0x95, 0x9d, 0xd0, 0x3f, 0x30,
-	0x6f, 0x8e, 0xe9, 0xf6, 0x8d, 0xf3, 0xbb, 0xf0, 0x2d, 0xc2, 0x17, 0x17, 0x16, 0xf9, 0xef, 0xcc,
-	0xd2, 0x7f, 0x6d, 0x9c, 0x4e, 0x6d, 0x74, 0x36, 0xb5, 0xd1, 0x8f, 0xa9, 0x8d, 0xde, 0xcc, 0xec,
-	0xd2, 0xd9, 0xcc, 0x2e, 0x7d, 0x9b, 0xd9, 0x25, 0xbc, 0x15, 0xb0, 0x51, 0x91, 0xac, 0x8f, 0x65,
-	0x4b, 0x9d, 0xcc, 0x38, 0x1d, 0xf4, 0xec, 0x6a, 0xc1, 0x2f, 0xe4, 0x8e, 0xbe, 0xd1, 0x17, 0xef,
-	0x8c, 0x72, 0x6b, 0xff, 0xe9, 0x7b, 0x63, 0xb3, 0x35, 0xd7, 0xdf, 0xd7, 0xfa, 0x4f, 0x14, 0xf3,
-	0x79, 0x21, 0xda, 0xd7, 0xd1, 0xbe, 0x8e, 0x4e, 0x8d, 0xed, 0x82, 0x68, 0xff, 0x61, 0xc7, 0x3f,
-	0x00, 0x41, 0x32, 0x1f, 0xff, 0x34, 0x2e, 0xcf, 0xc9, 0x66, 0x53, 0xa3, 0xcd, 0xa6, 0x66, 0x8f,
-	0x2a, 0xd2, 0xfb, 0x37, 0x7e, 0x05, 0x00, 0x00, 0xff, 0xff, 0x9a, 0x5a, 0xc3, 0x16, 0x97, 0x05,
-	0x00, 0x00,
+	// 567 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x94, 0xc1, 0x6b, 0x13, 0x4f,
+	0x14, 0xc7, 0x33, 0xbb, 0x69, 0xf8, 0x65, 0xfa, 0x53, 0x64, 0xc9, 0x61, 0x6d, 0x71, 0x1b, 0x02,
+	0xd2, 0x1c, 0x74, 0xd7, 0x56, 0x11, 0x89, 0x20, 0x66, 0xc5, 0x4a, 0x91, 0x86, 0x90, 0x46, 0x11,
+	0x09, 0xc8, 0x34, 0xfb, 0x12, 0x17, 0x92, 0x99, 0x65, 0x76, 0x9a, 0x9a, 0xa3, 0xf8, 0x0f, 0xf8,
+	0x37, 0x78, 0x14, 0xbc, 0x88, 0xff, 0x83, 0xc5, 0x53, 0xf1, 0xe4, 0x49, 0x24, 0xb9, 0x79, 0xf3,
+	0x3f, 0x90, 0x99, 0xdd, 0x89, 0xc1, 0xc3, 0xae, 0x56, 0xd0, 0xdb, 0xce, 0xbc, 0xcf, 0xfb, 0xce,
+	0x77, 0xde, 0xbc, 0xb7, 0x78, 0x93, 0xd0, 0x80, 0xb3, 0x31, 0x04, 0xc4, 0x0b, 0xa9, 0x00, 0x4e,
+	0x07, 0xc2, 0x9b, 0x6c, 0x91, 0x51, 0xf4, 0x94, 0x6c, 0x79, 0x30, 0x01, 0x2a, 0xdc, 0x88, 0x33,
+	0xc1, 0xac, 0xf5, 0x05, 0xe8, 0x6a, 0xd0, 0xd5, 0xe0, 0x5a, 0xa6, 0x8a, 0x98, 0x46, 0x10, 0x27,
+	0x2a, 0x6b, 0xe7, 0xfb, 0x2c, 0x1e, 0xb3, 0xf8, 0x89, 0x5a, 0x79, 0xc9, 0x22, 0x0d, 0x55, 0x86,
+	0x6c, 0xc8, 0x92, 0x7d, 0xf9, 0xa5, 0x13, 0x86, 0x8c, 0x0d, 0x47, 0xe0, 0xa9, 0xd5, 0xc1, 0xe1,
+	0xc0, 0x23, 0x74, 0x9a, 0x84, 0x6a, 0x6f, 0x10, 0x2e, 0xdf, 0x95, 0x0e, 0xf7, 0x81, 0x06, 0xd6,
+	0x15, 0x5c, 0x8a, 0x81, 0x06, 0xc0, 0x6d, 0x54, 0x45, 0xf5, 0xb2, 0x6f, 0x7f, 0x7c, 0x77, 0xb9,
+	0x92, 0x1e, 0xd0, 0x0c, 0x02, 0x0e, 0x71, 0xbc, 0x2f, 0x78, 0x48, 0x87, 0x9d, 0x94, 0xb3, 0xae,
+	0xe1, 0xff, 0x38, 0xf4, 0x21, 0x9c, 0x00, 0xb7, 0x8d, 0x9c, 0x9c, 0x05, 0x69, 0xdd, 0xc0, 0x26,
+	0x1d, 0x08, 0xdb, 0xac, 0xa2, 0xfa, 0xea, 0x76, 0xd5, 0xcd, 0xa8, 0x8a, 0xdb, 0xda, 0xe9, 0xfa,
+	0xc5, 0xe3, 0xcf, 0x1b, 0x85, 0x8e, 0x4c, 0xa9, 0x7d, 0x43, 0xf8, 0x8c, 0xf2, 0xdb, 0x82, 0xa3,
+	0x3b, 0x23, 0x12, 0xc7, 0xd2, 0x01, 0x8b, 0x80, 0x13, 0xc1, 0xf2, 0x5d, 0x2f, 0x48, 0xeb, 0x16,
+	0x5e, 0xe9, 0xcb, 0x74, 0x65, 0x7a, 0x75, 0xbb, 0x96, 0xe9, 0x41, 0x1d, 0x94, 0xba, 0x48, 0xd2,
+	0xac, 0xdb, 0xb8, 0x24, 0x38, 0x09, 0x45, 0x6c, 0x9b, 0x55, 0x33, 0x57, 0xa0, 0x2b, 0xd1, 0x54,
+	0x20, 0xcd, 0xb3, 0xea, 0xb8, 0x18, 0x10, 0x41, 0xec, 0xa2, 0x32, 0x50, 0x71, 0x93, 0x37, 0x72,
+	0xf5, 0x1b, 0xb9, 0x4d, 0x3a, 0xed, 0x28, 0xa2, 0xf6, 0x16, 0xe1, 0x73, 0xea, 0xce, 0x0f, 0xa2,
+	0x80, 0x08, 0xf8, 0x97, 0xd7, 0xd6, 0xa6, 0xcd, 0x5c, 0xd3, 0x2f, 0x0c, 0xfc, 0xbf, 0x32, 0xbd,
+	0x17, 0x52, 0xd1, 0xda, 0xe9, 0x9e, 0xd2, 0xf0, 0x75, 0x5c, 0xe6, 0xd0, 0x0f, 0xa3, 0x10, 0xa8,
+	0xc8, 0x6d, 0xb0, 0x1f, 0xe8, 0xe9, 0x3b, 0xcc, 0xba, 0x8f, 0x71, 0xc4, 0xe5, 0xf9, 0x22, 0x84,
+	0xd8, 0x2e, 0xaa, 0xd7, 0xbd, 0x98, 0x29, 0xd0, 0x4e, 0xf0, 0x69, 0xaa, 0xb2, 0x94, 0x5e, 0x7b,
+	0x96, 0x16, 0xc1, 0x3f, 0xe4, 0x54, 0x16, 0xc1, 0xc5, 0x2b, 0xec, 0x88, 0xfe, 0xc2, 0x7c, 0x25,
+	0x98, 0xbe, 0x86, 0xf1, 0xfb, 0x83, 0xf2, 0x1e, 0xe1, 0xb3, 0x4b, 0x4d, 0xf3, 0x57, 0x0f, 0xff,
+	0xa9, 0x86, 0xe6, 0x1f, 0xd5, 0xd0, 0x7f, 0x6e, 0x1c, 0xcf, 0x1c, 0x74, 0x32, 0x73, 0xd0, 0x97,
+	0x99, 0x83, 0x5e, 0xce, 0x9d, 0xc2, 0xc9, 0xdc, 0x29, 0x7c, 0x9a, 0x3b, 0x05, 0xbc, 0xd1, 0x67,
+	0xe3, 0x2c, 0x59, 0x1f, 0xab, 0x12, 0xb4, 0x65, 0x7b, 0xb6, 0xd1, 0xe3, 0x4b, 0x19, 0x7f, 0xd8,
+	0x9b, 0x7a, 0x47, 0x6f, 0xbc, 0x32, 0xcc, 0xe6, 0xee, 0xa3, 0xd7, 0xc6, 0x7a, 0x73, 0xa1, 0xbf,
+	0xab, 0xf5, 0x1f, 0xa6, 0xcc, 0x87, 0xa5, 0x68, 0x4f, 0x47, 0x7b, 0x3a, 0x3a, 0x33, 0x36, 0x33,
+	0xa2, 0xbd, 0x7b, 0x6d, 0x7f, 0x0f, 0x04, 0x91, 0xd3, 0xf2, 0xd5, 0xb8, 0xb0, 0x20, 0x1b, 0x0d,
+	0x8d, 0x36, 0x1a, 0x9a, 0x3d, 0x28, 0xa9, 0x09, 0xbb, 0xfa, 0x3d, 0x00, 0x00, 0xff, 0xff, 0x79,
+	0x8d, 0x82, 0x4c, 0x6a, 0x06, 0x00, 0x00,
 }
 
 func (m *EventSend) Marshal() (dAtA []byte, err error) {
@@ -496,7 +548,7 @@ func (m *EventNewClass) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			i = encodeVarintEvent(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x22
 	}
 	if len(m.Traits) > 0 {
 		for iNdEx := len(m.Traits) - 1; iNdEx >= 0; iNdEx-- {
@@ -509,7 +561,7 @@ func (m *EventNewClass) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				i = encodeVarintEvent(dAtA, i, uint64(size))
 			}
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x1a
 		}
 	}
 	{
@@ -521,7 +573,14 @@ func (m *EventNewClass) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintEvent(dAtA, i, uint64(size))
 	}
 	i--
-	dAtA[i] = 0xa
+	dAtA[i] = 0x12
+	if len(m.Operator) > 0 {
+		i -= len(m.Operator)
+		copy(dAtA[i:], m.Operator)
+		i = encodeVarintEvent(dAtA, i, uint64(len(m.Operator)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -555,7 +614,7 @@ func (m *EventUpdateClass) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			i = encodeVarintEvent(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0x1a
 	}
 	{
 		size, err := m.Class.MarshalToSizedBuffer(dAtA[:i])
@@ -566,7 +625,14 @@ func (m *EventUpdateClass) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintEvent(dAtA, i, uint64(size))
 	}
 	i--
-	dAtA[i] = 0xa
+	dAtA[i] = 0x12
+	if len(m.Operator) > 0 {
+		i -= len(m.Operator)
+		copy(dAtA[i:], m.Operator)
+		i = encodeVarintEvent(dAtA, i, uint64(len(m.Operator)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -590,13 +656,6 @@ func (m *EventMintNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Recipient) > 0 {
-		i -= len(m.Recipient)
-		copy(dAtA[i:], m.Recipient)
-		i = encodeVarintEvent(dAtA, i, uint64(len(m.Recipient)))
-		i--
-		dAtA[i] = 0x1a
-	}
 	if len(m.Properties) > 0 {
 		for iNdEx := len(m.Properties) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -608,7 +667,7 @@ func (m *EventMintNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				i = encodeVarintEvent(dAtA, i, uint64(size))
 			}
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x22
 		}
 	}
 	{
@@ -620,7 +679,21 @@ func (m *EventMintNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintEvent(dAtA, i, uint64(size))
 	}
 	i--
-	dAtA[i] = 0xa
+	dAtA[i] = 0x1a
+	if len(m.Recipient) > 0 {
+		i -= len(m.Recipient)
+		copy(dAtA[i:], m.Recipient)
+		i = encodeVarintEvent(dAtA, i, uint64(len(m.Recipient)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Operator) > 0 {
+		i -= len(m.Operator)
+		copy(dAtA[i:], m.Operator)
+		i = encodeVarintEvent(dAtA, i, uint64(len(m.Operator)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -695,7 +768,7 @@ func (m *EventUpdateNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 				i = encodeVarintEvent(dAtA, i, uint64(size))
 			}
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x1a
 		}
 	}
 	{
@@ -707,7 +780,14 @@ func (m *EventUpdateNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintEvent(dAtA, i, uint64(size))
 	}
 	i--
-	dAtA[i] = 0xa
+	dAtA[i] = 0x12
+	if len(m.Owner) > 0 {
+		i -= len(m.Owner)
+		copy(dAtA[i:], m.Owner)
+		i = encodeVarintEvent(dAtA, i, uint64(len(m.Owner)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -747,6 +827,10 @@ func (m *EventNewClass) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.Operator)
+	if l > 0 {
+		n += 1 + l + sovEvent(uint64(l))
+	}
 	l = m.Class.Size()
 	n += 1 + l + sovEvent(uint64(l))
 	if len(m.Traits) > 0 {
@@ -768,6 +852,10 @@ func (m *EventUpdateClass) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.Operator)
+	if l > 0 {
+		n += 1 + l + sovEvent(uint64(l))
+	}
 	l = m.Class.Size()
 	n += 1 + l + sovEvent(uint64(l))
 	if m.Data != nil {
@@ -783,6 +871,14 @@ func (m *EventMintNFT) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.Operator)
+	if l > 0 {
+		n += 1 + l + sovEvent(uint64(l))
+	}
+	l = len(m.Recipient)
+	if l > 0 {
+		n += 1 + l + sovEvent(uint64(l))
+	}
 	l = m.Nft.Size()
 	n += 1 + l + sovEvent(uint64(l))
 	if len(m.Properties) > 0 {
@@ -790,10 +886,6 @@ func (m *EventMintNFT) Size() (n int) {
 			l = e.Size()
 			n += 1 + l + sovEvent(uint64(l))
 		}
-	}
-	l = len(m.Recipient)
-	if l > 0 {
-		n += 1 + l + sovEvent(uint64(l))
 	}
 	return n
 }
@@ -819,6 +911,10 @@ func (m *EventUpdateNFT) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.Owner)
+	if l > 0 {
+		n += 1 + l + sovEvent(uint64(l))
+	}
 	l = m.Nft.Size()
 	n += 1 + l + sovEvent(uint64(l))
 	if len(m.Properties) > 0 {
@@ -1014,6 +1110,38 @@ func (m *EventNewClass) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Operator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEvent
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEvent
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEvent
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Operator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Class", wireType)
 			}
 			var msglen int
@@ -1045,7 +1173,7 @@ func (m *EventNewClass) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 2:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Traits", wireType)
 			}
@@ -1079,7 +1207,7 @@ func (m *EventNewClass) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 3:
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
 			}
@@ -1167,6 +1295,38 @@ func (m *EventUpdateClass) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Operator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEvent
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEvent
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEvent
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Operator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Class", wireType)
 			}
 			var msglen int
@@ -1198,7 +1358,7 @@ func (m *EventUpdateClass) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 2:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
 			}
@@ -1286,6 +1446,70 @@ func (m *EventMintNFT) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Operator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEvent
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEvent
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEvent
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Operator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Recipient", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEvent
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEvent
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEvent
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Recipient = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
 			}
 			var msglen int
@@ -1317,7 +1541,7 @@ func (m *EventMintNFT) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 2:
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Properties", wireType)
 			}
@@ -1350,38 +1574,6 @@ func (m *EventMintNFT) Unmarshal(dAtA []byte) error {
 			if err := m.Properties[len(m.Properties)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Recipient", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowEvent
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthEvent
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthEvent
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Recipient = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -1550,6 +1742,38 @@ func (m *EventUpdateNFT) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEvent
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEvent
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEvent
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Owner = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
 			}
 			var msglen int
@@ -1581,7 +1805,7 @@ func (m *EventUpdateNFT) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 2:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Properties", wireType)
 			}

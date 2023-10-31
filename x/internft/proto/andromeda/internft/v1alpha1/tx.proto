@@ -1,19 +1,17 @@
 syntax = "proto3";
 package andromeda.internft.v1alpha1;
 
-import "google/protobuf/any.proto";
-import "gogoproto/gogo.proto";
-
-import "cosmos_proto/cosmos.proto";
-import "cosmos/msg/v1/msg.proto";
-
 import "andromeda/internft/v1alpha1/types.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/any.proto";
 
 // Msg defines the module's Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
 
-  // Send defines a method to send an nft from one account to another account.
+  // Send defines a method to send an NFT from one account to another account.
   rpc Send(MsgSend) returns (MsgSendResponse);
 
   // NewClass defines a method to create a class.
@@ -22,13 +20,13 @@ service Msg {
   // UpdateClass defines a method to update a class.
   rpc UpdateClass(MsgUpdateClass) returns (MsgUpdateClassResponse);
 
-  // MintNFT defines a method to mint an nft.
+  // MintNFT defines a method to mint an NFT.
   rpc MintNFT(MsgMintNFT) returns (MsgMintNFTResponse);
 
-  // BurnNFT defines a method to burn an nft.
+  // BurnNFT defines a method to burn an NFT.
   rpc BurnNFT(MsgBurnNFT) returns (MsgBurnNFTResponse);
 
-  // UpdateNFT defines a method to update an nft.
+  // UpdateNFT defines a method to update an NFT.
   rpc UpdateNFT(MsgUpdateNFT) returns (MsgUpdateNFTResponse);
 }
 
@@ -36,13 +34,13 @@ service Msg {
 message MsgSend {
   option (cosmos.msg.v1.signer) = "sender";
 
-  // sender of the nft
+  // the sender of the NFT
   string sender = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // recipient of the nft
+  // the recipient of the NFT
   string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // nft to send
+  // the NFT to send
   NFT nft = 3 [(gogoproto.nullable) = false];
 }
 
@@ -51,29 +49,36 @@ message MsgSendResponse {}
 
 // MsgNewClass is the Msg/NewClass request type.
 message MsgNewClass {
-  // owner of the new class
-  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  option (cosmos.msg.v1.signer) = "operator";
 
-  // traits of the new class
-  repeated Trait traits = 2 [(gogoproto.nullable) = false];
+  // the operator of the class
+  string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the new class created
+  Class class = 2 [(gogoproto.nullable) = false];
+
+  // the traits of the new class
+  repeated Trait traits = 3 [(gogoproto.nullable) = false];
 
   // app specific metadata of the new class (optional)
-  google.protobuf.Any data = 3;
+  google.protobuf.Any data = 4;
 }
 
 // MsgNewClassResponse is the Msg/NewClass response type.
-message MsgNewClassResponse {
-  // identifier of the new class
-  string class_id = 1;
-}
+message MsgNewClassResponse {}
 
 // MsgUpdateClass is the Msg/UpdateClass request type.
 message MsgUpdateClass {
-  // identifier of a class
-  string class_id = 1;
+  option (cosmos.msg.v1.signer) = "operator";
+
+  // the operator of the class
+  string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the class to update
+  Class class = 2 [(gogoproto.nullable) = false];
 
   // app specific metadata of the class (optional)
-  google.protobuf.Any data = 2;
+  google.protobuf.Any data = 3;
 }
 
 // MsgUpdateClassResponse is the Msg/UpdateClass response type.
@@ -81,31 +86,32 @@ message MsgUpdateClassResponse {}
 
 // MsgMintNFT is the Msg/MintNFT request type.
 message MsgMintNFT {
-  // identifier of a class
-  string class_id = 1;
+  option (cosmos.msg.v1.signer) = "operator";
 
-  // properties of the new nft
-  repeated Property properties = 2 [(gogoproto.nullable) = false];
+  // the operator of the class
+  string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // recipient of the new nft
-  string recipient = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // the recipient of the new NFT
+  string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the new NFT to mint
+  NFT nft = 3 [(gogoproto.nullable) = false];
+
+  // the properties of the new NFT
+  repeated Property properties = 4 [(gogoproto.nullable) = false];
 }
 
 // MsgMintNFTResponse is the Msg/MintNFT response type.
-message MsgMintNFTResponse {
-  // identifier of the new nft
-  string id = 1
-	[(cosmos_proto.scalar) = "cosmos.Int",
-	 (gogoproto.customtype) = "cosmossdk.io/math.Uint",
-	 (gogoproto.nullable) = false];
-}
+message MsgMintNFTResponse {}
 
 // MsgBurnNFT is the Msg/BurnNFT request type.
 message MsgBurnNFT {
-  // owner of the nft
+  option (cosmos.msg.v1.signer) = "owner";
+
+  // the owner of the NFT
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // nft to burn
+  // the NFT to burn
   NFT nft = 2 [(gogoproto.nullable) = false];
 }
 
@@ -114,11 +120,16 @@ message MsgBurnNFTResponse {}
 
 // MsgUpdateNFT is the Msg/UpdateNFT request type.
 message MsgUpdateNFT {
-  // nft to update
-  NFT nft = 1 [(gogoproto.nullable) = false];
+  option (cosmos.msg.v1.signer) = "owner";
 
-  // new properties
-  repeated Property properties = 2 [(gogoproto.nullable) = false];
+  // the owner of the NFT
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the NFT to update
+  NFT nft = 2 [(gogoproto.nullable) = false];
+
+  // the new properties
+  repeated Property properties = 3 [(gogoproto.nullable) = false];
 }
 
 // MsgUpdateNFTResponse is the Msg/UpdateNFT response type.
