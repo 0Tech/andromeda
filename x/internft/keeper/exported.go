@@ -1,12 +1,13 @@
 package keeper
 
 import (
-	storetypes "cosmossdk.io/store/types"
+	"context"
+
+	"cosmossdk.io/core/store"
 
 	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 	"github.com/0tech/andromeda/x/internft/keeper/internal"
 )
 
@@ -15,31 +16,31 @@ type Keeper struct {
 }
 
 func NewKeeper(
-	storeKey storetypes.StoreKey,
 	cdc codec.BinaryCodec,
+	storeService store.KVStoreService,
 	authority string,
 ) Keeper {
 	return Keeper{
 		impl: internal.NewKeeper(
-			storeKey,
 			cdc,
+			storeService,
 			authority,
 		),
 	}
 }
 
-func NewMsgServer(keeper Keeper) internft.MsgServer {
+func NewMsgServer(keeper Keeper) internftv1alpha1.MsgServer {
 	return internal.NewMsgServer(keeper.impl)
 }
 
-func NewQueryServer(keeper Keeper) internft.QueryServer {
+func NewQueryServer(keeper Keeper) internftv1alpha1.QueryServer {
 	return internal.NewQueryServer(keeper.impl)
 }
 
-func (k Keeper) InitGenesis(ctx sdk.Context, gs *internft.GenesisState) error {
+func (k Keeper) InitGenesis(ctx context.Context, gs *internftv1alpha1.GenesisState) error {
 	return k.impl.InitGenesis(ctx, gs)
 }
 
-func (k Keeper) ExportGenesis(ctx sdk.Context) *internft.GenesisState {
+func (k Keeper) ExportGenesis(ctx context.Context) *internftv1alpha1.GenesisState {
 	return k.impl.ExportGenesis(ctx)
 }
