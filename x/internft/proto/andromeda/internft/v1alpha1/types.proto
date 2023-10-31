@@ -11,8 +11,8 @@ message Trait {
   // indentifier of the trait
   string id = 1;
 
-  // flag to tell whether a property value of the trait can be mutated or not
-  bool mutable = 2;
+  // flag to tell whether a property value of the trait can be changed or not
+  bool variable = 2;
 }
 
 // Class defines a classification of nft.
