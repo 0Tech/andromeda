@@ -1,15 +1,18 @@
 package internal
 
 import (
+	"context"
+
+	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
-func (k Keeper) Send(ctx sdk.Context, sender, recipient sdk.AccAddress, nft internft.NFT) error {
+func (k Keeper) Send(ctx context.Context, sender, recipient sdk.AccAddress, nft internftv1alpha1.NFT) error {
 	if err := k.validateOwner(ctx, nft, sender); err != nil {
 		return err
 	}
@@ -18,15 +21,15 @@ func (k Keeper) Send(ctx sdk.Context, sender, recipient sdk.AccAddress, nft inte
 	return nil
 }
 
-func (k Keeper) validateOwner(ctx sdk.Context, nft internft.NFT, owner sdk.AccAddress) error {
-	if real, err := k.getOwner(ctx, nft); err != nil || !owner.Equals(real) {
-		return errorsmod.Wrap(internft.ErrInsufficientNFT.Wrap("not owns root nft"), nft.String())
+func (k Keeper) validateOwner(ctx context.Context, nft internftv1alpha1.NFT, owner sdk.AccAddress) error {
+	if actual, err := k.getOwner(ctx, nft); err != nil || !owner.Equals(actual) {
+		return errorsmod.Wrap(internftv1alpha1.ErrInsufficientNFT.Wrap("not owns nft"), nft.String())
 	}
 
 	return nil
 }
 
-func (k Keeper) GetOwner(ctx sdk.Context, nft internft.NFT) (*sdk.AccAddress, error) {
+func (k Keeper) GetOwner(ctx context.Context, nft internftv1alpha1.NFT) (*sdk.AccAddress, error) {
 	if err := k.hasNFT(ctx, nft); err != nil {
 		return nil, err
 	}
@@ -39,52 +42,32 @@ func (k Keeper) GetOwner(ctx sdk.Context, nft internft.NFT) (*sdk.AccAddress, er
 	return owner, nil
 }
 
-// func (k Keeper) hasOwner(ctx sdk.Context, nft internft.NFT) error {
-// 	_, err := k.getOwnerBytes(ctx, nft)
+// func (k Keeper) hasOwner(ctx context.Context, nft internftv1alpha1.NFT) error {
+// 	_, err := k.getOwner(ctx, nft)
 // 	return err
 // }
 
-func (k Keeper) getOwner(ctx sdk.Context, nft internft.NFT) (*sdk.AccAddress, error) {
-	bz, err := k.getOwnerBytes(ctx, nft)
+func (k Keeper) getOwner(ctx context.Context, nft internftv1alpha1.NFT) (*sdk.AccAddress, error) {
+	owner, err := k.owners.Get(ctx, collections.Join(nft.ClassId, nft.Id))
 	if err != nil {
-		return nil, err
-	}
+		if sdkerrors.ErrNotFound.Is(err) {
+			err = errorsmod.Wrap(sdkerrors.ErrNotFound.Wrap("owner"), nft.String())
+		}
 
-	var owner sdk.AccAddress
-	if err := owner.Unmarshal(bz); err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	return &owner, nil
 }
 
-func (k Keeper) getOwnerBytes(ctx sdk.Context, nft internft.NFT) ([]byte, error) {
-	store := ctx.KVStore(k.storeKey)
-	key := ownerKey(nft.ClassId, nft.Id)
-
-	bz := store.Get(key)
-	if bz == nil {
-		return nil, errorsmod.Wrap(sdkerrors.ErrNotFound.Wrap("owner"), nft.String())
-	}
-
-	return bz, nil
-}
-
-func (k Keeper) setOwner(ctx sdk.Context, nft internft.NFT, owner sdk.AccAddress) {
-	store := ctx.KVStore(k.storeKey)
-	key := ownerKey(nft.ClassId, nft.Id)
-
-	bz, err := owner.Marshal()
-	if err != nil {
+func (k Keeper) setOwner(ctx context.Context, nft internftv1alpha1.NFT, owner sdk.AccAddress) {
+	if err := k.owners.Set(ctx, collections.Join(nft.ClassId, nft.Id), owner); err != nil {
 		panic(err)
 	}
-
-	store.Set(key, bz)
 }
 
-func (k Keeper) deleteOwner(ctx sdk.Context, nft internft.NFT) {
-	store := ctx.KVStore(k.storeKey)
-	key := ownerKey(nft.ClassId, nft.Id)
-
-	store.Delete(key)
+func (k Keeper) deleteOwner(ctx context.Context, nft internftv1alpha1.NFT) {
+	if err := k.owners.Remove(ctx, collections.Join(nft.ClassId, nft.Id)); err != nil {
+		panic(err)
+	}
 }

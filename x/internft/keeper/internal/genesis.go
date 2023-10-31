@@ -1,16 +1,18 @@
 package internal
 
 import (
+	"context"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
-func (k Keeper) InitGenesis(ctx sdk.Context, gs *internft.GenesisState) error {
+func (k Keeper) InitGenesis(ctx context.Context, gs *internftv1alpha1.GenesisState) error {
 	k.SetParams(ctx, gs.Params)
 
 	for _, genClass := range gs.Classes {
-		class := internft.Class{
+		class := internftv1alpha1.Class{
 			Id: genClass.Id,
 		}
 		k.setClass(ctx, class)
@@ -19,10 +21,8 @@ func (k Keeper) InitGenesis(ctx sdk.Context, gs *internft.GenesisState) error {
 			k.setTrait(ctx, class.Id, trait)
 		}
 
-		k.setPreviousID(ctx, class.Id, genClass.LastMintedNftId)
-
 		for _, genNFT := range genClass.Nfts {
-			nft := internft.NFT{
+			nft := internftv1alpha1.NFT{
 				ClassId: class.Id,
 				Id:      genNFT.Id,
 			}
@@ -40,25 +40,24 @@ func (k Keeper) InitGenesis(ctx sdk.Context, gs *internft.GenesisState) error {
 	return nil
 }
 
-func (k Keeper) ExportGenesis(ctx sdk.Context) *internft.GenesisState {
+func (k Keeper) ExportGenesis(ctx context.Context) *internftv1alpha1.GenesisState {
 	classes := k.getClasses(ctx)
 
-	var genClasses []internft.GenesisClass
+	var genClasses []internftv1alpha1.GenesisClass
 	if len(classes) != 0 {
-		genClasses = make([]internft.GenesisClass, len(classes))
+		genClasses = make([]internftv1alpha1.GenesisClass, len(classes))
 	}
 
 	for classIndex, class := range classes {
 		genClasses[classIndex].Id = class.Id
-		genClasses[classIndex].LastMintedNftId = k.GetPreviousID(ctx, class.Id)
 
 		genClasses[classIndex].Traits = k.getTraitsOfClass(ctx, class.Id)
 
 		nfts := k.getNFTsOfClass(ctx, class.Id)
 
-		var genNFTs []internft.GenesisNFT
+		var genNFTs []internftv1alpha1.GenesisNFT
 		if len(nfts) != 0 {
-			genNFTs = make([]internft.GenesisNFT, len(nfts))
+			genNFTs = make([]internftv1alpha1.GenesisNFT, len(nfts))
 		}
 
 		for nftIndex, nft := range nfts {
@@ -76,38 +75,38 @@ func (k Keeper) ExportGenesis(ctx sdk.Context) *internft.GenesisState {
 		genClasses[classIndex].Nfts = genNFTs
 	}
 
-	return &internft.GenesisState{
+	return &internftv1alpha1.GenesisState{
 		Params:  k.GetParams(ctx),
 		Classes: genClasses,
 	}
 }
 
-func (k Keeper) getClasses(ctx sdk.Context) (classes []internft.Class) {
-	k.iterateClasses(ctx, func(class internft.Class) {
+func (k Keeper) getClasses(ctx context.Context) (classes []internftv1alpha1.Class) {
+	k.iterateClasses(ctx, func(class internftv1alpha1.Class) {
 		classes = append(classes, class)
 	})
 
 	return
 }
 
-func (k Keeper) getTraitsOfClass(ctx sdk.Context, classID string) (traits []internft.Trait) {
-	k.iterateTraitsOfClass(ctx, classID, func(trait internft.Trait) {
+func (k Keeper) getTraitsOfClass(ctx context.Context, classID string) (traits []internftv1alpha1.Trait) {
+	k.iterateTraitsOfClass(ctx, classID, func(trait internftv1alpha1.Trait) {
 		traits = append(traits, trait)
 	})
 
 	return
 }
 
-func (k Keeper) getNFTsOfClass(ctx sdk.Context, classID string) (nfts []internft.NFT) {
-	k.iterateNFTsOfClass(ctx, classID, func(nft internft.NFT) {
+func (k Keeper) getNFTsOfClass(ctx context.Context, classID string) (nfts []internftv1alpha1.NFT) {
+	k.iterateNFTsOfClass(ctx, classID, func(nft internftv1alpha1.NFT) {
 		nfts = append(nfts, nft)
 	})
 
 	return
 }
 
-func (k Keeper) getPropertiesOfNFT(ctx sdk.Context, nft internft.NFT) (properties []internft.Property) {
-	k.iteratePropertiesOfClass(ctx, nft, func(property internft.Property) {
+func (k Keeper) getPropertiesOfNFT(ctx context.Context, nft internftv1alpha1.NFT) (properties []internftv1alpha1.Property) {
+	k.iteratePropertiesOfClass(ctx, nft, func(property internftv1alpha1.Property) {
 		properties = append(properties, property)
 	})
 

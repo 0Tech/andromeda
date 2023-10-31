@@ -1,41 +1,22 @@
 package internal
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"context"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
-func (k Keeper) GetParams(ctx sdk.Context) internft.Params {
-	bz, err := k.getParamsBytes(ctx)
+func (k Keeper) GetParams(ctx context.Context) internftv1alpha1.Params {
+	params, err := k.params.Get(ctx)
 	if err != nil {
 		panic(err)
 	}
 
-	var params internft.Params
-	k.cdc.MustUnmarshal(bz, &params)
-
 	return params
 }
 
-func (k Keeper) getParamsBytes(ctx sdk.Context) ([]byte, error) {
-	store := ctx.KVStore(k.storeKey)
-	key := paramsKey
-
-	bz := store.Get(key)
-	if bz == nil {
-		return nil, sdkerrors.ErrNotFound.Wrap("params")
+func (k Keeper) SetParams(ctx context.Context, params internftv1alpha1.Params) {
+	if err := k.params.Set(ctx, params); err != nil {
+		panic(err)
 	}
-
-	return bz, nil
-}
-
-func (k Keeper) SetParams(ctx sdk.Context, params internft.Params) {
-	store := ctx.KVStore(k.storeKey)
-	key := paramsKey
-
-	bz := k.cdc.MustMarshal(&params)
-
-	store.Set(key, bz)
 }

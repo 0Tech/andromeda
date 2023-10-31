@@ -1,37 +1,67 @@
 package internal
 
 import (
-	storetypes "cosmossdk.io/store/types"
+	"cosmossdk.io/collections"
+	collcodec "cosmossdk.io/collections/codec"
+	"cosmossdk.io/core/store"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
 type Keeper struct {
-	storeKey storetypes.StoreKey
 	cdc      codec.BinaryCodec
+	storeService store.KVStoreService
 
 	authority string
+
+	schema collections.Schema
+	params collections.Item[internftv1alpha1.Params]
+	classes collections.Map[string, internftv1alpha1.Class]
+	traits collections.Map[collections.Pair[string, string], internftv1alpha1.Trait]
+	nfts collections.Map[collections.Pair[string, string], internftv1alpha1.NFT]
+	properties collections.Map[collections.Triple[string, string, string], internftv1alpha1.Property]
+	owners collections.Map[collections.Pair[string, string], sdk.AccAddress]
 }
 
 func NewKeeper(
-	storeKey storetypes.StoreKey,
 	cdc codec.BinaryCodec,
+	storeService store.KVStoreService,
 	authority string,
 ) Keeper {
-	return Keeper{
-		storeKey:  storeKey,
+	// TODO(@0Tech): add authority check
+
+	sb := collections.NewSchemaBuilder(storeService)
+	k := Keeper{
 		cdc:       cdc,
+		storeService: storeService,
 		authority: authority,
+		params: collections.NewItem(sb, paramsKey, "params",
+			codec.CollValue[internftv1alpha1.Params](cdc)),
+		classes: collections.NewMap(sb, classKeyPrefix, "classes",
+			collections.StringKey,
+			codec.CollValue[internftv1alpha1.Class](cdc)),
+		traits: collections.NewMap(sb, traitKeyPrefix, "traits",
+			collections.PairKeyCodec(collections.StringKey, collections.StringKey),
+			codec.CollValue[internftv1alpha1.Trait](cdc)),
+		nfts: collections.NewMap(sb, nftKeyPrefix, "nfts",
+			collections.PairKeyCodec(collections.StringKey, collections.StringKey),
+			codec.CollValue[internftv1alpha1.NFT](cdc)),
+		properties: collections.NewMap(sb, propertyKeyPrefix, "properties",
+			collections.TripleKeyCodec(collections.StringKey, collections.StringKey, collections.StringKey),
+			codec.CollValue[internftv1alpha1.Property](cdc)),
+		owners: collections.NewMap(sb, ownerKeyPrefix, "owners",
+			collections.PairKeyCodec(collections.StringKey, collections.StringKey),
+			collcodec.KeyToValueCodec(sdk.AccAddressKey)),
 	}
-}
 
-func (k Keeper) iterateImpl(ctx sdk.Context, prefix []byte, fn func(key, value []byte)) {
-	store := ctx.KVStore(k.storeKey)
-	iterator := storetypes.KVStorePrefixIterator(store, prefix)
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		fn(iterator.Key(), iterator.Value())
+	if schema, err := sb.Build(); err != nil {
+		panic(err)
+	} else {
+		k.schema = schema
 	}
+
+	return k
 }
