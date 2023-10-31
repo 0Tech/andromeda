@@ -4,6 +4,7 @@ package andromeda.internft.v1alpha1;
 import "google/api/annotations.proto";
 import "gogoproto/gogo.proto";
 
+import "cosmos_proto/cosmos.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 
 import "andromeda/internft/v1alpha1/types.proto";
@@ -199,5 +200,5 @@ message QueryOwnerRequest {
 
 // QueryOwnerResponse is the response type for the Query/Owner RPC method.
 message QueryOwnerResponse {
-  string owner = 1;
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }

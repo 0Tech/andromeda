@@ -4,12 +4,14 @@ package andromeda.internft.v1alpha1;
 import "google/protobuf/any.proto";
 import "gogoproto/gogo.proto";
 
+import "cosmos_proto/cosmos.proto";
+
 import "andromeda/internft/v1alpha1/types.proto";
 
 // EventSend is emitted on Msg/Send.
 message EventSend {
-  string sender   = 1;
-  string receiver = 2;
+  string sender   = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string receiver = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   NFT    nft      = 3 [(gogoproto.nullable) = false];
 }
 
@@ -30,12 +32,12 @@ message EventUpdateClass {
 message EventMintNFT {
   NFT               nft        = 1 [(gogoproto.nullable) = false];
   repeated Property properties = 2 [(gogoproto.nullable) = false];
-  string            recipient  = 3;
+  string            recipient  = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }
 
 // EventBurnNFT is emitted on Msg/BurnNFT.
 message EventBurnNFT {
-  string owner = 1;
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   NFT    nft   = 2 [(gogoproto.nullable) = false];
 }
 

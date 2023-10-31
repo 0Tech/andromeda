@@ -1186,25 +1186,25 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_Params_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"andromeda", "internft", "v1alpha1", "params"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Params_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"andromeda", "internft", "v1alpha1", "params"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Class_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Class_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Classes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"andromeda", "internft", "v1alpha1", "classes"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Classes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"andromeda", "internft", "v1alpha1", "classes"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Trait_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "traits", "trait_id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Trait_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "traits", "trait_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Traits_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "traits"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Traits_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "traits"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_NFT_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_NFT_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_NFTs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_NFTs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Property_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "id", "properties", "property_id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Property_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "id", "properties", "property_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Properties_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "id", "properties"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Properties_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "id", "properties"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Owner_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "id", "owner"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Owner_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "id", "owner"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (
