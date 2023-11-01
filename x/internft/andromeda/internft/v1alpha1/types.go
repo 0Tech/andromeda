@@ -1,16 +1,11 @@
 package internftv1alpha1
 
 import (
-	"strings"
-
 	errorsmod "cosmossdk.io/errors"
-	"cosmossdk.io/math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
-
-const didDelimiter = ":"
 
 func ValidateAddress(address string) error {
 	if _, err := sdk.AccAddressFromBech32(address); err != nil {
@@ -20,9 +15,25 @@ func ValidateAddress(address string) error {
 	return nil
 }
 
+func ValidateClassID(id string) error {
+	if _, err := sdk.AccAddressFromBech32(id); err != nil {
+		return ErrInvalidClassID.Wrap(id)
+	}
+
+	return nil
+}
+
 func (class Class) ValidateBasic() error {
 	if err := ValidateClassID(class.Id); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func ValidateTraitID(id string) error {
+	if len(id) == 0 {
+		return ErrInvalidTraitID.Wrap("empty")
 	}
 
 	return nil
@@ -54,28 +65,12 @@ func (t Traits) ValidateBasic() error {
 	return nil
 }
 
-func NFTFromString(did string) (*NFT, error) {
-	splitted := strings.Split(did, didDelimiter)
-	if len(splitted) != 2 {
-		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidType.Wrap("did"), "must be in [class-id]:[id]")
+func ValidateNFTID(id string) error {
+	if _, err := sdk.AccAddressFromBech32(id); err != nil {
+		return ErrInvalidNFTID.Wrap(id)
 	}
 
-	classID, idStr := splitted[0], splitted[1]
-
-	id, err := math.ParseUint(idStr)
-	if err != nil {
-		return nil, ErrInvalidNFTID.Wrap(err.Error())
-	}
-
-	nft := NFT{
-		ClassId: classID,
-		Id:      id,
-	}
-	if err := nft.ValidateBasic(); err != nil {
-		return nil, err
-	}
-
-	return &nft, nil
+	return nil
 }
 
 func (nft NFT) ValidateBasic() error {
@@ -88,23 +83,6 @@ func (nft NFT) ValidateBasic() error {
 	}
 
 	return nil
-}
-
-func (nft NFT) Equal(other NFT) bool {
-	if nft.ClassId != other.ClassId {
-		return false
-	}
-
-	return nft.Id.Equal(other.Id)
-}
-
-func (nft NFT) String() string {
-	elems := []string{
-		nft.ClassId,
-		nft.Id.String(),
-	}
-
-	return strings.Join(elems, didDelimiter)
 }
 
 func (p Property) ValidateBasic() error {
@@ -133,34 +111,10 @@ func (p Properties) ValidateBasic() error {
 	return nil
 }
 
-func ValidateClassID(id string) error {
-	if _, err := sdk.AccAddressFromBech32(id); err != nil {
-		return ErrInvalidClassID.Wrap(id)
+func ValidateOperator(operator, classID string) error {
+	if operator != classID {
+		return sdkerrors.ErrUnauthorized.Wrapf("%s over class %s", operator, classID)
 	}
 
 	return nil
-}
-
-func ValidateTraitID(id string) error {
-	if len(id) == 0 {
-		return ErrInvalidTraitID.Wrap("empty")
-	}
-
-	return nil
-}
-
-func ValidateNFTID(id math.Uint) error {
-	if id.IsZero() {
-		return ErrInvalidNFTID.Wrap("zero nft id")
-	}
-
-	return nil
-}
-
-func ClassOwner(id string) sdk.AccAddress {
-	return sdk.MustAccAddressFromBech32(id)
-}
-
-func ClassIDFromOwner(owner sdk.AccAddress) string {
-	return owner.String()
 }

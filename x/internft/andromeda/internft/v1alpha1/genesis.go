@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	errorsmod "cosmossdk.io/errors"
-	math "cosmossdk.io/math"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -22,7 +21,7 @@ func DefaultParams() Params {
 
 // ValidateBasic check the given genesis state has no integrity issues
 func (s GenesisState) ValidateBasic() error {
-	classIDs := map[string]struct{}{}
+	seenClassIDs := map[string]struct{}{}
 	for classIndex, genClass := range s.Classes {
 		errHint := fmt.Sprintf("classes[%d]", classIndex)
 
@@ -31,10 +30,10 @@ func (s GenesisState) ValidateBasic() error {
 			return errorsmod.Wrap(err, errHint)
 		}
 
-		if _, seen := classIDs[id]; seen {
+		if _, seen := seenClassIDs[id]; seen {
 			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrapf("duplicate class id %s", genClass.Id), errHint)
 		}
-		classIDs[id] = struct{}{}
+		seenClassIDs[id] = struct{}{}
 
 		if err := Traits(genClass.Traits).ValidateBasic(); err != nil {
 			return errorsmod.Wrap(err, errHint)
@@ -45,7 +44,7 @@ func (s GenesisState) ValidateBasic() error {
 			traits[trait.Id] = struct{}{}
 		}
 
-		seenID := math.ZeroUint()
+		seenNFTIDs := map[string]struct{}{}
 		for nftIndex, genNFT := range genClass.Nfts {
 			errHint := fmt.Sprintf("%s.nfts[%d]", errHint, nftIndex)
 
@@ -54,13 +53,10 @@ func (s GenesisState) ValidateBasic() error {
 				return errorsmod.Wrap(err, errHint)
 			}
 
-			if id.LTE(seenID) {
+			if _, seen := seenNFTIDs[id]; seen {
 				return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("unsorted nfts"), errHint)
 			}
-			if id.GT(genClass.LastMintedNftId) {
-				return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrapf("id %s > last minted id %s", id, genClass.LastMintedNftId), errHint)
-			}
-			seenID = id
+			seenNFTIDs[id] = struct{}{}
 
 			if err := Properties(genNFT.Properties).ValidateBasic(); err != nil {
 				return errorsmod.Wrap(err, errHint)
