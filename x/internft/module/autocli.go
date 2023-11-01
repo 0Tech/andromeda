@@ -65,6 +65,43 @@ func (AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 		},
 		Tx: &autocliv1.ServiceCommandDescriptor{
 			Service: internftv1alpha1.Msg_ServiceDesc.ServiceName,
+			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
+				// {
+				// 	RpcMethod: "UpdateParams",
+				// 	Use: "update-params",
+				// 	Short: "Update the module parameters",
+				// },
+				{
+					RpcMethod: "Send",
+					Use: "send",
+					Short: "Send an NFT",
+				},
+				{
+					RpcMethod: "NewClass",
+					Use: "new-class",
+					Short: "Create a new class",
+				},
+				{
+					RpcMethod: "UpdateClass",
+					Use: "update-class",
+					Short: "Update a class",
+				},
+				{
+					RpcMethod: "MintNFT",
+					Use: "mint-nft",
+					Short: "Mint an NFT",
+				},
+				{
+					RpcMethod: "BurnNFT",
+					Use: "burn-nft",
+					Short: "Burn an NFT",
+				},
+				{
+					RpcMethod: "UpdateNFT",
+					Use: "update-nft",
+					Short: "Update properties of an NFT",
+				},
+			},
 		},
 	}
 }

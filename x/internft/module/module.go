@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/spf13/cobra"
 
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"
@@ -22,7 +21,6 @@ import (
 
 	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 	modulev1alpha1 "github.com/0tech/andromeda/x/internft/api/andromeda/internft/module/v1alpha1"
-	"github.com/0tech/andromeda/x/internft/client/cli"
 	"github.com/0tech/andromeda/x/internft/keeper"
 )
 
@@ -32,16 +30,6 @@ import (
 
 // AppModuleBasic defines the basic application module used by the module.
 type AppModuleBasic struct{}
-
-// GetQueryCmd returns the cli query commands for the module.
-func (AppModuleBasic) GetQueryCmd() *cobra.Command {
-	return cli.NewQueryCmd()
-}
-
-// GetTxCmd returns the cli transaction commands for the module.
-func (AppModuleBasic) GetTxCmd() *cobra.Command {
-	return cli.NewTxCmd()
-}
 
 // ____________________________________________________________________________
 
