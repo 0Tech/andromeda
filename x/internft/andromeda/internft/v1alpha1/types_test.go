@@ -23,11 +23,11 @@ func createAddresses(size int, prefix string) []sdk.AccAddress {
 	return addrs
 }
 
-func createClassIDs(size int, prefix string) []string {
-	owners := createAddresses(size, prefix)
-	ids := make([]string, len(owners))
-	for i, owner := range owners {
-		ids[i] = internft.ClassIDFromOwner(owner)
+func createIDs(size int, prefix string) []string {
+	addrs := createAddresses(size, prefix)
+	ids := make([]string, len(addrs))
+	for i, addr := range addrs {
+		ids[i] = addr.String()
 	}
 
 	return ids

@@ -16,33 +16,45 @@ import (
 
 func TestMsgSend(t *testing.T) {
 	addrs := createAddresses(2, "addr")
-	classID := createClassIDs(1, "class")[0]
+	classID := createIDs(1, "class")[0]
+	nftID := createIDs(1, "nft")[0]
 
 	testCases := map[string]struct {
 		sender    sdk.AccAddress
 		recipient sdk.AccAddress
 		classID   string
+		nftID     string
 		err       error
 	}{
 		"valid msg": {
 			sender:    addrs[0],
 			recipient: addrs[1],
 			classID:   classID,
+			nftID:   nftID,
 		},
 		"invalid sender": {
 			recipient: addrs[1],
 			classID:   classID,
+			nftID:   nftID,
 			err:       sdkerrors.ErrInvalidAddress,
 		},
 		"invalid recipient": {
 			sender:  addrs[0],
 			classID: classID,
+			nftID:   nftID,
 			err:     sdkerrors.ErrInvalidAddress,
 		},
 		"invalid class id": {
 			sender:    addrs[0],
 			recipient: addrs[1],
+			nftID:   nftID,
 			err:       internft.ErrInvalidClassID,
+		},
+		"invalid nft id": {
+			sender:    addrs[0],
+			recipient: addrs[1],
+			classID: classID,
+			err:       internft.ErrInvalidNFTID,
 		},
 	}
 
@@ -53,7 +65,7 @@ func TestMsgSend(t *testing.T) {
 				Recipient: tc.recipient.String(),
 				Nft: internft.NFT{
 					ClassId: tc.classID,
-					Id:      math.OneUint(),
+					Id:      tc.nftID,
 				},
 			}
 
@@ -62,31 +74,39 @@ func TestMsgSend(t *testing.T) {
 			if tc.err != nil {
 				return
 			}
-
-			require.Equal(t, []sdk.AccAddress{tc.sender}, msg.GetSigners())
 		})
 	}
 }
 
 func TestMsgNewClass(t *testing.T) {
 	addr := createAddresses(1, "addr")[0]
+	classID := createIDs(1, "class")[0]
 	const traitID = "uri"
 
 	testCases := map[string]struct {
-		owner   sdk.AccAddress
+		operator   sdk.AccAddress
+		classID string
 		traitID string
 		err     error
 	}{
 		"valid msg": {
-			owner:   addr,
+			operator:   addr,
+			classID: classID,
 			traitID: traitID,
 		},
-		"invalid owner": {
+		"invalid operator": {
 			traitID: traitID,
+			classID: classID,
 			err:     sdkerrors.ErrInvalidAddress,
 		},
+		"invalid class id": {
+			operator: addr,
+			traitID: traitID,
+			err:   internft.ErrInvalidClassID,
+		},
 		"invalid trait id": {
-			owner: addr,
+			operator: addr,
+			classID: classID,
 			err:   internft.ErrInvalidTraitID,
 		},
 	}
@@ -94,7 +114,10 @@ func TestMsgNewClass(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			msg := internft.MsgNewClass{
-				Owner: tc.owner.String(),
+				Operator: tc.operator.String(),
+				Class: internft.Class{
+					Id: tc.classID,
+				},
 				Traits: []internft.Trait{
 					{
 						Id: tc.traitID,
@@ -107,14 +130,12 @@ func TestMsgNewClass(t *testing.T) {
 			if tc.err != nil {
 				return
 			}
-
-			require.Equal(t, []sdk.AccAddress{tc.owner}, msg.GetSigners())
 		})
 	}
 }
 
 func TestMsgUpdateClass(t *testing.T) {
-	classID := createClassIDs(1, "class")[0]
+	classID := createIDs(1, "class")[0]
 
 	testCases := map[string]struct {
 		classID string
@@ -131,7 +152,7 @@ func TestMsgUpdateClass(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			msg := internft.MsgUpdateClass{
-				ClassId: tc.classID,
+				Id: tc.classID,
 			}
 
 			err := msg.ValidateBasic()

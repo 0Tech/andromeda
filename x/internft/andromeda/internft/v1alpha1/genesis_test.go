@@ -9,54 +9,53 @@ import (
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
 func TestGenesisState(t *testing.T) {
-	classIDs := createClassIDs(2, "class")
+	classIDs := createIDs(2, "class")
+	nftIDs := createIDs(2, "nft")
 	const traitID = "uri"
 	addr := createAddresses(1, "addr")[0]
 
 	testCases := map[string]struct {
-		s   internft.GenesisState
+		s   internftv1alpha1.GenesisState
 		err error
 	}{
 		"default genesis": {
-			s: *internft.DefaultGenesisState(),
+			s: *internftv1alpha1.DefaultGenesisState(),
 		},
 		"all features": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
+			s: internftv1alpha1.GenesisState{
+				Params: internftv1alpha1.DefaultParams(),
+				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internft.Trait{
+						Traits: []internftv1alpha1.Trait{
 							{
 								Id: traitID,
 							},
 						},
-						LastMintedNftId: math.NewUint(2),
-						Nfts: []internft.GenesisNFT{
+						Nfts: []internftv1alpha1.GenesisNFT{
 							{
-								Id:    math.NewUint(1),
+								Id:    nftIDs[0],
 								Owner: addr.String(),
 							},
 							{
-								Id:    math.NewUint(2),
+								Id:    nftIDs[1],
 								Owner: addr.String(),
 							},
 						},
 					},
 					{
 						Id:              classIDs[1],
-						LastMintedNftId: math.NewUint(2),
-						Nfts: []internft.GenesisNFT{
+						Nfts: []internftv1alpha1.GenesisNFT{
 							{
-								Id:    math.NewUint(1),
+								Id:    nftIDs[0],
 								Owner: addr.String(),
 							},
 							{
-								Id:    math.NewUint(2),
+								Id:    nftIDs[1],
 								Owner: addr.String(),
 							},
 						},
@@ -65,121 +64,74 @@ func TestGenesisState(t *testing.T) {
 			},
 		},
 		"invalid class id": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
+			s: internftv1alpha1.GenesisState{
+				Params: internftv1alpha1.DefaultParams(),
+				Classes: []internftv1alpha1.GenesisClass{
 					{
-						LastMintedNftId: math.NewUint(2),
 					},
 				},
 			},
-			err: internft.ErrInvalidClassID,
+			err: internftv1alpha1.ErrInvalidClassID,
 		},
 		"invalid trait id": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
+			s: internftv1alpha1.GenesisState{
+				Params: internftv1alpha1.DefaultParams(),
+				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internft.Trait{
+						Traits: []internftv1alpha1.Trait{
 							{},
 						},
-						LastMintedNftId: math.NewUint(2),
 					},
 				},
 			},
-			err: internft.ErrInvalidTraitID,
+			err: internftv1alpha1.ErrInvalidTraitID,
 		},
 		"duplicate class": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
+			s: internftv1alpha1.GenesisState{
+				Params: internftv1alpha1.DefaultParams(),
+				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id:              classIDs[0],
-						LastMintedNftId: math.NewUint(2),
 					},
 					{
 						Id:              classIDs[0],
-						LastMintedNftId: math.NewUint(2),
 					},
 				},
 			},
 			err: sdkerrors.ErrInvalidRequest,
 		},
 		"invalid nft id": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
+			s: internftv1alpha1.GenesisState{
+				Params: internftv1alpha1.DefaultParams(),
+				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id:              classIDs[0],
-						LastMintedNftId: math.NewUint(2),
-						Nfts: []internft.GenesisNFT{
+						Nfts: []internftv1alpha1.GenesisNFT{
 							{
-								Id:    math.NewUint(0),
 								Owner: addr.String(),
 							},
 						},
 					},
 				},
 			},
-			err: internft.ErrInvalidNFTID,
-		},
-		"unsorted nfts": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
-					{
-						Id:              classIDs[0],
-						LastMintedNftId: math.NewUint(2),
-						Nfts: []internft.GenesisNFT{
-							{
-								Id:    math.NewUint(2),
-								Owner: addr.String(),
-							},
-							{
-								Id:    math.NewUint(1),
-								Owner: addr.String(),
-							},
-						},
-					},
-				},
-			},
-			err: sdkerrors.ErrInvalidRequest,
-		},
-		"greater than last minted nft id": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
-					{
-						Id:              classIDs[0],
-						LastMintedNftId: math.NewUint(0),
-						Nfts: []internft.GenesisNFT{
-							{
-								Id:    math.NewUint(1),
-								Owner: addr.String(),
-							},
-						},
-					},
-				},
-			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: internftv1alpha1.ErrInvalidNFTID,
 		},
 		"invalid property id": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
+			s: internftv1alpha1.GenesisState{
+				Params: internftv1alpha1.DefaultParams(),
+				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internft.Trait{
+						Traits: []internftv1alpha1.Trait{
 							{
 								Id: traitID,
 							},
 						},
-						LastMintedNftId: math.NewUint(2),
-						Nfts: []internft.GenesisNFT{
+						Nfts: []internftv1alpha1.GenesisNFT{
 							{
-								Id: math.NewUint(1),
-								Properties: []internft.Property{
+								Id: nftIDs[0],
+								Properties: []internftv1alpha1.Property{
 									{},
 								},
 								Owner: addr.String(),
@@ -188,24 +140,23 @@ func TestGenesisState(t *testing.T) {
 					},
 				},
 			},
-			err: internft.ErrInvalidTraitID,
+			err: internftv1alpha1.ErrInvalidTraitID,
 		},
 		"no corresponding trait": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
+			s: internftv1alpha1.GenesisState{
+				Params: internftv1alpha1.DefaultParams(),
+				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internft.Trait{
+						Traits: []internftv1alpha1.Trait{
 							{
 								Id: traitID,
 							},
 						},
-						LastMintedNftId: math.NewUint(2),
-						Nfts: []internft.GenesisNFT{
+						Nfts: []internftv1alpha1.GenesisNFT{
 							{
-								Id: math.NewUint(1),
-								Properties: []internft.Property{
+								Id: nftIDs[0],
+								Properties: []internftv1alpha1.Property{
 									{
 										Id: "nosuchid",
 									},
@@ -216,18 +167,17 @@ func TestGenesisState(t *testing.T) {
 					},
 				},
 			},
-			err: internft.ErrTraitNotFound,
+			err: internftv1alpha1.ErrTraitNotFound,
 		},
 		"invalid owner": {
-			s: internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
+			s: internftv1alpha1.GenesisState{
+				Params: internftv1alpha1.DefaultParams(),
+				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id:              classIDs[0],
-						LastMintedNftId: math.NewUint(2),
-						Nfts: []internft.GenesisNFT{
+						Nfts: []internftv1alpha1.GenesisNFT{
 							{
-								Id:    math.NewUint(1),
+								Id:    nftIDs[0],
 								Owner: "invalid",
 							},
 						},
