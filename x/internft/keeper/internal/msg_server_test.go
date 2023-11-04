@@ -1,24 +1,22 @@
 package internal_test
 
 import (
-	"cosmossdk.io/math"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
 func (s *KeeperTestSuite) TestMsgSend() {
 	testCases := map[string]struct {
-		id  math.Uint
+		nftID  string
 		err error
 	}{
 		"valid request": {
-			id: math.OneUint(),
+			nftID: s.nftIDs[s.vendor.String()],
 		},
 		"insufficient funds": {
-			id:  math.NewUint(s.numNFTs + 1),
-			err: internft.ErrInsufficientNFT,
+			nftID:  s.nftIDs[s.customer.String()],
+			err: internftv1alpha1.ErrInsufficientNFT,
 		},
 	}
 
@@ -26,12 +24,12 @@ func (s *KeeperTestSuite) TestMsgSend() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.MsgSend{
+			req := &internftv1alpha1.MsgSend{
 				Sender:    s.vendor.String(),
 				Recipient: s.customer.String(),
-				Nft: internft.NFT{
-					ClassId: internft.ClassIDFromOwner(s.vendor),
-					Id:      tc.id,
+				Nft: internftv1alpha1.NFT{
+					ClassId: s.vendor.String(),
+					Id:      tc.nftID,
 				},
 			}
 			err := req.ValidateBasic()
@@ -49,15 +47,15 @@ func (s *KeeperTestSuite) TestMsgSend() {
 
 func (s *KeeperTestSuite) TestMsgNewClass() {
 	testCases := map[string]struct {
-		owner sdk.AccAddress
+		operator sdk.AccAddress
 		err   error
 	}{
 		"valid request": {
-			owner: s.customer,
+			operator: s.customer,
 		},
 		"class already exists": {
-			owner: s.vendor,
-			err:   internft.ErrClassAlreadyExists,
+			operator: s.vendor,
+			err:   internftv1alpha1.ErrClassAlreadyExists,
 		},
 	}
 
@@ -65,8 +63,11 @@ func (s *KeeperTestSuite) TestMsgNewClass() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.MsgNewClass{
-				Owner: tc.owner.String(),
+			req := &internftv1alpha1.MsgNewClass{
+				Operator: tc.operator.String(),
+				Class: internftv1alpha1.Class{
+					Id: tc.operator.String(),
+				},
 			}
 			err := req.ValidateBasic()
 			s.Assert().NoError(err)
@@ -87,11 +88,11 @@ func (s *KeeperTestSuite) TestMsgUpdateClass() {
 		err     error
 	}{
 		"valid request": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 		},
 		"class not found": {
-			classID: internft.ClassIDFromOwner(s.customer),
-			err:     internft.ErrClassNotFound,
+			classID: s.customer.String(),
+			err:     internftv1alpha1.ErrClassNotFound,
 		},
 	}
 
@@ -99,8 +100,11 @@ func (s *KeeperTestSuite) TestMsgUpdateClass() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.MsgUpdateClass{
-				ClassId: tc.classID,
+			req := &internftv1alpha1.MsgUpdateClass{
+				Operator: tc.classID,
+				Class: internftv1alpha1.Class{
+					Id: tc.classID,
+				},
 			}
 			err := req.ValidateBasic()
 			s.Assert().NoError(err)
@@ -116,16 +120,17 @@ func (s *KeeperTestSuite) TestMsgUpdateClass() {
 }
 
 func (s *KeeperTestSuite) TestMsgMintNFT() {
+	newNFTID := createIDs(1, "newnft")[0]
 	testCases := map[string]struct {
 		classID string
 		err     error
 	}{
 		"valid request": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 		},
 		"class not found": {
-			classID: internft.ClassIDFromOwner(s.customer),
-			err:     internft.ErrClassNotFound,
+			classID: s.customer.String(),
+			err:     internftv1alpha1.ErrClassNotFound,
 		},
 	}
 
@@ -133,14 +138,18 @@ func (s *KeeperTestSuite) TestMsgMintNFT() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.MsgMintNFT{
-				ClassId: tc.classID,
-				Properties: []internft.Property{
+			req := &internftv1alpha1.MsgMintNFT{
+				Operator: tc.classID,
+				Recipient: s.customer.String(),
+				Nft: internftv1alpha1.NFT{
+					ClassId: tc.classID,
+					Id: newNFTID,
+				},
+				Properties: []internftv1alpha1.Property{
 					{
 						Id: s.mutableTraitID,
 					},
 				},
-				Recipient: s.customer.String(),
 			}
 			err := req.ValidateBasic()
 			s.Assert().NoError(err)
@@ -157,15 +166,15 @@ func (s *KeeperTestSuite) TestMsgMintNFT() {
 
 func (s *KeeperTestSuite) TestMsgBurnNFT() {
 	testCases := map[string]struct {
-		id  math.Uint
+		nftID  string
 		err error
 	}{
 		"valid request": {
-			id: math.OneUint(),
+			nftID: s.nftIDs[s.vendor.String()],
 		},
 		"insufficient nft": {
-			id:  math.NewUint(s.numNFTs + 1),
-			err: internft.ErrInsufficientNFT,
+			nftID: s.nftIDs[s.customer.String()],
+			err: internftv1alpha1.ErrInsufficientNFT,
 		},
 	}
 
@@ -173,11 +182,11 @@ func (s *KeeperTestSuite) TestMsgBurnNFT() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.MsgBurnNFT{
+			req := &internftv1alpha1.MsgBurnNFT{
 				Owner: s.vendor.String(),
-				Nft: internft.NFT{
-					ClassId: internft.ClassIDFromOwner(s.vendor),
-					Id:      tc.id,
+				Nft: internftv1alpha1.NFT{
+					ClassId: s.vendor.String(),
+					Id:      tc.nftID,
 				},
 			}
 			err := req.ValidateBasic()
@@ -195,15 +204,15 @@ func (s *KeeperTestSuite) TestMsgBurnNFT() {
 
 func (s *KeeperTestSuite) TestMsgUpdateNFT() {
 	testCases := map[string]struct {
-		id  math.Uint
+		nftID  string
 		err error
 	}{
 		"valid request": {
-			id: math.OneUint(),
+			nftID: s.nftIDs[s.vendor.String()],
 		},
 		"nft not found": {
-			id:  math.NewUint(s.numNFTs*2 + 1),
-			err: internft.ErrNFTNotFound,
+			nftID: s.nftIDs[s.stranger.String()],
+			err: internftv1alpha1.ErrNFTNotFound,
 		},
 	}
 
@@ -211,12 +220,13 @@ func (s *KeeperTestSuite) TestMsgUpdateNFT() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.MsgUpdateNFT{
-				Nft: internft.NFT{
-					ClassId: internft.ClassIDFromOwner(s.vendor),
-					Id:      tc.id,
+			req := &internftv1alpha1.MsgUpdateNFT{
+				Owner: s.vendor.String(),
+				Nft: internftv1alpha1.NFT{
+					ClassId: s.vendor.String(),
+					Id:      tc.nftID,
 				},
-				Properties: []internft.Property{
+				Properties: []internftv1alpha1.Property{
 					{
 						Id: s.mutableTraitID,
 					},

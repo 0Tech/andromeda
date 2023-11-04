@@ -4,11 +4,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"cosmossdk.io/math"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
 func (s *KeeperTestSuite) TestQueryParams() {
@@ -22,7 +20,7 @@ func (s *KeeperTestSuite) TestQueryParams() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryParamsRequest{}
+			req := &internftv1alpha1.QueryParamsRequest{}
 
 			res, err := s.queryServer.Params(ctx, req)
 			s.Require().Equal(tc.code, status.Code(err))
@@ -42,13 +40,13 @@ func (s *KeeperTestSuite) TestQueryClass() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 		},
 		"invalid class id": {
 			code: codes.InvalidArgument,
 		},
 		"class not found": {
-			classID: internft.ClassIDFromOwner(s.customer),
+			classID: s.customer.String(),
 			code:    codes.NotFound,
 		},
 	}
@@ -57,7 +55,7 @@ func (s *KeeperTestSuite) TestQueryClass() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryClassRequest{
+			req := &internftv1alpha1.QueryClassRequest{
 				ClassId: tc.classID,
 			}
 
@@ -86,7 +84,7 @@ func (s *KeeperTestSuite) TestQueryClasses() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryClassesRequest{}
+			req := &internftv1alpha1.QueryClassesRequest{}
 
 			res, err := s.queryServer.Classes(ctx, req)
 			s.Require().Equal(tc.code, status.Code(err))
@@ -108,7 +106,7 @@ func (s *KeeperTestSuite) TestQueryTrait() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 			traitID: s.immutableTraitID,
 		},
 		"invalid class id": {
@@ -116,11 +114,11 @@ func (s *KeeperTestSuite) TestQueryTrait() {
 			code:    codes.InvalidArgument,
 		},
 		"invalid trait id": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 			code:    codes.InvalidArgument,
 		},
 		"trait not found": {
-			classID: internft.ClassIDFromOwner(s.customer),
+			classID: s.customer.String(),
 			traitID: s.immutableTraitID,
 			code:    codes.NotFound,
 		},
@@ -130,7 +128,7 @@ func (s *KeeperTestSuite) TestQueryTrait() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryTraitRequest{
+			req := &internftv1alpha1.QueryTraitRequest{
 				ClassId: tc.classID,
 				TraitId: tc.traitID,
 			}
@@ -155,7 +153,7 @@ func (s *KeeperTestSuite) TestQueryTraits() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 		},
 		"invalid class id": {
 			code: codes.InvalidArgument,
@@ -166,7 +164,7 @@ func (s *KeeperTestSuite) TestQueryTraits() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryTraitsRequest{
+			req := &internftv1alpha1.QueryTraitsRequest{
 				ClassId: tc.classID,
 			}
 
@@ -189,13 +187,13 @@ func (s *KeeperTestSuite) TestQueryNFT() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 		},
 		"invalid class id": {
 			code: codes.InvalidArgument,
 		},
 		"nft not found": {
-			classID: internft.ClassIDFromOwner(s.customer),
+			classID: s.customer.String(),
 			code:    codes.NotFound,
 		},
 	}
@@ -204,9 +202,9 @@ func (s *KeeperTestSuite) TestQueryNFT() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryNFTRequest{
+			req := &internftv1alpha1.QueryNFTRequest{
 				ClassId: tc.classID,
-				Id:      math.OneUint().String(),
+				NftId:      s.nftIDs[s.customer.String()],
 			}
 
 			res, err := s.queryServer.NFT(ctx, req)
@@ -219,7 +217,7 @@ func (s *KeeperTestSuite) TestQueryNFT() {
 			nft := res.Nft
 			s.Require().NotNil(nft)
 			s.Require().Equal(req.ClassId, nft.ClassId)
-			s.Require().Equal(req.Id, nft.Id.String())
+			s.Require().Equal(req.NftId, nft.Id)
 		})
 	}
 }
@@ -230,7 +228,7 @@ func (s *KeeperTestSuite) TestQueryNFTs() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 		},
 		"invalid class id": {
 			code: codes.InvalidArgument,
@@ -241,7 +239,7 @@ func (s *KeeperTestSuite) TestQueryNFTs() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryNFTsRequest{
+			req := &internftv1alpha1.QueryNFTsRequest{
 				ClassId: tc.classID,
 			}
 
@@ -253,7 +251,7 @@ func (s *KeeperTestSuite) TestQueryNFTs() {
 			s.Require().NotNil(res)
 
 			nfts := res.Nfts
-			s.Require().Len(nfts, int(s.numNFTs)*2)
+			s.Require().Len(nfts, len(s.nftIDs)-1)
 		})
 	}
 }
@@ -265,7 +263,7 @@ func (s *KeeperTestSuite) TestQueryProperty() {
 		code       codes.Code
 	}{
 		"valid request": {
-			classID:    internft.ClassIDFromOwner(s.vendor),
+			classID:    s.vendor.String(),
 			propertyID: s.immutableTraitID,
 		},
 		"invalid class id": {
@@ -273,11 +271,11 @@ func (s *KeeperTestSuite) TestQueryProperty() {
 			code:       codes.InvalidArgument,
 		},
 		"invalid trait id": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 			code:    codes.InvalidArgument,
 		},
 		"trait not found": {
-			classID:    internft.ClassIDFromOwner(s.customer),
+			classID:    s.customer.String(),
 			propertyID: s.immutableTraitID,
 			code:       codes.NotFound,
 		},
@@ -287,9 +285,9 @@ func (s *KeeperTestSuite) TestQueryProperty() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryPropertyRequest{
+			req := &internftv1alpha1.QueryPropertyRequest{
 				ClassId:    tc.classID,
-				Id:         math.OneUint().String(),
+				NftId:      s.nftIDs[s.customer.String()],
 				PropertyId: tc.propertyID,
 			}
 
@@ -313,7 +311,7 @@ func (s *KeeperTestSuite) TestQueryProperties() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 		},
 		"invalid class id": {
 			code: codes.InvalidArgument,
@@ -324,9 +322,9 @@ func (s *KeeperTestSuite) TestQueryProperties() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryPropertiesRequest{
+			req := &internftv1alpha1.QueryPropertiesRequest{
 				ClassId: tc.classID,
-				Id:      math.OneUint().String(),
+				NftId:   s.nftIDs[s.customer.String()],
 			}
 
 			res, err := s.queryServer.Properties(ctx, req)
@@ -348,13 +346,13 @@ func (s *KeeperTestSuite) TestQueryOwner() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: internft.ClassIDFromOwner(s.vendor),
+			classID: s.vendor.String(),
 		},
 		"invalid class id": {
 			code: codes.InvalidArgument,
 		},
 		"nft not found": {
-			classID: internft.ClassIDFromOwner(s.customer),
+			classID: s.customer.String(),
 			code:    codes.NotFound,
 		},
 	}
@@ -363,9 +361,9 @@ func (s *KeeperTestSuite) TestQueryOwner() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internft.QueryOwnerRequest{
+			req := &internftv1alpha1.QueryOwnerRequest{
 				ClassId: tc.classID,
-				Id:      math.OneUint().String(),
+				NftId:   s.nftIDs[s.customer.String()],
 			}
 
 			res, err := s.queryServer.Owner(ctx, req)

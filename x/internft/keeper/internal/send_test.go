@@ -1,25 +1,23 @@
 package internal_test
 
 import (
-	"cosmossdk.io/math"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
 func (s *KeeperTestSuite) TestSend() {
 	testCases := map[string]struct {
 		sender sdk.AccAddress
-		id     math.Uint
+		nftID     string
 		err    error
 	}{
 		"valid request": {
-			id: math.OneUint(),
+			nftID: s.nftIDs[s.vendor.String()],
 		},
 		"insufficient nft": {
-			id:  math.NewUint(s.numNFTs + 1),
-			err: internft.ErrInsufficientNFT,
+			nftID: s.nftIDs[s.customer.String()],
+			err: internftv1alpha1.ErrInsufficientNFT,
 		},
 	}
 
@@ -27,9 +25,9 @@ func (s *KeeperTestSuite) TestSend() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			nft := internft.NFT{
-				ClassId: internft.ClassIDFromOwner(s.vendor),
-				Id:      tc.id,
+			nft := internftv1alpha1.NFT{
+				ClassId: s.vendor.String(),
+				Id:      tc.nftID,
 			}
 			err := nft.ValidateBasic()
 			s.Assert().NoError(err)

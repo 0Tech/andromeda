@@ -12,13 +12,14 @@ import (
 
 	storetypes "cosmossdk.io/store/types"
 
+	"github.com/cosmos/cosmos-sdk/runtime"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 	keeper "github.com/0tech/andromeda/x/internft/keeper/internal"
 	"github.com/0tech/andromeda/x/internft/module"
 )
@@ -30,16 +31,17 @@ type KeeperTestSuite struct {
 
 	keeper keeper.Keeper
 
-	queryServer internft.QueryServer
-	msgServer   internft.MsgServer
+	queryServer internftv1alpha1.QueryServer
+	msgServer   internftv1alpha1.MsgServer
 
 	vendor   sdk.AccAddress
 	customer sdk.AccAddress
+	stranger sdk.AccAddress
 
 	mutableTraitID   string
 	immutableTraitID string
 
-	numNFTs uint64
+	nftIDs map[string]string
 }
 
 func createAddresses(size int, prefix string) []sdk.AccAddress {
@@ -51,11 +53,11 @@ func createAddresses(size int, prefix string) []sdk.AccAddress {
 	return addrs
 }
 
-func createClassIDs(size int, prefix string) []string {
-	owners := createAddresses(size, prefix)
-	ids := make([]string, len(owners))
-	for i, owner := range owners {
-		ids[i] = internft.ClassIDFromOwner(owner)
+func createIDs(size int, prefix string) []string {
+	addrs := createAddresses(size, prefix)
+	ids := make([]string, len(addrs))
+	for i, addr := range addrs {
+		ids[i] = addr.String()
 	}
 
 	return ids
@@ -74,9 +76,10 @@ func randomString(size int) string {
 }
 
 func (s *KeeperTestSuite) SetupTest() {
-	key := storetypes.NewKVStoreKey(internft.StoreKey)
 	encCfg := moduletestutil.MakeTestEncodingConfig(module.AppModuleBasic{})
-	s.keeper = keeper.NewKeeper(key, encCfg.Codec, authtypes.NewModuleAddress(govtypes.ModuleName).String())
+	key := storetypes.NewKVStoreKey(internftv1alpha1.StoreKey)
+	storeService := runtime.NewKVStoreService(key)
+	s.keeper = keeper.NewKeeper(encCfg.Codec, storeService, authtypes.NewModuleAddress(govtypes.ModuleName).String())
 
 	testCtx := testutil.DefaultContextWithDB(s.T(), key, storetypes.NewTransientStoreKey("transient_test"))
 	s.ctx = testCtx.Ctx.WithBlockHeader(cmtproto.Header{Time: cmttime.Now()})
@@ -88,16 +91,17 @@ func (s *KeeperTestSuite) SetupTest() {
 	addresses := []*sdk.AccAddress{
 		&s.vendor,
 		&s.customer,
+		&s.stranger,
 	}
 	for i, address := range createAddresses(len(addresses), "addr") {
 		*addresses[i] = address
 	}
 
-	s.keeper.SetParams(s.ctx, internft.Params{})
+	s.keeper.SetParams(s.ctx, internftv1alpha1.Params{})
 
 	// vendor creates a class
-	class := internft.Class{
-		Id: internft.ClassIDFromOwner(s.vendor),
+	class := internftv1alpha1.Class{
+		Id: s.vendor.String(),
 	}
 	err := class.ValidateBasic()
 	s.Assert().NoError(err)
@@ -105,10 +109,10 @@ func (s *KeeperTestSuite) SetupTest() {
 	s.mutableTraitID = "level"
 	s.immutableTraitID = "color"
 
-	traits := []internft.Trait{
+	traits := []internftv1alpha1.Trait{
 		{
 			Id:      s.mutableTraitID,
-			Mutable: true,
+			Variable: true,
 		},
 		{
 			Id: s.immutableTraitID,
@@ -118,27 +122,36 @@ func (s *KeeperTestSuite) SetupTest() {
 	err = s.keeper.NewClass(s.ctx, class, traits)
 	s.Assert().NoError(err)
 
-	// vendor mints nfts to all accounts by amount of numNFTs
-	s.numNFTs = 2
+	// vendor mints nfts to all accounts
+	nftIDs := createIDs(len(addresses), "nft")
+	s.nftIDs = map[string]string{}
+	for i := range addresses {
+		recipient := *addresses[i]
+		nftID := nftIDs[i]
+		s.nftIDs[recipient.String()] = nftID
 
-	for _, owner := range []sdk.AccAddress{
-		s.vendor,
-		s.customer,
-	} {
-		for range make([]struct{}, s.numNFTs) {
-			properties := []internft.Property{
-				{
-					Id: s.mutableTraitID,
-				},
-				{
-					Id: s.immutableTraitID,
-				},
-			}
-
-			id, err := s.keeper.MintNFT(s.ctx, owner, class.Id, properties)
-			s.Assert().NoError(err)
-			s.Assert().NotNil(id)
+		// except for stranger
+		if recipient.Equals(s.stranger) {
+			continue
 		}
+
+		nft := internftv1alpha1.NFT{
+			ClassId: class.Id,
+			Id: nftID,
+		}
+		properties := []internftv1alpha1.Property{
+			{
+				Id: s.mutableTraitID,
+				Fact: "42",
+			},
+			{
+				Id: s.immutableTraitID,
+				Fact: "black",
+			},
+		}
+
+		err := s.keeper.MintNFT(s.ctx, recipient, nft, properties)
+		s.Assert().NoError(err)
 	}
 }
 

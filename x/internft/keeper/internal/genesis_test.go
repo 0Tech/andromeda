@@ -9,56 +9,57 @@ import (
 	cmtproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	cmttime "github.com/cometbft/cometbft/types/time"
 
-	"cosmossdk.io/math"
 	storetypes "cosmossdk.io/store/types"
 
+	"github.com/cosmos/cosmos-sdk/runtime"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 	keeper "github.com/0tech/andromeda/x/internft/keeper/internal"
 	"github.com/0tech/andromeda/x/internft/module"
 )
 
 func TestImportExportGenesis(t *testing.T) {
-	key := storetypes.NewKVStoreKey(internft.StoreKey)
 	encCfg := moduletestutil.MakeTestEncodingConfig(module.AppModuleBasic{})
-	keeper := keeper.NewKeeper(key, encCfg.Codec, authtypes.NewModuleAddress(govtypes.ModuleName).String())
+	key := storetypes.NewKVStoreKey(internftv1alpha1.StoreKey)
+	storeService := runtime.NewKVStoreService(key)
+	keeper := keeper.NewKeeper(encCfg.Codec, storeService, authtypes.NewModuleAddress(govtypes.ModuleName).String())
 
 	testCtx := testutil.DefaultContextWithDB(t, key, storetypes.NewTransientStoreKey("transient_test"))
 	ctx := testCtx.Ctx.WithBlockHeader(cmtproto.Header{Time: cmttime.Now()})
 
-	classIDs := createClassIDs(2, "class")
 	addr := createAddresses(1, "addr")[0]
+	classIDs := createIDs(2, "class")
+	nftIDs := createIDs(2, "nft42")
 
 	testCases := map[string]struct {
-		gs *internft.GenesisState
+		gs *internftv1alpha1.GenesisState
 	}{
 		"default": {
-			gs: internft.DefaultGenesisState(),
+			gs: internftv1alpha1.DefaultGenesisState(),
 		},
 		"all features": {
-			gs: &internft.GenesisState{
-				Params: internft.DefaultParams(),
-				Classes: []internft.GenesisClass{
+			gs: &internftv1alpha1.GenesisState{
+				Params: internftv1alpha1.DefaultParams(),
+				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internft.Trait{
+						Traits: []internftv1alpha1.Trait{
 							{
 								Id: "color",
 							},
 							{
 								Id:      "level",
-								Mutable: true,
+								Variable: true,
 							},
 						},
-						LastMintedNftId: math.NewUint(2),
-						Nfts: []internft.GenesisNFT{
+						Nfts: []internftv1alpha1.GenesisNFT{
 							{
-								Id: math.NewUint(1),
-								Properties: []internft.Property{
+								Id: nftIDs[0],
+								Properties: []internftv1alpha1.Property{
 									{
 										Id:   "color",
 										Fact: "white",
@@ -71,21 +72,20 @@ func TestImportExportGenesis(t *testing.T) {
 								Owner: addr.String(),
 							},
 							{
-								Id:    math.NewUint(2),
+								Id:    nftIDs[1],
 								Owner: addr.String(),
 							},
 						},
 					},
 					{
 						Id:              classIDs[1],
-						LastMintedNftId: math.NewUint(2),
-						Nfts: []internft.GenesisNFT{
+						Nfts: []internftv1alpha1.GenesisNFT{
 							{
-								Id:    math.NewUint(1),
+								Id:    nftIDs[0],
 								Owner: addr.String(),
 							},
 							{
-								Id:    math.NewUint(2),
+								Id:    nftIDs[1],
 								Owner: addr.String(),
 							},
 						},
