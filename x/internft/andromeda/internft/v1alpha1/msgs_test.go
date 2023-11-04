@@ -5,11 +5,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"cosmossdk.io/math"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/cosmos/cosmos-sdk/x/auth/migrations/legacytx"
 
 	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
@@ -79,8 +76,9 @@ func TestMsgSend(t *testing.T) {
 }
 
 func TestMsgNewClass(t *testing.T) {
-	addr := createAddresses(1, "addr")[0]
-	classID := createIDs(1, "class")[0]
+	operator := createAddresses(1, "addr")[0]
+	allowedClassID := operator.String()
+	otherClassID := createIDs(1, "class")[0]
 	const traitID = "uri"
 
 	testCases := map[string]struct {
@@ -90,24 +88,30 @@ func TestMsgNewClass(t *testing.T) {
 		err     error
 	}{
 		"valid msg": {
-			operator:   addr,
-			classID: classID,
+			operator:   operator,
+			classID: allowedClassID,
 			traitID: traitID,
 		},
 		"invalid operator": {
 			traitID: traitID,
-			classID: classID,
+			classID: allowedClassID,
 			err:     sdkerrors.ErrInvalidAddress,
 		},
 		"invalid class id": {
-			operator: addr,
+			operator: operator,
 			traitID: traitID,
 			err:   internft.ErrInvalidClassID,
 		},
 		"invalid trait id": {
-			operator: addr,
-			classID: classID,
+			operator: operator,
+			classID: allowedClassID,
 			err:   internft.ErrInvalidTraitID,
+		},
+		"unauthorized": {
+			operator:   operator,
+			classID: otherClassID,
+			traitID: traitID,
+			err: sdkerrors.ErrUnauthorized,
 		},
 	}
 
@@ -135,16 +139,24 @@ func TestMsgNewClass(t *testing.T) {
 }
 
 func TestMsgUpdateClass(t *testing.T) {
-	classID := createIDs(1, "class")[0]
+	operator := createAddresses(1, "addr")[0]
+	classID := operator.String()
 
 	testCases := map[string]struct {
+		operator sdk.AccAddress
 		classID string
 		err     error
 	}{
 		"valid msg": {
+			operator: operator,
 			classID: classID,
 		},
+		"invalid opreator": {
+			classID: classID,
+			err: sdkerrors.ErrInvalidAddress,
+		},
 		"invalid class id": {
+			operator: operator,
 			err: internft.ErrInvalidClassID,
 		},
 	}
@@ -152,7 +164,10 @@ func TestMsgUpdateClass(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			msg := internft.MsgUpdateClass{
-				Id: tc.classID,
+				Operator: tc.operator.String(),
+				Class: internft.Class{
+					Id: tc.classID,
+				},
 			}
 
 			err := msg.ValidateBasic()
@@ -160,40 +175,50 @@ func TestMsgUpdateClass(t *testing.T) {
 			if tc.err != nil {
 				return
 			}
-
-			owner := internft.ClassOwner(tc.classID)
-			require.Equal(t, []sdk.AccAddress{owner}, msg.GetSigners())
 		})
 	}
 }
 
 func TestMsgMintNFT(t *testing.T) {
-	classID := createClassIDs(1, "class")[0]
-	traitID := "uri"
-	addr := createAddresses(1, "addr")[0]
+	addrs := createAddresses(2, "addr")
+	operator := addrs[0]
+	recipient := addrs[1]
+	classID := operator.String()
+	nftID := createIDs(1, "nft")[0]
+	const traitID = "uri"
 
 	testCases := map[string]struct {
-		classID   string
-		traitID   string
+		operator sdk.AccAddress
 		recipient sdk.AccAddress
+		classID   string
+		nftID string
+		traitID   string
 		err       error
 	}{
 		"valid msg": {
+			operator: operator,
+			recipient: recipient,
 			classID:   classID,
+			nftID: nftID,
 			traitID:   traitID,
-			recipient: addr,
 		},
 		"invalid class id": {
-			recipient: addr,
+			operator: operator,
+			recipient: recipient,
+			nftID: nftID,
 			traitID:   traitID,
 			err:       internft.ErrInvalidClassID,
 		},
 		"invalid trait id": {
+			operator: operator,
 			classID: classID,
+			nftID: nftID,
 			err:     internft.ErrInvalidTraitID,
 		},
 		"invalid recipient": {
+			operator: operator,
 			classID: classID,
+			nftID: nftID,
 			traitID: traitID,
 			err:     sdkerrors.ErrInvalidAddress,
 		},
@@ -202,13 +227,17 @@ func TestMsgMintNFT(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			msg := internft.MsgMintNFT{
-				ClassId: tc.classID,
+				Operator: tc.operator.String(),
+				Recipient: tc.recipient.String(),
+				Nft: internft.NFT{
+					ClassId: tc.classID,
+					Id: tc.nftID,
+				},
 				Properties: []internft.Property{
 					{
 						Id: tc.traitID,
 					},
 				},
-				Recipient: tc.recipient.String(),
 			}
 
 			err := msg.ValidateBasic()
@@ -216,32 +245,34 @@ func TestMsgMintNFT(t *testing.T) {
 			if tc.err != nil {
 				return
 			}
-
-			owner := internft.ClassOwner(tc.classID)
-			require.Equal(t, []sdk.AccAddress{owner}, msg.GetSigners())
 		})
 	}
 }
 
 func TestMsgBurnNFT(t *testing.T) {
 	addr := createAddresses(1, "addr")[0]
-	classID := createClassIDs(1, "class")[0]
+	classID := createIDs(1, "class")[0]
+	nftID := createIDs(1, "nft")[0]
 
 	testCases := map[string]struct {
 		owner   sdk.AccAddress
 		classID string
+		nftID string
 		err     error
 	}{
 		"valid msg": {
 			owner:   addr,
 			classID: classID,
+			nftID: nftID,
 		},
 		"invalid owner": {
 			classID: classID,
+			nftID: nftID,
 			err:     sdkerrors.ErrInvalidAddress,
 		},
 		"invalid class id": {
 			owner: addr,
+			nftID: nftID,
 			err:   internft.ErrInvalidClassID,
 		},
 	}
@@ -252,7 +283,7 @@ func TestMsgBurnNFT(t *testing.T) {
 				Owner: tc.owner.String(),
 				Nft: internft.NFT{
 					ClassId: tc.classID,
-					Id:      math.OneUint(),
+					Id:      tc.nftID,
 				},
 			}
 
@@ -261,28 +292,30 @@ func TestMsgBurnNFT(t *testing.T) {
 			if tc.err != nil {
 				return
 			}
-
-			require.Equal(t, []sdk.AccAddress{tc.owner}, msg.GetSigners())
 		})
 	}
 }
 
 func TestMsgUpdateNFT(t *testing.T) {
-	classID := createClassIDs(1, "class")[0]
+	classID := createIDs(1, "class")[0]
+	nftID := createIDs(1, "nft")[0]
 	traitID := "uri"
 
 	testCases := map[string]struct {
 		classID  string
+		nftID string
 		traitIDs []string
 		err      error
 	}{
 		"valid msg": {
 			classID: classID,
+			nftID: nftID,
 			traitIDs: []string{
 				traitID,
 			},
 		},
 		"invalid class id": {
+			nftID: nftID,
 			traitIDs: []string{
 				traitID,
 			},
@@ -290,10 +323,12 @@ func TestMsgUpdateNFT(t *testing.T) {
 		},
 		"empty properties": {
 			classID: classID,
+			nftID: nftID,
 			err:     sdkerrors.ErrInvalidRequest,
 		},
 		"invalid trait id": {
 			classID: classID,
+			nftID: nftID,
 			traitIDs: []string{
 				"",
 			},
@@ -313,7 +348,7 @@ func TestMsgUpdateNFT(t *testing.T) {
 			msg := internft.MsgUpdateNFT{
 				Nft: internft.NFT{
 					ClassId: tc.classID,
-					Id:      math.OneUint(),
+					Id:      tc.nftID,
 				},
 				Properties: properties,
 			}
@@ -323,97 +358,6 @@ func TestMsgUpdateNFT(t *testing.T) {
 			if tc.err != nil {
 				return
 			}
-
-			owner := internft.ClassOwner(tc.classID)
-			require.Equal(t, []sdk.AccAddress{owner}, msg.GetSigners())
-		})
-	}
-}
-
-func TestLegacyMsg(t *testing.T) {
-	addrs := createAddresses(2, "addr")
-	classIDs := createClassIDs(2, "class")
-	id := math.OneUint()
-	uri := "https://ipfs.io/ipfs/tIBeTianfOX"
-
-	testCase := []struct {
-		msg legacytx.LegacyMsg
-		out string
-	}{
-		{
-			&internft.MsgSend{
-				Sender:    addrs[0].String(),
-				Recipient: addrs[1].String(),
-				Nft: internft.NFT{
-					ClassId: classIDs[0],
-					Id:      id,
-				},
-			},
-			`{"nft":{"class_id":"cosmos1vdkxzumnxq7xavm0","id":"1"},"recipient":"cosmos1v9jxgu33kfsgr5","sender":"cosmos1v9jxgu3stlya7x"}`,
-		},
-		{
-			&internft.MsgNewClass{
-				Owner: addrs[0].String(),
-				Traits: []internft.Trait{
-					{
-						Id:      "uri",
-						Mutable: true,
-					},
-				},
-			},
-			`{"owner":"cosmos1v9jxgu3stlya7x","traits":[{"id":"uri","mutable":true}]}`,
-		},
-		{
-			&internft.MsgUpdateClass{
-				ClassId: classIDs[0],
-			},
-			`{"class_id":"cosmos1vdkxzumnxq7xavm0"}`,
-		},
-		{
-			&internft.MsgMintNFT{
-				ClassId: classIDs[0],
-				Properties: []internft.Property{
-					{
-						Id:   "uri",
-						Fact: uri,
-					},
-				},
-				Recipient: addrs[0].String(),
-			},
-			`{"class_id":"cosmos1vdkxzumnxq7xavm0","properties":[{"fact":"https://ipfs.io/ipfs/tIBeTianfOX","id":"uri"}],"recipient":"cosmos1v9jxgu3stlya7x"}`,
-		},
-		{
-			&internft.MsgBurnNFT{
-				Owner: addrs[0].String(),
-				Nft: internft.NFT{
-					ClassId: classIDs[0],
-					Id:      id,
-				},
-			},
-			`{"nft":{"class_id":"cosmos1vdkxzumnxq7xavm0","id":"1"},"owner":"cosmos1v9jxgu3stlya7x"}`,
-		},
-		{
-			&internft.MsgUpdateNFT{
-				Nft: internft.NFT{
-					ClassId: classIDs[0],
-					Id:      id,
-				},
-				Properties: []internft.Property{
-					{
-						Id:   "uri",
-						Fact: uri,
-					},
-				},
-			},
-			`{"nft":{"class_id":"cosmos1vdkxzumnxq7xavm0","id":"1"},"properties":[{"fact":"https://ipfs.io/ipfs/tIBeTianfOX","id":"uri"}]}`,
-		},
-	}
-
-	for _, tc := range testCase {
-		name := sdk.MsgTypeURL(tc.msg)[1:]
-		t.Run(name, func(t *testing.T) {
-			out := tc.msg.GetSignBytes()
-			require.Equal(t, tc.out, string(out))
 		})
 	}
 }

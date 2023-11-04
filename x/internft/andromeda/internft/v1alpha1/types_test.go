@@ -6,8 +6,6 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"cosmossdk.io/math"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
@@ -34,7 +32,7 @@ func createIDs(size int, prefix string) []string {
 }
 
 func TestClass(t *testing.T) {
-	id := createClassIDs(1, "class")[0]
+	id := createIDs(1, "class")[0]
 
 	testCases := map[string]struct {
 		id  string
@@ -97,25 +95,25 @@ func TestTraits(t *testing.T) {
 }
 
 func TestNFT(t *testing.T) {
-	classIDs := createClassIDs(2, "class")
+	classIDs := createIDs(1, "class")
+	nftIDs := createIDs(1, "nft")
 
 	// ValidateBasic()
 	testCases := map[string]struct {
 		classID string
-		id      math.Uint
+		id      string
 		err     error
 	}{
 		"valid nft": {
 			classID: classIDs[0],
-			id:      math.OneUint(),
+			id:      nftIDs[0],
 		},
 		"invalid class id": {
-			id:  math.OneUint(),
+			id:  nftIDs[0],
 			err: internft.ErrInvalidClassID,
 		},
 		"invalid id": {
 			classID: classIDs[0],
-			id:      math.ZeroUint(),
 			err:     internft.ErrInvalidNFTID,
 		},
 	}
@@ -129,96 +127,6 @@ func TestNFT(t *testing.T) {
 
 			err := nft.ValidateBasic()
 			require.ErrorIs(t, err, tc.err)
-		})
-	}
-
-	l := internft.NFT{
-		ClassId: classIDs[0],
-		Id:      math.OneUint(),
-	}
-
-	// Equal()
-	testCases2 := map[string]struct {
-		classID string
-		id      math.Uint
-		equals  bool
-	}{
-		"equals": {
-			classID: l.ClassId,
-			id:      l.Id,
-			equals:  true,
-		},
-		"different class id": {
-			classID: classIDs[1],
-			id:      l.Id,
-		},
-		"different id": {
-			classID: l.ClassId,
-			id:      l.Id.Incr(),
-		},
-	}
-
-	for name, tc := range testCases2 {
-		t.Run(name, func(t *testing.T) {
-			r := internft.NFT{
-				ClassId: tc.classID,
-				Id:      tc.id,
-			}
-
-			require.NoError(t, l.ValidateBasic())
-			require.NoError(t, r.ValidateBasic())
-			require.Equal(t, tc.equals, l.Equal(r))
-		})
-	}
-
-	bigID := make([]rune, 78)
-	for i := range bigID {
-		bigID[i] = '0'
-	}
-	bigID[0] = '1'
-
-	// NFTFromDID
-	testCases3 := map[string]struct {
-		classID   string
-		delimiter string
-		id        string
-		err       error
-	}{
-		"valid did": {
-			classID:   classIDs[0],
-			delimiter: ":",
-			id:        string(bigID),
-		},
-		"invalid format": {
-			classID: classIDs[0],
-			id:      string(bigID),
-			err:     sdkerrors.ErrInvalidType,
-		},
-		"invalid uint": {
-			classID:   classIDs[0],
-			delimiter: ":",
-			id:        string(bigID) + "0",
-			err:       internft.ErrInvalidNFTID,
-		},
-		"invalid class id": {
-			delimiter: ":",
-			id:        string(bigID),
-			err:       internft.ErrInvalidClassID,
-		},
-	}
-
-	for name, tc := range testCases3 {
-		t.Run(name, func(t *testing.T) {
-			did := fmt.Sprintf("%s%s%s", tc.classID, tc.delimiter, tc.id)
-
-			nft, err := internft.NFTFromString(did)
-			require.ErrorIs(t, err, tc.err)
-			if tc.err != nil {
-				return
-			}
-
-			require.Equal(t, tc.classID, nft.ClassId)
-			require.Equal(t, math.NewUintFromString(tc.id), nft.Id)
 		})
 	}
 }
