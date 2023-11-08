@@ -72,6 +72,10 @@ import (
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	_ "github.com/cosmos/cosmos-sdk/x/staking" // import for side-effects
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftmodulev1alpha1 "github.com/0tech/andromeda/x/internft/api/andromeda/internft/module/v1alpha1"
+	_ "github.com/0tech/andromeda/x/internft/module" // import for side-effects
 )
 
 var (
@@ -156,6 +160,7 @@ var (
 						upgradetypes.ModuleName,
 						vestingtypes.ModuleName,
 						circuittypes.ModuleName,
+						internftv1alpha1.ModuleName,
 					},
 					// When ExportGenesis is not specified, the export genesis module order
 					// is equal to the init genesis order
@@ -259,6 +264,10 @@ var (
 			{
 				Name:   circuittypes.ModuleName,
 				Config: appconfig.WrapAny(&circuitmodulev1.Module{}),
+			},
+			{
+				Name:   internftv1alpha1.ModuleName,
+				Config: appconfig.WrapAny(&internftmodulev1alpha1.Module{}),
 			},
 		},
 	}),

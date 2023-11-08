@@ -36,6 +36,7 @@ import (
 	consensuskeeper "github.com/cosmos/cosmos-sdk/x/consensus/keeper"
 	crisiskeeper "github.com/cosmos/cosmos-sdk/x/crisis/keeper"
 	distrkeeper "github.com/cosmos/cosmos-sdk/x/distribution/keeper"
+	internftkeeper "github.com/0tech/andromeda/x/internft/keeper"
 	govkeeper "github.com/cosmos/cosmos-sdk/x/gov/keeper"
 	groupkeeper "github.com/cosmos/cosmos-sdk/x/group/keeper"
 	mintkeeper "github.com/cosmos/cosmos-sdk/x/mint/keeper"
@@ -81,6 +82,7 @@ type App struct {
 	NFTKeeper             nftkeeper.Keeper
 	ConsensusParamsKeeper consensuskeeper.Keeper
 	CircuitBreakerKeeper  circuitkeeper.Keeper
+	InternftKeeper        internftkeeper.Keeper
 
 	// simulation manager
 	sm *module.SimulationManager
@@ -183,6 +185,7 @@ func NewApp(
 		&app.NFTKeeper,
 		&app.ConsensusParamsKeeper,
 		&app.CircuitBreakerKeeper,
+		&app.InternftKeeper,
 	); err != nil {
 		panic(err)
 	}
