@@ -3,361 +3,319 @@ package internftv1alpha1_test
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
-
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	internft "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
+	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
 func TestMsgSend(t *testing.T) {
-	addrs := createAddresses(2, "addr")
-	classID := createIDs(1, "class")[0]
-	nftID := createIDs(1, "nft")[0]
-
-	testCases := map[string]struct {
-		sender    sdk.AccAddress
-		recipient sdk.AccAddress
-		classID   string
-		nftID     string
-		err       error
-	}{
-		"valid msg": {
-			sender:    addrs[0],
-			recipient: addrs[1],
-			classID:   classID,
-			nftID:   nftID,
+	modifiers := []map[string]func(*internftv1alpha1.MsgSend) error{
+		{
+			"valid_sender": func(subject *internftv1alpha1.MsgSend) error {
+				subject.Sender = createAddresses(2, "addr")[0].String()
+				return nil
+			},
+			"empty_sender": func(subject *internftv1alpha1.MsgSend) error {
+				return sdkerrors.ErrInvalidAddress
+			},
 		},
-		"invalid sender": {
-			recipient: addrs[1],
-			classID:   classID,
-			nftID:   nftID,
-			err:       sdkerrors.ErrInvalidAddress,
+		{
+			"valid_recipient": func(subject *internftv1alpha1.MsgSend) error {
+				subject.Recipient = createAddresses(2, "addr")[1].String()
+				return nil
+			},
+			"empty_recipient": func(subject *internftv1alpha1.MsgSend) error {
+				return sdkerrors.ErrInvalidAddress
+			},
 		},
-		"invalid recipient": {
-			sender:  addrs[0],
-			classID: classID,
-			nftID:   nftID,
-			err:     sdkerrors.ErrInvalidAddress,
+		{
+			"valid_class_id": func(subject *internftv1alpha1.MsgSend) error {
+				subject.Nft.ClassId = createIDs(1, "class")[0]
+				return nil
+			},
+			"empty_class_id": func(subject *internftv1alpha1.MsgSend) error {
+				return internftv1alpha1.ErrInvalidClassID
+			},
 		},
-		"invalid class id": {
-			sender:    addrs[0],
-			recipient: addrs[1],
-			nftID:   nftID,
-			err:       internft.ErrInvalidClassID,
-		},
-		"invalid nft id": {
-			sender:    addrs[0],
-			recipient: addrs[1],
-			classID: classID,
-			err:       internft.ErrInvalidNFTID,
+		{
+			"valid_nft_id": func(subject *internftv1alpha1.MsgSend) error {
+				subject.Nft.Id = createIDs(1, "nft")[0]
+				return nil
+			},
+			"empty_nft_id": func(subject *internftv1alpha1.MsgSend) error {
+				return internftv1alpha1.ErrInvalidNFTID
+			},
 		},
 	}
-
-	for name, tc := range testCases {
-		t.Run(name, func(t *testing.T) {
-			msg := internft.MsgSend{
-				Sender:    tc.sender.String(),
-				Recipient: tc.recipient.String(),
-				Nft: internft.NFT{
-					ClassId: tc.classID,
-					Id:      tc.nftID,
-				},
-			}
-
-			err := msg.ValidateBasic()
-			require.ErrorIs(t, err, tc.err)
-			if tc.err != nil {
-				return
-			}
-		})
+	tester := func(subject internftv1alpha1.MsgSend) error {
+		return subject.ValidateBasic()
 	}
+
+	doTest(t, modifiers, tester)
 }
 
 func TestMsgNewClass(t *testing.T) {
-	operator := createAddresses(1, "addr")[0]
-	allowedClassID := operator.String()
-	otherClassID := createIDs(1, "class")[0]
-	const traitID = "uri"
-
-	testCases := map[string]struct {
-		operator   sdk.AccAddress
-		classID string
-		traitID string
-		err     error
-	}{
-		"valid msg": {
-			operator:   operator,
-			classID: allowedClassID,
-			traitID: traitID,
+	modifiers := []map[string]func(*internftv1alpha1.MsgNewClass) error{
+		{
+			"valid_operator": func(subject *internftv1alpha1.MsgNewClass) error {
+				subject.Operator = createAddresses(2, "addr")[0].String()
+				return nil
+			},
+			"empty_operator": func(subject *internftv1alpha1.MsgNewClass) error {
+				return sdkerrors.ErrInvalidAddress
+			},
 		},
-		"invalid operator": {
-			traitID: traitID,
-			classID: allowedClassID,
-			err:     sdkerrors.ErrInvalidAddress,
+		{
+			"valid_class_id": func(subject *internftv1alpha1.MsgNewClass) error {
+				subject.Class.Id = createAddresses(2, "addr")[0].String()
+				return nil
+			},
+			"empty_class_id": func(subject *internftv1alpha1.MsgNewClass) error {
+				return internftv1alpha1.ErrInvalidClassID
+			},
+			"unauthorized_class_id": func(subject *internftv1alpha1.MsgNewClass) error {
+				subject.Class.Id = createAddresses(2, "addr")[1].String()
+				return sdkerrors.ErrUnauthorized
+			},
 		},
-		"invalid class id": {
-			operator: operator,
-			traitID: traitID,
-			err:   internft.ErrInvalidClassID,
-		},
-		"invalid trait id": {
-			operator: operator,
-			classID: allowedClassID,
-			err:   internft.ErrInvalidTraitID,
-		},
-		"unauthorized": {
-			operator:   operator,
-			classID: otherClassID,
-			traitID: traitID,
-			err: sdkerrors.ErrUnauthorized,
+		{
+			"no_trait": func(subject *internftv1alpha1.MsgNewClass) error {
+				return nil
+			},
+			"duplicate_trait": func(subject *internftv1alpha1.MsgNewClass) error {
+				subject.Traits = []internftv1alpha1.Trait{
+					{Id: "color"},
+					{Id: "color", Variable: true},
+				}
+				return sdkerrors.ErrInvalidRequest
+			},
+			"immutable_trait": func(subject *internftv1alpha1.MsgNewClass) error {
+				subject.Traits = []internftv1alpha1.Trait{
+					{Id: "color"},
+				}
+				return nil
+			},
+			"mutable_trait": func(subject *internftv1alpha1.MsgNewClass) error {
+				subject.Traits = []internftv1alpha1.Trait{
+					{Id: "color", Variable: true},
+				}
+				return nil
+			},
+			"empty_trait_id_immutable_trait": func(subject *internftv1alpha1.MsgNewClass) error {
+				subject.Traits = []internftv1alpha1.Trait{{}}
+				return internftv1alpha1.ErrInvalidTraitID
+			},
+			"empty_trait_id_mutable_trait": func(subject *internftv1alpha1.MsgNewClass) error {
+				subject.Traits = []internftv1alpha1.Trait{
+					{Variable: true},
+				}
+				return internftv1alpha1.ErrInvalidTraitID
+			},
 		},
 	}
-
-	for name, tc := range testCases {
-		t.Run(name, func(t *testing.T) {
-			msg := internft.MsgNewClass{
-				Operator: tc.operator.String(),
-				Class: internft.Class{
-					Id: tc.classID,
-				},
-				Traits: []internft.Trait{
-					{
-						Id: tc.traitID,
-					},
-				},
-			}
-
-			err := msg.ValidateBasic()
-			require.ErrorIs(t, err, tc.err)
-			if tc.err != nil {
-				return
-			}
-		})
+	tester := func(subject internftv1alpha1.MsgNewClass) error {
+		return subject.ValidateBasic()
 	}
+
+	doTest(t, modifiers, tester)
 }
 
 func TestMsgUpdateClass(t *testing.T) {
-	operator := createAddresses(1, "addr")[0]
-	classID := operator.String()
-
-	testCases := map[string]struct {
-		operator sdk.AccAddress
-		classID string
-		err     error
-	}{
-		"valid msg": {
-			operator: operator,
-			classID: classID,
+	modifiers := []map[string]func(*internftv1alpha1.MsgUpdateClass) error{
+		{
+			"valid_operator": func(subject *internftv1alpha1.MsgUpdateClass) error {
+				subject.Operator = createAddresses(2, "addr")[0].String()
+				return nil
+			},
+			"empty_operator": func(subject *internftv1alpha1.MsgUpdateClass) error {
+				return sdkerrors.ErrInvalidAddress
+			},
 		},
-		"invalid opreator": {
-			classID: classID,
-			err: sdkerrors.ErrInvalidAddress,
-		},
-		"invalid class id": {
-			operator: operator,
-			err: internft.ErrInvalidClassID,
+		{
+			"valid_class_id": func(subject *internftv1alpha1.MsgUpdateClass) error {
+				subject.Class.Id = createAddresses(2, "addr")[0].String()
+				return nil
+			},
+			"empty_class_id": func(subject *internftv1alpha1.MsgUpdateClass) error {
+				return internftv1alpha1.ErrInvalidClassID
+			},
+			"unauthorized_class_id": func(subject *internftv1alpha1.MsgUpdateClass) error {
+				subject.Class.Id = createAddresses(2, "addr")[1].String()
+				return sdkerrors.ErrUnauthorized
+			},
 		},
 	}
-
-	for name, tc := range testCases {
-		t.Run(name, func(t *testing.T) {
-			msg := internft.MsgUpdateClass{
-				Operator: tc.operator.String(),
-				Class: internft.Class{
-					Id: tc.classID,
-				},
-			}
-
-			err := msg.ValidateBasic()
-			require.ErrorIs(t, err, tc.err)
-			if tc.err != nil {
-				return
-			}
-		})
+	tester := func(subject internftv1alpha1.MsgUpdateClass) error {
+		return subject.ValidateBasic()
 	}
+
+	doTest(t, modifiers, tester)
 }
 
 func TestMsgMintNFT(t *testing.T) {
-	addrs := createAddresses(2, "addr")
-	operator := addrs[0]
-	recipient := addrs[1]
-	classID := operator.String()
-	nftID := createIDs(1, "nft")[0]
-	const traitID = "uri"
-
-	testCases := map[string]struct {
-		operator sdk.AccAddress
-		recipient sdk.AccAddress
-		classID   string
-		nftID string
-		traitID   string
-		err       error
-	}{
-		"valid msg": {
-			operator: operator,
-			recipient: recipient,
-			classID:   classID,
-			nftID: nftID,
-			traitID:   traitID,
+	modifiers := []map[string]func(*internftv1alpha1.MsgMintNFT) error{
+		{
+			"valid_operator": func(subject *internftv1alpha1.MsgMintNFT) error {
+				subject.Operator = createAddresses(2, "addr")[0].String()
+				return nil
+			},
+			"empty_operator": func(subject *internftv1alpha1.MsgMintNFT) error {
+				return sdkerrors.ErrInvalidAddress
+			},
 		},
-		"invalid class id": {
-			operator: operator,
-			recipient: recipient,
-			nftID: nftID,
-			traitID:   traitID,
-			err:       internft.ErrInvalidClassID,
+		{
+			"valid_recipient": func(subject *internftv1alpha1.MsgMintNFT) error {
+				subject.Recipient = createAddresses(2, "addr")[1].String()
+				return nil
+			},
+			"empty_recipient": func(subject *internftv1alpha1.MsgMintNFT) error {
+				return sdkerrors.ErrInvalidAddress
+			},
 		},
-		"invalid trait id": {
-			operator: operator,
-			classID: classID,
-			nftID: nftID,
-			err:     internft.ErrInvalidTraitID,
+		{
+			"valid_class_id": func(subject *internftv1alpha1.MsgMintNFT) error {
+				subject.Nft.ClassId = createAddresses(2, "addr")[0].String()
+				return nil
+			},
+			"empty_class_id": func(subject *internftv1alpha1.MsgMintNFT) error {
+				return internftv1alpha1.ErrInvalidClassID
+			},
+			"unauthorized_class_id": func(subject *internftv1alpha1.MsgMintNFT) error {
+				subject.Nft.ClassId = createAddresses(2, "addr")[1].String()
+				return sdkerrors.ErrUnauthorized
+			},
 		},
-		"invalid recipient": {
-			operator: operator,
-			classID: classID,
-			nftID: nftID,
-			traitID: traitID,
-			err:     sdkerrors.ErrInvalidAddress,
+		{
+			"valid_nft_id": func(subject *internftv1alpha1.MsgMintNFT) error {
+				subject.Nft.Id = createIDs(1, "nft")[0]
+				return nil
+			},
+			"empty_nft_id": func(subject *internftv1alpha1.MsgMintNFT) error {
+				return internftv1alpha1.ErrInvalidNFTID
+			},
+		},
+		{
+			"no_property": func(subject *internftv1alpha1.MsgMintNFT) error {
+				return nil
+			},
+			"duplicate_property": func(subject *internftv1alpha1.MsgMintNFT) error {
+				subject.Properties = []internftv1alpha1.Property{
+					{Id: "color"},
+					{Id: "color", Fact: "black"},
+				}
+				return sdkerrors.ErrInvalidRequest
+			},
+			"empty_trait_id_empty_fact": func(subject *internftv1alpha1.MsgMintNFT) error {
+				subject.Properties = []internftv1alpha1.Property{{}}
+				return internftv1alpha1.ErrInvalidTraitID
+			},
+			"empty_trait_id_nonempty_fact": func(subject *internftv1alpha1.MsgMintNFT) error {
+				subject.Properties = []internftv1alpha1.Property{
+					{Fact: "black"},
+				}
+				return internftv1alpha1.ErrInvalidTraitID
+			},
 		},
 	}
-
-	for name, tc := range testCases {
-		t.Run(name, func(t *testing.T) {
-			msg := internft.MsgMintNFT{
-				Operator: tc.operator.String(),
-				Recipient: tc.recipient.String(),
-				Nft: internft.NFT{
-					ClassId: tc.classID,
-					Id: tc.nftID,
-				},
-				Properties: []internft.Property{
-					{
-						Id: tc.traitID,
-					},
-				},
-			}
-
-			err := msg.ValidateBasic()
-			require.ErrorIs(t, err, tc.err)
-			if tc.err != nil {
-				return
-			}
-		})
+	tester := func(subject internftv1alpha1.MsgMintNFT) error {
+		return subject.ValidateBasic()
 	}
+
+	doTest(t, modifiers, tester)
 }
 
 func TestMsgBurnNFT(t *testing.T) {
-	addr := createAddresses(1, "addr")[0]
-	classID := createIDs(1, "class")[0]
-	nftID := createIDs(1, "nft")[0]
-
-	testCases := map[string]struct {
-		owner   sdk.AccAddress
-		classID string
-		nftID string
-		err     error
-	}{
-		"valid msg": {
-			owner:   addr,
-			classID: classID,
-			nftID: nftID,
+	modifiers := []map[string]func(*internftv1alpha1.MsgBurnNFT) error{
+		{
+			"valid_owner": func(subject *internftv1alpha1.MsgBurnNFT) error {
+				subject.Owner = createAddresses(1, "addr")[0].String()
+				return nil
+			},
+			"empty_owner": func(subject *internftv1alpha1.MsgBurnNFT) error {
+				return sdkerrors.ErrInvalidAddress
+			},
 		},
-		"invalid owner": {
-			classID: classID,
-			nftID: nftID,
-			err:     sdkerrors.ErrInvalidAddress,
+		{
+			"valid_class_id": func(subject *internftv1alpha1.MsgBurnNFT) error {
+				subject.Nft.ClassId = createIDs(1, "class")[0]
+				return nil
+			},
+			"empty_class_id": func(subject *internftv1alpha1.MsgBurnNFT) error {
+				return internftv1alpha1.ErrInvalidClassID
+			},
 		},
-		"invalid class id": {
-			owner: addr,
-			nftID: nftID,
-			err:   internft.ErrInvalidClassID,
+		{
+			"valid_nft_id": func(subject *internftv1alpha1.MsgBurnNFT) error {
+				subject.Nft.Id = createIDs(1, "nft")[0]
+				return nil
+			},
+			"empty_nft_id": func(subject *internftv1alpha1.MsgBurnNFT) error {
+				return internftv1alpha1.ErrInvalidNFTID
+			},
 		},
 	}
-
-	for name, tc := range testCases {
-		t.Run(name, func(t *testing.T) {
-			msg := internft.MsgBurnNFT{
-				Owner: tc.owner.String(),
-				Nft: internft.NFT{
-					ClassId: tc.classID,
-					Id:      tc.nftID,
-				},
-			}
-
-			err := msg.ValidateBasic()
-			require.ErrorIs(t, err, tc.err)
-			if tc.err != nil {
-				return
-			}
-		})
+	tester := func(subject internftv1alpha1.MsgBurnNFT) error {
+		return subject.ValidateBasic()
 	}
+
+	doTest(t, modifiers, tester)
 }
 
 func TestMsgUpdateNFT(t *testing.T) {
-	classID := createIDs(1, "class")[0]
-	nftID := createIDs(1, "nft")[0]
-	traitID := "uri"
-
-	testCases := map[string]struct {
-		classID  string
-		nftID string
-		traitIDs []string
-		err      error
-	}{
-		"valid msg": {
-			classID: classID,
-			nftID: nftID,
-			traitIDs: []string{
-				traitID,
+	modifiers := []map[string]func(*internftv1alpha1.MsgUpdateNFT) error{
+		{
+			"valid_owner": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				subject.Owner = createAddresses(1, "addr")[0].String()
+				return nil
+			},
+			"empty_owner": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				return sdkerrors.ErrInvalidAddress
 			},
 		},
-		"invalid class id": {
-			nftID: nftID,
-			traitIDs: []string{
-				traitID,
+		{
+			"valid_class_id": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				subject.Nft.ClassId = createIDs(1, "class")[0]
+				return nil
 			},
-			err: internft.ErrInvalidClassID,
-		},
-		"empty properties": {
-			classID: classID,
-			nftID: nftID,
-			err:     sdkerrors.ErrInvalidRequest,
-		},
-		"invalid trait id": {
-			classID: classID,
-			nftID: nftID,
-			traitIDs: []string{
-				"",
+			"empty_class_id": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				return internftv1alpha1.ErrInvalidClassID
 			},
-			err: internft.ErrInvalidTraitID,
 		},
-	}
-
-	for name, tc := range testCases {
-		t.Run(name, func(t *testing.T) {
-			properties := make([]internft.Property, len(tc.traitIDs))
-			for i, id := range tc.traitIDs {
-				properties[i] = internft.Property{
-					Id: id,
+		{
+			"valid_nft_id": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				subject.Nft.Id = createIDs(1, "nft")[0]
+				return nil
+			},
+			"empty_nft_id": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				return internftv1alpha1.ErrInvalidNFTID
+			},
+		},
+		{
+			"no_property": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				return sdkerrors.ErrInvalidRequest
+			},
+			"duplicate_property": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				subject.Properties = []internftv1alpha1.Property{
+					{Id: "color"},
+					{Id: "color", Fact: "black"},
 				}
-			}
-
-			msg := internft.MsgUpdateNFT{
-				Nft: internft.NFT{
-					ClassId: tc.classID,
-					Id:      tc.nftID,
-				},
-				Properties: properties,
-			}
-
-			err := msg.ValidateBasic()
-			require.ErrorIs(t, err, tc.err)
-			if tc.err != nil {
-				return
-			}
-		})
+				return sdkerrors.ErrInvalidRequest
+			},
+			"empty_trait_id_empty_fact": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				subject.Properties = []internftv1alpha1.Property{{}}
+				return internftv1alpha1.ErrInvalidTraitID
+			},
+			"empty_trait_id_nonempty_fact": func(subject *internftv1alpha1.MsgUpdateNFT) error {
+				subject.Properties = []internftv1alpha1.Property{
+					{Fact: "black"},
+				}
+				return internftv1alpha1.ErrInvalidTraitID
+			},
+		},
 	}
+	tester := func(subject internftv1alpha1.MsgUpdateNFT) error {
+		return subject.ValidateBasic()
+	}
+
+	doTest(t, modifiers, tester)
 }
