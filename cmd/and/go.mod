@@ -3,13 +3,13 @@ module github.com/0tech/andromeda/cmd/and
 go 1.21
 
 require (
-	cosmossdk.io/api v0.7.1
-	cosmossdk.io/client/v2 v2.0.0-20230925151519-64e0e8980834
+	cosmossdk.io/api v0.7.2
+	cosmossdk.io/client/v2 v2.0.0-20231103103049-f73a17f75727
 	cosmossdk.io/core v0.11.0
 	cosmossdk.io/depinject v1.0.0-alpha.4
 	cosmossdk.io/log v1.2.1
-	cosmossdk.io/math v1.1.3-rc.1
-	cosmossdk.io/store v1.0.0-rc.0
+	cosmossdk.io/math v1.2.0
+	cosmossdk.io/store v1.0.0
 	cosmossdk.io/tools/confix v0.0.0-20230925151519-64e0e8980834
 	cosmossdk.io/x/circuit v0.0.0-20230925151519-64e0e8980834
 	cosmossdk.io/x/evidence v0.0.0-20230925151519-64e0e8980834
