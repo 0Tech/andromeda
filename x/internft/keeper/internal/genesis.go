@@ -106,7 +106,7 @@ func (k Keeper) getNFTsOfClass(ctx context.Context, classID string) (nfts []inte
 }
 
 func (k Keeper) getPropertiesOfNFT(ctx context.Context, nft internftv1alpha1.NFT) (properties []internftv1alpha1.Property) {
-	k.iteratePropertiesOfClass(ctx, nft, func(property internftv1alpha1.Property) {
+	k.iteratePropertiesOfNFT(ctx, nft, func(property internftv1alpha1.Property) {
 		properties = append(properties, property)
 	})
 

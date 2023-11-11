@@ -165,7 +165,7 @@ func (k Keeper) setProperty(ctx context.Context, nft internftv1alpha1.NFT, prope
 	}
 }
 
-func (k Keeper) iteratePropertiesOfClass(ctx context.Context, nft internftv1alpha1.NFT, fn func(property internftv1alpha1.Property)) {
+func (k Keeper) iteratePropertiesOfNFT(ctx context.Context, nft internftv1alpha1.NFT, fn func(property internftv1alpha1.Property)) {
 	rng := collections.NewSuperPrefixedTripleRange[string, string, string](nft.ClassId, nft.Id)
 	iter, err := k.properties.Iterate(ctx, rng)
 	if err != nil {
@@ -193,6 +193,8 @@ func (k Keeper) BurnNFT(ctx context.Context, owner sdk.AccAddress, nft internftv
 		panic(err)
 	}
 	k.deleteNFT(ctx, nft)
+
+	k.properties.Clear(ctx, collections.NewSuperPrefixedTripleRange[string, string, string](nft.ClassId, nft.Id))
 
 	return nil
 }

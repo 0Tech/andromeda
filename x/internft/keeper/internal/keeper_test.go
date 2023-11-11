@@ -1,8 +1,10 @@
 package internal_test
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -22,6 +24,7 @@ import (
 	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 	keeper "github.com/0tech/andromeda/x/internft/keeper/internal"
 	"github.com/0tech/andromeda/x/internft/module"
+	internfttestutil "github.com/0tech/andromeda/x/internft/testutil"
 )
 
 type KeeperTestSuite struct {
@@ -73,6 +76,60 @@ func randomString(size int) string {
 	}
 
 	return string(res)
+}
+
+type Case[T any] struct {
+	malleate func(*T)
+	err func() error
+}
+
+func doTest[T any](
+	s *KeeperTestSuite,
+	tester func(T) error,
+	cases []map[string]Case[T]) {
+	for iter := internfttestutil.NewCaseIterator(cases); iter.Valid(); iter.Next() {
+		names := iter.Key()
+
+		var subject T
+		var errs []error
+		for i, name := range names {
+			c := cases[i][name]
+
+			if malleate := c.malleate; malleate != nil {
+				malleate(&subject)
+			}
+			if errGen := c.err; errGen != nil {
+				if err := errGen(); err != nil {
+					errs = append(errs, err)
+				}
+			}
+		}
+
+		testName := func(names []string) string {
+			display := make([]string, 0, len(names))
+			for _, name := range names {
+				if len(name) != 0 {
+					display = append(display, name)
+				}
+			}
+			return strings.Join(display, ",")
+		}
+		s.Run(testName(names), func() {
+			err := tester(subject)
+			if len(errs) != 0 {
+				s.Error(err)
+
+				for _, candidate := range errs {
+					if errors.Is(err, candidate) {
+						return
+					}
+				}
+				s.FailNow("unexpected error", err)
+			} else {
+				s.NoError(err)
+			}
+		})
+	}
 }
 
 func (s *KeeperTestSuite) SetupTest() {

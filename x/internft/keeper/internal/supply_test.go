@@ -1,243 +1,544 @@
 package internal_test
 
 import (
+	"fmt"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
 func (s *KeeperTestSuite) TestNewClass() {
-	testCases := map[string]struct {
-		classID string
-		err     error
-	}{
-		"valid request": {
-			classID: s.customer.String(),
-		},
-		"class already exists": {
-			classID: s.vendor.String(),
-			err:     internftv1alpha1.ErrClassAlreadyExists,
-		},
+	type newClass struct {
+		class internftv1alpha1.Class
+		traits []internftv1alpha1.Trait
 	}
 
-	for name, tc := range testCases {
-		s.Run(name, func() {
-			ctx, _ := s.ctx.CacheContext()
+	tester := func(subject newClass) error {
+		s.Assert().NoError(subject.class.ValidateBasic())
+		s.Assert().NoError(internftv1alpha1.Traits(subject.traits).ValidateBasic())
 
-			class := internftv1alpha1.Class{
-				Id: tc.classID,
-			}
-			err := class.ValidateBasic()
-			s.Assert().NoError(err)
+		ctx, _ := s.ctx.CacheContext()
+		err := s.keeper.NewClass(ctx, subject.class, subject.traits)
+		if err != nil {
+			return err
+		}
 
-			traits := []internftv1alpha1.Trait{
-				{
-					Id: "uri",
+		classBefore, err := s.keeper.GetClass(s.ctx, subject.class.Id)
+		s.Assert().Error(err)
+		s.Assert().Nil(classBefore)
+		for _, trait := range subject.traits {
+			traitBefore, err := s.keeper.GetTrait(s.ctx, subject.class.Id, trait.Id)
+			s.Assert().Error(err, trait.Id)
+			s.Assert().Nil(traitBefore, trait.Id)
+		}
+
+		classAfter, err := s.keeper.GetClass(ctx, subject.class.Id)
+		s.Require().NoError(err)
+		s.Require().NotNil(classAfter)
+		s.Require().Equal(subject.class, *classAfter)
+		for _, trait := range subject.traits {
+			traitAfter, err := s.keeper.GetTrait(ctx, subject.class.Id, trait.Id)
+			s.Require().NoError(err, trait.Id)
+			s.Require().NotNil(traitAfter, trait.Id)
+			s.Require().Equal(trait, *traitAfter, trait.Id)
+		}
+
+		return nil
+	}
+	cases := []map[string]Case[newClass]{
+		{
+			"class not found": {
+				malleate: func(subject *newClass) {
+					subject.class = internftv1alpha1.Class{
+						Id: s.customer.String(),
+					}
 				},
-			}
-
-			err = s.keeper.NewClass(ctx, class, traits)
-			s.Require().ErrorIs(err, tc.err)
-			if err != nil {
-				return
-			}
-
-			got, err := s.keeper.GetClass(ctx, tc.classID)
-			s.Require().NoError(err)
-			s.Require().NotNil(got)
-			s.Require().Equal(class, *got)
-		})
+			},
+			"class already exists": {
+				malleate: func(subject *newClass) {
+					subject.class = internftv1alpha1.Class{
+						Id: s.vendor.String(),
+					}
+				},
+				err: func() error {
+					return internftv1alpha1.ErrClassAlreadyExists
+				},
+			},
+		},
 	}
+	for i := 0; i < 4; i++ {
+		traitID := fmt.Sprintf("trait%02d", i)
+
+		added := false
+		cases = append(cases, []map[string]Case[newClass]{
+			{
+				"no trait": {
+					malleate: func(subject *newClass) {
+						added = false
+					},
+				},
+				"add trait": {
+					malleate: func(subject *newClass) {
+						added = true
+						subject.traits = append(subject.traits, internftv1alpha1.Trait{
+							Id: traitID,
+						})
+					},
+				},
+			},
+			{
+				"immutable": {
+				},
+				"mutable": {
+					malleate: func(subject *newClass) {
+						if added {
+							subject.traits[len(subject.traits) - 1].Variable = true
+						}
+					},
+				},
+			},
+		}...)
+	}
+
+	doTest(s, tester, cases)
 }
 
 func (s *KeeperTestSuite) TestUpdateClass() {
-	testCases := map[string]struct {
-		classID string
-		err     error
-	}{
-		"valid request": {
-			classID: s.vendor.String(),
-		},
-		"class not found": {
-			classID: s.customer.String(),
-			err:     internftv1alpha1.ErrClassNotFound,
+	type updateClass struct {
+		class internftv1alpha1.Class
+	}
+
+	tester := func(subject updateClass) error {
+		s.Assert().NoError(subject.class.ValidateBasic())
+
+		ctx, _ := s.ctx.CacheContext()
+		err := s.keeper.UpdateClass(ctx, subject.class)
+		if err != nil {
+			return err
+		}
+
+		classBefore, err := s.keeper.GetClass(s.ctx, subject.class.Id)
+		s.Assert().NoError(err)
+		s.Assert().NotNil(classBefore)
+		s.Assert().Equal(subject.class, *classBefore)
+
+		classAfter, err := s.keeper.GetClass(ctx, subject.class.Id)
+		s.Require().NoError(err)
+		s.Require().NotNil(classAfter)
+		s.Require().Equal(subject.class, *classAfter)
+
+		return nil
+	}
+	cases := []map[string]Case[updateClass]{
+		{
+			"class exists": {
+				malleate: func(subject *updateClass) {
+					subject.class = internftv1alpha1.Class{
+						Id: s.vendor.String(),
+					}
+				},
+			},
+			"class not found": {
+				malleate: func(subject *updateClass) {
+					subject.class = internftv1alpha1.Class{
+						Id: s.customer.String(),
+					}
+				},
+				err: func() error {
+					return internftv1alpha1.ErrClassNotFound
+				},
+			},
 		},
 	}
 
-	for name, tc := range testCases {
-		s.Run(name, func() {
-			ctx, _ := s.ctx.CacheContext()
-
-			class := internftv1alpha1.Class{
-				Id: tc.classID,
-			}
-			err := class.ValidateBasic()
-			s.Assert().NoError(err)
-
-			err = s.keeper.UpdateClass(ctx, class)
-			s.Require().ErrorIs(err, tc.err)
-			if err != nil {
-				return
-			}
-
-			got, err := s.keeper.GetClass(ctx, tc.classID)
-			s.Require().NoError(err)
-			s.Require().NotNil(got)
-			s.Require().Equal(class, *got)
-		})
-	}
+	doTest(s, tester, cases)
 }
 
 func (s *KeeperTestSuite) TestMintNFT() {
-	testCases := map[string]struct {
-		classID    string
-		propertyID string
-		err        error
-	}{
-		"valid request": {
-			classID:    s.vendor.String(),
-			propertyID: s.immutableTraitID,
-		},
-		"class not found": {
-			classID:    s.customer.String(),
-			propertyID: s.immutableTraitID,
-			err:        internftv1alpha1.ErrClassNotFound,
-		},
-		"trait not found": {
-			classID:    s.vendor.String(),
-			propertyID: "no-such-a-trait",
-			err:        internftv1alpha1.ErrTraitNotFound,
-		},
+	type mintNFT struct {
+		owner sdk.AccAddress
+		nft internftv1alpha1.NFT
+		properties []internftv1alpha1.Property
 	}
 
-	for name, tc := range testCases {
-		s.Run(name, func() {
-			ctx, _ := s.ctx.CacheContext()
+	tester := func(subject mintNFT) error {
+		s.Assert().NoError(subject.nft.ValidateBasic())
+		s.Assert().NoError(internftv1alpha1.Properties(subject.properties).ValidateBasic())
 
-			err := internftv1alpha1.ValidateClassID(tc.classID)
-			s.Assert().NoError(err)
+		ctx, _ := s.ctx.CacheContext()
+		err := s.keeper.MintNFT(ctx, subject.owner, subject.nft, subject.properties)
+		if err != nil {
+			return err
+		}
 
-			nft := internftv1alpha1.NFT{
-				ClassId: tc.classID,
-				Id: s.nftIDs[s.stranger.String()],
-			}
-			properties := []internftv1alpha1.Property{
-				{
-					Id:   tc.propertyID,
-					Fact: randomString(32),
+		classBefore, err := s.keeper.GetClass(s.ctx, subject.nft.ClassId)
+		s.Assert().NoError(err)
+		s.Assert().NotNil(classBefore)
+		s.Assert().Equal(subject.nft.ClassId, classBefore.Id)
+		nftBefore, err := s.keeper.GetNFT(s.ctx, subject.nft)
+		s.Assert().Error(err)
+		s.Assert().Nil(nftBefore)
+		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.nft)
+		s.Assert().Error(err)
+		s.Assert().Nil(ownerBefore)
+		for _, property := range subject.properties {
+			propertyBefore, err := s.keeper.GetProperty(s.ctx, subject.nft, property.Id)
+			s.Assert().Error(err, property.Id)
+			s.Assert().Nil(propertyBefore, property.Id)
+		}
+
+		classAfter, err := s.keeper.GetClass(ctx, subject.nft.ClassId)
+		s.Require().NoError(err)
+		s.Require().NotNil(classAfter)
+		s.Require().Equal(subject.nft.ClassId, classAfter.Id)
+		nftAfter, err := s.keeper.GetNFT(ctx, subject.nft)
+		s.Require().NoError(err)
+		s.Require().NotNil(nftAfter)
+		s.Require().Equal(subject.nft, *nftAfter)
+		ownerAfter, err := s.keeper.GetOwner(ctx, subject.nft)
+		s.Require().NoError(err)
+		s.Require().NotNil(ownerAfter)
+		s.Require().Equal(subject.owner, *ownerAfter)
+		for _, property := range subject.properties {
+			propertyAfter, err := s.keeper.GetProperty(ctx, subject.nft, property.Id)
+			s.Require().NoError(err, property.Id)
+			s.Require().NotNil(propertyAfter, property.Id)
+			s.Require().Equal(property, *propertyAfter, property.Id)
+		}
+
+		return nil
+	}
+	cases := []map[string]Case[mintNFT]{
+		{
+			"for operator": {
+				malleate: func(subject *mintNFT) {
+					subject.owner = s.vendor
 				},
-			}
-			err = internftv1alpha1.Properties(properties).ValidateBasic()
-			s.Assert().NoError(err)
-
-			err = s.keeper.MintNFT(ctx, s.vendor, nft, properties)
-			s.Require().ErrorIs(err, tc.err)
-			if err != nil {
-				return
-			}
-
-			_, err = s.keeper.GetNFT(ctx, nft)
-			s.Require().NoError(err)
-
-			got, err := s.keeper.GetProperty(ctx, nft, tc.propertyID)
-			s.Require().NoError(err)
-			s.Require().NotNil(got)
-			s.Require().Equal(properties[0], *got)
-		})
+			},
+			"not for operator": {
+				malleate: func(subject *mintNFT) {
+					subject.owner = s.stranger
+				},
+			},
+		},
+		{
+			"class exists": {
+				malleate: func(subject *mintNFT) {
+					subject.nft.ClassId = s.vendor.String()
+				},
+			},
+			"class not found": {
+				malleate: func(subject *mintNFT) {
+					subject.nft.ClassId = s.stranger.String()
+				},
+				err: func() error {
+					return internftv1alpha1.ErrClassNotFound
+				},
+			},
+		},
+		{
+			"nft not found": {
+				malleate: func(subject *mintNFT) {
+					subject.nft.Id = s.nftIDs[s.stranger.String()]
+				},
+			},
+			"nft already exists": {
+				malleate: func(subject *mintNFT) {
+					subject.nft.Id = s.nftIDs[s.customer.String()]
+				},
+				err: func() error {
+					return sdkerrors.ErrInvalidRequest
+				},
+			},
+		},
 	}
+	for i, traitID := range []string{
+		s.immutableTraitID,
+		s.mutableTraitID,
+	}{
+		traitID := traitID
+		fact := fmt.Sprintf("fact%02d", i)
+
+		added := false
+		cases = append(cases, []map[string]Case[mintNFT]{
+			{
+				"no property": {
+					malleate: func(subject *mintNFT) {
+						added = false
+					},
+				},
+				"add property": {
+					malleate: func(subject *mintNFT) {
+						added = true
+						subject.properties = append(subject.properties, internftv1alpha1.Property{
+							Id: traitID,
+						})
+					},
+				},
+			},
+			{
+				"with no fact": {
+				},
+				"with fact": {
+					malleate: func(subject *mintNFT) {
+						if added {
+							subject.properties[len(subject.properties) - 1].Fact = fact
+						}
+					},
+				},
+			},
+		}...)
+	}
+
+	doTest(s, tester, cases)
 }
 
 func (s *KeeperTestSuite) TestBurnNFT() {
-	testCases := map[string]struct {
-		nftID string
-		err error
-	}{
-		"valid request": {
-			nftID: s.nftIDs[s.vendor.String()],
+	type burnNFT struct {
+		owner sdk.AccAddress
+		nft internftv1alpha1.NFT
+	}
+
+	tester := func(subject burnNFT) error {
+		s.Assert().NoError(subject.nft.ValidateBasic())
+
+		ctx, _ := s.ctx.CacheContext()
+		err := s.keeper.BurnNFT(ctx, subject.owner, subject.nft)
+		if err != nil {
+			return err
+		}
+
+		classBefore, err := s.keeper.GetClass(s.ctx, subject.nft.ClassId)
+		s.Assert().NoError(err)
+		s.Assert().NotNil(classBefore)
+		s.Assert().Equal(subject.nft.ClassId, classBefore.Id)
+		nftBefore, err := s.keeper.GetNFT(s.ctx, subject.nft)
+		s.Assert().NoError(err)
+		s.Assert().NotNil(nftBefore)
+		s.Assert().Equal(subject.nft, *nftBefore)
+		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.nft)
+		s.Assert().NoError(err)
+		s.Assert().NotNil(ownerBefore)
+		s.Assert().Equal(subject.owner, *ownerBefore)
+		for _, traitID := range []string{
+			s.immutableTraitID,
+			s.mutableTraitID,
+		}{
+			propertyBefore, err := s.keeper.GetProperty(s.ctx, subject.nft, traitID)
+			s.Assert().NoError(err, traitID)
+			s.Assert().NotNil(propertyBefore, traitID)
+		}
+
+		classAfter, err := s.keeper.GetClass(ctx, subject.nft.ClassId)
+		s.Require().NoError(err)
+		s.Require().NotNil(classAfter)
+		s.Require().Equal(subject.nft.ClassId, classAfter.Id)
+		nftAfter, err := s.keeper.GetNFT(ctx, subject.nft)
+		s.Require().Error(err)
+		s.Require().Nil(nftAfter)
+		ownerAfter, err := s.keeper.GetOwner(ctx, subject.nft)
+		s.Require().Error(err)
+		s.Require().Nil(ownerAfter)
+		for _, traitID := range []string{
+			s.immutableTraitID,
+			s.mutableTraitID,
+		}{
+			propertyAfter, err := s.keeper.GetProperty(ctx, subject.nft, traitID)
+			s.Require().Error(err, traitID)
+			s.Require().Nil(propertyAfter, traitID)
+		}
+
+		return nil
+	}
+	cases := []map[string]Case[burnNFT]{
+		{
+			"by owner": {
+				malleate: func(subject *burnNFT) {
+					subject.owner = s.customer
+				},
+			},
+			"by operator": {
+				malleate: func(subject *burnNFT) {
+					subject.owner = s.vendor
+				},
+				err: func() error {
+					return internftv1alpha1.ErrInsufficientNFT
+				},
+			},
+			"by other": {
+				malleate: func(subject *burnNFT) {
+					subject.owner = s.stranger
+				},
+				err: func() error {
+					return internftv1alpha1.ErrInsufficientNFT
+				},
+			},
 		},
-		"insufficient nft": {
-			nftID:  s.nftIDs[s.stranger.String()],
-			err: internftv1alpha1.ErrInsufficientNFT,
+		{
+			"class exists": {
+				malleate: func(subject *burnNFT) {
+					subject.nft.ClassId = s.vendor.String()
+				},
+			},
+			"class not found": {
+				malleate: func(subject *burnNFT) {
+					subject.nft.ClassId = s.stranger.String()
+				},
+				err: func() error {
+					return internftv1alpha1.ErrInsufficientNFT
+				},
+			},
+		},
+		{
+			"nft exists": {
+				malleate: func(subject *burnNFT) {
+					subject.nft.Id = s.nftIDs[s.customer.String()]
+				},
+			},
+			"nft not found": {
+				malleate: func(subject *burnNFT) {
+					subject.nft.Id = s.nftIDs[s.stranger.String()]
+				},
+				err: func() error {
+					return internftv1alpha1.ErrInsufficientNFT
+				},
+			},
 		},
 	}
 
-	for name, tc := range testCases {
-		s.Run(name, func() {
-			ctx, _ := s.ctx.CacheContext()
-
-			nft := internftv1alpha1.NFT{
-				ClassId: s.vendor.String(),
-				Id:      tc.nftID,
-			}
-			err := nft.ValidateBasic()
-			s.Assert().NoError(err)
-
-			err = s.keeper.BurnNFT(ctx, s.vendor, nft)
-			s.Require().ErrorIs(err, tc.err)
-			if err != nil {
-				return
-			}
-
-			got, err := s.keeper.GetNFT(ctx, nft)
-			s.Require().Error(err)
-			s.Require().Nil(got)
-		})
-	}
+	doTest(s, tester, cases)
 }
 
 func (s *KeeperTestSuite) TestUpdateNFT() {
-	testCases := map[string]struct {
-		nftID string
-		propertyID string
-		err        error
+	type updateNFT struct {
+		nft internftv1alpha1.NFT
+		properties []internftv1alpha1.Property
+	}
+
+	tester := func(subject updateNFT) error {
+		s.Assert().NoError(subject.nft.ValidateBasic())
+		s.Assert().NoError(internftv1alpha1.Properties(subject.properties).ValidateBasic())
+
+		ctx, _ := s.ctx.CacheContext()
+		err := s.keeper.UpdateNFT(ctx, subject.nft, subject.properties)
+		if err != nil {
+			return err
+		}
+
+		classBefore, err := s.keeper.GetClass(s.ctx, subject.nft.ClassId)
+		s.Assert().NoError(err)
+		s.Assert().NotNil(classBefore)
+		s.Assert().Equal(subject.nft.ClassId, classBefore.Id)
+		nftBefore, err := s.keeper.GetNFT(s.ctx, subject.nft)
+		s.Assert().NoError(err)
+		s.Assert().NotNil(nftBefore)
+		s.Assert().Equal(subject.nft, *nftBefore)
+		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.nft)
+		s.Assert().NoError(err)
+		s.Assert().NotNil(ownerBefore)
+		for _, property := range subject.properties {
+			propertyBefore, err := s.keeper.GetProperty(s.ctx, subject.nft, property.Id)
+			s.Assert().NoError(err, property.Id)
+			s.Assert().NotNil(propertyBefore, property.Id)
+		}
+
+		classAfter, err := s.keeper.GetClass(ctx, subject.nft.ClassId)
+		s.Require().NoError(err)
+		s.Require().NotNil(classAfter)
+		s.Require().Equal(subject.nft.ClassId, classAfter.Id)
+		nftAfter, err := s.keeper.GetNFT(ctx, subject.nft)
+		s.Require().NoError(err)
+		s.Require().NotNil(nftAfter)
+		s.Require().Equal(subject.nft, *nftAfter)
+		ownerAfter, err := s.keeper.GetOwner(ctx, subject.nft)
+		s.Require().NoError(err)
+		s.Require().NotNil(ownerAfter)
+		for _, property := range subject.properties {
+			propertyAfter, err := s.keeper.GetProperty(ctx, subject.nft, property.Id)
+			s.Require().NoError(err, property.Id)
+			s.Require().NotNil(propertyAfter, property.Id)
+			s.Require().Equal(property, *propertyAfter, property.Id)
+		}
+
+		return nil
+	}
+	cases := []map[string]Case[updateNFT]{
+		{
+			"class exists": {
+				malleate: func(subject *updateNFT) {
+					subject.nft.ClassId = s.vendor.String()
+				},
+			},
+			"class not found": {
+				malleate: func(subject *updateNFT) {
+					subject.nft.ClassId = s.stranger.String()
+				},
+				err: func() error {
+					return internftv1alpha1.ErrNFTNotFound
+				},
+			},
+		},
+		{
+			"nft exists": {
+				malleate: func(subject *updateNFT) {
+					subject.nft.Id = s.nftIDs[s.customer.String()]
+				},
+			},
+			"nft not found": {
+				malleate: func(subject *updateNFT) {
+					subject.nft.Id = s.nftIDs[s.stranger.String()]
+				},
+				err: func() error {
+					return internftv1alpha1.ErrNFTNotFound
+				},
+			},
+		},
+	}
+	for i, traitID := range []string{
+		s.immutableTraitID,
+		s.mutableTraitID,
 	}{
-		"valid request": {
-			nftID: s.nftIDs[s.vendor.String()],
-			propertyID: s.mutableTraitID,
-		},
-		"nft not found": {
-			nftID: s.nftIDs[s.stranger.String()],
-			propertyID: s.mutableTraitID,
-			err:        internftv1alpha1.ErrNFTNotFound,
-		},
-		"trait not found": {
-			nftID: s.nftIDs[s.vendor.String()],
-			propertyID: "no-such-a-trait",
-			err:        internftv1alpha1.ErrTraitNotFound,
-		},
-		"trait immutable": {
-			nftID: s.nftIDs[s.vendor.String()],
-			propertyID: s.immutableTraitID,
-			err:        internftv1alpha1.ErrTraitImmutable,
-		},
+		traitID := traitID
+		fact := fmt.Sprintf("newfact%02d", i)
+
+		added := false
+		cases = append(cases, []map[string]Case[updateNFT]{
+			{
+				"no property": {
+					malleate: func(subject *updateNFT) {
+						added = false
+					},
+				},
+				"add property": {
+					malleate: func(subject *updateNFT) {
+						added = true
+						subject.properties = append(subject.properties, internftv1alpha1.Property{
+							Id: traitID,
+						})
+					},
+					err: func() error {
+						if traitID == s.immutableTraitID {
+							return internftv1alpha1.ErrTraitImmutable
+						}
+						return nil
+					},
+				},
+			},
+			{
+				"with no fact": {
+				},
+				"with fact": {
+					malleate: func(subject *updateNFT) {
+						if added {
+							subject.properties[len(subject.properties) - 1].Fact = fact
+						}
+					},
+				},
+			},
+		}...)
 	}
 
-	for name, tc := range testCases {
-		s.Run(name, func() {
-			ctx, _ := s.ctx.CacheContext()
-
-			nft := internftv1alpha1.NFT{
-				ClassId: s.vendor.String(),
-				Id:      tc.nftID,
-			}
-			err := nft.ValidateBasic()
-			s.Assert().NoError(err)
-
-			property := internftv1alpha1.Property{
-				Id:   tc.propertyID,
-				Fact: randomString(32),
-			}
-			err = property.ValidateBasic()
-			s.Assert().NoError(err)
-
-			err = s.keeper.UpdateNFT(ctx, nft, []internftv1alpha1.Property{property})
-			s.Require().ErrorIs(err, tc.err)
-			if err != nil {
-				return
-			}
-
-			got, err := s.keeper.GetProperty(ctx, nft, tc.propertyID)
-			s.Require().NoError(err)
-			s.Require().NotNil(got)
-			s.Require().Equal(property, *got)
-		})
-	}
+	doTest(s, tester, cases)
 }
