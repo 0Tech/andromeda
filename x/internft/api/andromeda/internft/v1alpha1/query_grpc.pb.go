@@ -24,8 +24,8 @@ const (
 	Query_Classes_FullMethodName    = "/andromeda.internft.v1alpha1.Query/Classes"
 	Query_Trait_FullMethodName      = "/andromeda.internft.v1alpha1.Query/Trait"
 	Query_Traits_FullMethodName     = "/andromeda.internft.v1alpha1.Query/Traits"
-	Query_NFT_FullMethodName        = "/andromeda.internft.v1alpha1.Query/NFT"
-	Query_NFTs_FullMethodName       = "/andromeda.internft.v1alpha1.Query/NFTs"
+	Query_Token_FullMethodName      = "/andromeda.internft.v1alpha1.Query/Token"
+	Query_Tokens_FullMethodName     = "/andromeda.internft.v1alpha1.Query/Tokens"
 	Query_Property_FullMethodName   = "/andromeda.internft.v1alpha1.Query/Property"
 	Query_Properties_FullMethodName = "/andromeda.internft.v1alpha1.Query/Properties"
 	Query_Owner_FullMethodName      = "/andromeda.internft.v1alpha1.Query/Owner"
@@ -43,17 +43,17 @@ type QueryClient interface {
 	Classes(ctx context.Context, in *QueryClassesRequest, opts ...grpc.CallOption) (*QueryClassesResponse, error)
 	// Trait queries a trait of a class.
 	Trait(ctx context.Context, in *QueryTraitRequest, opts ...grpc.CallOption) (*QueryTraitResponse, error)
-	// Traits queries all traits of a class.
+	// Traits queries all the traits of a class.
 	Traits(ctx context.Context, in *QueryTraitsRequest, opts ...grpc.CallOption) (*QueryTraitsResponse, error)
-	// NFT queries an NFT.
-	NFT(ctx context.Context, in *QueryNFTRequest, opts ...grpc.CallOption) (*QueryNFTResponse, error)
-	// NFTs queries all NFTs.
-	NFTs(ctx context.Context, in *QueryNFTsRequest, opts ...grpc.CallOption) (*QueryNFTsResponse, error)
+	// Token queries a token.
+	Token(ctx context.Context, in *QueryTokenRequest, opts ...grpc.CallOption) (*QueryTokenResponse, error)
+	// Tokens queries all the tokens of a class.
+	Tokens(ctx context.Context, in *QueryTokensRequest, opts ...grpc.CallOption) (*QueryTokensResponse, error)
 	// Property queries a property of a class.
 	Property(ctx context.Context, in *QueryPropertyRequest, opts ...grpc.CallOption) (*QueryPropertyResponse, error)
-	// Properties queries all properties of a class.
+	// Properties queries all the properties of a token.
 	Properties(ctx context.Context, in *QueryPropertiesRequest, opts ...grpc.CallOption) (*QueryPropertiesResponse, error)
-	// Owner queries the owner of an NFT.
+	// Owner queries the owner of a token.
 	Owner(ctx context.Context, in *QueryOwnerRequest, opts ...grpc.CallOption) (*QueryOwnerResponse, error)
 }
 
@@ -110,18 +110,18 @@ func (c *queryClient) Traits(ctx context.Context, in *QueryTraitsRequest, opts .
 	return out, nil
 }
 
-func (c *queryClient) NFT(ctx context.Context, in *QueryNFTRequest, opts ...grpc.CallOption) (*QueryNFTResponse, error) {
-	out := new(QueryNFTResponse)
-	err := c.cc.Invoke(ctx, Query_NFT_FullMethodName, in, out, opts...)
+func (c *queryClient) Token(ctx context.Context, in *QueryTokenRequest, opts ...grpc.CallOption) (*QueryTokenResponse, error) {
+	out := new(QueryTokenResponse)
+	err := c.cc.Invoke(ctx, Query_Token_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) NFTs(ctx context.Context, in *QueryNFTsRequest, opts ...grpc.CallOption) (*QueryNFTsResponse, error) {
-	out := new(QueryNFTsResponse)
-	err := c.cc.Invoke(ctx, Query_NFTs_FullMethodName, in, out, opts...)
+func (c *queryClient) Tokens(ctx context.Context, in *QueryTokensRequest, opts ...grpc.CallOption) (*QueryTokensResponse, error) {
+	out := new(QueryTokensResponse)
+	err := c.cc.Invoke(ctx, Query_Tokens_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -167,17 +167,17 @@ type QueryServer interface {
 	Classes(context.Context, *QueryClassesRequest) (*QueryClassesResponse, error)
 	// Trait queries a trait of a class.
 	Trait(context.Context, *QueryTraitRequest) (*QueryTraitResponse, error)
-	// Traits queries all traits of a class.
+	// Traits queries all the traits of a class.
 	Traits(context.Context, *QueryTraitsRequest) (*QueryTraitsResponse, error)
-	// NFT queries an NFT.
-	NFT(context.Context, *QueryNFTRequest) (*QueryNFTResponse, error)
-	// NFTs queries all NFTs.
-	NFTs(context.Context, *QueryNFTsRequest) (*QueryNFTsResponse, error)
+	// Token queries a token.
+	Token(context.Context, *QueryTokenRequest) (*QueryTokenResponse, error)
+	// Tokens queries all the tokens of a class.
+	Tokens(context.Context, *QueryTokensRequest) (*QueryTokensResponse, error)
 	// Property queries a property of a class.
 	Property(context.Context, *QueryPropertyRequest) (*QueryPropertyResponse, error)
-	// Properties queries all properties of a class.
+	// Properties queries all the properties of a token.
 	Properties(context.Context, *QueryPropertiesRequest) (*QueryPropertiesResponse, error)
-	// Owner queries the owner of an NFT.
+	// Owner queries the owner of a token.
 	Owner(context.Context, *QueryOwnerRequest) (*QueryOwnerResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
@@ -201,11 +201,11 @@ func (UnimplementedQueryServer) Trait(context.Context, *QueryTraitRequest) (*Que
 func (UnimplementedQueryServer) Traits(context.Context, *QueryTraitsRequest) (*QueryTraitsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Traits not implemented")
 }
-func (UnimplementedQueryServer) NFT(context.Context, *QueryNFTRequest) (*QueryNFTResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method NFT not implemented")
+func (UnimplementedQueryServer) Token(context.Context, *QueryTokenRequest) (*QueryTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Token not implemented")
 }
-func (UnimplementedQueryServer) NFTs(context.Context, *QueryNFTsRequest) (*QueryNFTsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method NFTs not implemented")
+func (UnimplementedQueryServer) Tokens(context.Context, *QueryTokensRequest) (*QueryTokensResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Tokens not implemented")
 }
 func (UnimplementedQueryServer) Property(context.Context, *QueryPropertyRequest) (*QueryPropertyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Property not implemented")
@@ -319,38 +319,38 @@ func _Query_Traits_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_NFT_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryNFTRequest)
+func _Query_Token_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryTokenRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).NFT(ctx, in)
+		return srv.(QueryServer).Token(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Query_NFT_FullMethodName,
+		FullMethod: Query_Token_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).NFT(ctx, req.(*QueryNFTRequest))
+		return srv.(QueryServer).Token(ctx, req.(*QueryTokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_NFTs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryNFTsRequest)
+func _Query_Tokens_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryTokensRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).NFTs(ctx, in)
+		return srv.(QueryServer).Tokens(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Query_NFTs_FullMethodName,
+		FullMethod: Query_Tokens_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).NFTs(ctx, req.(*QueryNFTsRequest))
+		return srv.(QueryServer).Tokens(ctx, req.(*QueryTokensRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -437,12 +437,12 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Query_Traits_Handler,
 		},
 		{
-			MethodName: "NFT",
-			Handler:    _Query_NFT_Handler,
+			MethodName: "Token",
+			Handler:    _Query_Token_Handler,
 		},
 		{
-			MethodName: "NFTs",
-			Handler:    _Query_NFTs_Handler,
+			MethodName: "Tokens",
+			Handler:    _Query_Tokens_Handler,
 		},
 		{
 			MethodName: "Property",

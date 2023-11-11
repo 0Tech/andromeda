@@ -641,7 +641,7 @@ func (x *_GenesisClass_2_list) IsValid() bool {
 var _ protoreflect.List = (*_GenesisClass_3_list)(nil)
 
 type _GenesisClass_3_list struct {
-	list *[]*GenesisNFT
+	list *[]*GenesisToken
 }
 
 func (x *_GenesisClass_3_list) Len() int {
@@ -657,18 +657,18 @@ func (x *_GenesisClass_3_list) Get(i int) protoreflect.Value {
 
 func (x *_GenesisClass_3_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*GenesisNFT)
+	concreteValue := valueUnwrapped.Interface().(*GenesisToken)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_GenesisClass_3_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*GenesisNFT)
+	concreteValue := valueUnwrapped.Interface().(*GenesisToken)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_GenesisClass_3_list) AppendMutable() protoreflect.Value {
-	v := new(GenesisNFT)
+	v := new(GenesisToken)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
@@ -681,7 +681,7 @@ func (x *_GenesisClass_3_list) Truncate(n int) {
 }
 
 func (x *_GenesisClass_3_list) NewElement() protoreflect.Value {
-	v := new(GenesisNFT)
+	v := new(GenesisToken)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
@@ -693,7 +693,7 @@ var (
 	md_GenesisClass        protoreflect.MessageDescriptor
 	fd_GenesisClass_id     protoreflect.FieldDescriptor
 	fd_GenesisClass_traits protoreflect.FieldDescriptor
-	fd_GenesisClass_nfts   protoreflect.FieldDescriptor
+	fd_GenesisClass_tokens protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -701,7 +701,7 @@ func init() {
 	md_GenesisClass = File_andromeda_internft_v1alpha1_genesis_proto.Messages().ByName("GenesisClass")
 	fd_GenesisClass_id = md_GenesisClass.Fields().ByName("id")
 	fd_GenesisClass_traits = md_GenesisClass.Fields().ByName("traits")
-	fd_GenesisClass_nfts = md_GenesisClass.Fields().ByName("nfts")
+	fd_GenesisClass_tokens = md_GenesisClass.Fields().ByName("tokens")
 }
 
 var _ protoreflect.Message = (*fastReflection_GenesisClass)(nil)
@@ -781,9 +781,9 @@ func (x *fastReflection_GenesisClass) Range(f func(protoreflect.FieldDescriptor,
 			return
 		}
 	}
-	if len(x.Nfts) != 0 {
-		value := protoreflect.ValueOfList(&_GenesisClass_3_list{list: &x.Nfts})
-		if !f(fd_GenesisClass_nfts, value) {
+	if len(x.Tokens) != 0 {
+		value := protoreflect.ValueOfList(&_GenesisClass_3_list{list: &x.Tokens})
+		if !f(fd_GenesisClass_tokens, value) {
 			return
 		}
 	}
@@ -806,8 +806,8 @@ func (x *fastReflection_GenesisClass) Has(fd protoreflect.FieldDescriptor) bool 
 		return x.Id != ""
 	case "andromeda.internft.v1alpha1.GenesisClass.traits":
 		return len(x.Traits) != 0
-	case "andromeda.internft.v1alpha1.GenesisClass.nfts":
-		return len(x.Nfts) != 0
+	case "andromeda.internft.v1alpha1.GenesisClass.tokens":
+		return len(x.Tokens) != 0
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisClass"))
@@ -828,8 +828,8 @@ func (x *fastReflection_GenesisClass) Clear(fd protoreflect.FieldDescriptor) {
 		x.Id = ""
 	case "andromeda.internft.v1alpha1.GenesisClass.traits":
 		x.Traits = nil
-	case "andromeda.internft.v1alpha1.GenesisClass.nfts":
-		x.Nfts = nil
+	case "andromeda.internft.v1alpha1.GenesisClass.tokens":
+		x.Tokens = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisClass"))
@@ -855,11 +855,11 @@ func (x *fastReflection_GenesisClass) Get(descriptor protoreflect.FieldDescripto
 		}
 		listValue := &_GenesisClass_2_list{list: &x.Traits}
 		return protoreflect.ValueOfList(listValue)
-	case "andromeda.internft.v1alpha1.GenesisClass.nfts":
-		if len(x.Nfts) == 0 {
+	case "andromeda.internft.v1alpha1.GenesisClass.tokens":
+		if len(x.Tokens) == 0 {
 			return protoreflect.ValueOfList(&_GenesisClass_3_list{})
 		}
-		listValue := &_GenesisClass_3_list{list: &x.Nfts}
+		listValue := &_GenesisClass_3_list{list: &x.Tokens}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
@@ -887,10 +887,10 @@ func (x *fastReflection_GenesisClass) Set(fd protoreflect.FieldDescriptor, value
 		lv := value.List()
 		clv := lv.(*_GenesisClass_2_list)
 		x.Traits = *clv.list
-	case "andromeda.internft.v1alpha1.GenesisClass.nfts":
+	case "andromeda.internft.v1alpha1.GenesisClass.tokens":
 		lv := value.List()
 		clv := lv.(*_GenesisClass_3_list)
-		x.Nfts = *clv.list
+		x.Tokens = *clv.list
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisClass"))
@@ -917,11 +917,11 @@ func (x *fastReflection_GenesisClass) Mutable(fd protoreflect.FieldDescriptor) p
 		}
 		value := &_GenesisClass_2_list{list: &x.Traits}
 		return protoreflect.ValueOfList(value)
-	case "andromeda.internft.v1alpha1.GenesisClass.nfts":
-		if x.Nfts == nil {
-			x.Nfts = []*GenesisNFT{}
+	case "andromeda.internft.v1alpha1.GenesisClass.tokens":
+		if x.Tokens == nil {
+			x.Tokens = []*GenesisToken{}
 		}
-		value := &_GenesisClass_3_list{list: &x.Nfts}
+		value := &_GenesisClass_3_list{list: &x.Tokens}
 		return protoreflect.ValueOfList(value)
 	case "andromeda.internft.v1alpha1.GenesisClass.id":
 		panic(fmt.Errorf("field id of message andromeda.internft.v1alpha1.GenesisClass is not mutable"))
@@ -943,8 +943,8 @@ func (x *fastReflection_GenesisClass) NewField(fd protoreflect.FieldDescriptor) 
 	case "andromeda.internft.v1alpha1.GenesisClass.traits":
 		list := []*Trait{}
 		return protoreflect.ValueOfList(&_GenesisClass_2_list{list: &list})
-	case "andromeda.internft.v1alpha1.GenesisClass.nfts":
-		list := []*GenesisNFT{}
+	case "andromeda.internft.v1alpha1.GenesisClass.tokens":
+		list := []*GenesisToken{}
 		return protoreflect.ValueOfList(&_GenesisClass_3_list{list: &list})
 	default:
 		if fd.IsExtension() {
@@ -1025,8 +1025,8 @@ func (x *fastReflection_GenesisClass) ProtoMethods() *protoiface.Methods {
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
-		if len(x.Nfts) > 0 {
-			for _, e := range x.Nfts {
+		if len(x.Tokens) > 0 {
+			for _, e := range x.Tokens {
 				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
@@ -1060,9 +1060,9 @@ func (x *fastReflection_GenesisClass) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.Nfts) > 0 {
-			for iNdEx := len(x.Nfts) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.Nfts[iNdEx])
+		if len(x.Tokens) > 0 {
+			for iNdEx := len(x.Tokens) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Tokens[iNdEx])
 				if err != nil {
 					return protoiface.MarshalOutput{
 						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1216,7 +1216,7 @@ func (x *fastReflection_GenesisClass) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Nfts", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Tokens", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -1243,8 +1243,8 @@ func (x *fastReflection_GenesisClass) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Nfts = append(x.Nfts, &GenesisNFT{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Nfts[len(x.Nfts)-1]); err != nil {
+				x.Tokens = append(x.Tokens, &GenesisToken{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Tokens[len(x.Tokens)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -1283,81 +1283,81 @@ func (x *fastReflection_GenesisClass) ProtoMethods() *protoiface.Methods {
 	}
 }
 
-var _ protoreflect.List = (*_GenesisNFT_2_list)(nil)
+var _ protoreflect.List = (*_GenesisToken_2_list)(nil)
 
-type _GenesisNFT_2_list struct {
+type _GenesisToken_2_list struct {
 	list *[]*Property
 }
 
-func (x *_GenesisNFT_2_list) Len() int {
+func (x *_GenesisToken_2_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_GenesisNFT_2_list) Get(i int) protoreflect.Value {
+func (x *_GenesisToken_2_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_GenesisNFT_2_list) Set(i int, value protoreflect.Value) {
+func (x *_GenesisToken_2_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*Property)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_GenesisNFT_2_list) Append(value protoreflect.Value) {
+func (x *_GenesisToken_2_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*Property)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_GenesisNFT_2_list) AppendMutable() protoreflect.Value {
+func (x *_GenesisToken_2_list) AppendMutable() protoreflect.Value {
 	v := new(Property)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_GenesisNFT_2_list) Truncate(n int) {
+func (x *_GenesisToken_2_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_GenesisNFT_2_list) NewElement() protoreflect.Value {
+func (x *_GenesisToken_2_list) NewElement() protoreflect.Value {
 	v := new(Property)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_GenesisNFT_2_list) IsValid() bool {
+func (x *_GenesisToken_2_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_GenesisNFT            protoreflect.MessageDescriptor
-	fd_GenesisNFT_id         protoreflect.FieldDescriptor
-	fd_GenesisNFT_properties protoreflect.FieldDescriptor
-	fd_GenesisNFT_owner      protoreflect.FieldDescriptor
+	md_GenesisToken            protoreflect.MessageDescriptor
+	fd_GenesisToken_id         protoreflect.FieldDescriptor
+	fd_GenesisToken_properties protoreflect.FieldDescriptor
+	fd_GenesisToken_owner      protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_genesis_proto_init()
-	md_GenesisNFT = File_andromeda_internft_v1alpha1_genesis_proto.Messages().ByName("GenesisNFT")
-	fd_GenesisNFT_id = md_GenesisNFT.Fields().ByName("id")
-	fd_GenesisNFT_properties = md_GenesisNFT.Fields().ByName("properties")
-	fd_GenesisNFT_owner = md_GenesisNFT.Fields().ByName("owner")
+	md_GenesisToken = File_andromeda_internft_v1alpha1_genesis_proto.Messages().ByName("GenesisToken")
+	fd_GenesisToken_id = md_GenesisToken.Fields().ByName("id")
+	fd_GenesisToken_properties = md_GenesisToken.Fields().ByName("properties")
+	fd_GenesisToken_owner = md_GenesisToken.Fields().ByName("owner")
 }
 
-var _ protoreflect.Message = (*fastReflection_GenesisNFT)(nil)
+var _ protoreflect.Message = (*fastReflection_GenesisToken)(nil)
 
-type fastReflection_GenesisNFT GenesisNFT
+type fastReflection_GenesisToken GenesisToken
 
-func (x *GenesisNFT) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_GenesisNFT)(x)
+func (x *GenesisToken) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_GenesisToken)(x)
 }
 
-func (x *GenesisNFT) slowProtoReflect() protoreflect.Message {
+func (x *GenesisToken) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_genesis_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1369,43 +1369,43 @@ func (x *GenesisNFT) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_GenesisNFT_messageType fastReflection_GenesisNFT_messageType
-var _ protoreflect.MessageType = fastReflection_GenesisNFT_messageType{}
+var _fastReflection_GenesisToken_messageType fastReflection_GenesisToken_messageType
+var _ protoreflect.MessageType = fastReflection_GenesisToken_messageType{}
 
-type fastReflection_GenesisNFT_messageType struct{}
+type fastReflection_GenesisToken_messageType struct{}
 
-func (x fastReflection_GenesisNFT_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_GenesisNFT)(nil)
+func (x fastReflection_GenesisToken_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_GenesisToken)(nil)
 }
-func (x fastReflection_GenesisNFT_messageType) New() protoreflect.Message {
-	return new(fastReflection_GenesisNFT)
+func (x fastReflection_GenesisToken_messageType) New() protoreflect.Message {
+	return new(fastReflection_GenesisToken)
 }
-func (x fastReflection_GenesisNFT_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_GenesisNFT
+func (x fastReflection_GenesisToken_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_GenesisToken
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_GenesisNFT) Descriptor() protoreflect.MessageDescriptor {
-	return md_GenesisNFT
+func (x *fastReflection_GenesisToken) Descriptor() protoreflect.MessageDescriptor {
+	return md_GenesisToken
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_GenesisNFT) Type() protoreflect.MessageType {
-	return _fastReflection_GenesisNFT_messageType
+func (x *fastReflection_GenesisToken) Type() protoreflect.MessageType {
+	return _fastReflection_GenesisToken_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_GenesisNFT) New() protoreflect.Message {
-	return new(fastReflection_GenesisNFT)
+func (x *fastReflection_GenesisToken) New() protoreflect.Message {
+	return new(fastReflection_GenesisToken)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_GenesisNFT) Interface() protoreflect.ProtoMessage {
-	return (*GenesisNFT)(x)
+func (x *fastReflection_GenesisToken) Interface() protoreflect.ProtoMessage {
+	return (*GenesisToken)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -1413,22 +1413,22 @@ func (x *fastReflection_GenesisNFT) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_GenesisNFT) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_GenesisToken) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Id != "" {
 		value := protoreflect.ValueOfString(x.Id)
-		if !f(fd_GenesisNFT_id, value) {
+		if !f(fd_GenesisToken_id, value) {
 			return
 		}
 	}
 	if len(x.Properties) != 0 {
-		value := protoreflect.ValueOfList(&_GenesisNFT_2_list{list: &x.Properties})
-		if !f(fd_GenesisNFT_properties, value) {
+		value := protoreflect.ValueOfList(&_GenesisToken_2_list{list: &x.Properties})
+		if !f(fd_GenesisToken_properties, value) {
 			return
 		}
 	}
 	if x.Owner != "" {
 		value := protoreflect.ValueOfString(x.Owner)
-		if !f(fd_GenesisNFT_owner, value) {
+		if !f(fd_GenesisToken_owner, value) {
 			return
 		}
 	}
@@ -1445,19 +1445,19 @@ func (x *fastReflection_GenesisNFT) Range(f func(protoreflect.FieldDescriptor, p
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_GenesisNFT) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_GenesisToken) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.GenesisNFT.id":
+	case "andromeda.internft.v1alpha1.GenesisToken.id":
 		return x.Id != ""
-	case "andromeda.internft.v1alpha1.GenesisNFT.properties":
+	case "andromeda.internft.v1alpha1.GenesisToken.properties":
 		return len(x.Properties) != 0
-	case "andromeda.internft.v1alpha1.GenesisNFT.owner":
+	case "andromeda.internft.v1alpha1.GenesisToken.owner":
 		return x.Owner != ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1467,19 +1467,19 @@ func (x *fastReflection_GenesisNFT) Has(fd protoreflect.FieldDescriptor) bool {
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenesisNFT) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_GenesisToken) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.GenesisNFT.id":
+	case "andromeda.internft.v1alpha1.GenesisToken.id":
 		x.Id = ""
-	case "andromeda.internft.v1alpha1.GenesisNFT.properties":
+	case "andromeda.internft.v1alpha1.GenesisToken.properties":
 		x.Properties = nil
-	case "andromeda.internft.v1alpha1.GenesisNFT.owner":
+	case "andromeda.internft.v1alpha1.GenesisToken.owner":
 		x.Owner = ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1489,25 +1489,25 @@ func (x *fastReflection_GenesisNFT) Clear(fd protoreflect.FieldDescriptor) {
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_GenesisNFT) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_GenesisToken) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.GenesisNFT.id":
+	case "andromeda.internft.v1alpha1.GenesisToken.id":
 		value := x.Id
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.GenesisNFT.properties":
+	case "andromeda.internft.v1alpha1.GenesisToken.properties":
 		if len(x.Properties) == 0 {
-			return protoreflect.ValueOfList(&_GenesisNFT_2_list{})
+			return protoreflect.ValueOfList(&_GenesisToken_2_list{})
 		}
-		listValue := &_GenesisNFT_2_list{list: &x.Properties}
+		listValue := &_GenesisToken_2_list{list: &x.Properties}
 		return protoreflect.ValueOfList(listValue)
-	case "andromeda.internft.v1alpha1.GenesisNFT.owner":
+	case "andromeda.internft.v1alpha1.GenesisToken.owner":
 		value := x.Owner
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisNFT does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisToken does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -1521,21 +1521,21 @@ func (x *fastReflection_GenesisNFT) Get(descriptor protoreflect.FieldDescriptor)
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenesisNFT) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_GenesisToken) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.GenesisNFT.id":
+	case "andromeda.internft.v1alpha1.GenesisToken.id":
 		x.Id = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.GenesisNFT.properties":
+	case "andromeda.internft.v1alpha1.GenesisToken.properties":
 		lv := value.List()
-		clv := lv.(*_GenesisNFT_2_list)
+		clv := lv.(*_GenesisToken_2_list)
 		x.Properties = *clv.list
-	case "andromeda.internft.v1alpha1.GenesisNFT.owner":
+	case "andromeda.internft.v1alpha1.GenesisToken.owner":
 		x.Owner = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1549,53 +1549,53 @@ func (x *fastReflection_GenesisNFT) Set(fd protoreflect.FieldDescriptor, value p
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenesisNFT) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_GenesisToken) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.GenesisNFT.properties":
+	case "andromeda.internft.v1alpha1.GenesisToken.properties":
 		if x.Properties == nil {
 			x.Properties = []*Property{}
 		}
-		value := &_GenesisNFT_2_list{list: &x.Properties}
+		value := &_GenesisToken_2_list{list: &x.Properties}
 		return protoreflect.ValueOfList(value)
-	case "andromeda.internft.v1alpha1.GenesisNFT.id":
-		panic(fmt.Errorf("field id of message andromeda.internft.v1alpha1.GenesisNFT is not mutable"))
-	case "andromeda.internft.v1alpha1.GenesisNFT.owner":
-		panic(fmt.Errorf("field owner of message andromeda.internft.v1alpha1.GenesisNFT is not mutable"))
+	case "andromeda.internft.v1alpha1.GenesisToken.id":
+		panic(fmt.Errorf("field id of message andromeda.internft.v1alpha1.GenesisToken is not mutable"))
+	case "andromeda.internft.v1alpha1.GenesisToken.owner":
+		panic(fmt.Errorf("field owner of message andromeda.internft.v1alpha1.GenesisToken is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_GenesisNFT) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_GenesisToken) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.GenesisNFT.id":
+	case "andromeda.internft.v1alpha1.GenesisToken.id":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.GenesisNFT.properties":
+	case "andromeda.internft.v1alpha1.GenesisToken.properties":
 		list := []*Property{}
-		return protoreflect.ValueOfList(&_GenesisNFT_2_list{list: &list})
-	case "andromeda.internft.v1alpha1.GenesisNFT.owner":
+		return protoreflect.ValueOfList(&_GenesisToken_2_list{list: &list})
+	case "andromeda.internft.v1alpha1.GenesisToken.owner":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.GenesisToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.GenesisToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_GenesisNFT) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_GenesisToken) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.GenesisNFT", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.GenesisToken", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -1603,7 +1603,7 @@ func (x *fastReflection_GenesisNFT) WhichOneof(d protoreflect.OneofDescriptor) p
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_GenesisNFT) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_GenesisToken) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -1614,7 +1614,7 @@ func (x *fastReflection_GenesisNFT) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenesisNFT) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_GenesisToken) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -1626,7 +1626,7 @@ func (x *fastReflection_GenesisNFT) SetUnknown(fields protoreflect.RawFields) {
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_GenesisNFT) IsValid() bool {
+func (x *fastReflection_GenesisToken) IsValid() bool {
 	return x != nil
 }
 
@@ -1636,9 +1636,9 @@ func (x *fastReflection_GenesisNFT) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_GenesisNFT) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_GenesisToken) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*GenesisNFT)
+		x := input.Message.Interface().(*GenesisToken)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1674,7 +1674,7 @@ func (x *fastReflection_GenesisNFT) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*GenesisNFT)
+		x := input.Message.Interface().(*GenesisToken)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1734,7 +1734,7 @@ func (x *fastReflection_GenesisNFT) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*GenesisNFT)
+		x := input.Message.Interface().(*GenesisToken)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1766,10 +1766,10 @@ func (x *fastReflection_GenesisNFT) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: GenesisNFT: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: GenesisToken: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: GenesisNFT: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: GenesisToken: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -1974,8 +1974,8 @@ type GenesisClass struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// the traits of the class
 	Traits []*Trait `protobuf:"bytes,2,rep,name=traits,proto3" json:"traits,omitempty"`
-	// all the NFTs of the class
-	Nfts []*GenesisNFT `protobuf:"bytes,3,rep,name=nfts,proto3" json:"nfts,omitempty"`
+	// all the tokens of the class
+	Tokens []*GenesisToken `protobuf:"bytes,3,rep,name=tokens,proto3" json:"tokens,omitempty"`
 }
 
 func (x *GenesisClass) Reset() {
@@ -2012,29 +2012,29 @@ func (x *GenesisClass) GetTraits() []*Trait {
 	return nil
 }
 
-func (x *GenesisClass) GetNfts() []*GenesisNFT {
+func (x *GenesisClass) GetTokens() []*GenesisToken {
 	if x != nil {
-		return x.Nfts
+		return x.Tokens
 	}
 	return nil
 }
 
-// GenesisNFT defines an NFT and its relevant data.
-type GenesisNFT struct {
+// GenesisToken defines a token and its relevant data.
+type GenesisToken struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// the identifier of the NFT
+	// the identifier of the token
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// the properties of the NFT
+	// the properties of the token
 	Properties []*Property `protobuf:"bytes,2,rep,name=properties,proto3" json:"properties,omitempty"`
-	// the owner of the NFT
+	// the owner of the token
 	Owner string `protobuf:"bytes,3,opt,name=owner,proto3" json:"owner,omitempty"`
 }
 
-func (x *GenesisNFT) Reset() {
-	*x = GenesisNFT{}
+func (x *GenesisToken) Reset() {
+	*x = GenesisToken{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_genesis_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2042,32 +2042,32 @@ func (x *GenesisNFT) Reset() {
 	}
 }
 
-func (x *GenesisNFT) String() string {
+func (x *GenesisToken) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GenesisNFT) ProtoMessage() {}
+func (*GenesisToken) ProtoMessage() {}
 
-// Deprecated: Use GenesisNFT.ProtoReflect.Descriptor instead.
-func (*GenesisNFT) Descriptor() ([]byte, []int) {
+// Deprecated: Use GenesisToken.ProtoReflect.Descriptor instead.
+func (*GenesisToken) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_genesis_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GenesisNFT) GetId() string {
+func (x *GenesisToken) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *GenesisNFT) GetProperties() []*Property {
+func (x *GenesisToken) GetProperties() []*Property {
 	if x != nil {
 		return x.Properties
 	}
 	return nil
 }
 
-func (x *GenesisNFT) GetOwner() string {
+func (x *GenesisToken) GetOwner() string {
 	if x != nil {
 		return x.Owner
 	}
@@ -2097,42 +2097,43 @@ var file_andromeda_internft_v1alpha1_genesis_proto_rawDesc = []byte{
 	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
 	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x43, 0x6c, 0x61,
 	0x73, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x07, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65,
-	0x73, 0x22, 0xa3, 0x01, 0x0a, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x43, 0x6c, 0x61,
+	0x73, 0x22, 0xa9, 0x01, 0x0a, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x43, 0x6c, 0x61,
 	0x73, 0x73, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
 	0x69, 0x64, 0x12, 0x40, 0x0a, 0x06, 0x74, 0x72, 0x61, 0x69, 0x74, 0x73, 0x18, 0x02, 0x20, 0x03,
 	0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
 	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
 	0x2e, 0x54, 0x72, 0x61, 0x69, 0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x74, 0x72,
-	0x61, 0x69, 0x74, 0x73, 0x12, 0x41, 0x0a, 0x04, 0x6e, 0x66, 0x74, 0x73, 0x18, 0x03, 0x20, 0x03,
-	0x28, 0x0b, 0x32, 0x27, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
+	0x61, 0x69, 0x74, 0x73, 0x12, 0x47, 0x0a, 0x06, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x18, 0x03,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
+	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x2e, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x42,
+	0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x22, 0x9b, 0x01,
+	0x0a, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x0e,
+	0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x4b,
+	0x0a, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x25, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
 	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
-	0x2e, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x4e, 0x46, 0x54, 0x42, 0x04, 0xc8, 0xde, 0x1f,
-	0x00, 0x52, 0x04, 0x6e, 0x66, 0x74, 0x73, 0x22, 0x99, 0x01, 0x0a, 0x0a, 0x47, 0x65, 0x6e, 0x65,
-	0x73, 0x69, 0x73, 0x4e, 0x46, 0x54, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x4b, 0x0a, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72,
-	0x74, 0x69, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x61, 0x6e, 0x64,
-	0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e,
-	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74,
-	0x79, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74,
-	0x69, 0x65, 0x73, 0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41,
-	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77,
-	0x6e, 0x65, 0x72, 0x42, 0xef, 0x01, 0x0a, 0x1f, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x6e, 0x64, 0x72,
-	0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76,
-	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x42, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73,
-	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x30, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x64,
-	0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f,
-	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
-	0x74, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x41, 0x49, 0x58, 0xaa,
-	0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x49, 0x6e, 0x74, 0x65,
-	0x72, 0x6e, 0x66, 0x74, 0x2e, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02, 0x1b,
-	0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e,
-	0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xe2, 0x02, 0x27, 0x41, 0x6e,
-	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
-	0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74,
-	0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1d, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
-	0x61, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x3a, 0x3a, 0x56, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x2e, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52,
+	0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x12, 0x2e, 0x0a, 0x05, 0x6f,
+	0x77, 0x6e, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14,
+	0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74,
+	0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x42, 0xef, 0x01, 0x0a, 0x1f,
+	0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e,
+	0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x42,
+	0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
+	0x30, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0x3b, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0xa2, 0x02, 0x03, 0x41, 0x49, 0x58, 0xaa, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
+	0x65, 0x64, 0x61, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x56, 0x31, 0x61,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
+	0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70,
+	0x68, 0x61, 0x31, 0xe2, 0x02, 0x27, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c,
+	0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1d,
+	0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x72,
+	0x6e, 0x66, 0x74, 0x3a, 0x3a, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2151,7 +2152,7 @@ var file_andromeda_internft_v1alpha1_genesis_proto_msgTypes = make([]protoimpl.M
 var file_andromeda_internft_v1alpha1_genesis_proto_goTypes = []interface{}{
 	(*GenesisState)(nil), // 0: andromeda.internft.v1alpha1.GenesisState
 	(*GenesisClass)(nil), // 1: andromeda.internft.v1alpha1.GenesisClass
-	(*GenesisNFT)(nil),   // 2: andromeda.internft.v1alpha1.GenesisNFT
+	(*GenesisToken)(nil), // 2: andromeda.internft.v1alpha1.GenesisToken
 	(*Params)(nil),       // 3: andromeda.internft.v1alpha1.Params
 	(*Trait)(nil),        // 4: andromeda.internft.v1alpha1.Trait
 	(*Property)(nil),     // 5: andromeda.internft.v1alpha1.Property
@@ -2160,8 +2161,8 @@ var file_andromeda_internft_v1alpha1_genesis_proto_depIdxs = []int32{
 	3, // 0: andromeda.internft.v1alpha1.GenesisState.params:type_name -> andromeda.internft.v1alpha1.Params
 	1, // 1: andromeda.internft.v1alpha1.GenesisState.classes:type_name -> andromeda.internft.v1alpha1.GenesisClass
 	4, // 2: andromeda.internft.v1alpha1.GenesisClass.traits:type_name -> andromeda.internft.v1alpha1.Trait
-	2, // 3: andromeda.internft.v1alpha1.GenesisClass.nfts:type_name -> andromeda.internft.v1alpha1.GenesisNFT
-	5, // 4: andromeda.internft.v1alpha1.GenesisNFT.properties:type_name -> andromeda.internft.v1alpha1.Property
+	2, // 3: andromeda.internft.v1alpha1.GenesisClass.tokens:type_name -> andromeda.internft.v1alpha1.GenesisToken
+	5, // 4: andromeda.internft.v1alpha1.GenesisToken.properties:type_name -> andromeda.internft.v1alpha1.Property
 	5, // [5:5] is the sub-list for method output_type
 	5, // [5:5] is the sub-list for method input_type
 	5, // [5:5] is the sub-list for extension type_name
@@ -2201,7 +2202,7 @@ func file_andromeda_internft_v1alpha1_genesis_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_genesis_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GenesisNFT); i {
+			switch v := v.(*GenesisToken); i {
 			case 0:
 				return &v.state
 			case 1:

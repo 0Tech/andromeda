@@ -29,34 +29,34 @@ service Query {
     option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/traits/{trait_id}";
   }
 
-  // Traits queries all traits of a class.
+  // Traits queries all the traits of a class.
   rpc Traits(QueryTraitsRequest) returns (QueryTraitsResponse) {
     option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/traits";
   }
 
-  // NFT queries an NFT.
-  rpc NFT(QueryNFTRequest) returns (QueryNFTResponse) {
-    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/nfts/{nft_id}";
+  // Token queries a token.
+  rpc Token(QueryTokenRequest) returns (QueryTokenResponse) {
+    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/tokens/{token_id}";
   }
 
-  // NFTs queries all NFTs.
-  rpc NFTs(QueryNFTsRequest) returns (QueryNFTsResponse) {
-    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/nfts";
+  // Tokens queries all the tokens of a class.
+  rpc Tokens(QueryTokensRequest) returns (QueryTokensResponse) {
+    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/tokens";
   }
 
   // Property queries a property of a class.
   rpc Property(QueryPropertyRequest) returns (QueryPropertyResponse) {
-    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/nfts/{nft_id}/properties/{property_id}";
+    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/tokens/{token_id}/properties/{trait_id}";
   }
 
-  // Properties queries all properties of a class.
+  // Properties queries all the properties of a token.
   rpc Properties(QueryPropertiesRequest) returns (QueryPropertiesResponse) {
-    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/nfts/{nft_id}/properties";
+    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/tokens/{token_id}/properties";
   }
 
-  // Owner queries the owner of an NFT.
+  // Owner queries the owner of a token.
   rpc Owner(QueryOwnerRequest) returns (QueryOwnerResponse) {
-    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/nfts/{nft_id}/owner";
+    option (google.api.http).get = "/andromeda/internft/v1alpha1/classes/{class_id}/tokens/{token_id}/owner";
   }
 }
 
@@ -129,23 +129,23 @@ message QueryTraitsResponse {
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-// QueryNFTRequest is the request type for the Query/NFT RPC method.
-message QueryNFTRequest {
+// QueryTokenRequest is the request type for the Query/Token RPC method.
+message QueryTokenRequest {
   // the identifier of a class
   string class_id = 1;
 
-  // the identifier of an NFT
-  string nft_id = 2;
+  // the identifier of a token
+  string token_id = 2;
 }
 
-// QueryNFTResponse is the response type for the Query/NFT RPC method.
-message QueryNFTResponse {
-  // the corresponding NFT
-  NFT nft = 1;
+// QueryTokenResponse is the response type for the Query/Token RPC method.
+message QueryTokenResponse {
+  // the corresponding token
+  Token token = 1;
 }
 
-// QueryNFTsRequest is the request type for the Query/NFTs RPC method.
-message QueryNFTsRequest {
+// QueryTokensRequest is the request type for the Query/Tokens RPC method.
+message QueryTokensRequest {
   // the identifier of a class
   string class_id = 1;
 
@@ -153,10 +153,10 @@ message QueryNFTsRequest {
   cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-// QueryNFTsResponse is the response type for the Query/NFTs RPC method.
-message QueryNFTsResponse {
-  // all the nfts of the corresponding class
-  repeated NFT nfts = 1 [(gogoproto.nullable) = false];
+// QueryTokensResponse is the response type for the Query/Tokens RPC method.
+message QueryTokensResponse {
+  // all the tokens of the corresponding class
+  repeated Token tokens = 1 [(gogoproto.nullable) = false];
 
   // pagination in the response
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
@@ -167,11 +167,11 @@ message QueryPropertyRequest {
   // the identifier of a class
   string class_id = 1;
 
-  // the identifier of an NFT
-  string nft_id = 2;
+  // the identifier of a token
+  string token_id = 2;
 
-  // the identifier of a property
-  string property_id = 3;
+  // the identifier of the corresponding trait
+  string trait_id = 3;
 }
 
 // QueryPropertyResponse is the response type for the Query/Property RPC method.
@@ -185,8 +185,8 @@ message QueryPropertiesRequest {
   // the identifier of a class
   string class_id = 1;
 
-  // the identifier of an NFT
-  string nft_id = 2;
+  // the identifier of a token
+  string token_id = 2;
 
   // optional pagination for the request
   cosmos.base.query.v1beta1.PageRequest pagination = 3;
@@ -194,7 +194,7 @@ message QueryPropertiesRequest {
 
 // QueryPropertiesResponse is the response type for the Query/Properties RPC method.
 message QueryPropertiesResponse {
-  // all the properties of the corresponding NFT
+  // all the properties of the corresponding token
   repeated Property properties = 1 [(gogoproto.nullable) = false];
 
   // pagination in the response
@@ -206,12 +206,12 @@ message QueryOwnerRequest {
   // the identifier of a class
   string class_id = 1;
 
-  // the identifier of an NFT
-  string nft_id = 2;
+  // the identifier of a token
+  string token_id = 2;
 }
 
 // QueryOwnerResponse is the response type for the Query/Owner RPC method.
 message QueryOwnerResponse {
-  // the owner of the corresponding NFT
+  // the owner of the corresponding token
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }

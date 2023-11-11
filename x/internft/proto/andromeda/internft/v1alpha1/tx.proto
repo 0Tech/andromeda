@@ -11,7 +11,7 @@ import "google/protobuf/any.proto";
 service Msg {
   option (cosmos.msg.v1.service) = true;
 
-  // Send defines a method to send an NFT from one account to another account.
+  // Send defines a method to send a token from one account to another account.
   rpc Send(MsgSend) returns (MsgSendResponse);
 
   // NewClass defines a method to create a class.
@@ -20,28 +20,28 @@ service Msg {
   // UpdateClass defines a method to update a class.
   rpc UpdateClass(MsgUpdateClass) returns (MsgUpdateClassResponse);
 
-  // MintNFT defines a method to mint an NFT.
-  rpc MintNFT(MsgMintNFT) returns (MsgMintNFTResponse);
+  // NewToken defines a method to create a token.
+  rpc NewToken(MsgNewToken) returns (MsgNewTokenResponse);
 
-  // BurnNFT defines a method to burn an NFT.
-  rpc BurnNFT(MsgBurnNFT) returns (MsgBurnNFTResponse);
+  // BurnToken defines a method to burn a token.
+  rpc BurnToken(MsgBurnToken) returns (MsgBurnTokenResponse);
 
-  // UpdateNFT defines a method to update an NFT.
-  rpc UpdateNFT(MsgUpdateNFT) returns (MsgUpdateNFTResponse);
+  // UpdateToken defines a method to update a token.
+  rpc UpdateToken(MsgUpdateToken) returns (MsgUpdateTokenResponse);
 }
 
 // MsgSend is the Msg/Send request type.
 message MsgSend {
   option (cosmos.msg.v1.signer) = "sender";
 
-  // the sender of the NFT
+  // the sender of the token
   string sender = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the recipient of the NFT
+  // the recipient of the token
   string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the NFT to send
-  NFT nft = 3 [(gogoproto.nullable) = false];
+  // the token to send
+  Token token = 3 [(gogoproto.nullable) = false];
 }
 
 // MsgSendResponse is the Msg/Send response type.
@@ -84,53 +84,53 @@ message MsgUpdateClass {
 // MsgUpdateClassResponse is the Msg/UpdateClass response type.
 message MsgUpdateClassResponse {}
 
-// MsgMintNFT is the Msg/MintNFT request type.
-message MsgMintNFT {
+// MsgNewToken is the Msg/NewToken request type.
+message MsgNewToken {
   option (cosmos.msg.v1.signer) = "operator";
 
   // the operator of the class
   string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the recipient of the new NFT
+  // the recipient of the new token
   string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the new NFT to mint
-  NFT nft = 3 [(gogoproto.nullable) = false];
+  // the new token to create
+  Token token = 3 [(gogoproto.nullable) = false];
 
-  // the properties of the new NFT
+  // the properties of the new token
   repeated Property properties = 4 [(gogoproto.nullable) = false];
 }
 
-// MsgMintNFTResponse is the Msg/MintNFT response type.
-message MsgMintNFTResponse {}
+// MsgNewTokenResponse is the Msg/NewToken response type.
+message MsgNewTokenResponse {}
 
-// MsgBurnNFT is the Msg/BurnNFT request type.
-message MsgBurnNFT {
+// MsgBurnToken is the Msg/BurnToken request type.
+message MsgBurnToken {
   option (cosmos.msg.v1.signer) = "owner";
 
-  // the owner of the NFT
+  // the owner of the token
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the NFT to burn
-  NFT nft = 2 [(gogoproto.nullable) = false];
+  // the token to burn
+  Token token = 2 [(gogoproto.nullable) = false];
 }
 
-// MsgBurnNFTResponse is the Msg/BurnNFT response type.
-message MsgBurnNFTResponse {}
+// MsgBurnTokenResponse is the Msg/BurnToken response type.
+message MsgBurnTokenResponse {}
 
-// MsgUpdateNFT is the Msg/UpdateNFT request type.
-message MsgUpdateNFT {
+// MsgUpdateToken is the Msg/UpdateToken request type.
+message MsgUpdateToken {
   option (cosmos.msg.v1.signer) = "owner";
 
-  // the owner of the NFT
+  // the owner of the token
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the NFT to update
-  NFT nft = 2 [(gogoproto.nullable) = false];
+  // the token to update
+  Token token = 2 [(gogoproto.nullable) = false];
 
   // the new properties
   repeated Property properties = 3 [(gogoproto.nullable) = false];
 }
 
-// MsgUpdateNFTResponse is the Msg/UpdateNFT response type.
-message MsgUpdateNFTResponse {}
+// MsgUpdateTokenResponse is the Msg/UpdateToken response type.
+message MsgUpdateTokenResponse {}

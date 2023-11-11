@@ -22,18 +22,18 @@ message GenesisClass {
   // the traits of the class
   repeated Trait traits = 2 [(gogoproto.nullable) = false];
 
-  // all the NFTs of the class
-  repeated GenesisNFT nfts = 3 [(gogoproto.nullable) = false];
+  // all the tokens of the class
+  repeated GenesisToken tokens = 3 [(gogoproto.nullable) = false];
 }
 
-// GenesisNFT defines an NFT and its relevant data.
-message GenesisNFT {
-  // the identifier of the NFT
+// GenesisToken defines a token and its relevant data.
+message GenesisToken {
+  // the identifier of the token
   string id = 1;
 
-  // the properties of the NFT
+  // the properties of the token
   repeated Property properties = 2 [(gogoproto.nullable) = false];
 
-  // the owner of the NFT
+  // the owner of the token
   string owner = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }

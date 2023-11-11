@@ -4662,27 +4662,27 @@ func (x *fastReflection_QueryTraitsResponse) ProtoMethods() *protoiface.Methods 
 }
 
 var (
-	md_QueryNFTRequest          protoreflect.MessageDescriptor
-	fd_QueryNFTRequest_class_id protoreflect.FieldDescriptor
-	fd_QueryNFTRequest_nft_id   protoreflect.FieldDescriptor
+	md_QueryTokenRequest          protoreflect.MessageDescriptor
+	fd_QueryTokenRequest_class_id protoreflect.FieldDescriptor
+	fd_QueryTokenRequest_token_id protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_query_proto_init()
-	md_QueryNFTRequest = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryNFTRequest")
-	fd_QueryNFTRequest_class_id = md_QueryNFTRequest.Fields().ByName("class_id")
-	fd_QueryNFTRequest_nft_id = md_QueryNFTRequest.Fields().ByName("nft_id")
+	md_QueryTokenRequest = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryTokenRequest")
+	fd_QueryTokenRequest_class_id = md_QueryTokenRequest.Fields().ByName("class_id")
+	fd_QueryTokenRequest_token_id = md_QueryTokenRequest.Fields().ByName("token_id")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryNFTRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryTokenRequest)(nil)
 
-type fastReflection_QueryNFTRequest QueryNFTRequest
+type fastReflection_QueryTokenRequest QueryTokenRequest
 
-func (x *QueryNFTRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryNFTRequest)(x)
+func (x *QueryTokenRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryTokenRequest)(x)
 }
 
-func (x *QueryNFTRequest) slowProtoReflect() protoreflect.Message {
+func (x *QueryTokenRequest) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_query_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4694,43 +4694,43 @@ func (x *QueryNFTRequest) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryNFTRequest_messageType fastReflection_QueryNFTRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryNFTRequest_messageType{}
+var _fastReflection_QueryTokenRequest_messageType fastReflection_QueryTokenRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryTokenRequest_messageType{}
 
-type fastReflection_QueryNFTRequest_messageType struct{}
+type fastReflection_QueryTokenRequest_messageType struct{}
 
-func (x fastReflection_QueryNFTRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryNFTRequest)(nil)
+func (x fastReflection_QueryTokenRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryTokenRequest)(nil)
 }
-func (x fastReflection_QueryNFTRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryNFTRequest)
+func (x fastReflection_QueryTokenRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryTokenRequest)
 }
-func (x fastReflection_QueryNFTRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNFTRequest
+func (x fastReflection_QueryTokenRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryTokenRequest
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryNFTRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNFTRequest
+func (x *fastReflection_QueryTokenRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryTokenRequest
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryNFTRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryNFTRequest_messageType
+func (x *fastReflection_QueryTokenRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryTokenRequest_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryNFTRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryNFTRequest)
+func (x *fastReflection_QueryTokenRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryTokenRequest)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryNFTRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryNFTRequest)(x)
+func (x *fastReflection_QueryTokenRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryTokenRequest)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -4738,16 +4738,16 @@ func (x *fastReflection_QueryNFTRequest) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryNFTRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryTokenRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.ClassId != "" {
 		value := protoreflect.ValueOfString(x.ClassId)
-		if !f(fd_QueryNFTRequest_class_id, value) {
+		if !f(fd_QueryTokenRequest_class_id, value) {
 			return
 		}
 	}
-	if x.NftId != "" {
-		value := protoreflect.ValueOfString(x.NftId)
-		if !f(fd_QueryNFTRequest_nft_id, value) {
+	if x.TokenId != "" {
+		value := protoreflect.ValueOfString(x.TokenId)
+		if !f(fd_QueryTokenRequest_token_id, value) {
 			return
 		}
 	}
@@ -4764,17 +4764,17 @@ func (x *fastReflection_QueryNFTRequest) Range(f func(protoreflect.FieldDescript
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryNFTRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryTokenRequest) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.class_id":
 		return x.ClassId != ""
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.nft_id":
-		return x.NftId != ""
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.token_id":
+		return x.TokenId != ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4784,17 +4784,17 @@ func (x *fastReflection_QueryNFTRequest) Has(fd protoreflect.FieldDescriptor) bo
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryTokenRequest) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.class_id":
 		x.ClassId = ""
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.nft_id":
-		x.NftId = ""
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.token_id":
+		x.TokenId = ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4804,19 +4804,19 @@ func (x *fastReflection_QueryNFTRequest) Clear(fd protoreflect.FieldDescriptor) 
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryNFTRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokenRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.class_id":
 		value := x.ClassId
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.nft_id":
-		value := x.NftId
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.token_id":
+		value := x.TokenId
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenRequest does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -4830,17 +4830,17 @@ func (x *fastReflection_QueryNFTRequest) Get(descriptor protoreflect.FieldDescri
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryTokenRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.class_id":
 		x.ClassId = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.nft_id":
-		x.NftId = value.Interface().(string)
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.token_id":
+		x.TokenId = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4854,44 +4854,44 @@ func (x *fastReflection_QueryNFTRequest) Set(fd protoreflect.FieldDescriptor, va
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokenRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.class_id":
-		panic(fmt.Errorf("field class_id of message andromeda.internft.v1alpha1.QueryNFTRequest is not mutable"))
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.nft_id":
-		panic(fmt.Errorf("field nft_id of message andromeda.internft.v1alpha1.QueryNFTRequest is not mutable"))
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.class_id":
+		panic(fmt.Errorf("field class_id of message andromeda.internft.v1alpha1.QueryTokenRequest is not mutable"))
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.token_id":
+		panic(fmt.Errorf("field token_id of message andromeda.internft.v1alpha1.QueryTokenRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryNFTRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokenRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.class_id":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.QueryNFTRequest.nft_id":
+	case "andromeda.internft.v1alpha1.QueryTokenRequest.token_id":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryNFTRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryTokenRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.QueryNFTRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.QueryTokenRequest", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -4899,7 +4899,7 @@ func (x *fastReflection_QueryNFTRequest) WhichOneof(d protoreflect.OneofDescript
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryNFTRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryTokenRequest) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -4910,7 +4910,7 @@ func (x *fastReflection_QueryNFTRequest) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryTokenRequest) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -4922,7 +4922,7 @@ func (x *fastReflection_QueryNFTRequest) SetUnknown(fields protoreflect.RawField
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryNFTRequest) IsValid() bool {
+func (x *fastReflection_QueryTokenRequest) IsValid() bool {
 	return x != nil
 }
 
@@ -4932,9 +4932,9 @@ func (x *fastReflection_QueryNFTRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryNFTRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryTokenRequest) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryNFTRequest)
+		x := input.Message.Interface().(*QueryTokenRequest)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4950,7 +4950,7 @@ func (x *fastReflection_QueryNFTRequest) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.NftId)
+		l = len(x.TokenId)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -4964,7 +4964,7 @@ func (x *fastReflection_QueryNFTRequest) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNFTRequest)
+		x := input.Message.Interface().(*QueryTokenRequest)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4983,10 +4983,10 @@ func (x *fastReflection_QueryNFTRequest) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.NftId) > 0 {
-			i -= len(x.NftId)
-			copy(dAtA[i:], x.NftId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.NftId)))
+		if len(x.TokenId) > 0 {
+			i -= len(x.TokenId)
+			copy(dAtA[i:], x.TokenId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TokenId)))
 			i--
 			dAtA[i] = 0x12
 		}
@@ -5008,7 +5008,7 @@ func (x *fastReflection_QueryNFTRequest) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNFTRequest)
+		x := input.Message.Interface().(*QueryTokenRequest)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5040,10 +5040,10 @@ func (x *fastReflection_QueryNFTRequest) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNFTRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryTokenRequest: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNFTRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryTokenRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -5080,7 +5080,7 @@ func (x *fastReflection_QueryNFTRequest) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NftId", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TokenId", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -5108,7 +5108,7 @@ func (x *fastReflection_QueryNFTRequest) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.NftId = string(dAtA[iNdEx:postIndex])
+				x.TokenId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -5146,25 +5146,25 @@ func (x *fastReflection_QueryNFTRequest) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_QueryNFTResponse     protoreflect.MessageDescriptor
-	fd_QueryNFTResponse_nft protoreflect.FieldDescriptor
+	md_QueryTokenResponse       protoreflect.MessageDescriptor
+	fd_QueryTokenResponse_token protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_query_proto_init()
-	md_QueryNFTResponse = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryNFTResponse")
-	fd_QueryNFTResponse_nft = md_QueryNFTResponse.Fields().ByName("nft")
+	md_QueryTokenResponse = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryTokenResponse")
+	fd_QueryTokenResponse_token = md_QueryTokenResponse.Fields().ByName("token")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryNFTResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryTokenResponse)(nil)
 
-type fastReflection_QueryNFTResponse QueryNFTResponse
+type fastReflection_QueryTokenResponse QueryTokenResponse
 
-func (x *QueryNFTResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryNFTResponse)(x)
+func (x *QueryTokenResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryTokenResponse)(x)
 }
 
-func (x *QueryNFTResponse) slowProtoReflect() protoreflect.Message {
+func (x *QueryTokenResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_query_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -5176,43 +5176,43 @@ func (x *QueryNFTResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryNFTResponse_messageType fastReflection_QueryNFTResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryNFTResponse_messageType{}
+var _fastReflection_QueryTokenResponse_messageType fastReflection_QueryTokenResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryTokenResponse_messageType{}
 
-type fastReflection_QueryNFTResponse_messageType struct{}
+type fastReflection_QueryTokenResponse_messageType struct{}
 
-func (x fastReflection_QueryNFTResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryNFTResponse)(nil)
+func (x fastReflection_QueryTokenResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryTokenResponse)(nil)
 }
-func (x fastReflection_QueryNFTResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryNFTResponse)
+func (x fastReflection_QueryTokenResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryTokenResponse)
 }
-func (x fastReflection_QueryNFTResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNFTResponse
+func (x fastReflection_QueryTokenResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryTokenResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryNFTResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNFTResponse
+func (x *fastReflection_QueryTokenResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryTokenResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryNFTResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryNFTResponse_messageType
+func (x *fastReflection_QueryTokenResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryTokenResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryNFTResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryNFTResponse)
+func (x *fastReflection_QueryTokenResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryTokenResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryNFTResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryNFTResponse)(x)
+func (x *fastReflection_QueryTokenResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryTokenResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -5220,10 +5220,10 @@ func (x *fastReflection_QueryNFTResponse) Interface() protoreflect.ProtoMessage 
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryNFTResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Nft != nil {
-		value := protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
-		if !f(fd_QueryNFTResponse_nft, value) {
+func (x *fastReflection_QueryTokenResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Token != nil {
+		value := protoreflect.ValueOfMessage(x.Token.ProtoReflect())
+		if !f(fd_QueryTokenResponse_token, value) {
 			return
 		}
 	}
@@ -5240,15 +5240,15 @@ func (x *fastReflection_QueryNFTResponse) Range(f func(protoreflect.FieldDescrip
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryNFTResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryTokenResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTResponse.nft":
-		return x.Nft != nil
+	case "andromeda.internft.v1alpha1.QueryTokenResponse.token":
+		return x.Token != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5258,15 +5258,15 @@ func (x *fastReflection_QueryNFTResponse) Has(fd protoreflect.FieldDescriptor) b
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryTokenResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTResponse.nft":
-		x.Nft = nil
+	case "andromeda.internft.v1alpha1.QueryTokenResponse.token":
+		x.Token = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5276,16 +5276,16 @@ func (x *fastReflection_QueryNFTResponse) Clear(fd protoreflect.FieldDescriptor)
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryNFTResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokenResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTResponse.nft":
-		value := x.Nft
+	case "andromeda.internft.v1alpha1.QueryTokenResponse.token":
+		value := x.Token
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -5299,15 +5299,15 @@ func (x *fastReflection_QueryNFTResponse) Get(descriptor protoreflect.FieldDescr
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryTokenResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTResponse.nft":
-		x.Nft = value.Message().Interface().(*NFT)
+	case "andromeda.internft.v1alpha1.QueryTokenResponse.token":
+		x.Token = value.Message().Interface().(*Token)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5321,44 +5321,44 @@ func (x *fastReflection_QueryNFTResponse) Set(fd protoreflect.FieldDescriptor, v
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokenResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTResponse.nft":
-		if x.Nft == nil {
-			x.Nft = new(NFT)
+	case "andromeda.internft.v1alpha1.QueryTokenResponse.token":
+		if x.Token == nil {
+			x.Token = new(Token)
 		}
-		return protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
+		return protoreflect.ValueOfMessage(x.Token.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryNFTResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokenResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTResponse.nft":
-		m := new(NFT)
+	case "andromeda.internft.v1alpha1.QueryTokenResponse.token":
+		m := new(Token)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryNFTResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryTokenResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.QueryNFTResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.QueryTokenResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -5366,7 +5366,7 @@ func (x *fastReflection_QueryNFTResponse) WhichOneof(d protoreflect.OneofDescrip
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryNFTResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryTokenResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -5377,7 +5377,7 @@ func (x *fastReflection_QueryNFTResponse) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryTokenResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -5389,7 +5389,7 @@ func (x *fastReflection_QueryNFTResponse) SetUnknown(fields protoreflect.RawFiel
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryNFTResponse) IsValid() bool {
+func (x *fastReflection_QueryTokenResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -5399,9 +5399,9 @@ func (x *fastReflection_QueryNFTResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryNFTResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryTokenResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryNFTResponse)
+		x := input.Message.Interface().(*QueryTokenResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5413,8 +5413,8 @@ func (x *fastReflection_QueryNFTResponse) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		if x.Nft != nil {
-			l = options.Size(x.Nft)
+		if x.Token != nil {
+			l = options.Size(x.Token)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
@@ -5427,7 +5427,7 @@ func (x *fastReflection_QueryNFTResponse) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNFTResponse)
+		x := input.Message.Interface().(*QueryTokenResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5446,8 +5446,8 @@ func (x *fastReflection_QueryNFTResponse) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.Nft != nil {
-			encoded, err := options.Marshal(x.Nft)
+		if x.Token != nil {
+			encoded, err := options.Marshal(x.Token)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5471,7 +5471,7 @@ func (x *fastReflection_QueryNFTResponse) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNFTResponse)
+		x := input.Message.Interface().(*QueryTokenResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5503,15 +5503,15 @@ func (x *fastReflection_QueryNFTResponse) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNFTResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryTokenResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNFTResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -5538,10 +5538,10 @@ func (x *fastReflection_QueryNFTResponse) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Nft == nil {
-					x.Nft = &NFT{}
+				if x.Token == nil {
+					x.Token = &Token{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Nft); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Token); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -5581,27 +5581,27 @@ func (x *fastReflection_QueryNFTResponse) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_QueryNFTsRequest            protoreflect.MessageDescriptor
-	fd_QueryNFTsRequest_class_id   protoreflect.FieldDescriptor
-	fd_QueryNFTsRequest_pagination protoreflect.FieldDescriptor
+	md_QueryTokensRequest            protoreflect.MessageDescriptor
+	fd_QueryTokensRequest_class_id   protoreflect.FieldDescriptor
+	fd_QueryTokensRequest_pagination protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_query_proto_init()
-	md_QueryNFTsRequest = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryNFTsRequest")
-	fd_QueryNFTsRequest_class_id = md_QueryNFTsRequest.Fields().ByName("class_id")
-	fd_QueryNFTsRequest_pagination = md_QueryNFTsRequest.Fields().ByName("pagination")
+	md_QueryTokensRequest = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryTokensRequest")
+	fd_QueryTokensRequest_class_id = md_QueryTokensRequest.Fields().ByName("class_id")
+	fd_QueryTokensRequest_pagination = md_QueryTokensRequest.Fields().ByName("pagination")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryNFTsRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryTokensRequest)(nil)
 
-type fastReflection_QueryNFTsRequest QueryNFTsRequest
+type fastReflection_QueryTokensRequest QueryTokensRequest
 
-func (x *QueryNFTsRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryNFTsRequest)(x)
+func (x *QueryTokensRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryTokensRequest)(x)
 }
 
-func (x *QueryNFTsRequest) slowProtoReflect() protoreflect.Message {
+func (x *QueryTokensRequest) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_query_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -5613,43 +5613,43 @@ func (x *QueryNFTsRequest) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryNFTsRequest_messageType fastReflection_QueryNFTsRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryNFTsRequest_messageType{}
+var _fastReflection_QueryTokensRequest_messageType fastReflection_QueryTokensRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryTokensRequest_messageType{}
 
-type fastReflection_QueryNFTsRequest_messageType struct{}
+type fastReflection_QueryTokensRequest_messageType struct{}
 
-func (x fastReflection_QueryNFTsRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryNFTsRequest)(nil)
+func (x fastReflection_QueryTokensRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryTokensRequest)(nil)
 }
-func (x fastReflection_QueryNFTsRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryNFTsRequest)
+func (x fastReflection_QueryTokensRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryTokensRequest)
 }
-func (x fastReflection_QueryNFTsRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNFTsRequest
+func (x fastReflection_QueryTokensRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryTokensRequest
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryNFTsRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNFTsRequest
+func (x *fastReflection_QueryTokensRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryTokensRequest
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryNFTsRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryNFTsRequest_messageType
+func (x *fastReflection_QueryTokensRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryTokensRequest_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryNFTsRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryNFTsRequest)
+func (x *fastReflection_QueryTokensRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryTokensRequest)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryNFTsRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryNFTsRequest)(x)
+func (x *fastReflection_QueryTokensRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryTokensRequest)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -5657,16 +5657,16 @@ func (x *fastReflection_QueryNFTsRequest) Interface() protoreflect.ProtoMessage 
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryNFTsRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryTokensRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.ClassId != "" {
 		value := protoreflect.ValueOfString(x.ClassId)
-		if !f(fd_QueryNFTsRequest_class_id, value) {
+		if !f(fd_QueryTokensRequest_class_id, value) {
 			return
 		}
 	}
 	if x.Pagination != nil {
 		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryNFTsRequest_pagination, value) {
+		if !f(fd_QueryTokensRequest_pagination, value) {
 			return
 		}
 	}
@@ -5683,17 +5683,17 @@ func (x *fastReflection_QueryNFTsRequest) Range(f func(protoreflect.FieldDescrip
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryNFTsRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryTokensRequest) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.class_id":
 		return x.ClassId != ""
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.pagination":
 		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5703,17 +5703,17 @@ func (x *fastReflection_QueryNFTsRequest) Has(fd protoreflect.FieldDescriptor) b
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTsRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryTokensRequest) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.class_id":
 		x.ClassId = ""
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.pagination":
 		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5723,19 +5723,19 @@ func (x *fastReflection_QueryNFTsRequest) Clear(fd protoreflect.FieldDescriptor)
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryNFTsRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokensRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.class_id":
 		value := x.ClassId
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.pagination":
 		value := x.Pagination
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensRequest does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -5749,17 +5749,17 @@ func (x *fastReflection_QueryNFTsRequest) Get(descriptor protoreflect.FieldDescr
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTsRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryTokensRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.class_id":
 		x.ClassId = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.pagination":
 		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5773,48 +5773,48 @@ func (x *fastReflection_QueryNFTsRequest) Set(fd protoreflect.FieldDescriptor, v
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTsRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokensRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.pagination":
 		if x.Pagination == nil {
 			x.Pagination = new(v1beta1.PageRequest)
 		}
 		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.class_id":
-		panic(fmt.Errorf("field class_id of message andromeda.internft.v1alpha1.QueryNFTsRequest is not mutable"))
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.class_id":
+		panic(fmt.Errorf("field class_id of message andromeda.internft.v1alpha1.QueryTokensRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryNFTsRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokensRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.class_id":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.class_id":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.QueryNFTsRequest.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensRequest.pagination":
 		m := new(v1beta1.PageRequest)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensRequest"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryNFTsRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryTokensRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.QueryNFTsRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.QueryTokensRequest", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -5822,7 +5822,7 @@ func (x *fastReflection_QueryNFTsRequest) WhichOneof(d protoreflect.OneofDescrip
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryNFTsRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryTokensRequest) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -5833,7 +5833,7 @@ func (x *fastReflection_QueryNFTsRequest) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTsRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryTokensRequest) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -5845,7 +5845,7 @@ func (x *fastReflection_QueryNFTsRequest) SetUnknown(fields protoreflect.RawFiel
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryNFTsRequest) IsValid() bool {
+func (x *fastReflection_QueryTokensRequest) IsValid() bool {
 	return x != nil
 }
 
@@ -5855,9 +5855,9 @@ func (x *fastReflection_QueryNFTsRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryNFTsRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryTokensRequest) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryNFTsRequest)
+		x := input.Message.Interface().(*QueryTokensRequest)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5887,7 +5887,7 @@ func (x *fastReflection_QueryNFTsRequest) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNFTsRequest)
+		x := input.Message.Interface().(*QueryTokensRequest)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5938,7 +5938,7 @@ func (x *fastReflection_QueryNFTsRequest) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNFTsRequest)
+		x := input.Message.Interface().(*QueryTokensRequest)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5970,10 +5970,10 @@ func (x *fastReflection_QueryNFTsRequest) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNFTsRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryTokensRequest: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNFTsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryTokensRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -6079,79 +6079,79 @@ func (x *fastReflection_QueryNFTsRequest) ProtoMethods() *protoiface.Methods {
 	}
 }
 
-var _ protoreflect.List = (*_QueryNFTsResponse_1_list)(nil)
+var _ protoreflect.List = (*_QueryTokensResponse_1_list)(nil)
 
-type _QueryNFTsResponse_1_list struct {
-	list *[]*NFT
+type _QueryTokensResponse_1_list struct {
+	list *[]*Token
 }
 
-func (x *_QueryNFTsResponse_1_list) Len() int {
+func (x *_QueryTokensResponse_1_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_QueryNFTsResponse_1_list) Get(i int) protoreflect.Value {
+func (x *_QueryTokensResponse_1_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_QueryNFTsResponse_1_list) Set(i int, value protoreflect.Value) {
+func (x *_QueryTokensResponse_1_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*NFT)
+	concreteValue := valueUnwrapped.Interface().(*Token)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_QueryNFTsResponse_1_list) Append(value protoreflect.Value) {
+func (x *_QueryTokensResponse_1_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*NFT)
+	concreteValue := valueUnwrapped.Interface().(*Token)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_QueryNFTsResponse_1_list) AppendMutable() protoreflect.Value {
-	v := new(NFT)
+func (x *_QueryTokensResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(Token)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryNFTsResponse_1_list) Truncate(n int) {
+func (x *_QueryTokensResponse_1_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_QueryNFTsResponse_1_list) NewElement() protoreflect.Value {
-	v := new(NFT)
+func (x *_QueryTokensResponse_1_list) NewElement() protoreflect.Value {
+	v := new(Token)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryNFTsResponse_1_list) IsValid() bool {
+func (x *_QueryTokensResponse_1_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_QueryNFTsResponse            protoreflect.MessageDescriptor
-	fd_QueryNFTsResponse_nfts       protoreflect.FieldDescriptor
-	fd_QueryNFTsResponse_pagination protoreflect.FieldDescriptor
+	md_QueryTokensResponse            protoreflect.MessageDescriptor
+	fd_QueryTokensResponse_tokens     protoreflect.FieldDescriptor
+	fd_QueryTokensResponse_pagination protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_query_proto_init()
-	md_QueryNFTsResponse = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryNFTsResponse")
-	fd_QueryNFTsResponse_nfts = md_QueryNFTsResponse.Fields().ByName("nfts")
-	fd_QueryNFTsResponse_pagination = md_QueryNFTsResponse.Fields().ByName("pagination")
+	md_QueryTokensResponse = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryTokensResponse")
+	fd_QueryTokensResponse_tokens = md_QueryTokensResponse.Fields().ByName("tokens")
+	fd_QueryTokensResponse_pagination = md_QueryTokensResponse.Fields().ByName("pagination")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryNFTsResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryTokensResponse)(nil)
 
-type fastReflection_QueryNFTsResponse QueryNFTsResponse
+type fastReflection_QueryTokensResponse QueryTokensResponse
 
-func (x *QueryNFTsResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryNFTsResponse)(x)
+func (x *QueryTokensResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryTokensResponse)(x)
 }
 
-func (x *QueryNFTsResponse) slowProtoReflect() protoreflect.Message {
+func (x *QueryTokensResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_query_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6163,43 +6163,43 @@ func (x *QueryNFTsResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryNFTsResponse_messageType fastReflection_QueryNFTsResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryNFTsResponse_messageType{}
+var _fastReflection_QueryTokensResponse_messageType fastReflection_QueryTokensResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryTokensResponse_messageType{}
 
-type fastReflection_QueryNFTsResponse_messageType struct{}
+type fastReflection_QueryTokensResponse_messageType struct{}
 
-func (x fastReflection_QueryNFTsResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryNFTsResponse)(nil)
+func (x fastReflection_QueryTokensResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryTokensResponse)(nil)
 }
-func (x fastReflection_QueryNFTsResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryNFTsResponse)
+func (x fastReflection_QueryTokensResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryTokensResponse)
 }
-func (x fastReflection_QueryNFTsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNFTsResponse
+func (x fastReflection_QueryTokensResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryTokensResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryNFTsResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryNFTsResponse
+func (x *fastReflection_QueryTokensResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryTokensResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryNFTsResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryNFTsResponse_messageType
+func (x *fastReflection_QueryTokensResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryTokensResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryNFTsResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryNFTsResponse)
+func (x *fastReflection_QueryTokensResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryTokensResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryNFTsResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryNFTsResponse)(x)
+func (x *fastReflection_QueryTokensResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryTokensResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -6207,16 +6207,16 @@ func (x *fastReflection_QueryNFTsResponse) Interface() protoreflect.ProtoMessage
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryNFTsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if len(x.Nfts) != 0 {
-		value := protoreflect.ValueOfList(&_QueryNFTsResponse_1_list{list: &x.Nfts})
-		if !f(fd_QueryNFTsResponse_nfts, value) {
+func (x *fastReflection_QueryTokensResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.Tokens) != 0 {
+		value := protoreflect.ValueOfList(&_QueryTokensResponse_1_list{list: &x.Tokens})
+		if !f(fd_QueryTokensResponse_tokens, value) {
 			return
 		}
 	}
 	if x.Pagination != nil {
 		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
-		if !f(fd_QueryNFTsResponse_pagination, value) {
+		if !f(fd_QueryTokensResponse_pagination, value) {
 			return
 		}
 	}
@@ -6233,17 +6233,17 @@ func (x *fastReflection_QueryNFTsResponse) Range(f func(protoreflect.FieldDescri
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryNFTsResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryTokensResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.nfts":
-		return len(x.Nfts) != 0
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.tokens":
+		return len(x.Tokens) != 0
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.pagination":
 		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -6253,17 +6253,17 @@ func (x *fastReflection_QueryNFTsResponse) Has(fd protoreflect.FieldDescriptor) 
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTsResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryTokensResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.nfts":
-		x.Nfts = nil
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.tokens":
+		x.Tokens = nil
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.pagination":
 		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -6273,22 +6273,22 @@ func (x *fastReflection_QueryNFTsResponse) Clear(fd protoreflect.FieldDescriptor
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryNFTsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokensResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.nfts":
-		if len(x.Nfts) == 0 {
-			return protoreflect.ValueOfList(&_QueryNFTsResponse_1_list{})
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.tokens":
+		if len(x.Tokens) == 0 {
+			return protoreflect.ValueOfList(&_QueryTokensResponse_1_list{})
 		}
-		listValue := &_QueryNFTsResponse_1_list{list: &x.Nfts}
+		listValue := &_QueryTokensResponse_1_list{list: &x.Tokens}
 		return protoreflect.ValueOfList(listValue)
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.pagination":
 		value := x.Pagination
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -6302,19 +6302,19 @@ func (x *fastReflection_QueryNFTsResponse) Get(descriptor protoreflect.FieldDesc
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryTokensResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.nfts":
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.tokens":
 		lv := value.List()
-		clv := lv.(*_QueryNFTsResponse_1_list)
-		x.Nfts = *clv.list
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.pagination":
+		clv := lv.(*_QueryTokensResponse_1_list)
+		x.Tokens = *clv.list
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.pagination":
 		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -6328,53 +6328,53 @@ func (x *fastReflection_QueryNFTsResponse) Set(fd protoreflect.FieldDescriptor, 
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokensResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.nfts":
-		if x.Nfts == nil {
-			x.Nfts = []*NFT{}
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.tokens":
+		if x.Tokens == nil {
+			x.Tokens = []*Token{}
 		}
-		value := &_QueryNFTsResponse_1_list{list: &x.Nfts}
+		value := &_QueryTokensResponse_1_list{list: &x.Tokens}
 		return protoreflect.ValueOfList(value)
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.pagination":
 		if x.Pagination == nil {
 			x.Pagination = new(v1beta1.PageResponse)
 		}
 		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryNFTsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryTokensResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.nfts":
-		list := []*NFT{}
-		return protoreflect.ValueOfList(&_QueryNFTsResponse_1_list{list: &list})
-	case "andromeda.internft.v1alpha1.QueryNFTsResponse.pagination":
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.tokens":
+		list := []*Token{}
+		return protoreflect.ValueOfList(&_QueryTokensResponse_1_list{list: &list})
+	case "andromeda.internft.v1alpha1.QueryTokensResponse.pagination":
 		m := new(v1beta1.PageResponse)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryNFTsResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryTokensResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryNFTsResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.QueryTokensResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryNFTsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryTokensResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.QueryNFTsResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.QueryTokensResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -6382,7 +6382,7 @@ func (x *fastReflection_QueryNFTsResponse) WhichOneof(d protoreflect.OneofDescri
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryNFTsResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryTokensResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -6393,7 +6393,7 @@ func (x *fastReflection_QueryNFTsResponse) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryNFTsResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryTokensResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -6405,7 +6405,7 @@ func (x *fastReflection_QueryNFTsResponse) SetUnknown(fields protoreflect.RawFie
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryNFTsResponse) IsValid() bool {
+func (x *fastReflection_QueryTokensResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -6415,9 +6415,9 @@ func (x *fastReflection_QueryNFTsResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryNFTsResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryTokensResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryNFTsResponse)
+		x := input.Message.Interface().(*QueryTokensResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -6429,8 +6429,8 @@ func (x *fastReflection_QueryNFTsResponse) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		if len(x.Nfts) > 0 {
-			for _, e := range x.Nfts {
+		if len(x.Tokens) > 0 {
+			for _, e := range x.Tokens {
 				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
@@ -6449,7 +6449,7 @@ func (x *fastReflection_QueryNFTsResponse) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNFTsResponse)
+		x := input.Message.Interface().(*QueryTokensResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -6482,9 +6482,9 @@ func (x *fastReflection_QueryNFTsResponse) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x12
 		}
-		if len(x.Nfts) > 0 {
-			for iNdEx := len(x.Nfts) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.Nfts[iNdEx])
+		if len(x.Tokens) > 0 {
+			for iNdEx := len(x.Tokens) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Tokens[iNdEx])
 				if err != nil {
 					return protoiface.MarshalOutput{
 						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -6509,7 +6509,7 @@ func (x *fastReflection_QueryNFTsResponse) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryNFTsResponse)
+		x := input.Message.Interface().(*QueryTokensResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -6541,15 +6541,15 @@ func (x *fastReflection_QueryNFTsResponse) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNFTsResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryTokensResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryNFTsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryTokensResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Nfts", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Tokens", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -6576,8 +6576,8 @@ func (x *fastReflection_QueryNFTsResponse) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Nfts = append(x.Nfts, &NFT{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Nfts[len(x.Nfts)-1]); err != nil {
+				x.Tokens = append(x.Tokens, &Token{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Tokens[len(x.Tokens)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -6653,18 +6653,18 @@ func (x *fastReflection_QueryNFTsResponse) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_QueryPropertyRequest             protoreflect.MessageDescriptor
-	fd_QueryPropertyRequest_class_id    protoreflect.FieldDescriptor
-	fd_QueryPropertyRequest_nft_id      protoreflect.FieldDescriptor
-	fd_QueryPropertyRequest_property_id protoreflect.FieldDescriptor
+	md_QueryPropertyRequest          protoreflect.MessageDescriptor
+	fd_QueryPropertyRequest_class_id protoreflect.FieldDescriptor
+	fd_QueryPropertyRequest_token_id protoreflect.FieldDescriptor
+	fd_QueryPropertyRequest_trait_id protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_query_proto_init()
 	md_QueryPropertyRequest = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryPropertyRequest")
 	fd_QueryPropertyRequest_class_id = md_QueryPropertyRequest.Fields().ByName("class_id")
-	fd_QueryPropertyRequest_nft_id = md_QueryPropertyRequest.Fields().ByName("nft_id")
-	fd_QueryPropertyRequest_property_id = md_QueryPropertyRequest.Fields().ByName("property_id")
+	fd_QueryPropertyRequest_token_id = md_QueryPropertyRequest.Fields().ByName("token_id")
+	fd_QueryPropertyRequest_trait_id = md_QueryPropertyRequest.Fields().ByName("trait_id")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryPropertyRequest)(nil)
@@ -6738,15 +6738,15 @@ func (x *fastReflection_QueryPropertyRequest) Range(f func(protoreflect.FieldDes
 			return
 		}
 	}
-	if x.NftId != "" {
-		value := protoreflect.ValueOfString(x.NftId)
-		if !f(fd_QueryPropertyRequest_nft_id, value) {
+	if x.TokenId != "" {
+		value := protoreflect.ValueOfString(x.TokenId)
+		if !f(fd_QueryPropertyRequest_token_id, value) {
 			return
 		}
 	}
-	if x.PropertyId != "" {
-		value := protoreflect.ValueOfString(x.PropertyId)
-		if !f(fd_QueryPropertyRequest_property_id, value) {
+	if x.TraitId != "" {
+		value := protoreflect.ValueOfString(x.TraitId)
+		if !f(fd_QueryPropertyRequest_trait_id, value) {
 			return
 		}
 	}
@@ -6767,10 +6767,10 @@ func (x *fastReflection_QueryPropertyRequest) Has(fd protoreflect.FieldDescripto
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryPropertyRequest.class_id":
 		return x.ClassId != ""
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.nft_id":
-		return x.NftId != ""
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.property_id":
-		return x.PropertyId != ""
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.token_id":
+		return x.TokenId != ""
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.trait_id":
+		return x.TraitId != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryPropertyRequest"))
@@ -6789,10 +6789,10 @@ func (x *fastReflection_QueryPropertyRequest) Clear(fd protoreflect.FieldDescrip
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryPropertyRequest.class_id":
 		x.ClassId = ""
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.nft_id":
-		x.NftId = ""
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.property_id":
-		x.PropertyId = ""
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.token_id":
+		x.TokenId = ""
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.trait_id":
+		x.TraitId = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryPropertyRequest"))
@@ -6812,11 +6812,11 @@ func (x *fastReflection_QueryPropertyRequest) Get(descriptor protoreflect.FieldD
 	case "andromeda.internft.v1alpha1.QueryPropertyRequest.class_id":
 		value := x.ClassId
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.nft_id":
-		value := x.NftId
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.token_id":
+		value := x.TokenId
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.property_id":
-		value := x.PropertyId
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.trait_id":
+		value := x.TraitId
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
@@ -6840,10 +6840,10 @@ func (x *fastReflection_QueryPropertyRequest) Set(fd protoreflect.FieldDescripto
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryPropertyRequest.class_id":
 		x.ClassId = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.nft_id":
-		x.NftId = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.property_id":
-		x.PropertyId = value.Interface().(string)
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.token_id":
+		x.TokenId = value.Interface().(string)
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.trait_id":
+		x.TraitId = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryPropertyRequest"))
@@ -6866,10 +6866,10 @@ func (x *fastReflection_QueryPropertyRequest) Mutable(fd protoreflect.FieldDescr
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryPropertyRequest.class_id":
 		panic(fmt.Errorf("field class_id of message andromeda.internft.v1alpha1.QueryPropertyRequest is not mutable"))
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.nft_id":
-		panic(fmt.Errorf("field nft_id of message andromeda.internft.v1alpha1.QueryPropertyRequest is not mutable"))
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.property_id":
-		panic(fmt.Errorf("field property_id of message andromeda.internft.v1alpha1.QueryPropertyRequest is not mutable"))
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.token_id":
+		panic(fmt.Errorf("field token_id of message andromeda.internft.v1alpha1.QueryPropertyRequest is not mutable"))
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.trait_id":
+		panic(fmt.Errorf("field trait_id of message andromeda.internft.v1alpha1.QueryPropertyRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryPropertyRequest"))
@@ -6885,9 +6885,9 @@ func (x *fastReflection_QueryPropertyRequest) NewField(fd protoreflect.FieldDesc
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryPropertyRequest.class_id":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.nft_id":
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.token_id":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.QueryPropertyRequest.property_id":
+	case "andromeda.internft.v1alpha1.QueryPropertyRequest.trait_id":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
@@ -6962,11 +6962,11 @@ func (x *fastReflection_QueryPropertyRequest) ProtoMethods() *protoiface.Methods
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.NftId)
+		l = len(x.TokenId)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.PropertyId)
+		l = len(x.TraitId)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -6999,17 +6999,17 @@ func (x *fastReflection_QueryPropertyRequest) ProtoMethods() *protoiface.Methods
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.PropertyId) > 0 {
-			i -= len(x.PropertyId)
-			copy(dAtA[i:], x.PropertyId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.PropertyId)))
+		if len(x.TraitId) > 0 {
+			i -= len(x.TraitId)
+			copy(dAtA[i:], x.TraitId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TraitId)))
 			i--
 			dAtA[i] = 0x1a
 		}
-		if len(x.NftId) > 0 {
-			i -= len(x.NftId)
-			copy(dAtA[i:], x.NftId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.NftId)))
+		if len(x.TokenId) > 0 {
+			i -= len(x.TokenId)
+			copy(dAtA[i:], x.TokenId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TokenId)))
 			i--
 			dAtA[i] = 0x12
 		}
@@ -7103,7 +7103,7 @@ func (x *fastReflection_QueryPropertyRequest) ProtoMethods() *protoiface.Methods
 				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NftId", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TokenId", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -7131,11 +7131,11 @@ func (x *fastReflection_QueryPropertyRequest) ProtoMethods() *protoiface.Methods
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.NftId = string(dAtA[iNdEx:postIndex])
+				x.TokenId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field PropertyId", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TraitId", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -7163,7 +7163,7 @@ func (x *fastReflection_QueryPropertyRequest) ProtoMethods() *protoiface.Methods
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.PropertyId = string(dAtA[iNdEx:postIndex])
+				x.TraitId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -7638,7 +7638,7 @@ func (x *fastReflection_QueryPropertyResponse) ProtoMethods() *protoiface.Method
 var (
 	md_QueryPropertiesRequest            protoreflect.MessageDescriptor
 	fd_QueryPropertiesRequest_class_id   protoreflect.FieldDescriptor
-	fd_QueryPropertiesRequest_nft_id     protoreflect.FieldDescriptor
+	fd_QueryPropertiesRequest_token_id   protoreflect.FieldDescriptor
 	fd_QueryPropertiesRequest_pagination protoreflect.FieldDescriptor
 )
 
@@ -7646,7 +7646,7 @@ func init() {
 	file_andromeda_internft_v1alpha1_query_proto_init()
 	md_QueryPropertiesRequest = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryPropertiesRequest")
 	fd_QueryPropertiesRequest_class_id = md_QueryPropertiesRequest.Fields().ByName("class_id")
-	fd_QueryPropertiesRequest_nft_id = md_QueryPropertiesRequest.Fields().ByName("nft_id")
+	fd_QueryPropertiesRequest_token_id = md_QueryPropertiesRequest.Fields().ByName("token_id")
 	fd_QueryPropertiesRequest_pagination = md_QueryPropertiesRequest.Fields().ByName("pagination")
 }
 
@@ -7721,9 +7721,9 @@ func (x *fastReflection_QueryPropertiesRequest) Range(f func(protoreflect.FieldD
 			return
 		}
 	}
-	if x.NftId != "" {
-		value := protoreflect.ValueOfString(x.NftId)
-		if !f(fd_QueryPropertiesRequest_nft_id, value) {
+	if x.TokenId != "" {
+		value := protoreflect.ValueOfString(x.TokenId)
+		if !f(fd_QueryPropertiesRequest_token_id, value) {
 			return
 		}
 	}
@@ -7750,8 +7750,8 @@ func (x *fastReflection_QueryPropertiesRequest) Has(fd protoreflect.FieldDescrip
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.class_id":
 		return x.ClassId != ""
-	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.nft_id":
-		return x.NftId != ""
+	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.token_id":
+		return x.TokenId != ""
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.pagination":
 		return x.Pagination != nil
 	default:
@@ -7772,8 +7772,8 @@ func (x *fastReflection_QueryPropertiesRequest) Clear(fd protoreflect.FieldDescr
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.class_id":
 		x.ClassId = ""
-	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.nft_id":
-		x.NftId = ""
+	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.token_id":
+		x.TokenId = ""
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.pagination":
 		x.Pagination = nil
 	default:
@@ -7795,8 +7795,8 @@ func (x *fastReflection_QueryPropertiesRequest) Get(descriptor protoreflect.Fiel
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.class_id":
 		value := x.ClassId
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.nft_id":
-		value := x.NftId
+	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.token_id":
+		value := x.TokenId
 		return protoreflect.ValueOfString(value)
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.pagination":
 		value := x.Pagination
@@ -7823,8 +7823,8 @@ func (x *fastReflection_QueryPropertiesRequest) Set(fd protoreflect.FieldDescrip
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.class_id":
 		x.ClassId = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.nft_id":
-		x.NftId = value.Interface().(string)
+	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.token_id":
+		x.TokenId = value.Interface().(string)
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.pagination":
 		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
@@ -7854,8 +7854,8 @@ func (x *fastReflection_QueryPropertiesRequest) Mutable(fd protoreflect.FieldDes
 		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.class_id":
 		panic(fmt.Errorf("field class_id of message andromeda.internft.v1alpha1.QueryPropertiesRequest is not mutable"))
-	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.nft_id":
-		panic(fmt.Errorf("field nft_id of message andromeda.internft.v1alpha1.QueryPropertiesRequest is not mutable"))
+	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.token_id":
+		panic(fmt.Errorf("field token_id of message andromeda.internft.v1alpha1.QueryPropertiesRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryPropertiesRequest"))
@@ -7871,7 +7871,7 @@ func (x *fastReflection_QueryPropertiesRequest) NewField(fd protoreflect.FieldDe
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.class_id":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.nft_id":
+	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.token_id":
 		return protoreflect.ValueOfString("")
 	case "andromeda.internft.v1alpha1.QueryPropertiesRequest.pagination":
 		m := new(v1beta1.PageRequest)
@@ -7949,7 +7949,7 @@ func (x *fastReflection_QueryPropertiesRequest) ProtoMethods() *protoiface.Metho
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.NftId)
+		l = len(x.TokenId)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -8000,10 +8000,10 @@ func (x *fastReflection_QueryPropertiesRequest) ProtoMethods() *protoiface.Metho
 			i--
 			dAtA[i] = 0x1a
 		}
-		if len(x.NftId) > 0 {
-			i -= len(x.NftId)
-			copy(dAtA[i:], x.NftId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.NftId)))
+		if len(x.TokenId) > 0 {
+			i -= len(x.TokenId)
+			copy(dAtA[i:], x.TokenId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TokenId)))
 			i--
 			dAtA[i] = 0x12
 		}
@@ -8097,7 +8097,7 @@ func (x *fastReflection_QueryPropertiesRequest) ProtoMethods() *protoiface.Metho
 				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NftId", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TokenId", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -8125,7 +8125,7 @@ func (x *fastReflection_QueryPropertiesRequest) ProtoMethods() *protoiface.Metho
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.NftId = string(dAtA[iNdEx:postIndex])
+				x.TokenId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
@@ -8774,14 +8774,14 @@ func (x *fastReflection_QueryPropertiesResponse) ProtoMethods() *protoiface.Meth
 var (
 	md_QueryOwnerRequest          protoreflect.MessageDescriptor
 	fd_QueryOwnerRequest_class_id protoreflect.FieldDescriptor
-	fd_QueryOwnerRequest_nft_id   protoreflect.FieldDescriptor
+	fd_QueryOwnerRequest_token_id protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_query_proto_init()
 	md_QueryOwnerRequest = File_andromeda_internft_v1alpha1_query_proto.Messages().ByName("QueryOwnerRequest")
 	fd_QueryOwnerRequest_class_id = md_QueryOwnerRequest.Fields().ByName("class_id")
-	fd_QueryOwnerRequest_nft_id = md_QueryOwnerRequest.Fields().ByName("nft_id")
+	fd_QueryOwnerRequest_token_id = md_QueryOwnerRequest.Fields().ByName("token_id")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryOwnerRequest)(nil)
@@ -8855,9 +8855,9 @@ func (x *fastReflection_QueryOwnerRequest) Range(f func(protoreflect.FieldDescri
 			return
 		}
 	}
-	if x.NftId != "" {
-		value := protoreflect.ValueOfString(x.NftId)
-		if !f(fd_QueryOwnerRequest_nft_id, value) {
+	if x.TokenId != "" {
+		value := protoreflect.ValueOfString(x.TokenId)
+		if !f(fd_QueryOwnerRequest_token_id, value) {
 			return
 		}
 	}
@@ -8878,8 +8878,8 @@ func (x *fastReflection_QueryOwnerRequest) Has(fd protoreflect.FieldDescriptor) 
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryOwnerRequest.class_id":
 		return x.ClassId != ""
-	case "andromeda.internft.v1alpha1.QueryOwnerRequest.nft_id":
-		return x.NftId != ""
+	case "andromeda.internft.v1alpha1.QueryOwnerRequest.token_id":
+		return x.TokenId != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryOwnerRequest"))
@@ -8898,8 +8898,8 @@ func (x *fastReflection_QueryOwnerRequest) Clear(fd protoreflect.FieldDescriptor
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryOwnerRequest.class_id":
 		x.ClassId = ""
-	case "andromeda.internft.v1alpha1.QueryOwnerRequest.nft_id":
-		x.NftId = ""
+	case "andromeda.internft.v1alpha1.QueryOwnerRequest.token_id":
+		x.TokenId = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryOwnerRequest"))
@@ -8919,8 +8919,8 @@ func (x *fastReflection_QueryOwnerRequest) Get(descriptor protoreflect.FieldDesc
 	case "andromeda.internft.v1alpha1.QueryOwnerRequest.class_id":
 		value := x.ClassId
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.QueryOwnerRequest.nft_id":
-		value := x.NftId
+	case "andromeda.internft.v1alpha1.QueryOwnerRequest.token_id":
+		value := x.TokenId
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
@@ -8944,8 +8944,8 @@ func (x *fastReflection_QueryOwnerRequest) Set(fd protoreflect.FieldDescriptor, 
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryOwnerRequest.class_id":
 		x.ClassId = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.QueryOwnerRequest.nft_id":
-		x.NftId = value.Interface().(string)
+	case "andromeda.internft.v1alpha1.QueryOwnerRequest.token_id":
+		x.TokenId = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryOwnerRequest"))
@@ -8968,8 +8968,8 @@ func (x *fastReflection_QueryOwnerRequest) Mutable(fd protoreflect.FieldDescript
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryOwnerRequest.class_id":
 		panic(fmt.Errorf("field class_id of message andromeda.internft.v1alpha1.QueryOwnerRequest is not mutable"))
-	case "andromeda.internft.v1alpha1.QueryOwnerRequest.nft_id":
-		panic(fmt.Errorf("field nft_id of message andromeda.internft.v1alpha1.QueryOwnerRequest is not mutable"))
+	case "andromeda.internft.v1alpha1.QueryOwnerRequest.token_id":
+		panic(fmt.Errorf("field token_id of message andromeda.internft.v1alpha1.QueryOwnerRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.QueryOwnerRequest"))
@@ -8985,7 +8985,7 @@ func (x *fastReflection_QueryOwnerRequest) NewField(fd protoreflect.FieldDescrip
 	switch fd.FullName() {
 	case "andromeda.internft.v1alpha1.QueryOwnerRequest.class_id":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.QueryOwnerRequest.nft_id":
+	case "andromeda.internft.v1alpha1.QueryOwnerRequest.token_id":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
@@ -9060,7 +9060,7 @@ func (x *fastReflection_QueryOwnerRequest) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.NftId)
+		l = len(x.TokenId)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -9093,10 +9093,10 @@ func (x *fastReflection_QueryOwnerRequest) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.NftId) > 0 {
-			i -= len(x.NftId)
-			copy(dAtA[i:], x.NftId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.NftId)))
+		if len(x.TokenId) > 0 {
+			i -= len(x.TokenId)
+			copy(dAtA[i:], x.TokenId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TokenId)))
 			i--
 			dAtA[i] = 0x12
 		}
@@ -9190,7 +9190,7 @@ func (x *fastReflection_QueryOwnerRequest) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NftId", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TokenId", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -9218,7 +9218,7 @@ func (x *fastReflection_QueryOwnerRequest) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.NftId = string(dAtA[iNdEx:postIndex])
+				x.TokenId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -10084,20 +10084,20 @@ func (x *QueryTraitsResponse) GetPagination() *v1beta1.PageResponse {
 	return nil
 }
 
-// QueryNFTRequest is the request type for the Query/NFT RPC method.
-type QueryNFTRequest struct {
+// QueryTokenRequest is the request type for the Query/Token RPC method.
+type QueryTokenRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// the identifier of a class
 	ClassId string `protobuf:"bytes,1,opt,name=class_id,json=classId,proto3" json:"class_id,omitempty"`
-	// the identifier of an NFT
-	NftId string `protobuf:"bytes,2,opt,name=nft_id,json=nftId,proto3" json:"nft_id,omitempty"`
+	// the identifier of a token
+	TokenId string `protobuf:"bytes,2,opt,name=token_id,json=tokenId,proto3" json:"token_id,omitempty"`
 }
 
-func (x *QueryNFTRequest) Reset() {
-	*x = QueryNFTRequest{}
+func (x *QueryTokenRequest) Reset() {
+	*x = QueryTokenRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_query_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -10105,43 +10105,43 @@ func (x *QueryNFTRequest) Reset() {
 	}
 }
 
-func (x *QueryNFTRequest) String() string {
+func (x *QueryTokenRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryNFTRequest) ProtoMessage() {}
+func (*QueryTokenRequest) ProtoMessage() {}
 
-// Deprecated: Use QueryNFTRequest.ProtoReflect.Descriptor instead.
-func (*QueryNFTRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryTokenRequest.ProtoReflect.Descriptor instead.
+func (*QueryTokenRequest) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_query_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *QueryNFTRequest) GetClassId() string {
+func (x *QueryTokenRequest) GetClassId() string {
 	if x != nil {
 		return x.ClassId
 	}
 	return ""
 }
 
-func (x *QueryNFTRequest) GetNftId() string {
+func (x *QueryTokenRequest) GetTokenId() string {
 	if x != nil {
-		return x.NftId
+		return x.TokenId
 	}
 	return ""
 }
 
-// QueryNFTResponse is the response type for the Query/NFT RPC method.
-type QueryNFTResponse struct {
+// QueryTokenResponse is the response type for the Query/Token RPC method.
+type QueryTokenResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// the corresponding NFT
-	Nft *NFT `protobuf:"bytes,1,opt,name=nft,proto3" json:"nft,omitempty"`
+	// the corresponding token
+	Token *Token `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
 }
 
-func (x *QueryNFTResponse) Reset() {
-	*x = QueryNFTResponse{}
+func (x *QueryTokenResponse) Reset() {
+	*x = QueryTokenResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_query_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -10149,26 +10149,26 @@ func (x *QueryNFTResponse) Reset() {
 	}
 }
 
-func (x *QueryNFTResponse) String() string {
+func (x *QueryTokenResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryNFTResponse) ProtoMessage() {}
+func (*QueryTokenResponse) ProtoMessage() {}
 
-// Deprecated: Use QueryNFTResponse.ProtoReflect.Descriptor instead.
-func (*QueryNFTResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryTokenResponse.ProtoReflect.Descriptor instead.
+func (*QueryTokenResponse) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_query_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *QueryNFTResponse) GetNft() *NFT {
+func (x *QueryTokenResponse) GetToken() *Token {
 	if x != nil {
-		return x.Nft
+		return x.Token
 	}
 	return nil
 }
 
-// QueryNFTsRequest is the request type for the Query/NFTs RPC method.
-type QueryNFTsRequest struct {
+// QueryTokensRequest is the request type for the Query/Tokens RPC method.
+type QueryTokensRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -10179,8 +10179,8 @@ type QueryNFTsRequest struct {
 	Pagination *v1beta1.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
-func (x *QueryNFTsRequest) Reset() {
-	*x = QueryNFTsRequest{}
+func (x *QueryTokensRequest) Reset() {
+	*x = QueryTokensRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_query_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -10188,45 +10188,45 @@ func (x *QueryNFTsRequest) Reset() {
 	}
 }
 
-func (x *QueryNFTsRequest) String() string {
+func (x *QueryTokensRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryNFTsRequest) ProtoMessage() {}
+func (*QueryTokensRequest) ProtoMessage() {}
 
-// Deprecated: Use QueryNFTsRequest.ProtoReflect.Descriptor instead.
-func (*QueryNFTsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryTokensRequest.ProtoReflect.Descriptor instead.
+func (*QueryTokensRequest) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_query_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *QueryNFTsRequest) GetClassId() string {
+func (x *QueryTokensRequest) GetClassId() string {
 	if x != nil {
 		return x.ClassId
 	}
 	return ""
 }
 
-func (x *QueryNFTsRequest) GetPagination() *v1beta1.PageRequest {
+func (x *QueryTokensRequest) GetPagination() *v1beta1.PageRequest {
 	if x != nil {
 		return x.Pagination
 	}
 	return nil
 }
 
-// QueryNFTsResponse is the response type for the Query/NFTs RPC method.
-type QueryNFTsResponse struct {
+// QueryTokensResponse is the response type for the Query/Tokens RPC method.
+type QueryTokensResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// all the nfts of the corresponding class
-	Nfts []*NFT `protobuf:"bytes,1,rep,name=nfts,proto3" json:"nfts,omitempty"`
+	// all the tokens of the corresponding class
+	Tokens []*Token `protobuf:"bytes,1,rep,name=tokens,proto3" json:"tokens,omitempty"`
 	// pagination in the response
 	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
-func (x *QueryNFTsResponse) Reset() {
-	*x = QueryNFTsResponse{}
+func (x *QueryTokensResponse) Reset() {
+	*x = QueryTokensResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_query_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -10234,25 +10234,25 @@ func (x *QueryNFTsResponse) Reset() {
 	}
 }
 
-func (x *QueryNFTsResponse) String() string {
+func (x *QueryTokensResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryNFTsResponse) ProtoMessage() {}
+func (*QueryTokensResponse) ProtoMessage() {}
 
-// Deprecated: Use QueryNFTsResponse.ProtoReflect.Descriptor instead.
-func (*QueryNFTsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryTokensResponse.ProtoReflect.Descriptor instead.
+func (*QueryTokensResponse) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_query_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *QueryNFTsResponse) GetNfts() []*NFT {
+func (x *QueryTokensResponse) GetTokens() []*Token {
 	if x != nil {
-		return x.Nfts
+		return x.Tokens
 	}
 	return nil
 }
 
-func (x *QueryNFTsResponse) GetPagination() *v1beta1.PageResponse {
+func (x *QueryTokensResponse) GetPagination() *v1beta1.PageResponse {
 	if x != nil {
 		return x.Pagination
 	}
@@ -10267,10 +10267,10 @@ type QueryPropertyRequest struct {
 
 	// the identifier of a class
 	ClassId string `protobuf:"bytes,1,opt,name=class_id,json=classId,proto3" json:"class_id,omitempty"`
-	// the identifier of an NFT
-	NftId string `protobuf:"bytes,2,opt,name=nft_id,json=nftId,proto3" json:"nft_id,omitempty"`
-	// the identifier of a property
-	PropertyId string `protobuf:"bytes,3,opt,name=property_id,json=propertyId,proto3" json:"property_id,omitempty"`
+	// the identifier of a token
+	TokenId string `protobuf:"bytes,2,opt,name=token_id,json=tokenId,proto3" json:"token_id,omitempty"`
+	// the identifier of the corresponding trait
+	TraitId string `protobuf:"bytes,3,opt,name=trait_id,json=traitId,proto3" json:"trait_id,omitempty"`
 }
 
 func (x *QueryPropertyRequest) Reset() {
@@ -10300,16 +10300,16 @@ func (x *QueryPropertyRequest) GetClassId() string {
 	return ""
 }
 
-func (x *QueryPropertyRequest) GetNftId() string {
+func (x *QueryPropertyRequest) GetTokenId() string {
 	if x != nil {
-		return x.NftId
+		return x.TokenId
 	}
 	return ""
 }
 
-func (x *QueryPropertyRequest) GetPropertyId() string {
+func (x *QueryPropertyRequest) GetTraitId() string {
 	if x != nil {
-		return x.PropertyId
+		return x.TraitId
 	}
 	return ""
 }
@@ -10359,8 +10359,8 @@ type QueryPropertiesRequest struct {
 
 	// the identifier of a class
 	ClassId string `protobuf:"bytes,1,opt,name=class_id,json=classId,proto3" json:"class_id,omitempty"`
-	// the identifier of an NFT
-	NftId string `protobuf:"bytes,2,opt,name=nft_id,json=nftId,proto3" json:"nft_id,omitempty"`
+	// the identifier of a token
+	TokenId string `protobuf:"bytes,2,opt,name=token_id,json=tokenId,proto3" json:"token_id,omitempty"`
 	// optional pagination for the request
 	Pagination *v1beta1.PageRequest `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
@@ -10392,9 +10392,9 @@ func (x *QueryPropertiesRequest) GetClassId() string {
 	return ""
 }
 
-func (x *QueryPropertiesRequest) GetNftId() string {
+func (x *QueryPropertiesRequest) GetTokenId() string {
 	if x != nil {
-		return x.NftId
+		return x.TokenId
 	}
 	return ""
 }
@@ -10412,7 +10412,7 @@ type QueryPropertiesResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// all the properties of the corresponding NFT
+	// all the properties of the corresponding token
 	Properties []*Property `protobuf:"bytes,1,rep,name=properties,proto3" json:"properties,omitempty"`
 	// pagination in the response
 	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
@@ -10460,8 +10460,8 @@ type QueryOwnerRequest struct {
 
 	// the identifier of a class
 	ClassId string `protobuf:"bytes,1,opt,name=class_id,json=classId,proto3" json:"class_id,omitempty"`
-	// the identifier of an NFT
-	NftId string `protobuf:"bytes,2,opt,name=nft_id,json=nftId,proto3" json:"nft_id,omitempty"`
+	// the identifier of a token
+	TokenId string `protobuf:"bytes,2,opt,name=token_id,json=tokenId,proto3" json:"token_id,omitempty"`
 }
 
 func (x *QueryOwnerRequest) Reset() {
@@ -10491,9 +10491,9 @@ func (x *QueryOwnerRequest) GetClassId() string {
 	return ""
 }
 
-func (x *QueryOwnerRequest) GetNftId() string {
+func (x *QueryOwnerRequest) GetTokenId() string {
 	if x != nil {
-		return x.NftId
+		return x.TokenId
 	}
 	return ""
 }
@@ -10504,7 +10504,7 @@ type QueryOwnerResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// the owner of the corresponding NFT
+	// the owner of the corresponding token
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
 }
 
@@ -10611,148 +10611,151 @@ var file_andromeda_internft_v1alpha1_query_proto_rawDesc = []byte{
 	0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e,
 	0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61,
 	0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
-	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x43, 0x0a, 0x0f, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e,
-	0x46, 0x54, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x63, 0x6c, 0x61,
-	0x73, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6c, 0x61,
-	0x73, 0x73, 0x49, 0x64, 0x12, 0x15, 0x0a, 0x06, 0x6e, 0x66, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6e, 0x66, 0x74, 0x49, 0x64, 0x22, 0x46, 0x0a, 0x10, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4e, 0x46, 0x54, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
-	0x32, 0x0a, 0x03, 0x6e, 0x66, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x61,
-	0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
-	0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4e, 0x46, 0x54, 0x52, 0x03,
-	0x6e, 0x66, 0x74, 0x22, 0x75, 0x0a, 0x10, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x46, 0x54, 0x73,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x49, 0x0a, 0x11, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x63,
+	0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63,
+	0x6c, 0x61, 0x73, 0x73, 0x49, 0x64, 0x12, 0x19, 0x0a, 0x08, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x5f,
+	0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x49,
+	0x64, 0x22, 0x4e, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x38, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
+	0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c,
+	0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x22, 0x77, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x73,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x63, 0x6c, 0x61, 0x73, 0x73,
 	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6c, 0x61, 0x73, 0x73,
 	0x49, 0x64, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
 	0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74,
 	0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a,
-	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x98, 0x01, 0x0a, 0x11, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4e, 0x46, 0x54, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x3a, 0x0a, 0x04, 0x6e, 0x66, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x20,
-	0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72,
-	0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4e, 0x46, 0x54,
-	0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x04, 0x6e, 0x66, 0x74, 0x73, 0x12, 0x47, 0x0a, 0x0a,
-	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71,
-	0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67,
-	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x69, 0x0a, 0x14, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72,
-	0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a,
-	0x08, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x07, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x49, 0x64, 0x12, 0x15, 0x0a, 0x06, 0x6e, 0x66, 0x74, 0x5f,
-	0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6e, 0x66, 0x74, 0x49, 0x64, 0x12,
-	0x1f, 0x0a, 0x0b, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x49, 0x64,
-	0x22, 0x5a, 0x0a, 0x15, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74,
-	0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x41, 0x0a, 0x08, 0x70, 0x72, 0x6f,
-	0x70, 0x65, 0x72, 0x74, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x61, 0x6e,
-	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
-	0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72,
-	0x74, 0x79, 0x52, 0x08, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x22, 0x92, 0x01, 0x0a,
-	0x16, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x63, 0x6c, 0x61, 0x73, 0x73,
-	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6c, 0x61, 0x73, 0x73,
-	0x49, 0x64, 0x12, 0x15, 0x0a, 0x06, 0x6e, 0x66, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x05, 0x6e, 0x66, 0x74, 0x49, 0x64, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67,
-	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e,
-	0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72,
-	0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x22, 0xaf, 0x01, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65,
-	0x72, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x4b, 0x0a,
-	0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xa0, 0x01, 0x0a, 0x13, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x40, 0x0a, 0x06, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x74, 0x6f,
+	0x6b, 0x65, 0x6e, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
+	0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62,
+	0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x67, 0x0a,
+	0x14, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x49, 0x64,
+	0x12, 0x19, 0x0a, 0x08, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x07, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x49, 0x64, 0x12, 0x19, 0x0a, 0x08, 0x74,
+	0x72, 0x61, 0x69, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x74,
+	0x72, 0x61, 0x69, 0x74, 0x49, 0x64, 0x22, 0x5a, 0x0a, 0x15, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50,
+	0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x41, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x25, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e,
 	0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e,
-	0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0a,
-	0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61,
-	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27,
-	0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65,
-	0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x22, 0x45, 0x0a, 0x11, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4f, 0x77, 0x6e, 0x65,
-	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x63, 0x6c, 0x61, 0x73,
-	0x73, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6c, 0x61, 0x73,
-	0x73, 0x49, 0x64, 0x12, 0x15, 0x0a, 0x06, 0x6e, 0x66, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x05, 0x6e, 0x66, 0x74, 0x49, 0x64, 0x22, 0x44, 0x0a, 0x12, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42,
-	0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72,
-	0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72,
-	0x32, 0xf3, 0x0d, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x98, 0x01, 0x0a, 0x06, 0x50,
-	0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
-	0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
-	0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c,
-	0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x25,
-	0x12, 0x23, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74,
-	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x70,
-	0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0xa1, 0x01, 0x0a, 0x05, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x12,
-	0x2e, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65,
-	0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65,
-	0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x37, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x31, 0x12, 0x2f, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f,
-	0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31,
-	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b,
-	0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x9c, 0x01, 0x0a, 0x07, 0x43, 0x6c,
-	0x61, 0x73, 0x73, 0x65, 0x73, 0x12, 0x30, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
+	0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x52, 0x08, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72,
+	0x74, 0x79, 0x22, 0x96, 0x01, 0x0a, 0x16, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70,
+	0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19, 0x0a,
+	0x08, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x07, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x49, 0x64, 0x12, 0x19, 0x0a, 0x08, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x49, 0x64, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
+	0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65,
+	0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xaf, 0x01, 0x0a, 0x17,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x4b, 0x0a, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65,
+	0x72, 0x74, 0x69, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x61, 0x6e,
+	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
+	0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72,
+	0x74, 0x79, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72,
+	0x74, 0x69, 0x65, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
+	0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62,
+	0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x49, 0x0a,
+	0x11, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x49, 0x64, 0x12, 0x19, 0x0a,
+	0x08, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x07, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x49, 0x64, 0x22, 0x44, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2e,
+	0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
+	0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x32, 0x8e,
+	0x0e, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x98, 0x01, 0x0a, 0x06, 0x50, 0x61, 0x72,
+	0x61, 0x6d, 0x73, 0x12, 0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e,
+	0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
+	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x25, 0x12, 0x23,
+	0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72,
+	0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x70, 0x61, 0x72,
+	0x61, 0x6d, 0x73, 0x12, 0xa1, 0x01, 0x0a, 0x05, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x2e, 0x2e,
+	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2f, 0x2e,
+	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x37,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x31, 0x12, 0x2f, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
+	0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c,
+	0x70, 0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b, 0x63, 0x6c,
+	0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x9c, 0x01, 0x0a, 0x07, 0x43, 0x6c, 0x61, 0x73,
+	0x73, 0x65, 0x73, 0x12, 0x30, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e,
+	0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
 	0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
 	0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
-	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x6c, 0x61, 0x73, 0x73,
-	0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2c, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x26, 0x12, 0x24, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69,
-	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
-	0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x12, 0xb3, 0x01, 0x0a, 0x05, 0x54, 0x72, 0x61,
-	0x69, 0x74, 0x12, 0x2e, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
-	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x72, 0x61, 0x69, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
-	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x72, 0x61, 0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x49, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x43, 0x12, 0x41, 0x2f, 0x61, 0x6e,
-	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
-	0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65,
-	0x73, 0x2f, 0x7b, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x74, 0x72, 0x61,
-	0x69, 0x74, 0x73, 0x2f, 0x7b, 0x74, 0x72, 0x61, 0x69, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xab,
-	0x01, 0x0a, 0x06, 0x54, 0x72, 0x61, 0x69, 0x74, 0x73, 0x12, 0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72,
-	0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76,
-	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x72, 0x61,
-	0x69, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x61, 0x6e, 0x64,
-	0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e,
-	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x72,
-	0x61, 0x69, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3e, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x38, 0x12, 0x36, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
-	0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
-	0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b, 0x63, 0x6c, 0x61, 0x73,
-	0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x74, 0x72, 0x61, 0x69, 0x74, 0x73, 0x12, 0xa9, 0x01, 0x0a,
-	0x03, 0x4e, 0x46, 0x54, 0x12, 0x2c, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
-	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
-	0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x46, 0x54, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
-	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x46, 0x54, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x45, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x3f, 0x12, 0x3d, 0x2f, 0x61, 0x6e, 0x64, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x26,
+	0x12, 0x24, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74,
+	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x63,
+	0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x12, 0xb3, 0x01, 0x0a, 0x05, 0x54, 0x72, 0x61, 0x69, 0x74,
+	0x12, 0x2e, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74,
+	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x54, 0x72, 0x61, 0x69, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74,
+	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x54, 0x72, 0x61, 0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x49, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x43, 0x12, 0x41, 0x2f, 0x61, 0x6e, 0x64, 0x72,
 	0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76,
 	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f,
-	0x7b, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6e, 0x66, 0x74, 0x73, 0x2f,
-	0x7b, 0x6e, 0x66, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xa3, 0x01, 0x0a, 0x04, 0x4e, 0x46, 0x54,
-	0x73, 0x12, 0x2d, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e,
-	0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x4e, 0x46, 0x54, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x2e, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74,
-	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4e, 0x46, 0x54, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x3c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x36, 0x12, 0x34, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f,
-	0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31,
-	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b,
-	0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6e, 0x66, 0x74, 0x73, 0x12, 0xd1,
+	0x7b, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x74, 0x72, 0x61, 0x69, 0x74,
+	0x73, 0x2f, 0x7b, 0x74, 0x72, 0x61, 0x69, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xab, 0x01, 0x0a,
+	0x06, 0x54, 0x72, 0x61, 0x69, 0x74, 0x73, 0x12, 0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
+	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x72, 0x61, 0x69, 0x74,
+	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f,
+	0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31,
+	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x72, 0x61, 0x69,
+	0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3e, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x38, 0x12, 0x36, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x74, 0x72, 0x61, 0x69, 0x74, 0x73, 0x12, 0xb3, 0x01, 0x0a, 0x05, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x2e, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
+	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
+	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x49, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x43, 0x12, 0x41, 0x2f,
+	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73,
+	0x73, 0x65, 0x73, 0x2f, 0x7b, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x74,
+	0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x2f, 0x7b, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x5f, 0x69, 0x64, 0x7d,
+	0x12, 0xab, 0x01, 0x0a, 0x06, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x12, 0x2f, 0x2e, 0x61, 0x6e,
+	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
+	0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x61,
+	0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
+	0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3e,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x38, 0x12, 0x36, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
+	0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c,
+	0x70, 0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b, 0x63, 0x6c,
+	0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x12, 0xd2,
 	0x01, 0x0a, 0x08, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x12, 0x31, 0x2e, 0x61, 0x6e,
 	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
 	0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50,
@@ -10760,52 +10763,53 @@ var file_andromeda_internft_v1alpha1_query_proto_rawDesc = []byte{
 	0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72,
 	0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65,
 	0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x5e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x58, 0x12, 0x56, 0x2f, 0x61, 0x6e, 0x64,
+	0x73, 0x65, 0x22, 0x5f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x59, 0x12, 0x57, 0x2f, 0x61, 0x6e, 0x64,
 	0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f,
 	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73,
-	0x2f, 0x7b, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6e, 0x66, 0x74, 0x73,
-	0x2f, 0x7b, 0x6e, 0x66, 0x74, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72,
-	0x74, 0x69, 0x65, 0x73, 0x2f, 0x7b, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x5f, 0x69,
-	0x64, 0x7d, 0x12, 0xc9, 0x01, 0x0a, 0x0a, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65,
-	0x73, 0x12, 0x33, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e,
-	0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x34, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
-	0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c,
-	0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72,
-	0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x50, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x4a, 0x12, 0x48, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
+	0x2f, 0x7b, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x73, 0x2f, 0x7b, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x70, 0x72,
+	0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x2f, 0x7b, 0x74, 0x72, 0x61, 0x69, 0x74, 0x5f,
+	0x69, 0x64, 0x7d, 0x12, 0xcd, 0x01, 0x0a, 0x0a, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69,
+	0x65, 0x73, 0x12, 0x33, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x34, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
+	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x70, 0x65,
+	0x72, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x54, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x4e, 0x12, 0x4c, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
+	0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70,
+	0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b, 0x63, 0x6c, 0x61,
+	0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x2f, 0x7b, 0x74,
+	0x6f, 0x6b, 0x65, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74,
+	0x69, 0x65, 0x73, 0x12, 0xb9, 0x01, 0x0a, 0x05, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x2e, 0x2e,
+	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2f, 0x2e,
+	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x4f,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x49, 0x12, 0x47, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
+	0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c,
+	0x70, 0x68, 0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b, 0x63, 0x6c,
+	0x61, 0x73, 0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x2f, 0x7b,
+	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x42,
+	0xed, 0x01, 0x0a, 0x1f, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
+	0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
+	0x68, 0x61, 0x31, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
+	0x01, 0x5a, 0x30, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
 	0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
-	0x61, 0x31, 0x2f, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b, 0x63, 0x6c, 0x61, 0x73,
-	0x73, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6e, 0x66, 0x74, 0x73, 0x2f, 0x7b, 0x6e, 0x66, 0x74, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x12, 0xb5,
-	0x01, 0x0a, 0x05, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x2e, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f,
-	0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31,
-	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4f, 0x77, 0x6e, 0x65,
-	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f,
-	0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31,
-	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4f, 0x77, 0x6e, 0x65,
-	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x4b, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0x45, 0x12, 0x43, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e,
-	0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2f,
-	0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x2f, 0x7b, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x6e, 0x66, 0x74, 0x73, 0x2f, 0x7b, 0x6e, 0x66, 0x74, 0x5f, 0x69, 0x64, 0x7d,
-	0x2f, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x42, 0xed, 0x01, 0x0a, 0x1f, 0x63, 0x6f, 0x6d, 0x2e, 0x61,
-	0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
-	0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x30, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e,
-	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
-	0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
-	0x66, 0x74, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x41, 0x49, 0x58,
-	0xaa, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x49, 0x6e, 0x74,
-	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02,
-	0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72,
-	0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xe2, 0x02, 0x27, 0x41,
-	0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
-	0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65,
-	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1d, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
-	0x64, 0x61, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x3a, 0x3a, 0x56, 0x31,
-	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x31, 0x3b, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x76, 0x31, 0x61, 0x6c, 0x70,
+	0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x41, 0x49, 0x58, 0xaa, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72,
+	0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x56,
+	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
+	0x65, 0x64, 0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0xe2, 0x02, 0x27, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
+	0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70,
+	0x68, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea,
+	0x02, 0x1d, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x3a, 0x3a, 0x49, 0x6e, 0x74,
+	0x65, 0x72, 0x6e, 0x66, 0x74, 0x3a, 0x3a, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -10832,10 +10836,10 @@ var file_andromeda_internft_v1alpha1_query_proto_goTypes = []interface{}{
 	(*QueryTraitResponse)(nil),      // 7: andromeda.internft.v1alpha1.QueryTraitResponse
 	(*QueryTraitsRequest)(nil),      // 8: andromeda.internft.v1alpha1.QueryTraitsRequest
 	(*QueryTraitsResponse)(nil),     // 9: andromeda.internft.v1alpha1.QueryTraitsResponse
-	(*QueryNFTRequest)(nil),         // 10: andromeda.internft.v1alpha1.QueryNFTRequest
-	(*QueryNFTResponse)(nil),        // 11: andromeda.internft.v1alpha1.QueryNFTResponse
-	(*QueryNFTsRequest)(nil),        // 12: andromeda.internft.v1alpha1.QueryNFTsRequest
-	(*QueryNFTsResponse)(nil),       // 13: andromeda.internft.v1alpha1.QueryNFTsResponse
+	(*QueryTokenRequest)(nil),       // 10: andromeda.internft.v1alpha1.QueryTokenRequest
+	(*QueryTokenResponse)(nil),      // 11: andromeda.internft.v1alpha1.QueryTokenResponse
+	(*QueryTokensRequest)(nil),      // 12: andromeda.internft.v1alpha1.QueryTokensRequest
+	(*QueryTokensResponse)(nil),     // 13: andromeda.internft.v1alpha1.QueryTokensResponse
 	(*QueryPropertyRequest)(nil),    // 14: andromeda.internft.v1alpha1.QueryPropertyRequest
 	(*QueryPropertyResponse)(nil),   // 15: andromeda.internft.v1alpha1.QueryPropertyResponse
 	(*QueryPropertiesRequest)(nil),  // 16: andromeda.internft.v1alpha1.QueryPropertiesRequest
@@ -10847,7 +10851,7 @@ var file_andromeda_internft_v1alpha1_query_proto_goTypes = []interface{}{
 	(*v1beta1.PageRequest)(nil),     // 22: cosmos.base.query.v1beta1.PageRequest
 	(*v1beta1.PageResponse)(nil),    // 23: cosmos.base.query.v1beta1.PageResponse
 	(*Trait)(nil),                   // 24: andromeda.internft.v1alpha1.Trait
-	(*NFT)(nil),                     // 25: andromeda.internft.v1alpha1.NFT
+	(*Token)(nil),                   // 25: andromeda.internft.v1alpha1.Token
 	(*Property)(nil),                // 26: andromeda.internft.v1alpha1.Property
 }
 var file_andromeda_internft_v1alpha1_query_proto_depIdxs = []int32{
@@ -10860,10 +10864,10 @@ var file_andromeda_internft_v1alpha1_query_proto_depIdxs = []int32{
 	22, // 6: andromeda.internft.v1alpha1.QueryTraitsRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
 	24, // 7: andromeda.internft.v1alpha1.QueryTraitsResponse.traits:type_name -> andromeda.internft.v1alpha1.Trait
 	23, // 8: andromeda.internft.v1alpha1.QueryTraitsResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	25, // 9: andromeda.internft.v1alpha1.QueryNFTResponse.nft:type_name -> andromeda.internft.v1alpha1.NFT
-	22, // 10: andromeda.internft.v1alpha1.QueryNFTsRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	25, // 11: andromeda.internft.v1alpha1.QueryNFTsResponse.nfts:type_name -> andromeda.internft.v1alpha1.NFT
-	23, // 12: andromeda.internft.v1alpha1.QueryNFTsResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	25, // 9: andromeda.internft.v1alpha1.QueryTokenResponse.token:type_name -> andromeda.internft.v1alpha1.Token
+	22, // 10: andromeda.internft.v1alpha1.QueryTokensRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	25, // 11: andromeda.internft.v1alpha1.QueryTokensResponse.tokens:type_name -> andromeda.internft.v1alpha1.Token
+	23, // 12: andromeda.internft.v1alpha1.QueryTokensResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
 	26, // 13: andromeda.internft.v1alpha1.QueryPropertyResponse.property:type_name -> andromeda.internft.v1alpha1.Property
 	22, // 14: andromeda.internft.v1alpha1.QueryPropertiesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
 	26, // 15: andromeda.internft.v1alpha1.QueryPropertiesResponse.properties:type_name -> andromeda.internft.v1alpha1.Property
@@ -10873,8 +10877,8 @@ var file_andromeda_internft_v1alpha1_query_proto_depIdxs = []int32{
 	4,  // 19: andromeda.internft.v1alpha1.Query.Classes:input_type -> andromeda.internft.v1alpha1.QueryClassesRequest
 	6,  // 20: andromeda.internft.v1alpha1.Query.Trait:input_type -> andromeda.internft.v1alpha1.QueryTraitRequest
 	8,  // 21: andromeda.internft.v1alpha1.Query.Traits:input_type -> andromeda.internft.v1alpha1.QueryTraitsRequest
-	10, // 22: andromeda.internft.v1alpha1.Query.NFT:input_type -> andromeda.internft.v1alpha1.QueryNFTRequest
-	12, // 23: andromeda.internft.v1alpha1.Query.NFTs:input_type -> andromeda.internft.v1alpha1.QueryNFTsRequest
+	10, // 22: andromeda.internft.v1alpha1.Query.Token:input_type -> andromeda.internft.v1alpha1.QueryTokenRequest
+	12, // 23: andromeda.internft.v1alpha1.Query.Tokens:input_type -> andromeda.internft.v1alpha1.QueryTokensRequest
 	14, // 24: andromeda.internft.v1alpha1.Query.Property:input_type -> andromeda.internft.v1alpha1.QueryPropertyRequest
 	16, // 25: andromeda.internft.v1alpha1.Query.Properties:input_type -> andromeda.internft.v1alpha1.QueryPropertiesRequest
 	18, // 26: andromeda.internft.v1alpha1.Query.Owner:input_type -> andromeda.internft.v1alpha1.QueryOwnerRequest
@@ -10883,8 +10887,8 @@ var file_andromeda_internft_v1alpha1_query_proto_depIdxs = []int32{
 	5,  // 29: andromeda.internft.v1alpha1.Query.Classes:output_type -> andromeda.internft.v1alpha1.QueryClassesResponse
 	7,  // 30: andromeda.internft.v1alpha1.Query.Trait:output_type -> andromeda.internft.v1alpha1.QueryTraitResponse
 	9,  // 31: andromeda.internft.v1alpha1.Query.Traits:output_type -> andromeda.internft.v1alpha1.QueryTraitsResponse
-	11, // 32: andromeda.internft.v1alpha1.Query.NFT:output_type -> andromeda.internft.v1alpha1.QueryNFTResponse
-	13, // 33: andromeda.internft.v1alpha1.Query.NFTs:output_type -> andromeda.internft.v1alpha1.QueryNFTsResponse
+	11, // 32: andromeda.internft.v1alpha1.Query.Token:output_type -> andromeda.internft.v1alpha1.QueryTokenResponse
+	13, // 33: andromeda.internft.v1alpha1.Query.Tokens:output_type -> andromeda.internft.v1alpha1.QueryTokensResponse
 	15, // 34: andromeda.internft.v1alpha1.Query.Property:output_type -> andromeda.internft.v1alpha1.QueryPropertyResponse
 	17, // 35: andromeda.internft.v1alpha1.Query.Properties:output_type -> andromeda.internft.v1alpha1.QueryPropertiesResponse
 	19, // 36: andromeda.internft.v1alpha1.Query.Owner:output_type -> andromeda.internft.v1alpha1.QueryOwnerResponse
@@ -11023,7 +11027,7 @@ func file_andromeda_internft_v1alpha1_query_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_query_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryNFTRequest); i {
+			switch v := v.(*QueryTokenRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -11035,7 +11039,7 @@ func file_andromeda_internft_v1alpha1_query_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_query_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryNFTResponse); i {
+			switch v := v.(*QueryTokenResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -11047,7 +11051,7 @@ func file_andromeda_internft_v1alpha1_query_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_query_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryNFTsRequest); i {
+			switch v := v.(*QueryTokensRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -11059,7 +11063,7 @@ func file_andromeda_internft_v1alpha1_query_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_query_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryNFTsResponse); i {
+			switch v := v.(*QueryTokensResponse); i {
 			case 0:
 				return &v.state
 			case 1:

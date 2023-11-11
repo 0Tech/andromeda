@@ -20,7 +20,7 @@ var (
 	md_MsgSend           protoreflect.MessageDescriptor
 	fd_MsgSend_sender    protoreflect.FieldDescriptor
 	fd_MsgSend_recipient protoreflect.FieldDescriptor
-	fd_MsgSend_nft       protoreflect.FieldDescriptor
+	fd_MsgSend_token     protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -28,7 +28,7 @@ func init() {
 	md_MsgSend = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgSend")
 	fd_MsgSend_sender = md_MsgSend.Fields().ByName("sender")
 	fd_MsgSend_recipient = md_MsgSend.Fields().ByName("recipient")
-	fd_MsgSend_nft = md_MsgSend.Fields().ByName("nft")
+	fd_MsgSend_token = md_MsgSend.Fields().ByName("token")
 }
 
 var _ protoreflect.Message = (*fastReflection_MsgSend)(nil)
@@ -108,9 +108,9 @@ func (x *fastReflection_MsgSend) Range(f func(protoreflect.FieldDescriptor, prot
 			return
 		}
 	}
-	if x.Nft != nil {
-		value := protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
-		if !f(fd_MsgSend_nft, value) {
+	if x.Token != nil {
+		value := protoreflect.ValueOfMessage(x.Token.ProtoReflect())
+		if !f(fd_MsgSend_token, value) {
 			return
 		}
 	}
@@ -133,8 +133,8 @@ func (x *fastReflection_MsgSend) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.Sender != ""
 	case "andromeda.internft.v1alpha1.MsgSend.recipient":
 		return x.Recipient != ""
-	case "andromeda.internft.v1alpha1.MsgSend.nft":
-		return x.Nft != nil
+	case "andromeda.internft.v1alpha1.MsgSend.token":
+		return x.Token != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgSend"))
@@ -155,8 +155,8 @@ func (x *fastReflection_MsgSend) Clear(fd protoreflect.FieldDescriptor) {
 		x.Sender = ""
 	case "andromeda.internft.v1alpha1.MsgSend.recipient":
 		x.Recipient = ""
-	case "andromeda.internft.v1alpha1.MsgSend.nft":
-		x.Nft = nil
+	case "andromeda.internft.v1alpha1.MsgSend.token":
+		x.Token = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgSend"))
@@ -179,8 +179,8 @@ func (x *fastReflection_MsgSend) Get(descriptor protoreflect.FieldDescriptor) pr
 	case "andromeda.internft.v1alpha1.MsgSend.recipient":
 		value := x.Recipient
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.MsgSend.nft":
-		value := x.Nft
+	case "andromeda.internft.v1alpha1.MsgSend.token":
+		value := x.Token
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
@@ -206,8 +206,8 @@ func (x *fastReflection_MsgSend) Set(fd protoreflect.FieldDescriptor, value prot
 		x.Sender = value.Interface().(string)
 	case "andromeda.internft.v1alpha1.MsgSend.recipient":
 		x.Recipient = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.MsgSend.nft":
-		x.Nft = value.Message().Interface().(*NFT)
+	case "andromeda.internft.v1alpha1.MsgSend.token":
+		x.Token = value.Message().Interface().(*Token)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgSend"))
@@ -228,11 +228,11 @@ func (x *fastReflection_MsgSend) Set(fd protoreflect.FieldDescriptor, value prot
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgSend) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgSend.nft":
-		if x.Nft == nil {
-			x.Nft = new(NFT)
+	case "andromeda.internft.v1alpha1.MsgSend.token":
+		if x.Token == nil {
+			x.Token = new(Token)
 		}
-		return protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
+		return protoreflect.ValueOfMessage(x.Token.ProtoReflect())
 	case "andromeda.internft.v1alpha1.MsgSend.sender":
 		panic(fmt.Errorf("field sender of message andromeda.internft.v1alpha1.MsgSend is not mutable"))
 	case "andromeda.internft.v1alpha1.MsgSend.recipient":
@@ -254,8 +254,8 @@ func (x *fastReflection_MsgSend) NewField(fd protoreflect.FieldDescriptor) proto
 		return protoreflect.ValueOfString("")
 	case "andromeda.internft.v1alpha1.MsgSend.recipient":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.MsgSend.nft":
-		m := new(NFT)
+	case "andromeda.internft.v1alpha1.MsgSend.token":
+		m := new(Token)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
@@ -334,8 +334,8 @@ func (x *fastReflection_MsgSend) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Nft != nil {
-			l = options.Size(x.Nft)
+		if x.Token != nil {
+			l = options.Size(x.Token)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
@@ -367,8 +367,8 @@ func (x *fastReflection_MsgSend) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.Nft != nil {
-			encoded, err := options.Marshal(x.Nft)
+		if x.Token != nil {
+			encoded, err := options.Marshal(x.Token)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -510,7 +510,7 @@ func (x *fastReflection_MsgSend) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -537,10 +537,10 @@ func (x *fastReflection_MsgSend) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Nft == nil {
-					x.Nft = &NFT{}
+				if x.Token == nil {
+					x.Token = &Token{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Nft); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Token); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -2941,83 +2941,83 @@ func (x *fastReflection_MsgUpdateClassResponse) ProtoMethods() *protoiface.Metho
 	}
 }
 
-var _ protoreflect.List = (*_MsgMintNFT_4_list)(nil)
+var _ protoreflect.List = (*_MsgNewToken_4_list)(nil)
 
-type _MsgMintNFT_4_list struct {
+type _MsgNewToken_4_list struct {
 	list *[]*Property
 }
 
-func (x *_MsgMintNFT_4_list) Len() int {
+func (x *_MsgNewToken_4_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_MsgMintNFT_4_list) Get(i int) protoreflect.Value {
+func (x *_MsgNewToken_4_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_MsgMintNFT_4_list) Set(i int, value protoreflect.Value) {
+func (x *_MsgNewToken_4_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*Property)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_MsgMintNFT_4_list) Append(value protoreflect.Value) {
+func (x *_MsgNewToken_4_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*Property)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_MsgMintNFT_4_list) AppendMutable() protoreflect.Value {
+func (x *_MsgNewToken_4_list) AppendMutable() protoreflect.Value {
 	v := new(Property)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_MsgMintNFT_4_list) Truncate(n int) {
+func (x *_MsgNewToken_4_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_MsgMintNFT_4_list) NewElement() protoreflect.Value {
+func (x *_MsgNewToken_4_list) NewElement() protoreflect.Value {
 	v := new(Property)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_MsgMintNFT_4_list) IsValid() bool {
+func (x *_MsgNewToken_4_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_MsgMintNFT            protoreflect.MessageDescriptor
-	fd_MsgMintNFT_operator   protoreflect.FieldDescriptor
-	fd_MsgMintNFT_recipient  protoreflect.FieldDescriptor
-	fd_MsgMintNFT_nft        protoreflect.FieldDescriptor
-	fd_MsgMintNFT_properties protoreflect.FieldDescriptor
+	md_MsgNewToken            protoreflect.MessageDescriptor
+	fd_MsgNewToken_operator   protoreflect.FieldDescriptor
+	fd_MsgNewToken_recipient  protoreflect.FieldDescriptor
+	fd_MsgNewToken_token      protoreflect.FieldDescriptor
+	fd_MsgNewToken_properties protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_tx_proto_init()
-	md_MsgMintNFT = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgMintNFT")
-	fd_MsgMintNFT_operator = md_MsgMintNFT.Fields().ByName("operator")
-	fd_MsgMintNFT_recipient = md_MsgMintNFT.Fields().ByName("recipient")
-	fd_MsgMintNFT_nft = md_MsgMintNFT.Fields().ByName("nft")
-	fd_MsgMintNFT_properties = md_MsgMintNFT.Fields().ByName("properties")
+	md_MsgNewToken = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgNewToken")
+	fd_MsgNewToken_operator = md_MsgNewToken.Fields().ByName("operator")
+	fd_MsgNewToken_recipient = md_MsgNewToken.Fields().ByName("recipient")
+	fd_MsgNewToken_token = md_MsgNewToken.Fields().ByName("token")
+	fd_MsgNewToken_properties = md_MsgNewToken.Fields().ByName("properties")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgMintNFT)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgNewToken)(nil)
 
-type fastReflection_MsgMintNFT MsgMintNFT
+type fastReflection_MsgNewToken MsgNewToken
 
-func (x *MsgMintNFT) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgMintNFT)(x)
+func (x *MsgNewToken) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgNewToken)(x)
 }
 
-func (x *MsgMintNFT) slowProtoReflect() protoreflect.Message {
+func (x *MsgNewToken) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3029,43 +3029,43 @@ func (x *MsgMintNFT) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgMintNFT_messageType fastReflection_MsgMintNFT_messageType
-var _ protoreflect.MessageType = fastReflection_MsgMintNFT_messageType{}
+var _fastReflection_MsgNewToken_messageType fastReflection_MsgNewToken_messageType
+var _ protoreflect.MessageType = fastReflection_MsgNewToken_messageType{}
 
-type fastReflection_MsgMintNFT_messageType struct{}
+type fastReflection_MsgNewToken_messageType struct{}
 
-func (x fastReflection_MsgMintNFT_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgMintNFT)(nil)
+func (x fastReflection_MsgNewToken_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgNewToken)(nil)
 }
-func (x fastReflection_MsgMintNFT_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgMintNFT)
+func (x fastReflection_MsgNewToken_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgNewToken)
 }
-func (x fastReflection_MsgMintNFT_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgMintNFT
+func (x fastReflection_MsgNewToken_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgNewToken
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgMintNFT) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgMintNFT
+func (x *fastReflection_MsgNewToken) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgNewToken
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgMintNFT) Type() protoreflect.MessageType {
-	return _fastReflection_MsgMintNFT_messageType
+func (x *fastReflection_MsgNewToken) Type() protoreflect.MessageType {
+	return _fastReflection_MsgNewToken_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgMintNFT) New() protoreflect.Message {
-	return new(fastReflection_MsgMintNFT)
+func (x *fastReflection_MsgNewToken) New() protoreflect.Message {
+	return new(fastReflection_MsgNewToken)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgMintNFT) Interface() protoreflect.ProtoMessage {
-	return (*MsgMintNFT)(x)
+func (x *fastReflection_MsgNewToken) Interface() protoreflect.ProtoMessage {
+	return (*MsgNewToken)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -3073,28 +3073,28 @@ func (x *fastReflection_MsgMintNFT) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgMintNFT) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgNewToken) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Operator != "" {
 		value := protoreflect.ValueOfString(x.Operator)
-		if !f(fd_MsgMintNFT_operator, value) {
+		if !f(fd_MsgNewToken_operator, value) {
 			return
 		}
 	}
 	if x.Recipient != "" {
 		value := protoreflect.ValueOfString(x.Recipient)
-		if !f(fd_MsgMintNFT_recipient, value) {
+		if !f(fd_MsgNewToken_recipient, value) {
 			return
 		}
 	}
-	if x.Nft != nil {
-		value := protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
-		if !f(fd_MsgMintNFT_nft, value) {
+	if x.Token != nil {
+		value := protoreflect.ValueOfMessage(x.Token.ProtoReflect())
+		if !f(fd_MsgNewToken_token, value) {
 			return
 		}
 	}
 	if len(x.Properties) != 0 {
-		value := protoreflect.ValueOfList(&_MsgMintNFT_4_list{list: &x.Properties})
-		if !f(fd_MsgMintNFT_properties, value) {
+		value := protoreflect.ValueOfList(&_MsgNewToken_4_list{list: &x.Properties})
+		if !f(fd_MsgNewToken_properties, value) {
 			return
 		}
 	}
@@ -3111,21 +3111,21 @@ func (x *fastReflection_MsgMintNFT) Range(f func(protoreflect.FieldDescriptor, p
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgMintNFT) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgNewToken) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgMintNFT.operator":
+	case "andromeda.internft.v1alpha1.MsgNewToken.operator":
 		return x.Operator != ""
-	case "andromeda.internft.v1alpha1.MsgMintNFT.recipient":
+	case "andromeda.internft.v1alpha1.MsgNewToken.recipient":
 		return x.Recipient != ""
-	case "andromeda.internft.v1alpha1.MsgMintNFT.nft":
-		return x.Nft != nil
-	case "andromeda.internft.v1alpha1.MsgMintNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgNewToken.token":
+		return x.Token != nil
+	case "andromeda.internft.v1alpha1.MsgNewToken.properties":
 		return len(x.Properties) != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3135,21 +3135,21 @@ func (x *fastReflection_MsgMintNFT) Has(fd protoreflect.FieldDescriptor) bool {
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgMintNFT) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgNewToken) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgMintNFT.operator":
+	case "andromeda.internft.v1alpha1.MsgNewToken.operator":
 		x.Operator = ""
-	case "andromeda.internft.v1alpha1.MsgMintNFT.recipient":
+	case "andromeda.internft.v1alpha1.MsgNewToken.recipient":
 		x.Recipient = ""
-	case "andromeda.internft.v1alpha1.MsgMintNFT.nft":
-		x.Nft = nil
-	case "andromeda.internft.v1alpha1.MsgMintNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgNewToken.token":
+		x.Token = nil
+	case "andromeda.internft.v1alpha1.MsgNewToken.properties":
 		x.Properties = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3159,28 +3159,28 @@ func (x *fastReflection_MsgMintNFT) Clear(fd protoreflect.FieldDescriptor) {
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgMintNFT) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgNewToken) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.MsgMintNFT.operator":
+	case "andromeda.internft.v1alpha1.MsgNewToken.operator":
 		value := x.Operator
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.MsgMintNFT.recipient":
+	case "andromeda.internft.v1alpha1.MsgNewToken.recipient":
 		value := x.Recipient
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.MsgMintNFT.nft":
-		value := x.Nft
+	case "andromeda.internft.v1alpha1.MsgNewToken.token":
+		value := x.Token
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "andromeda.internft.v1alpha1.MsgMintNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgNewToken.properties":
 		if len(x.Properties) == 0 {
-			return protoreflect.ValueOfList(&_MsgMintNFT_4_list{})
+			return protoreflect.ValueOfList(&_MsgNewToken_4_list{})
 		}
-		listValue := &_MsgMintNFT_4_list{list: &x.Properties}
+		listValue := &_MsgNewToken_4_list{list: &x.Properties}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFT does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewToken does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -3194,23 +3194,23 @@ func (x *fastReflection_MsgMintNFT) Get(descriptor protoreflect.FieldDescriptor)
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgMintNFT) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgNewToken) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgMintNFT.operator":
+	case "andromeda.internft.v1alpha1.MsgNewToken.operator":
 		x.Operator = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.MsgMintNFT.recipient":
+	case "andromeda.internft.v1alpha1.MsgNewToken.recipient":
 		x.Recipient = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.MsgMintNFT.nft":
-		x.Nft = value.Message().Interface().(*NFT)
-	case "andromeda.internft.v1alpha1.MsgMintNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgNewToken.token":
+		x.Token = value.Message().Interface().(*Token)
+	case "andromeda.internft.v1alpha1.MsgNewToken.properties":
 		lv := value.List()
-		clv := lv.(*_MsgMintNFT_4_list)
+		clv := lv.(*_MsgNewToken_4_list)
 		x.Properties = *clv.list
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3224,61 +3224,61 @@ func (x *fastReflection_MsgMintNFT) Set(fd protoreflect.FieldDescriptor, value p
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgMintNFT) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgNewToken) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgMintNFT.nft":
-		if x.Nft == nil {
-			x.Nft = new(NFT)
+	case "andromeda.internft.v1alpha1.MsgNewToken.token":
+		if x.Token == nil {
+			x.Token = new(Token)
 		}
-		return protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
-	case "andromeda.internft.v1alpha1.MsgMintNFT.properties":
+		return protoreflect.ValueOfMessage(x.Token.ProtoReflect())
+	case "andromeda.internft.v1alpha1.MsgNewToken.properties":
 		if x.Properties == nil {
 			x.Properties = []*Property{}
 		}
-		value := &_MsgMintNFT_4_list{list: &x.Properties}
+		value := &_MsgNewToken_4_list{list: &x.Properties}
 		return protoreflect.ValueOfList(value)
-	case "andromeda.internft.v1alpha1.MsgMintNFT.operator":
-		panic(fmt.Errorf("field operator of message andromeda.internft.v1alpha1.MsgMintNFT is not mutable"))
-	case "andromeda.internft.v1alpha1.MsgMintNFT.recipient":
-		panic(fmt.Errorf("field recipient of message andromeda.internft.v1alpha1.MsgMintNFT is not mutable"))
+	case "andromeda.internft.v1alpha1.MsgNewToken.operator":
+		panic(fmt.Errorf("field operator of message andromeda.internft.v1alpha1.MsgNewToken is not mutable"))
+	case "andromeda.internft.v1alpha1.MsgNewToken.recipient":
+		panic(fmt.Errorf("field recipient of message andromeda.internft.v1alpha1.MsgNewToken is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgMintNFT) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgNewToken) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgMintNFT.operator":
+	case "andromeda.internft.v1alpha1.MsgNewToken.operator":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.MsgMintNFT.recipient":
+	case "andromeda.internft.v1alpha1.MsgNewToken.recipient":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.MsgMintNFT.nft":
-		m := new(NFT)
+	case "andromeda.internft.v1alpha1.MsgNewToken.token":
+		m := new(Token)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "andromeda.internft.v1alpha1.MsgMintNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgNewToken.properties":
 		list := []*Property{}
-		return protoreflect.ValueOfList(&_MsgMintNFT_4_list{list: &list})
+		return protoreflect.ValueOfList(&_MsgNewToken_4_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgMintNFT) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgNewToken) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgMintNFT", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgNewToken", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -3286,7 +3286,7 @@ func (x *fastReflection_MsgMintNFT) WhichOneof(d protoreflect.OneofDescriptor) p
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgMintNFT) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgNewToken) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -3297,7 +3297,7 @@ func (x *fastReflection_MsgMintNFT) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgMintNFT) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgNewToken) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -3309,7 +3309,7 @@ func (x *fastReflection_MsgMintNFT) SetUnknown(fields protoreflect.RawFields) {
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgMintNFT) IsValid() bool {
+func (x *fastReflection_MsgNewToken) IsValid() bool {
 	return x != nil
 }
 
@@ -3319,9 +3319,9 @@ func (x *fastReflection_MsgMintNFT) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgMintNFT) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgNewToken) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgMintNFT)
+		x := input.Message.Interface().(*MsgNewToken)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3341,8 +3341,8 @@ func (x *fastReflection_MsgMintNFT) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Nft != nil {
-			l = options.Size(x.Nft)
+		if x.Token != nil {
+			l = options.Size(x.Token)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if len(x.Properties) > 0 {
@@ -3361,7 +3361,7 @@ func (x *fastReflection_MsgMintNFT) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgMintNFT)
+		x := input.Message.Interface().(*MsgNewToken)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3396,8 +3396,8 @@ func (x *fastReflection_MsgMintNFT) ProtoMethods() *protoiface.Methods {
 				dAtA[i] = 0x22
 			}
 		}
-		if x.Nft != nil {
-			encoded, err := options.Marshal(x.Nft)
+		if x.Token != nil {
+			encoded, err := options.Marshal(x.Token)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3435,7 +3435,7 @@ func (x *fastReflection_MsgMintNFT) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgMintNFT)
+		x := input.Message.Interface().(*MsgNewToken)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3467,10 +3467,10 @@ func (x *fastReflection_MsgMintNFT) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgMintNFT: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgNewToken: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgMintNFT: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgNewToken: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -3539,7 +3539,7 @@ func (x *fastReflection_MsgMintNFT) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -3566,10 +3566,10 @@ func (x *fastReflection_MsgMintNFT) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Nft == nil {
-					x.Nft = &NFT{}
+				if x.Token == nil {
+					x.Token = &Token{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Nft); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Token); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -3643,23 +3643,23 @@ func (x *fastReflection_MsgMintNFT) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_MsgMintNFTResponse protoreflect.MessageDescriptor
+	md_MsgNewTokenResponse protoreflect.MessageDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_tx_proto_init()
-	md_MsgMintNFTResponse = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgMintNFTResponse")
+	md_MsgNewTokenResponse = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgNewTokenResponse")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgMintNFTResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgNewTokenResponse)(nil)
 
-type fastReflection_MsgMintNFTResponse MsgMintNFTResponse
+type fastReflection_MsgNewTokenResponse MsgNewTokenResponse
 
-func (x *MsgMintNFTResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgMintNFTResponse)(x)
+func (x *MsgNewTokenResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgNewTokenResponse)(x)
 }
 
-func (x *MsgMintNFTResponse) slowProtoReflect() protoreflect.Message {
+func (x *MsgNewTokenResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3671,43 +3671,43 @@ func (x *MsgMintNFTResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgMintNFTResponse_messageType fastReflection_MsgMintNFTResponse_messageType
-var _ protoreflect.MessageType = fastReflection_MsgMintNFTResponse_messageType{}
+var _fastReflection_MsgNewTokenResponse_messageType fastReflection_MsgNewTokenResponse_messageType
+var _ protoreflect.MessageType = fastReflection_MsgNewTokenResponse_messageType{}
 
-type fastReflection_MsgMintNFTResponse_messageType struct{}
+type fastReflection_MsgNewTokenResponse_messageType struct{}
 
-func (x fastReflection_MsgMintNFTResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgMintNFTResponse)(nil)
+func (x fastReflection_MsgNewTokenResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgNewTokenResponse)(nil)
 }
-func (x fastReflection_MsgMintNFTResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgMintNFTResponse)
+func (x fastReflection_MsgNewTokenResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgNewTokenResponse)
 }
-func (x fastReflection_MsgMintNFTResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgMintNFTResponse
+func (x fastReflection_MsgNewTokenResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgNewTokenResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgMintNFTResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgMintNFTResponse
+func (x *fastReflection_MsgNewTokenResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgNewTokenResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgMintNFTResponse) Type() protoreflect.MessageType {
-	return _fastReflection_MsgMintNFTResponse_messageType
+func (x *fastReflection_MsgNewTokenResponse) Type() protoreflect.MessageType {
+	return _fastReflection_MsgNewTokenResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgMintNFTResponse) New() protoreflect.Message {
-	return new(fastReflection_MsgMintNFTResponse)
+func (x *fastReflection_MsgNewTokenResponse) New() protoreflect.Message {
+	return new(fastReflection_MsgNewTokenResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgMintNFTResponse) Interface() protoreflect.ProtoMessage {
-	return (*MsgMintNFTResponse)(x)
+func (x *fastReflection_MsgNewTokenResponse) Interface() protoreflect.ProtoMessage {
+	return (*MsgNewTokenResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -3715,7 +3715,7 @@ func (x *fastReflection_MsgMintNFTResponse) Interface() protoreflect.ProtoMessag
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgMintNFTResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgNewTokenResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 }
 
 // Has reports whether a field is populated.
@@ -3729,13 +3729,13 @@ func (x *fastReflection_MsgMintNFTResponse) Range(f func(protoreflect.FieldDescr
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgMintNFTResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgNewTokenResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3745,13 +3745,13 @@ func (x *fastReflection_MsgMintNFTResponse) Has(fd protoreflect.FieldDescriptor)
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgMintNFTResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgNewTokenResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3761,13 +3761,13 @@ func (x *fastReflection_MsgMintNFTResponse) Clear(fd protoreflect.FieldDescripto
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgMintNFTResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgNewTokenResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFTResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewTokenResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -3781,13 +3781,13 @@ func (x *fastReflection_MsgMintNFTResponse) Get(descriptor protoreflect.FieldDes
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgMintNFTResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgNewTokenResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3801,36 +3801,36 @@ func (x *fastReflection_MsgMintNFTResponse) Set(fd protoreflect.FieldDescriptor,
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgMintNFTResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgNewTokenResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgMintNFTResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgNewTokenResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgMintNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgNewTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgMintNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgNewTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgMintNFTResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgNewTokenResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgMintNFTResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgNewTokenResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -3838,7 +3838,7 @@ func (x *fastReflection_MsgMintNFTResponse) WhichOneof(d protoreflect.OneofDescr
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgMintNFTResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgNewTokenResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -3849,7 +3849,7 @@ func (x *fastReflection_MsgMintNFTResponse) GetUnknown() protoreflect.RawFields 
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgMintNFTResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgNewTokenResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -3861,7 +3861,7 @@ func (x *fastReflection_MsgMintNFTResponse) SetUnknown(fields protoreflect.RawFi
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgMintNFTResponse) IsValid() bool {
+func (x *fastReflection_MsgNewTokenResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -3871,9 +3871,9 @@ func (x *fastReflection_MsgMintNFTResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgMintNFTResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgNewTokenResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgMintNFTResponse)
+		x := input.Message.Interface().(*MsgNewTokenResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3895,7 +3895,7 @@ func (x *fastReflection_MsgMintNFTResponse) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgMintNFTResponse)
+		x := input.Message.Interface().(*MsgNewTokenResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3925,7 +3925,7 @@ func (x *fastReflection_MsgMintNFTResponse) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgMintNFTResponse)
+		x := input.Message.Interface().(*MsgNewTokenResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3957,10 +3957,10 @@ func (x *fastReflection_MsgMintNFTResponse) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgMintNFTResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgNewTokenResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgMintNFTResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgNewTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			default:
@@ -3999,27 +3999,27 @@ func (x *fastReflection_MsgMintNFTResponse) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_MsgBurnNFT       protoreflect.MessageDescriptor
-	fd_MsgBurnNFT_owner protoreflect.FieldDescriptor
-	fd_MsgBurnNFT_nft   protoreflect.FieldDescriptor
+	md_MsgBurnToken       protoreflect.MessageDescriptor
+	fd_MsgBurnToken_owner protoreflect.FieldDescriptor
+	fd_MsgBurnToken_token protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_tx_proto_init()
-	md_MsgBurnNFT = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgBurnNFT")
-	fd_MsgBurnNFT_owner = md_MsgBurnNFT.Fields().ByName("owner")
-	fd_MsgBurnNFT_nft = md_MsgBurnNFT.Fields().ByName("nft")
+	md_MsgBurnToken = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgBurnToken")
+	fd_MsgBurnToken_owner = md_MsgBurnToken.Fields().ByName("owner")
+	fd_MsgBurnToken_token = md_MsgBurnToken.Fields().ByName("token")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgBurnNFT)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgBurnToken)(nil)
 
-type fastReflection_MsgBurnNFT MsgBurnNFT
+type fastReflection_MsgBurnToken MsgBurnToken
 
-func (x *MsgBurnNFT) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgBurnNFT)(x)
+func (x *MsgBurnToken) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgBurnToken)(x)
 }
 
-func (x *MsgBurnNFT) slowProtoReflect() protoreflect.Message {
+func (x *MsgBurnToken) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4031,43 +4031,43 @@ func (x *MsgBurnNFT) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgBurnNFT_messageType fastReflection_MsgBurnNFT_messageType
-var _ protoreflect.MessageType = fastReflection_MsgBurnNFT_messageType{}
+var _fastReflection_MsgBurnToken_messageType fastReflection_MsgBurnToken_messageType
+var _ protoreflect.MessageType = fastReflection_MsgBurnToken_messageType{}
 
-type fastReflection_MsgBurnNFT_messageType struct{}
+type fastReflection_MsgBurnToken_messageType struct{}
 
-func (x fastReflection_MsgBurnNFT_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgBurnNFT)(nil)
+func (x fastReflection_MsgBurnToken_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgBurnToken)(nil)
 }
-func (x fastReflection_MsgBurnNFT_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgBurnNFT)
+func (x fastReflection_MsgBurnToken_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgBurnToken)
 }
-func (x fastReflection_MsgBurnNFT_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgBurnNFT
+func (x fastReflection_MsgBurnToken_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgBurnToken
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgBurnNFT) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgBurnNFT
+func (x *fastReflection_MsgBurnToken) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgBurnToken
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgBurnNFT) Type() protoreflect.MessageType {
-	return _fastReflection_MsgBurnNFT_messageType
+func (x *fastReflection_MsgBurnToken) Type() protoreflect.MessageType {
+	return _fastReflection_MsgBurnToken_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgBurnNFT) New() protoreflect.Message {
-	return new(fastReflection_MsgBurnNFT)
+func (x *fastReflection_MsgBurnToken) New() protoreflect.Message {
+	return new(fastReflection_MsgBurnToken)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgBurnNFT) Interface() protoreflect.ProtoMessage {
-	return (*MsgBurnNFT)(x)
+func (x *fastReflection_MsgBurnToken) Interface() protoreflect.ProtoMessage {
+	return (*MsgBurnToken)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -4075,16 +4075,16 @@ func (x *fastReflection_MsgBurnNFT) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgBurnNFT) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgBurnToken) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Owner != "" {
 		value := protoreflect.ValueOfString(x.Owner)
-		if !f(fd_MsgBurnNFT_owner, value) {
+		if !f(fd_MsgBurnToken_owner, value) {
 			return
 		}
 	}
-	if x.Nft != nil {
-		value := protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
-		if !f(fd_MsgBurnNFT_nft, value) {
+	if x.Token != nil {
+		value := protoreflect.ValueOfMessage(x.Token.ProtoReflect())
+		if !f(fd_MsgBurnToken_token, value) {
 			return
 		}
 	}
@@ -4101,17 +4101,17 @@ func (x *fastReflection_MsgBurnNFT) Range(f func(protoreflect.FieldDescriptor, p
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgBurnNFT) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgBurnToken) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgBurnToken.owner":
 		return x.Owner != ""
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.nft":
-		return x.Nft != nil
+	case "andromeda.internft.v1alpha1.MsgBurnToken.token":
+		return x.Token != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4121,17 +4121,17 @@ func (x *fastReflection_MsgBurnNFT) Has(fd protoreflect.FieldDescriptor) bool {
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgBurnNFT) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgBurnToken) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgBurnToken.owner":
 		x.Owner = ""
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.nft":
-		x.Nft = nil
+	case "andromeda.internft.v1alpha1.MsgBurnToken.token":
+		x.Token = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4141,19 +4141,19 @@ func (x *fastReflection_MsgBurnNFT) Clear(fd protoreflect.FieldDescriptor) {
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgBurnNFT) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgBurnToken) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgBurnToken.owner":
 		value := x.Owner
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.nft":
-		value := x.Nft
+	case "andromeda.internft.v1alpha1.MsgBurnToken.token":
+		value := x.Token
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFT does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnToken does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -4167,17 +4167,17 @@ func (x *fastReflection_MsgBurnNFT) Get(descriptor protoreflect.FieldDescriptor)
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgBurnNFT) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgBurnToken) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgBurnToken.owner":
 		x.Owner = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.nft":
-		x.Nft = value.Message().Interface().(*NFT)
+	case "andromeda.internft.v1alpha1.MsgBurnToken.token":
+		x.Token = value.Message().Interface().(*Token)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4191,48 +4191,48 @@ func (x *fastReflection_MsgBurnNFT) Set(fd protoreflect.FieldDescriptor, value p
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgBurnNFT) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgBurnToken) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.nft":
-		if x.Nft == nil {
-			x.Nft = new(NFT)
+	case "andromeda.internft.v1alpha1.MsgBurnToken.token":
+		if x.Token == nil {
+			x.Token = new(Token)
 		}
-		return protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.owner":
-		panic(fmt.Errorf("field owner of message andromeda.internft.v1alpha1.MsgBurnNFT is not mutable"))
+		return protoreflect.ValueOfMessage(x.Token.ProtoReflect())
+	case "andromeda.internft.v1alpha1.MsgBurnToken.owner":
+		panic(fmt.Errorf("field owner of message andromeda.internft.v1alpha1.MsgBurnToken is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgBurnNFT) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgBurnToken) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgBurnToken.owner":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.MsgBurnNFT.nft":
-		m := new(NFT)
+	case "andromeda.internft.v1alpha1.MsgBurnToken.token":
+		m := new(Token)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgBurnNFT) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgBurnToken) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgBurnNFT", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgBurnToken", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -4240,7 +4240,7 @@ func (x *fastReflection_MsgBurnNFT) WhichOneof(d protoreflect.OneofDescriptor) p
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgBurnNFT) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgBurnToken) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -4251,7 +4251,7 @@ func (x *fastReflection_MsgBurnNFT) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgBurnNFT) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgBurnToken) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -4263,7 +4263,7 @@ func (x *fastReflection_MsgBurnNFT) SetUnknown(fields protoreflect.RawFields) {
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgBurnNFT) IsValid() bool {
+func (x *fastReflection_MsgBurnToken) IsValid() bool {
 	return x != nil
 }
 
@@ -4273,9 +4273,9 @@ func (x *fastReflection_MsgBurnNFT) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgBurnNFT) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgBurnToken) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgBurnNFT)
+		x := input.Message.Interface().(*MsgBurnToken)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4291,8 +4291,8 @@ func (x *fastReflection_MsgBurnNFT) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Nft != nil {
-			l = options.Size(x.Nft)
+		if x.Token != nil {
+			l = options.Size(x.Token)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
@@ -4305,7 +4305,7 @@ func (x *fastReflection_MsgBurnNFT) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgBurnNFT)
+		x := input.Message.Interface().(*MsgBurnToken)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4324,8 +4324,8 @@ func (x *fastReflection_MsgBurnNFT) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.Nft != nil {
-			encoded, err := options.Marshal(x.Nft)
+		if x.Token != nil {
+			encoded, err := options.Marshal(x.Token)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4356,7 +4356,7 @@ func (x *fastReflection_MsgBurnNFT) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgBurnNFT)
+		x := input.Message.Interface().(*MsgBurnToken)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4388,10 +4388,10 @@ func (x *fastReflection_MsgBurnNFT) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgBurnNFT: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgBurnToken: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgBurnNFT: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgBurnToken: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -4428,7 +4428,7 @@ func (x *fastReflection_MsgBurnNFT) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -4455,10 +4455,10 @@ func (x *fastReflection_MsgBurnNFT) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Nft == nil {
-					x.Nft = &NFT{}
+				if x.Token == nil {
+					x.Token = &Token{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Nft); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Token); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -4498,23 +4498,23 @@ func (x *fastReflection_MsgBurnNFT) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_MsgBurnNFTResponse protoreflect.MessageDescriptor
+	md_MsgBurnTokenResponse protoreflect.MessageDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_tx_proto_init()
-	md_MsgBurnNFTResponse = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgBurnNFTResponse")
+	md_MsgBurnTokenResponse = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgBurnTokenResponse")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgBurnNFTResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgBurnTokenResponse)(nil)
 
-type fastReflection_MsgBurnNFTResponse MsgBurnNFTResponse
+type fastReflection_MsgBurnTokenResponse MsgBurnTokenResponse
 
-func (x *MsgBurnNFTResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgBurnNFTResponse)(x)
+func (x *MsgBurnTokenResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgBurnTokenResponse)(x)
 }
 
-func (x *MsgBurnNFTResponse) slowProtoReflect() protoreflect.Message {
+func (x *MsgBurnTokenResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4526,43 +4526,43 @@ func (x *MsgBurnNFTResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgBurnNFTResponse_messageType fastReflection_MsgBurnNFTResponse_messageType
-var _ protoreflect.MessageType = fastReflection_MsgBurnNFTResponse_messageType{}
+var _fastReflection_MsgBurnTokenResponse_messageType fastReflection_MsgBurnTokenResponse_messageType
+var _ protoreflect.MessageType = fastReflection_MsgBurnTokenResponse_messageType{}
 
-type fastReflection_MsgBurnNFTResponse_messageType struct{}
+type fastReflection_MsgBurnTokenResponse_messageType struct{}
 
-func (x fastReflection_MsgBurnNFTResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgBurnNFTResponse)(nil)
+func (x fastReflection_MsgBurnTokenResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgBurnTokenResponse)(nil)
 }
-func (x fastReflection_MsgBurnNFTResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgBurnNFTResponse)
+func (x fastReflection_MsgBurnTokenResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgBurnTokenResponse)
 }
-func (x fastReflection_MsgBurnNFTResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgBurnNFTResponse
+func (x fastReflection_MsgBurnTokenResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgBurnTokenResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgBurnNFTResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgBurnNFTResponse
+func (x *fastReflection_MsgBurnTokenResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgBurnTokenResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgBurnNFTResponse) Type() protoreflect.MessageType {
-	return _fastReflection_MsgBurnNFTResponse_messageType
+func (x *fastReflection_MsgBurnTokenResponse) Type() protoreflect.MessageType {
+	return _fastReflection_MsgBurnTokenResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgBurnNFTResponse) New() protoreflect.Message {
-	return new(fastReflection_MsgBurnNFTResponse)
+func (x *fastReflection_MsgBurnTokenResponse) New() protoreflect.Message {
+	return new(fastReflection_MsgBurnTokenResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgBurnNFTResponse) Interface() protoreflect.ProtoMessage {
-	return (*MsgBurnNFTResponse)(x)
+func (x *fastReflection_MsgBurnTokenResponse) Interface() protoreflect.ProtoMessage {
+	return (*MsgBurnTokenResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -4570,7 +4570,7 @@ func (x *fastReflection_MsgBurnNFTResponse) Interface() protoreflect.ProtoMessag
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgBurnNFTResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgBurnTokenResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 }
 
 // Has reports whether a field is populated.
@@ -4584,13 +4584,13 @@ func (x *fastReflection_MsgBurnNFTResponse) Range(f func(protoreflect.FieldDescr
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgBurnNFTResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgBurnTokenResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4600,13 +4600,13 @@ func (x *fastReflection_MsgBurnNFTResponse) Has(fd protoreflect.FieldDescriptor)
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgBurnNFTResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgBurnTokenResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4616,13 +4616,13 @@ func (x *fastReflection_MsgBurnNFTResponse) Clear(fd protoreflect.FieldDescripto
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgBurnNFTResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgBurnTokenResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFTResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnTokenResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -4636,13 +4636,13 @@ func (x *fastReflection_MsgBurnNFTResponse) Get(descriptor protoreflect.FieldDes
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgBurnNFTResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgBurnTokenResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -4656,36 +4656,36 @@ func (x *fastReflection_MsgBurnNFTResponse) Set(fd protoreflect.FieldDescriptor,
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgBurnNFTResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgBurnTokenResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgBurnNFTResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgBurnTokenResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgBurnTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgBurnTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgBurnNFTResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgBurnTokenResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgBurnNFTResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgBurnTokenResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -4693,7 +4693,7 @@ func (x *fastReflection_MsgBurnNFTResponse) WhichOneof(d protoreflect.OneofDescr
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgBurnNFTResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgBurnTokenResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -4704,7 +4704,7 @@ func (x *fastReflection_MsgBurnNFTResponse) GetUnknown() protoreflect.RawFields 
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgBurnNFTResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgBurnTokenResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -4716,7 +4716,7 @@ func (x *fastReflection_MsgBurnNFTResponse) SetUnknown(fields protoreflect.RawFi
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgBurnNFTResponse) IsValid() bool {
+func (x *fastReflection_MsgBurnTokenResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -4726,9 +4726,9 @@ func (x *fastReflection_MsgBurnNFTResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgBurnNFTResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgBurnTokenResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgBurnNFTResponse)
+		x := input.Message.Interface().(*MsgBurnTokenResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4750,7 +4750,7 @@ func (x *fastReflection_MsgBurnNFTResponse) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgBurnNFTResponse)
+		x := input.Message.Interface().(*MsgBurnTokenResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4780,7 +4780,7 @@ func (x *fastReflection_MsgBurnNFTResponse) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgBurnNFTResponse)
+		x := input.Message.Interface().(*MsgBurnTokenResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -4812,10 +4812,10 @@ func (x *fastReflection_MsgBurnNFTResponse) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgBurnNFTResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgBurnTokenResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgBurnNFTResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgBurnTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			default:
@@ -4853,81 +4853,81 @@ func (x *fastReflection_MsgBurnNFTResponse) ProtoMethods() *protoiface.Methods {
 	}
 }
 
-var _ protoreflect.List = (*_MsgUpdateNFT_3_list)(nil)
+var _ protoreflect.List = (*_MsgUpdateToken_3_list)(nil)
 
-type _MsgUpdateNFT_3_list struct {
+type _MsgUpdateToken_3_list struct {
 	list *[]*Property
 }
 
-func (x *_MsgUpdateNFT_3_list) Len() int {
+func (x *_MsgUpdateToken_3_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_MsgUpdateNFT_3_list) Get(i int) protoreflect.Value {
+func (x *_MsgUpdateToken_3_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_MsgUpdateNFT_3_list) Set(i int, value protoreflect.Value) {
+func (x *_MsgUpdateToken_3_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*Property)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_MsgUpdateNFT_3_list) Append(value protoreflect.Value) {
+func (x *_MsgUpdateToken_3_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*Property)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_MsgUpdateNFT_3_list) AppendMutable() protoreflect.Value {
+func (x *_MsgUpdateToken_3_list) AppendMutable() protoreflect.Value {
 	v := new(Property)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_MsgUpdateNFT_3_list) Truncate(n int) {
+func (x *_MsgUpdateToken_3_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_MsgUpdateNFT_3_list) NewElement() protoreflect.Value {
+func (x *_MsgUpdateToken_3_list) NewElement() protoreflect.Value {
 	v := new(Property)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_MsgUpdateNFT_3_list) IsValid() bool {
+func (x *_MsgUpdateToken_3_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_MsgUpdateNFT            protoreflect.MessageDescriptor
-	fd_MsgUpdateNFT_owner      protoreflect.FieldDescriptor
-	fd_MsgUpdateNFT_nft        protoreflect.FieldDescriptor
-	fd_MsgUpdateNFT_properties protoreflect.FieldDescriptor
+	md_MsgUpdateToken            protoreflect.MessageDescriptor
+	fd_MsgUpdateToken_owner      protoreflect.FieldDescriptor
+	fd_MsgUpdateToken_token      protoreflect.FieldDescriptor
+	fd_MsgUpdateToken_properties protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_tx_proto_init()
-	md_MsgUpdateNFT = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgUpdateNFT")
-	fd_MsgUpdateNFT_owner = md_MsgUpdateNFT.Fields().ByName("owner")
-	fd_MsgUpdateNFT_nft = md_MsgUpdateNFT.Fields().ByName("nft")
-	fd_MsgUpdateNFT_properties = md_MsgUpdateNFT.Fields().ByName("properties")
+	md_MsgUpdateToken = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgUpdateToken")
+	fd_MsgUpdateToken_owner = md_MsgUpdateToken.Fields().ByName("owner")
+	fd_MsgUpdateToken_token = md_MsgUpdateToken.Fields().ByName("token")
+	fd_MsgUpdateToken_properties = md_MsgUpdateToken.Fields().ByName("properties")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgUpdateNFT)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgUpdateToken)(nil)
 
-type fastReflection_MsgUpdateNFT MsgUpdateNFT
+type fastReflection_MsgUpdateToken MsgUpdateToken
 
-func (x *MsgUpdateNFT) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgUpdateNFT)(x)
+func (x *MsgUpdateToken) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgUpdateToken)(x)
 }
 
-func (x *MsgUpdateNFT) slowProtoReflect() protoreflect.Message {
+func (x *MsgUpdateToken) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4939,43 +4939,43 @@ func (x *MsgUpdateNFT) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgUpdateNFT_messageType fastReflection_MsgUpdateNFT_messageType
-var _ protoreflect.MessageType = fastReflection_MsgUpdateNFT_messageType{}
+var _fastReflection_MsgUpdateToken_messageType fastReflection_MsgUpdateToken_messageType
+var _ protoreflect.MessageType = fastReflection_MsgUpdateToken_messageType{}
 
-type fastReflection_MsgUpdateNFT_messageType struct{}
+type fastReflection_MsgUpdateToken_messageType struct{}
 
-func (x fastReflection_MsgUpdateNFT_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgUpdateNFT)(nil)
+func (x fastReflection_MsgUpdateToken_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgUpdateToken)(nil)
 }
-func (x fastReflection_MsgUpdateNFT_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgUpdateNFT)
+func (x fastReflection_MsgUpdateToken_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgUpdateToken)
 }
-func (x fastReflection_MsgUpdateNFT_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgUpdateNFT
+func (x fastReflection_MsgUpdateToken_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgUpdateToken
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgUpdateNFT) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgUpdateNFT
+func (x *fastReflection_MsgUpdateToken) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgUpdateToken
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgUpdateNFT) Type() protoreflect.MessageType {
-	return _fastReflection_MsgUpdateNFT_messageType
+func (x *fastReflection_MsgUpdateToken) Type() protoreflect.MessageType {
+	return _fastReflection_MsgUpdateToken_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgUpdateNFT) New() protoreflect.Message {
-	return new(fastReflection_MsgUpdateNFT)
+func (x *fastReflection_MsgUpdateToken) New() protoreflect.Message {
+	return new(fastReflection_MsgUpdateToken)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgUpdateNFT) Interface() protoreflect.ProtoMessage {
-	return (*MsgUpdateNFT)(x)
+func (x *fastReflection_MsgUpdateToken) Interface() protoreflect.ProtoMessage {
+	return (*MsgUpdateToken)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -4983,22 +4983,22 @@ func (x *fastReflection_MsgUpdateNFT) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgUpdateNFT) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgUpdateToken) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Owner != "" {
 		value := protoreflect.ValueOfString(x.Owner)
-		if !f(fd_MsgUpdateNFT_owner, value) {
+		if !f(fd_MsgUpdateToken_owner, value) {
 			return
 		}
 	}
-	if x.Nft != nil {
-		value := protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
-		if !f(fd_MsgUpdateNFT_nft, value) {
+	if x.Token != nil {
+		value := protoreflect.ValueOfMessage(x.Token.ProtoReflect())
+		if !f(fd_MsgUpdateToken_token, value) {
 			return
 		}
 	}
 	if len(x.Properties) != 0 {
-		value := protoreflect.ValueOfList(&_MsgUpdateNFT_3_list{list: &x.Properties})
-		if !f(fd_MsgUpdateNFT_properties, value) {
+		value := protoreflect.ValueOfList(&_MsgUpdateToken_3_list{list: &x.Properties})
+		if !f(fd_MsgUpdateToken_properties, value) {
 			return
 		}
 	}
@@ -5015,19 +5015,19 @@ func (x *fastReflection_MsgUpdateNFT) Range(f func(protoreflect.FieldDescriptor,
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgUpdateNFT) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgUpdateToken) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.owner":
 		return x.Owner != ""
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.nft":
-		return x.Nft != nil
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.token":
+		return x.Token != nil
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.properties":
 		return len(x.Properties) != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5037,19 +5037,19 @@ func (x *fastReflection_MsgUpdateNFT) Has(fd protoreflect.FieldDescriptor) bool 
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgUpdateNFT) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgUpdateToken) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.owner":
 		x.Owner = ""
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.nft":
-		x.Nft = nil
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.token":
+		x.Token = nil
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.properties":
 		x.Properties = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5059,25 +5059,25 @@ func (x *fastReflection_MsgUpdateNFT) Clear(fd protoreflect.FieldDescriptor) {
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgUpdateNFT) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgUpdateToken) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.owner":
 		value := x.Owner
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.nft":
-		value := x.Nft
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.token":
+		value := x.Token
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.properties":
 		if len(x.Properties) == 0 {
-			return protoreflect.ValueOfList(&_MsgUpdateNFT_3_list{})
+			return protoreflect.ValueOfList(&_MsgUpdateToken_3_list{})
 		}
-		listValue := &_MsgUpdateNFT_3_list{list: &x.Properties}
+		listValue := &_MsgUpdateToken_3_list{list: &x.Properties}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFT does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateToken does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -5091,21 +5091,21 @@ func (x *fastReflection_MsgUpdateNFT) Get(descriptor protoreflect.FieldDescripto
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgUpdateNFT) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgUpdateToken) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.owner":
 		x.Owner = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.nft":
-		x.Nft = value.Message().Interface().(*NFT)
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.token":
+		x.Token = value.Message().Interface().(*Token)
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.properties":
 		lv := value.List()
-		clv := lv.(*_MsgUpdateNFT_3_list)
+		clv := lv.(*_MsgUpdateToken_3_list)
 		x.Properties = *clv.list
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5119,57 +5119,57 @@ func (x *fastReflection_MsgUpdateNFT) Set(fd protoreflect.FieldDescriptor, value
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgUpdateNFT) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgUpdateToken) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.nft":
-		if x.Nft == nil {
-			x.Nft = new(NFT)
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.token":
+		if x.Token == nil {
+			x.Token = new(Token)
 		}
-		return protoreflect.ValueOfMessage(x.Nft.ProtoReflect())
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.properties":
+		return protoreflect.ValueOfMessage(x.Token.ProtoReflect())
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.properties":
 		if x.Properties == nil {
 			x.Properties = []*Property{}
 		}
-		value := &_MsgUpdateNFT_3_list{list: &x.Properties}
+		value := &_MsgUpdateToken_3_list{list: &x.Properties}
 		return protoreflect.ValueOfList(value)
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.owner":
-		panic(fmt.Errorf("field owner of message andromeda.internft.v1alpha1.MsgUpdateNFT is not mutable"))
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.owner":
+		panic(fmt.Errorf("field owner of message andromeda.internft.v1alpha1.MsgUpdateToken is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgUpdateNFT) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgUpdateToken) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.owner":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.owner":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.nft":
-		m := new(NFT)
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.token":
+		m := new(Token)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "andromeda.internft.v1alpha1.MsgUpdateNFT.properties":
+	case "andromeda.internft.v1alpha1.MsgUpdateToken.properties":
 		list := []*Property{}
-		return protoreflect.ValueOfList(&_MsgUpdateNFT_3_list{list: &list})
+		return protoreflect.ValueOfList(&_MsgUpdateToken_3_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFT"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFT does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgUpdateNFT) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgUpdateToken) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgUpdateNFT", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgUpdateToken", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -5177,7 +5177,7 @@ func (x *fastReflection_MsgUpdateNFT) WhichOneof(d protoreflect.OneofDescriptor)
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgUpdateNFT) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgUpdateToken) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -5188,7 +5188,7 @@ func (x *fastReflection_MsgUpdateNFT) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgUpdateNFT) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgUpdateToken) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -5200,7 +5200,7 @@ func (x *fastReflection_MsgUpdateNFT) SetUnknown(fields protoreflect.RawFields) 
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgUpdateNFT) IsValid() bool {
+func (x *fastReflection_MsgUpdateToken) IsValid() bool {
 	return x != nil
 }
 
@@ -5210,9 +5210,9 @@ func (x *fastReflection_MsgUpdateNFT) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgUpdateNFT) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgUpdateToken) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgUpdateNFT)
+		x := input.Message.Interface().(*MsgUpdateToken)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5228,8 +5228,8 @@ func (x *fastReflection_MsgUpdateNFT) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Nft != nil {
-			l = options.Size(x.Nft)
+		if x.Token != nil {
+			l = options.Size(x.Token)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if len(x.Properties) > 0 {
@@ -5248,7 +5248,7 @@ func (x *fastReflection_MsgUpdateNFT) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgUpdateNFT)
+		x := input.Message.Interface().(*MsgUpdateToken)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5283,8 +5283,8 @@ func (x *fastReflection_MsgUpdateNFT) ProtoMethods() *protoiface.Methods {
 				dAtA[i] = 0x1a
 			}
 		}
-		if x.Nft != nil {
-			encoded, err := options.Marshal(x.Nft)
+		if x.Token != nil {
+			encoded, err := options.Marshal(x.Token)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5315,7 +5315,7 @@ func (x *fastReflection_MsgUpdateNFT) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgUpdateNFT)
+		x := input.Message.Interface().(*MsgUpdateToken)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5347,10 +5347,10 @@ func (x *fastReflection_MsgUpdateNFT) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgUpdateNFT: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgUpdateToken: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgUpdateNFT: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgUpdateToken: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -5387,7 +5387,7 @@ func (x *fastReflection_MsgUpdateNFT) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -5414,10 +5414,10 @@ func (x *fastReflection_MsgUpdateNFT) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Nft == nil {
-					x.Nft = &NFT{}
+				if x.Token == nil {
+					x.Token = &Token{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Nft); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Token); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -5491,23 +5491,23 @@ func (x *fastReflection_MsgUpdateNFT) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_MsgUpdateNFTResponse protoreflect.MessageDescriptor
+	md_MsgUpdateTokenResponse protoreflect.MessageDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_tx_proto_init()
-	md_MsgUpdateNFTResponse = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgUpdateNFTResponse")
+	md_MsgUpdateTokenResponse = File_andromeda_internft_v1alpha1_tx_proto.Messages().ByName("MsgUpdateTokenResponse")
 }
 
-var _ protoreflect.Message = (*fastReflection_MsgUpdateNFTResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgUpdateTokenResponse)(nil)
 
-type fastReflection_MsgUpdateNFTResponse MsgUpdateNFTResponse
+type fastReflection_MsgUpdateTokenResponse MsgUpdateTokenResponse
 
-func (x *MsgUpdateNFTResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_MsgUpdateNFTResponse)(x)
+func (x *MsgUpdateTokenResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgUpdateTokenResponse)(x)
 }
 
-func (x *MsgUpdateNFTResponse) slowProtoReflect() protoreflect.Message {
+func (x *MsgUpdateTokenResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -5519,43 +5519,43 @@ func (x *MsgUpdateNFTResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_MsgUpdateNFTResponse_messageType fastReflection_MsgUpdateNFTResponse_messageType
-var _ protoreflect.MessageType = fastReflection_MsgUpdateNFTResponse_messageType{}
+var _fastReflection_MsgUpdateTokenResponse_messageType fastReflection_MsgUpdateTokenResponse_messageType
+var _ protoreflect.MessageType = fastReflection_MsgUpdateTokenResponse_messageType{}
 
-type fastReflection_MsgUpdateNFTResponse_messageType struct{}
+type fastReflection_MsgUpdateTokenResponse_messageType struct{}
 
-func (x fastReflection_MsgUpdateNFTResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_MsgUpdateNFTResponse)(nil)
+func (x fastReflection_MsgUpdateTokenResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgUpdateTokenResponse)(nil)
 }
-func (x fastReflection_MsgUpdateNFTResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_MsgUpdateNFTResponse)
+func (x fastReflection_MsgUpdateTokenResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgUpdateTokenResponse)
 }
-func (x fastReflection_MsgUpdateNFTResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgUpdateNFTResponse
+func (x fastReflection_MsgUpdateTokenResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgUpdateTokenResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_MsgUpdateNFTResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_MsgUpdateNFTResponse
+func (x *fastReflection_MsgUpdateTokenResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgUpdateTokenResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_MsgUpdateNFTResponse) Type() protoreflect.MessageType {
-	return _fastReflection_MsgUpdateNFTResponse_messageType
+func (x *fastReflection_MsgUpdateTokenResponse) Type() protoreflect.MessageType {
+	return _fastReflection_MsgUpdateTokenResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_MsgUpdateNFTResponse) New() protoreflect.Message {
-	return new(fastReflection_MsgUpdateNFTResponse)
+func (x *fastReflection_MsgUpdateTokenResponse) New() protoreflect.Message {
+	return new(fastReflection_MsgUpdateTokenResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_MsgUpdateNFTResponse) Interface() protoreflect.ProtoMessage {
-	return (*MsgUpdateNFTResponse)(x)
+func (x *fastReflection_MsgUpdateTokenResponse) Interface() protoreflect.ProtoMessage {
+	return (*MsgUpdateTokenResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -5563,7 +5563,7 @@ func (x *fastReflection_MsgUpdateNFTResponse) Interface() protoreflect.ProtoMess
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_MsgUpdateNFTResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgUpdateTokenResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 }
 
 // Has reports whether a field is populated.
@@ -5577,13 +5577,13 @@ func (x *fastReflection_MsgUpdateNFTResponse) Range(f func(protoreflect.FieldDes
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_MsgUpdateNFTResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgUpdateTokenResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5593,13 +5593,13 @@ func (x *fastReflection_MsgUpdateNFTResponse) Has(fd protoreflect.FieldDescripto
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgUpdateNFTResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgUpdateTokenResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5609,13 +5609,13 @@ func (x *fastReflection_MsgUpdateNFTResponse) Clear(fd protoreflect.FieldDescrip
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_MsgUpdateNFTResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgUpdateTokenResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFTResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateTokenResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -5629,13 +5629,13 @@ func (x *fastReflection_MsgUpdateNFTResponse) Get(descriptor protoreflect.FieldD
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgUpdateNFTResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgUpdateTokenResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -5649,36 +5649,36 @@ func (x *fastReflection_MsgUpdateNFTResponse) Set(fd protoreflect.FieldDescripto
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgUpdateNFTResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgUpdateTokenResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_MsgUpdateNFTResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgUpdateTokenResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateNFTResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.MsgUpdateTokenResponse"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateNFTResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.MsgUpdateTokenResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_MsgUpdateNFTResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgUpdateTokenResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgUpdateNFTResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.MsgUpdateTokenResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -5686,7 +5686,7 @@ func (x *fastReflection_MsgUpdateNFTResponse) WhichOneof(d protoreflect.OneofDes
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_MsgUpdateNFTResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgUpdateTokenResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -5697,7 +5697,7 @@ func (x *fastReflection_MsgUpdateNFTResponse) GetUnknown() protoreflect.RawField
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_MsgUpdateNFTResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgUpdateTokenResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -5709,7 +5709,7 @@ func (x *fastReflection_MsgUpdateNFTResponse) SetUnknown(fields protoreflect.Raw
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_MsgUpdateNFTResponse) IsValid() bool {
+func (x *fastReflection_MsgUpdateTokenResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -5719,9 +5719,9 @@ func (x *fastReflection_MsgUpdateNFTResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_MsgUpdateNFTResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgUpdateTokenResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*MsgUpdateNFTResponse)
+		x := input.Message.Interface().(*MsgUpdateTokenResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5743,7 +5743,7 @@ func (x *fastReflection_MsgUpdateNFTResponse) ProtoMethods() *protoiface.Methods
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*MsgUpdateNFTResponse)
+		x := input.Message.Interface().(*MsgUpdateTokenResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5773,7 +5773,7 @@ func (x *fastReflection_MsgUpdateNFTResponse) ProtoMethods() *protoiface.Methods
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*MsgUpdateNFTResponse)
+		x := input.Message.Interface().(*MsgUpdateTokenResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -5805,10 +5805,10 @@ func (x *fastReflection_MsgUpdateNFTResponse) ProtoMethods() *protoiface.Methods
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgUpdateNFTResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgUpdateTokenResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgUpdateNFTResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgUpdateTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			default:
@@ -5865,12 +5865,12 @@ type MsgSend struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// the sender of the NFT
+	// the sender of the token
 	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
-	// the recipient of the NFT
+	// the recipient of the token
 	Recipient string `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty"`
-	// the NFT to send
-	Nft *NFT `protobuf:"bytes,3,opt,name=nft,proto3" json:"nft,omitempty"`
+	// the token to send
+	Token *Token `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty"`
 }
 
 func (x *MsgSend) Reset() {
@@ -5907,9 +5907,9 @@ func (x *MsgSend) GetRecipient() string {
 	return ""
 }
 
-func (x *MsgSend) GetNft() *NFT {
+func (x *MsgSend) GetToken() *Token {
 	if x != nil {
-		return x.Nft
+		return x.Token
 	}
 	return nil
 }
@@ -6114,24 +6114,24 @@ func (*MsgUpdateClassResponse) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_tx_proto_rawDescGZIP(), []int{5}
 }
 
-// MsgMintNFT is the Msg/MintNFT request type.
-type MsgMintNFT struct {
+// MsgNewToken is the Msg/NewToken request type.
+type MsgNewToken struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// the operator of the class
 	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
-	// the recipient of the new NFT
+	// the recipient of the new token
 	Recipient string `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty"`
-	// the new NFT to mint
-	Nft *NFT `protobuf:"bytes,3,opt,name=nft,proto3" json:"nft,omitempty"`
-	// the properties of the new NFT
+	// the new token to create
+	Token *Token `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty"`
+	// the properties of the new token
 	Properties []*Property `protobuf:"bytes,4,rep,name=properties,proto3" json:"properties,omitempty"`
 }
 
-func (x *MsgMintNFT) Reset() {
-	*x = MsgMintNFT{}
+func (x *MsgNewToken) Reset() {
+	*x = MsgNewToken{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6139,54 +6139,54 @@ func (x *MsgMintNFT) Reset() {
 	}
 }
 
-func (x *MsgMintNFT) String() string {
+func (x *MsgNewToken) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgMintNFT) ProtoMessage() {}
+func (*MsgNewToken) ProtoMessage() {}
 
-// Deprecated: Use MsgMintNFT.ProtoReflect.Descriptor instead.
-func (*MsgMintNFT) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgNewToken.ProtoReflect.Descriptor instead.
+func (*MsgNewToken) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_tx_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *MsgMintNFT) GetOperator() string {
+func (x *MsgNewToken) GetOperator() string {
 	if x != nil {
 		return x.Operator
 	}
 	return ""
 }
 
-func (x *MsgMintNFT) GetRecipient() string {
+func (x *MsgNewToken) GetRecipient() string {
 	if x != nil {
 		return x.Recipient
 	}
 	return ""
 }
 
-func (x *MsgMintNFT) GetNft() *NFT {
+func (x *MsgNewToken) GetToken() *Token {
 	if x != nil {
-		return x.Nft
+		return x.Token
 	}
 	return nil
 }
 
-func (x *MsgMintNFT) GetProperties() []*Property {
+func (x *MsgNewToken) GetProperties() []*Property {
 	if x != nil {
 		return x.Properties
 	}
 	return nil
 }
 
-// MsgMintNFTResponse is the Msg/MintNFT response type.
-type MsgMintNFTResponse struct {
+// MsgNewTokenResponse is the Msg/NewToken response type.
+type MsgNewTokenResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *MsgMintNFTResponse) Reset() {
-	*x = MsgMintNFTResponse{}
+func (x *MsgNewTokenResponse) Reset() {
+	*x = MsgNewTokenResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6194,31 +6194,31 @@ func (x *MsgMintNFTResponse) Reset() {
 	}
 }
 
-func (x *MsgMintNFTResponse) String() string {
+func (x *MsgNewTokenResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgMintNFTResponse) ProtoMessage() {}
+func (*MsgNewTokenResponse) ProtoMessage() {}
 
-// Deprecated: Use MsgMintNFTResponse.ProtoReflect.Descriptor instead.
-func (*MsgMintNFTResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgNewTokenResponse.ProtoReflect.Descriptor instead.
+func (*MsgNewTokenResponse) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_tx_proto_rawDescGZIP(), []int{7}
 }
 
-// MsgBurnNFT is the Msg/BurnNFT request type.
-type MsgBurnNFT struct {
+// MsgBurnToken is the Msg/BurnToken request type.
+type MsgBurnToken struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// the owner of the NFT
+	// the owner of the token
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	// the NFT to burn
-	Nft *NFT `protobuf:"bytes,2,opt,name=nft,proto3" json:"nft,omitempty"`
+	// the token to burn
+	Token *Token `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
 }
 
-func (x *MsgBurnNFT) Reset() {
-	*x = MsgBurnNFT{}
+func (x *MsgBurnToken) Reset() {
+	*x = MsgBurnToken{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6226,40 +6226,40 @@ func (x *MsgBurnNFT) Reset() {
 	}
 }
 
-func (x *MsgBurnNFT) String() string {
+func (x *MsgBurnToken) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgBurnNFT) ProtoMessage() {}
+func (*MsgBurnToken) ProtoMessage() {}
 
-// Deprecated: Use MsgBurnNFT.ProtoReflect.Descriptor instead.
-func (*MsgBurnNFT) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgBurnToken.ProtoReflect.Descriptor instead.
+func (*MsgBurnToken) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_tx_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *MsgBurnNFT) GetOwner() string {
+func (x *MsgBurnToken) GetOwner() string {
 	if x != nil {
 		return x.Owner
 	}
 	return ""
 }
 
-func (x *MsgBurnNFT) GetNft() *NFT {
+func (x *MsgBurnToken) GetToken() *Token {
 	if x != nil {
-		return x.Nft
+		return x.Token
 	}
 	return nil
 }
 
-// MsgBurnNFTResponse is the Msg/BurnNFT response type.
-type MsgBurnNFTResponse struct {
+// MsgBurnTokenResponse is the Msg/BurnToken response type.
+type MsgBurnTokenResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *MsgBurnNFTResponse) Reset() {
-	*x = MsgBurnNFTResponse{}
+func (x *MsgBurnTokenResponse) Reset() {
+	*x = MsgBurnTokenResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6267,33 +6267,33 @@ func (x *MsgBurnNFTResponse) Reset() {
 	}
 }
 
-func (x *MsgBurnNFTResponse) String() string {
+func (x *MsgBurnTokenResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgBurnNFTResponse) ProtoMessage() {}
+func (*MsgBurnTokenResponse) ProtoMessage() {}
 
-// Deprecated: Use MsgBurnNFTResponse.ProtoReflect.Descriptor instead.
-func (*MsgBurnNFTResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgBurnTokenResponse.ProtoReflect.Descriptor instead.
+func (*MsgBurnTokenResponse) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_tx_proto_rawDescGZIP(), []int{9}
 }
 
-// MsgUpdateNFT is the Msg/UpdateNFT request type.
-type MsgUpdateNFT struct {
+// MsgUpdateToken is the Msg/UpdateToken request type.
+type MsgUpdateToken struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// the owner of the NFT
+	// the owner of the token
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	// the NFT to update
-	Nft *NFT `protobuf:"bytes,2,opt,name=nft,proto3" json:"nft,omitempty"`
+	// the token to update
+	Token *Token `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
 	// the new properties
 	Properties []*Property `protobuf:"bytes,3,rep,name=properties,proto3" json:"properties,omitempty"`
 }
 
-func (x *MsgUpdateNFT) Reset() {
-	*x = MsgUpdateNFT{}
+func (x *MsgUpdateToken) Reset() {
+	*x = MsgUpdateToken{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6301,47 +6301,47 @@ func (x *MsgUpdateNFT) Reset() {
 	}
 }
 
-func (x *MsgUpdateNFT) String() string {
+func (x *MsgUpdateToken) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgUpdateNFT) ProtoMessage() {}
+func (*MsgUpdateToken) ProtoMessage() {}
 
-// Deprecated: Use MsgUpdateNFT.ProtoReflect.Descriptor instead.
-func (*MsgUpdateNFT) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgUpdateToken.ProtoReflect.Descriptor instead.
+func (*MsgUpdateToken) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_tx_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *MsgUpdateNFT) GetOwner() string {
+func (x *MsgUpdateToken) GetOwner() string {
 	if x != nil {
 		return x.Owner
 	}
 	return ""
 }
 
-func (x *MsgUpdateNFT) GetNft() *NFT {
+func (x *MsgUpdateToken) GetToken() *Token {
 	if x != nil {
-		return x.Nft
+		return x.Token
 	}
 	return nil
 }
 
-func (x *MsgUpdateNFT) GetProperties() []*Property {
+func (x *MsgUpdateToken) GetProperties() []*Property {
 	if x != nil {
 		return x.Properties
 	}
 	return nil
 }
 
-// MsgUpdateNFTResponse is the Msg/UpdateNFT response type.
-type MsgUpdateNFTResponse struct {
+// MsgUpdateTokenResponse is the Msg/UpdateToken response type.
+type MsgUpdateTokenResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *MsgUpdateNFTResponse) Reset() {
-	*x = MsgUpdateNFTResponse{}
+func (x *MsgUpdateTokenResponse) Reset() {
+	*x = MsgUpdateTokenResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_tx_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -6349,14 +6349,14 @@ func (x *MsgUpdateNFTResponse) Reset() {
 	}
 }
 
-func (x *MsgUpdateNFTResponse) String() string {
+func (x *MsgUpdateTokenResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MsgUpdateNFTResponse) ProtoMessage() {}
+func (*MsgUpdateTokenResponse) ProtoMessage() {}
 
-// Deprecated: Use MsgUpdateNFTResponse.ProtoReflect.Descriptor instead.
-func (*MsgUpdateNFTResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgUpdateTokenResponse.ProtoReflect.Descriptor instead.
+func (*MsgUpdateTokenResponse) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_tx_proto_rawDescGZIP(), []int{11}
 }
 
@@ -6376,149 +6376,152 @@ var file_andromeda_internft_v1alpha1_tx_proto_rawDesc = []byte{
 	0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x19, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x61, 0x6e, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x22, 0xba, 0x01, 0x0a, 0x07, 0x4d, 0x73, 0x67, 0x53, 0x65, 0x6e, 0x64, 0x12, 0x30, 0x0a,
+	0x6f, 0x22, 0xc0, 0x01, 0x0a, 0x07, 0x4d, 0x73, 0x67, 0x53, 0x65, 0x6e, 0x64, 0x12, 0x30, 0x0a,
 	0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
 	0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
 	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x12,
 	0x36, 0x0a, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41,
 	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x09, 0x72, 0x65,
-	0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x38, 0x0a, 0x03, 0x6e, 0x66, 0x74, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
-	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
-	0x61, 0x31, 0x2e, 0x4e, 0x46, 0x54, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x03, 0x6e, 0x66,
-	0x74, 0x3a, 0x0b, 0x82, 0xe7, 0xb0, 0x2a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x22, 0x11,
-	0x0a, 0x0f, 0x4d, 0x73, 0x67, 0x53, 0x65, 0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0xfe, 0x01, 0x0a, 0x0b, 0x4d, 0x73, 0x67, 0x4e, 0x65, 0x77, 0x43, 0x6c, 0x61, 0x73,
-	0x73, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
-	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f,
-	0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x3e, 0x0a, 0x05, 0x63, 0x6c, 0x61, 0x73, 0x73,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
+	0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x3e, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
 	0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c,
-	0x70, 0x68, 0x61, 0x31, 0x2e, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00,
-	0x52, 0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x40, 0x0a, 0x06, 0x74, 0x72, 0x61, 0x69, 0x74,
-	0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
+	0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00,
+	0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x3a, 0x0b, 0x82, 0xe7, 0xb0, 0x2a, 0x06, 0x73, 0x65,
+	0x6e, 0x64, 0x65, 0x72, 0x22, 0x11, 0x0a, 0x0f, 0x4d, 0x73, 0x67, 0x53, 0x65, 0x6e, 0x64, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xfe, 0x01, 0x0a, 0x0b, 0x4d, 0x73, 0x67, 0x4e,
+	0x65, 0x77, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61,
+	0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63,
+	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72,
+	0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x3e, 0x0a,
+	0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61,
+	0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
+	0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x43, 0x6c, 0x61, 0x73, 0x73,
+	0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x40, 0x0a,
+	0x06, 0x74, 0x72, 0x61, 0x69, 0x74, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e,
+	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x72, 0x61, 0x69,
+	0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x74, 0x72, 0x61, 0x69, 0x74, 0x73, 0x12,
+	0x28, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x41, 0x6e, 0x79, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x3a, 0x0d, 0x82, 0xe7, 0xb0, 0x2a, 0x08,
+	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x15, 0x0a, 0x13, 0x4d, 0x73, 0x67, 0x4e,
+	0x65, 0x77, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0xbf, 0x01, 0x0a, 0x0e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61,
+	0x73, 0x73, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
+	0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08,
+	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x3e, 0x0a, 0x05, 0x63, 0x6c, 0x61, 0x73,
+	0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
 	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x72, 0x61, 0x69, 0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f,
-	0x00, 0x52, 0x06, 0x74, 0x72, 0x61, 0x69, 0x74, 0x73, 0x12, 0x28, 0x0a, 0x04, 0x64, 0x61, 0x74,
-	0x61, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x41, 0x6e, 0x79, 0x52, 0x04, 0x64,
-	0x61, 0x74, 0x61, 0x3a, 0x0d, 0x82, 0xe7, 0xb0, 0x2a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74,
-	0x6f, 0x72, 0x22, 0x15, 0x0a, 0x13, 0x4d, 0x73, 0x67, 0x4e, 0x65, 0x77, 0x43, 0x6c, 0x61, 0x73,
-	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xbf, 0x01, 0x0a, 0x0e, 0x4d, 0x73,
-	0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x34, 0x0a, 0x08,
-	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18,
-	0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74,
-	0x6f, 0x72, 0x12, 0x3e, 0x0a, 0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e,
-	0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e,
-	0x43, 0x6c, 0x61, 0x73, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x63, 0x6c, 0x61,
-	0x73, 0x73, 0x12, 0x28, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x14, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x41, 0x6e, 0x79, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x3a, 0x0d, 0x82, 0xe7,
-	0xb0, 0x2a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x18, 0x0a, 0x16, 0x4d,
-	0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x90, 0x02, 0x0a, 0x0a, 0x4d, 0x73, 0x67, 0x4d, 0x69, 0x6e,
-	0x74, 0x4e, 0x46, 0x54, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d,
-	0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
-	0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x36, 0x0a, 0x09, 0x72, 0x65,
-	0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f,
+	0x00, 0x52, 0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x28, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x41, 0x6e, 0x79, 0x52, 0x04, 0x64, 0x61,
+	0x74, 0x61, 0x3a, 0x0d, 0x82, 0xe7, 0xb0, 0x2a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f,
+	0x72, 0x22, 0x18, 0x0a, 0x16, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c,
+	0x61, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x97, 0x02, 0x0a, 0x0b,
+	0x4d, 0x73, 0x67, 0x4e, 0x65, 0x77, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x34, 0x0a, 0x08, 0x6f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
 	0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65,
-	0x6e, 0x74, 0x12, 0x38, 0x0a, 0x03, 0x6e, 0x66, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x20, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65,
-	0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4e, 0x46,
-	0x54, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x03, 0x6e, 0x66, 0x74, 0x12, 0x4b, 0x0a, 0x0a,
-	0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x25, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74,
-	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x50,
-	0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0a, 0x70,
-	0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x3a, 0x0d, 0x82, 0xe7, 0xb0, 0x2a, 0x08,
-	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x14, 0x0a, 0x12, 0x4d, 0x73, 0x67, 0x4d,
-	0x69, 0x6e, 0x74, 0x4e, 0x46, 0x54, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x82,
-	0x01, 0x0a, 0x0a, 0x4d, 0x73, 0x67, 0x42, 0x75, 0x72, 0x6e, 0x4e, 0x46, 0x54, 0x12, 0x2e, 0x0a,
+	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f,
+	0x72, 0x12, 0x36, 0x0a, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
+	0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x09,
+	0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x3e, 0x0a, 0x05, 0x74, 0x6f, 0x6b,
+	0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f,
+	0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31,
+	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x04, 0xc8, 0xde,
+	0x1f, 0x00, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x4b, 0x0a, 0x0a, 0x70, 0x72, 0x6f,
+	0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e,
+	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x70,
+	0x65, 0x72, 0x74, 0x79, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70,
+	0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x3a, 0x0d, 0x82, 0xe7, 0xb0, 0x2a, 0x08, 0x6f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x15, 0x0a, 0x13, 0x4d, 0x73, 0x67, 0x4e, 0x65, 0x77, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x8a, 0x01, 0x0a,
+	0x0c, 0x4d, 0x73, 0x67, 0x42, 0x75, 0x72, 0x6e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x2e, 0x0a,
 	0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4,
 	0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x38, 0x0a,
-	0x03, 0x6e, 0x66, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x61, 0x6e, 0x64,
-	0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e,
-	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4e, 0x46, 0x54, 0x42, 0x04, 0xc8, 0xde,
-	0x1f, 0x00, 0x52, 0x03, 0x6e, 0x66, 0x74, 0x3a, 0x0a, 0x82, 0xe7, 0xb0, 0x2a, 0x05, 0x6f, 0x77,
-	0x6e, 0x65, 0x72, 0x22, 0x14, 0x0a, 0x12, 0x4d, 0x73, 0x67, 0x42, 0x75, 0x72, 0x6e, 0x4e, 0x46,
-	0x54, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xd1, 0x01, 0x0a, 0x0c, 0x4d, 0x73,
-	0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4e, 0x46, 0x54, 0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77,
-	0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63,
-	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72,
-	0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x38, 0x0a, 0x03, 0x6e, 0x66,
-	0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
-	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4e, 0x46, 0x54, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52,
-	0x03, 0x6e, 0x66, 0x74, 0x12, 0x4b, 0x0a, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69,
+	0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x3e, 0x0a,
+	0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61,
+	0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
+	0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
+	0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x3a, 0x0a, 0x82,
+	0xe7, 0xb0, 0x2a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x22, 0x16, 0x0a, 0x14, 0x4d, 0x73, 0x67,
+	0x42, 0x75, 0x72, 0x6e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0xd9, 0x01, 0x0a, 0x0e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f,
+	0x77, 0x6e, 0x65, 0x72, 0x12, 0x3e, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e,
+	0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x74,
+	0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x4b, 0x0a, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69,
 	0x65, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f,
 	0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31,
 	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x42,
 	0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65,
-	0x73, 0x3a, 0x0a, 0x82, 0xe7, 0xb0, 0x2a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x22, 0x16, 0x0a,
-	0x14, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4e, 0x46, 0x54, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xf6, 0x04, 0x0a, 0x03, 0x4d, 0x73, 0x67, 0x12, 0x5a, 0x0a,
-	0x04, 0x53, 0x65, 0x6e, 0x64, 0x12, 0x24, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
-	0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x53, 0x65, 0x6e, 0x64, 0x1a, 0x2c, 0x2e, 0x61, 0x6e,
-	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
-	0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x53, 0x65, 0x6e,
-	0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x66, 0x0a, 0x08, 0x4e, 0x65, 0x77,
-	0x43, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x28, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
-	0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x4e, 0x65, 0x77, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x1a,
-	0x30, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65,
-	0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73,
-	0x67, 0x4e, 0x65, 0x77, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x6f, 0x0a, 0x0b, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73,
-	0x12, 0x2b, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74,
-	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d,
-	0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x1a, 0x33, 0x2e,
+	0x73, 0x3a, 0x0a, 0x82, 0xe7, 0xb0, 0x2a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x22, 0x18, 0x0a,
+	0x16, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0x85, 0x05, 0x0a, 0x03, 0x4d, 0x73, 0x67, 0x12,
+	0x5a, 0x0a, 0x04, 0x53, 0x65, 0x6e, 0x64, 0x12, 0x24, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
+	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x53, 0x65, 0x6e, 0x64, 0x1a, 0x2c, 0x2e,
 	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
-	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x63, 0x0a, 0x07, 0x4d, 0x69, 0x6e, 0x74, 0x4e, 0x46, 0x54, 0x12, 0x27, 0x2e,
-	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
-	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x4d,
-	0x69, 0x6e, 0x74, 0x4e, 0x46, 0x54, 0x1a, 0x2f, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
-	0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c,
-	0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x4d, 0x69, 0x6e, 0x74, 0x4e, 0x46, 0x54, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x63, 0x0a, 0x07, 0x42, 0x75, 0x72, 0x6e, 0x4e,
-	0x46, 0x54, 0x12, 0x27, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
+	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x53,
+	0x65, 0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x66, 0x0a, 0x08, 0x4e,
+	0x65, 0x77, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x28, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
+	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x4e, 0x65, 0x77, 0x43, 0x6c, 0x61, 0x73,
+	0x73, 0x1a, 0x30, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e,
+	0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e,
+	0x4d, 0x73, 0x67, 0x4e, 0x65, 0x77, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x6f, 0x0a, 0x0b, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61,
+	0x73, 0x73, 0x12, 0x2b, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
 	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
-	0x2e, 0x4d, 0x73, 0x67, 0x42, 0x75, 0x72, 0x6e, 0x4e, 0x46, 0x54, 0x1a, 0x2f, 0x2e, 0x61, 0x6e,
-	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
-	0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x42, 0x75, 0x72,
-	0x6e, 0x4e, 0x46, 0x54, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x69, 0x0a, 0x09,
-	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4e, 0x46, 0x54, 0x12, 0x29, 0x2e, 0x61, 0x6e, 0x64, 0x72,
+	0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x1a,
+	0x33, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65,
+	0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73,
+	0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x66, 0x0a, 0x08, 0x4e, 0x65, 0x77, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
+	0x12, 0x28, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74,
+	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d,
+	0x73, 0x67, 0x4e, 0x65, 0x77, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x1a, 0x30, 0x2e, 0x61, 0x6e, 0x64,
+	0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e,
+	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x4e, 0x65, 0x77, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x69, 0x0a, 0x09,
+	0x42, 0x75, 0x72, 0x6e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x29, 0x2e, 0x61, 0x6e, 0x64, 0x72,
 	0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76,
-	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74,
-	0x65, 0x4e, 0x46, 0x54, 0x1a, 0x31, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
+	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x42, 0x75, 0x72, 0x6e, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x1a, 0x31, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
 	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
-	0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4e, 0x46, 0x54, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x1a, 0x05, 0x80, 0xe7, 0xb0, 0x2a, 0x01, 0x42, 0xea,
-	0x01, 0x0a, 0x1f, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
-	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
-	0x61, 0x31, 0x42, 0x07, 0x54, 0x78, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x30, 0x61,
-	0x70, 0x69, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74,
-	0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b, 0x69,
-	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xa2,
-	0x02, 0x03, 0x41, 0x49, 0x58, 0xaa, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
-	0x61, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x56, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0xca, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c,
-	0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
-	0x31, 0xe2, 0x02, 0x27, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x49, 0x6e,
-	0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x5c,
-	0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1d, 0x41, 0x6e,
-	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
-	0x74, 0x3a, 0x3a, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x42, 0x75, 0x72, 0x6e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x6f, 0x0a, 0x0b, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x2b, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
+	0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c,
+	0x70, 0x68, 0x61, 0x31, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x6f,
+	0x6b, 0x65, 0x6e, 0x1a, 0x33, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e,
+	0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x1a, 0x05, 0x80, 0xe7, 0xb0, 0x2a, 0x01, 0x42,
+	0xea, 0x01, 0x0a, 0x1f, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
+	0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
+	0x68, 0x61, 0x31, 0x42, 0x07, 0x54, 0x78, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x30,
+	0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e,
+	0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b,
+	0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0xa2, 0x02, 0x03, 0x41, 0x49, 0x58, 0xaa, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
+	0x64, 0x61, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x56, 0x31, 0x61, 0x6c,
+	0x70, 0x68, 0x61, 0x31, 0xca, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
+	0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0xe2, 0x02, 0x27, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x49,
+	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1d, 0x41,
+	0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x66, 0x74, 0x3a, 0x3a, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -6541,42 +6544,42 @@ var file_andromeda_internft_v1alpha1_tx_proto_goTypes = []interface{}{
 	(*MsgNewClassResponse)(nil),    // 3: andromeda.internft.v1alpha1.MsgNewClassResponse
 	(*MsgUpdateClass)(nil),         // 4: andromeda.internft.v1alpha1.MsgUpdateClass
 	(*MsgUpdateClassResponse)(nil), // 5: andromeda.internft.v1alpha1.MsgUpdateClassResponse
-	(*MsgMintNFT)(nil),             // 6: andromeda.internft.v1alpha1.MsgMintNFT
-	(*MsgMintNFTResponse)(nil),     // 7: andromeda.internft.v1alpha1.MsgMintNFTResponse
-	(*MsgBurnNFT)(nil),             // 8: andromeda.internft.v1alpha1.MsgBurnNFT
-	(*MsgBurnNFTResponse)(nil),     // 9: andromeda.internft.v1alpha1.MsgBurnNFTResponse
-	(*MsgUpdateNFT)(nil),           // 10: andromeda.internft.v1alpha1.MsgUpdateNFT
-	(*MsgUpdateNFTResponse)(nil),   // 11: andromeda.internft.v1alpha1.MsgUpdateNFTResponse
-	(*NFT)(nil),                    // 12: andromeda.internft.v1alpha1.NFT
+	(*MsgNewToken)(nil),            // 6: andromeda.internft.v1alpha1.MsgNewToken
+	(*MsgNewTokenResponse)(nil),    // 7: andromeda.internft.v1alpha1.MsgNewTokenResponse
+	(*MsgBurnToken)(nil),           // 8: andromeda.internft.v1alpha1.MsgBurnToken
+	(*MsgBurnTokenResponse)(nil),   // 9: andromeda.internft.v1alpha1.MsgBurnTokenResponse
+	(*MsgUpdateToken)(nil),         // 10: andromeda.internft.v1alpha1.MsgUpdateToken
+	(*MsgUpdateTokenResponse)(nil), // 11: andromeda.internft.v1alpha1.MsgUpdateTokenResponse
+	(*Token)(nil),                  // 12: andromeda.internft.v1alpha1.Token
 	(*Class)(nil),                  // 13: andromeda.internft.v1alpha1.Class
 	(*Trait)(nil),                  // 14: andromeda.internft.v1alpha1.Trait
 	(*anypb.Any)(nil),              // 15: google.protobuf.Any
 	(*Property)(nil),               // 16: andromeda.internft.v1alpha1.Property
 }
 var file_andromeda_internft_v1alpha1_tx_proto_depIdxs = []int32{
-	12, // 0: andromeda.internft.v1alpha1.MsgSend.nft:type_name -> andromeda.internft.v1alpha1.NFT
+	12, // 0: andromeda.internft.v1alpha1.MsgSend.token:type_name -> andromeda.internft.v1alpha1.Token
 	13, // 1: andromeda.internft.v1alpha1.MsgNewClass.class:type_name -> andromeda.internft.v1alpha1.Class
 	14, // 2: andromeda.internft.v1alpha1.MsgNewClass.traits:type_name -> andromeda.internft.v1alpha1.Trait
 	15, // 3: andromeda.internft.v1alpha1.MsgNewClass.data:type_name -> google.protobuf.Any
 	13, // 4: andromeda.internft.v1alpha1.MsgUpdateClass.class:type_name -> andromeda.internft.v1alpha1.Class
 	15, // 5: andromeda.internft.v1alpha1.MsgUpdateClass.data:type_name -> google.protobuf.Any
-	12, // 6: andromeda.internft.v1alpha1.MsgMintNFT.nft:type_name -> andromeda.internft.v1alpha1.NFT
-	16, // 7: andromeda.internft.v1alpha1.MsgMintNFT.properties:type_name -> andromeda.internft.v1alpha1.Property
-	12, // 8: andromeda.internft.v1alpha1.MsgBurnNFT.nft:type_name -> andromeda.internft.v1alpha1.NFT
-	12, // 9: andromeda.internft.v1alpha1.MsgUpdateNFT.nft:type_name -> andromeda.internft.v1alpha1.NFT
-	16, // 10: andromeda.internft.v1alpha1.MsgUpdateNFT.properties:type_name -> andromeda.internft.v1alpha1.Property
+	12, // 6: andromeda.internft.v1alpha1.MsgNewToken.token:type_name -> andromeda.internft.v1alpha1.Token
+	16, // 7: andromeda.internft.v1alpha1.MsgNewToken.properties:type_name -> andromeda.internft.v1alpha1.Property
+	12, // 8: andromeda.internft.v1alpha1.MsgBurnToken.token:type_name -> andromeda.internft.v1alpha1.Token
+	12, // 9: andromeda.internft.v1alpha1.MsgUpdateToken.token:type_name -> andromeda.internft.v1alpha1.Token
+	16, // 10: andromeda.internft.v1alpha1.MsgUpdateToken.properties:type_name -> andromeda.internft.v1alpha1.Property
 	0,  // 11: andromeda.internft.v1alpha1.Msg.Send:input_type -> andromeda.internft.v1alpha1.MsgSend
 	2,  // 12: andromeda.internft.v1alpha1.Msg.NewClass:input_type -> andromeda.internft.v1alpha1.MsgNewClass
 	4,  // 13: andromeda.internft.v1alpha1.Msg.UpdateClass:input_type -> andromeda.internft.v1alpha1.MsgUpdateClass
-	6,  // 14: andromeda.internft.v1alpha1.Msg.MintNFT:input_type -> andromeda.internft.v1alpha1.MsgMintNFT
-	8,  // 15: andromeda.internft.v1alpha1.Msg.BurnNFT:input_type -> andromeda.internft.v1alpha1.MsgBurnNFT
-	10, // 16: andromeda.internft.v1alpha1.Msg.UpdateNFT:input_type -> andromeda.internft.v1alpha1.MsgUpdateNFT
+	6,  // 14: andromeda.internft.v1alpha1.Msg.NewToken:input_type -> andromeda.internft.v1alpha1.MsgNewToken
+	8,  // 15: andromeda.internft.v1alpha1.Msg.BurnToken:input_type -> andromeda.internft.v1alpha1.MsgBurnToken
+	10, // 16: andromeda.internft.v1alpha1.Msg.UpdateToken:input_type -> andromeda.internft.v1alpha1.MsgUpdateToken
 	1,  // 17: andromeda.internft.v1alpha1.Msg.Send:output_type -> andromeda.internft.v1alpha1.MsgSendResponse
 	3,  // 18: andromeda.internft.v1alpha1.Msg.NewClass:output_type -> andromeda.internft.v1alpha1.MsgNewClassResponse
 	5,  // 19: andromeda.internft.v1alpha1.Msg.UpdateClass:output_type -> andromeda.internft.v1alpha1.MsgUpdateClassResponse
-	7,  // 20: andromeda.internft.v1alpha1.Msg.MintNFT:output_type -> andromeda.internft.v1alpha1.MsgMintNFTResponse
-	9,  // 21: andromeda.internft.v1alpha1.Msg.BurnNFT:output_type -> andromeda.internft.v1alpha1.MsgBurnNFTResponse
-	11, // 22: andromeda.internft.v1alpha1.Msg.UpdateNFT:output_type -> andromeda.internft.v1alpha1.MsgUpdateNFTResponse
+	7,  // 20: andromeda.internft.v1alpha1.Msg.NewToken:output_type -> andromeda.internft.v1alpha1.MsgNewTokenResponse
+	9,  // 21: andromeda.internft.v1alpha1.Msg.BurnToken:output_type -> andromeda.internft.v1alpha1.MsgBurnTokenResponse
+	11, // 22: andromeda.internft.v1alpha1.Msg.UpdateToken:output_type -> andromeda.internft.v1alpha1.MsgUpdateTokenResponse
 	17, // [17:23] is the sub-list for method output_type
 	11, // [11:17] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
@@ -6664,7 +6667,7 @@ func file_andromeda_internft_v1alpha1_tx_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_tx_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgMintNFT); i {
+			switch v := v.(*MsgNewToken); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -6676,7 +6679,7 @@ func file_andromeda_internft_v1alpha1_tx_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_tx_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgMintNFTResponse); i {
+			switch v := v.(*MsgNewTokenResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -6688,7 +6691,7 @@ func file_andromeda_internft_v1alpha1_tx_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_tx_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgBurnNFT); i {
+			switch v := v.(*MsgBurnToken); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -6700,7 +6703,7 @@ func file_andromeda_internft_v1alpha1_tx_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_tx_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgBurnNFTResponse); i {
+			switch v := v.(*MsgBurnTokenResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -6712,7 +6715,7 @@ func file_andromeda_internft_v1alpha1_tx_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_tx_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgUpdateNFT); i {
+			switch v := v.(*MsgUpdateToken); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -6724,7 +6727,7 @@ func file_andromeda_internft_v1alpha1_tx_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_tx_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MsgUpdateNFTResponse); i {
+			switch v := v.(*MsgUpdateTokenResponse); i {
 			case 0:
 				return &v.state
 			case 1:

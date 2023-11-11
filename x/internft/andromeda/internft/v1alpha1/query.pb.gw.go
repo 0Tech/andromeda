@@ -289,8 +289,8 @@ func local_request_Query_Traits_0(ctx context.Context, marshaler runtime.Marshal
 
 }
 
-func request_Query_NFT_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq QueryNFTRequest
+func request_Query_Token_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq QueryTokenRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -311,24 +311,24 @@ func request_Query_NFT_0(ctx context.Context, marshaler runtime.Marshaler, clien
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "class_id", err)
 	}
 
-	val, ok = pathParams["nft_id"]
+	val, ok = pathParams["token_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "nft_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "token_id")
 	}
 
-	protoReq.NftId, err = runtime.String(val)
+	protoReq.TokenId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "nft_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "token_id", err)
 	}
 
-	msg, err := client.NFT(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.Token(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_Query_NFT_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq QueryNFTRequest
+func local_request_Query_Token_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq QueryTokenRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -349,28 +349,28 @@ func local_request_Query_NFT_0(ctx context.Context, marshaler runtime.Marshaler,
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "class_id", err)
 	}
 
-	val, ok = pathParams["nft_id"]
+	val, ok = pathParams["token_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "nft_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "token_id")
 	}
 
-	protoReq.NftId, err = runtime.String(val)
+	protoReq.TokenId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "nft_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "token_id", err)
 	}
 
-	msg, err := server.NFT(ctx, &protoReq)
+	msg, err := server.Token(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
 var (
-	filter_Query_NFTs_0 = &utilities.DoubleArray{Encoding: map[string]int{"class_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_Query_Tokens_0 = &utilities.DoubleArray{Encoding: map[string]int{"class_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
-func request_Query_NFTs_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq QueryNFTsRequest
+func request_Query_Tokens_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq QueryTokensRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -394,17 +394,17 @@ func request_Query_NFTs_0(ctx context.Context, marshaler runtime.Marshaler, clie
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Query_NFTs_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Query_Tokens_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.NFTs(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.Tokens(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_Query_NFTs_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq QueryNFTsRequest
+func local_request_Query_Tokens_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq QueryTokensRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -428,11 +428,11 @@ func local_request_Query_NFTs_0(ctx context.Context, marshaler runtime.Marshaler
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Query_NFTs_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Query_Tokens_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.NFTs(ctx, &protoReq)
+	msg, err := server.Tokens(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -459,26 +459,26 @@ func request_Query_Property_0(ctx context.Context, marshaler runtime.Marshaler, 
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "class_id", err)
 	}
 
-	val, ok = pathParams["nft_id"]
+	val, ok = pathParams["token_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "nft_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "token_id")
 	}
 
-	protoReq.NftId, err = runtime.String(val)
+	protoReq.TokenId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "nft_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "token_id", err)
 	}
 
-	val, ok = pathParams["property_id"]
+	val, ok = pathParams["trait_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "property_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "trait_id")
 	}
 
-	protoReq.PropertyId, err = runtime.String(val)
+	protoReq.TraitId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "property_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "trait_id", err)
 	}
 
 	msg, err := client.Property(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -508,26 +508,26 @@ func local_request_Query_Property_0(ctx context.Context, marshaler runtime.Marsh
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "class_id", err)
 	}
 
-	val, ok = pathParams["nft_id"]
+	val, ok = pathParams["token_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "nft_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "token_id")
 	}
 
-	protoReq.NftId, err = runtime.String(val)
+	protoReq.TokenId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "nft_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "token_id", err)
 	}
 
-	val, ok = pathParams["property_id"]
+	val, ok = pathParams["trait_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "property_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "trait_id")
 	}
 
-	protoReq.PropertyId, err = runtime.String(val)
+	protoReq.TraitId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "property_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "trait_id", err)
 	}
 
 	msg, err := server.Property(ctx, &protoReq)
@@ -536,7 +536,7 @@ func local_request_Query_Property_0(ctx context.Context, marshaler runtime.Marsh
 }
 
 var (
-	filter_Query_Properties_0 = &utilities.DoubleArray{Encoding: map[string]int{"class_id": 0, "nft_id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_Query_Properties_0 = &utilities.DoubleArray{Encoding: map[string]int{"class_id": 0, "token_id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_Query_Properties_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -561,15 +561,15 @@ func request_Query_Properties_0(ctx context.Context, marshaler runtime.Marshaler
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "class_id", err)
 	}
 
-	val, ok = pathParams["nft_id"]
+	val, ok = pathParams["token_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "nft_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "token_id")
 	}
 
-	protoReq.NftId, err = runtime.String(val)
+	protoReq.TokenId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "nft_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "token_id", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -606,15 +606,15 @@ func local_request_Query_Properties_0(ctx context.Context, marshaler runtime.Mar
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "class_id", err)
 	}
 
-	val, ok = pathParams["nft_id"]
+	val, ok = pathParams["token_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "nft_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "token_id")
 	}
 
-	protoReq.NftId, err = runtime.String(val)
+	protoReq.TokenId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "nft_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "token_id", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -651,15 +651,15 @@ func request_Query_Owner_0(ctx context.Context, marshaler runtime.Marshaler, cli
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "class_id", err)
 	}
 
-	val, ok = pathParams["nft_id"]
+	val, ok = pathParams["token_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "nft_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "token_id")
 	}
 
-	protoReq.NftId, err = runtime.String(val)
+	protoReq.TokenId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "nft_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "token_id", err)
 	}
 
 	msg, err := client.Owner(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -689,15 +689,15 @@ func local_request_Query_Owner_0(ctx context.Context, marshaler runtime.Marshale
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "class_id", err)
 	}
 
-	val, ok = pathParams["nft_id"]
+	val, ok = pathParams["token_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "nft_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "token_id")
 	}
 
-	protoReq.NftId, err = runtime.String(val)
+	protoReq.TokenId, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "nft_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "token_id", err)
 	}
 
 	msg, err := server.Owner(ctx, &protoReq)
@@ -826,7 +826,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 
 	})
 
-	mux.Handle("GET", pattern_Query_NFT_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Query_Token_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -837,7 +837,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Query_NFT_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Query_Token_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -845,11 +845,11 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 			return
 		}
 
-		forward_Query_NFT_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Query_Token_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_Query_NFTs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Query_Tokens_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -860,7 +860,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Query_NFTs_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Query_Tokens_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -868,7 +868,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 			return
 		}
 
-		forward_Query_NFTs_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Query_Tokens_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1082,7 +1082,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 
 	})
 
-	mux.Handle("GET", pattern_Query_NFT_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Query_Token_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -1091,18 +1091,18 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Query_NFT_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Query_Token_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Query_NFT_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Query_Token_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_Query_NFTs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Query_Tokens_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -1111,14 +1111,14 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Query_NFTs_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Query_Tokens_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Query_NFTs_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Query_Tokens_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1196,15 +1196,15 @@ var (
 
 	pattern_Query_Traits_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "traits"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_NFT_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "nft_id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Token_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "tokens", "token_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_NFTs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Tokens_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "tokens"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Property_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "nft_id", "properties", "property_id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Property_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "tokens", "token_id", "properties", "trait_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Properties_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "nft_id", "properties"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Properties_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "tokens", "token_id", "properties"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Owner_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "nfts", "nft_id", "owner"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Owner_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"andromeda", "internft", "v1alpha1", "classes", "class_id", "tokens", "token_id", "owner"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (
@@ -1218,9 +1218,9 @@ var (
 
 	forward_Query_Traits_0 = runtime.ForwardResponseMessage
 
-	forward_Query_NFT_0 = runtime.ForwardResponseMessage
+	forward_Query_Token_0 = runtime.ForwardResponseMessage
 
-	forward_Query_NFTs_0 = runtime.ForwardResponseMessage
+	forward_Query_Tokens_0 = runtime.ForwardResponseMessage
 
 	forward_Query_Property_0 = runtime.ForwardResponseMessage
 

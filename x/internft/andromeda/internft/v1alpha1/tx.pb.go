@@ -33,12 +33,12 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // MsgSend is the Msg/Send request type.
 type MsgSend struct {
-	// the sender of the NFT
+	// the sender of the token
 	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
-	// the recipient of the NFT
+	// the recipient of the token
 	Recipient string `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty"`
-	// the NFT to send
-	Nft NFT `protobuf:"bytes,3,opt,name=nft,proto3" json:"nft"`
+	// the token to send
+	Token Token `protobuf:"bytes,3,opt,name=token,proto3" json:"token"`
 }
 
 func (m *MsgSend) Reset()         { *m = MsgSend{} }
@@ -88,11 +88,11 @@ func (m *MsgSend) GetRecipient() string {
 	return ""
 }
 
-func (m *MsgSend) GetNft() NFT {
+func (m *MsgSend) GetToken() Token {
 	if m != nil {
-		return m.Nft
+		return m.Token
 	}
-	return NFT{}
+	return Token{}
 }
 
 // MsgSendResponse is the Msg/Send response type.
@@ -343,30 +343,30 @@ func (m *MsgUpdateClassResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgUpdateClassResponse proto.InternalMessageInfo
 
-// MsgMintNFT is the Msg/MintNFT request type.
-type MsgMintNFT struct {
+// MsgNewToken is the Msg/NewToken request type.
+type MsgNewToken struct {
 	// the operator of the class
 	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
-	// the recipient of the new NFT
+	// the recipient of the new token
 	Recipient string `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty"`
-	// the new NFT to mint
-	Nft NFT `protobuf:"bytes,3,opt,name=nft,proto3" json:"nft"`
-	// the properties of the new NFT
+	// the new token to create
+	Token Token `protobuf:"bytes,3,opt,name=token,proto3" json:"token"`
+	// the properties of the new token
 	Properties []Property `protobuf:"bytes,4,rep,name=properties,proto3" json:"properties"`
 }
 
-func (m *MsgMintNFT) Reset()         { *m = MsgMintNFT{} }
-func (m *MsgMintNFT) String() string { return proto.CompactTextString(m) }
-func (*MsgMintNFT) ProtoMessage()    {}
-func (*MsgMintNFT) Descriptor() ([]byte, []int) {
+func (m *MsgNewToken) Reset()         { *m = MsgNewToken{} }
+func (m *MsgNewToken) String() string { return proto.CompactTextString(m) }
+func (*MsgNewToken) ProtoMessage()    {}
+func (*MsgNewToken) Descriptor() ([]byte, []int) {
 	return fileDescriptor_85a1371cefff7db9, []int{6}
 }
-func (m *MsgMintNFT) XXX_Unmarshal(b []byte) error {
+func (m *MsgNewToken) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgMintNFT) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgNewToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgMintNFT.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgNewToken.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -376,62 +376,62 @@ func (m *MsgMintNFT) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *MsgMintNFT) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgMintNFT.Merge(m, src)
+func (m *MsgNewToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgNewToken.Merge(m, src)
 }
-func (m *MsgMintNFT) XXX_Size() int {
+func (m *MsgNewToken) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgMintNFT) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgMintNFT.DiscardUnknown(m)
+func (m *MsgNewToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgNewToken.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgMintNFT proto.InternalMessageInfo
+var xxx_messageInfo_MsgNewToken proto.InternalMessageInfo
 
-func (m *MsgMintNFT) GetOperator() string {
+func (m *MsgNewToken) GetOperator() string {
 	if m != nil {
 		return m.Operator
 	}
 	return ""
 }
 
-func (m *MsgMintNFT) GetRecipient() string {
+func (m *MsgNewToken) GetRecipient() string {
 	if m != nil {
 		return m.Recipient
 	}
 	return ""
 }
 
-func (m *MsgMintNFT) GetNft() NFT {
+func (m *MsgNewToken) GetToken() Token {
 	if m != nil {
-		return m.Nft
+		return m.Token
 	}
-	return NFT{}
+	return Token{}
 }
 
-func (m *MsgMintNFT) GetProperties() []Property {
+func (m *MsgNewToken) GetProperties() []Property {
 	if m != nil {
 		return m.Properties
 	}
 	return nil
 }
 
-// MsgMintNFTResponse is the Msg/MintNFT response type.
-type MsgMintNFTResponse struct {
+// MsgNewTokenResponse is the Msg/NewToken response type.
+type MsgNewTokenResponse struct {
 }
 
-func (m *MsgMintNFTResponse) Reset()         { *m = MsgMintNFTResponse{} }
-func (m *MsgMintNFTResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgMintNFTResponse) ProtoMessage()    {}
-func (*MsgMintNFTResponse) Descriptor() ([]byte, []int) {
+func (m *MsgNewTokenResponse) Reset()         { *m = MsgNewTokenResponse{} }
+func (m *MsgNewTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgNewTokenResponse) ProtoMessage()    {}
+func (*MsgNewTokenResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_85a1371cefff7db9, []int{7}
 }
-func (m *MsgMintNFTResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgNewTokenResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgMintNFTResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgNewTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgMintNFTResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgNewTokenResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -441,38 +441,38 @@ func (m *MsgMintNFTResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-func (m *MsgMintNFTResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgMintNFTResponse.Merge(m, src)
+func (m *MsgNewTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgNewTokenResponse.Merge(m, src)
 }
-func (m *MsgMintNFTResponse) XXX_Size() int {
+func (m *MsgNewTokenResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgMintNFTResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgMintNFTResponse.DiscardUnknown(m)
+func (m *MsgNewTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgNewTokenResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgMintNFTResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgNewTokenResponse proto.InternalMessageInfo
 
-// MsgBurnNFT is the Msg/BurnNFT request type.
-type MsgBurnNFT struct {
-	// the owner of the NFT
+// MsgBurnToken is the Msg/BurnToken request type.
+type MsgBurnToken struct {
+	// the owner of the token
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	// the NFT to burn
-	Nft NFT `protobuf:"bytes,2,opt,name=nft,proto3" json:"nft"`
+	// the token to burn
+	Token Token `protobuf:"bytes,2,opt,name=token,proto3" json:"token"`
 }
 
-func (m *MsgBurnNFT) Reset()         { *m = MsgBurnNFT{} }
-func (m *MsgBurnNFT) String() string { return proto.CompactTextString(m) }
-func (*MsgBurnNFT) ProtoMessage()    {}
-func (*MsgBurnNFT) Descriptor() ([]byte, []int) {
+func (m *MsgBurnToken) Reset()         { *m = MsgBurnToken{} }
+func (m *MsgBurnToken) String() string { return proto.CompactTextString(m) }
+func (*MsgBurnToken) ProtoMessage()    {}
+func (*MsgBurnToken) Descriptor() ([]byte, []int) {
 	return fileDescriptor_85a1371cefff7db9, []int{8}
 }
-func (m *MsgBurnNFT) XXX_Unmarshal(b []byte) error {
+func (m *MsgBurnToken) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgBurnNFT) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgBurnToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgBurnNFT.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgBurnToken.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -482,48 +482,48 @@ func (m *MsgBurnNFT) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *MsgBurnNFT) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgBurnNFT.Merge(m, src)
+func (m *MsgBurnToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgBurnToken.Merge(m, src)
 }
-func (m *MsgBurnNFT) XXX_Size() int {
+func (m *MsgBurnToken) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgBurnNFT) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgBurnNFT.DiscardUnknown(m)
+func (m *MsgBurnToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgBurnToken.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgBurnNFT proto.InternalMessageInfo
+var xxx_messageInfo_MsgBurnToken proto.InternalMessageInfo
 
-func (m *MsgBurnNFT) GetOwner() string {
+func (m *MsgBurnToken) GetOwner() string {
 	if m != nil {
 		return m.Owner
 	}
 	return ""
 }
 
-func (m *MsgBurnNFT) GetNft() NFT {
+func (m *MsgBurnToken) GetToken() Token {
 	if m != nil {
-		return m.Nft
+		return m.Token
 	}
-	return NFT{}
+	return Token{}
 }
 
-// MsgBurnNFTResponse is the Msg/BurnNFT response type.
-type MsgBurnNFTResponse struct {
+// MsgBurnTokenResponse is the Msg/BurnToken response type.
+type MsgBurnTokenResponse struct {
 }
 
-func (m *MsgBurnNFTResponse) Reset()         { *m = MsgBurnNFTResponse{} }
-func (m *MsgBurnNFTResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgBurnNFTResponse) ProtoMessage()    {}
-func (*MsgBurnNFTResponse) Descriptor() ([]byte, []int) {
+func (m *MsgBurnTokenResponse) Reset()         { *m = MsgBurnTokenResponse{} }
+func (m *MsgBurnTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgBurnTokenResponse) ProtoMessage()    {}
+func (*MsgBurnTokenResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_85a1371cefff7db9, []int{9}
 }
-func (m *MsgBurnNFTResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgBurnTokenResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgBurnNFTResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgBurnTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgBurnNFTResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgBurnTokenResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -533,40 +533,40 @@ func (m *MsgBurnNFTResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-func (m *MsgBurnNFTResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgBurnNFTResponse.Merge(m, src)
+func (m *MsgBurnTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgBurnTokenResponse.Merge(m, src)
 }
-func (m *MsgBurnNFTResponse) XXX_Size() int {
+func (m *MsgBurnTokenResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgBurnNFTResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgBurnNFTResponse.DiscardUnknown(m)
+func (m *MsgBurnTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgBurnTokenResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgBurnNFTResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgBurnTokenResponse proto.InternalMessageInfo
 
-// MsgUpdateNFT is the Msg/UpdateNFT request type.
-type MsgUpdateNFT struct {
-	// the owner of the NFT
+// MsgUpdateToken is the Msg/UpdateToken request type.
+type MsgUpdateToken struct {
+	// the owner of the token
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	// the NFT to update
-	Nft NFT `protobuf:"bytes,2,opt,name=nft,proto3" json:"nft"`
+	// the token to update
+	Token Token `protobuf:"bytes,2,opt,name=token,proto3" json:"token"`
 	// the new properties
 	Properties []Property `protobuf:"bytes,3,rep,name=properties,proto3" json:"properties"`
 }
 
-func (m *MsgUpdateNFT) Reset()         { *m = MsgUpdateNFT{} }
-func (m *MsgUpdateNFT) String() string { return proto.CompactTextString(m) }
-func (*MsgUpdateNFT) ProtoMessage()    {}
-func (*MsgUpdateNFT) Descriptor() ([]byte, []int) {
+func (m *MsgUpdateToken) Reset()         { *m = MsgUpdateToken{} }
+func (m *MsgUpdateToken) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateToken) ProtoMessage()    {}
+func (*MsgUpdateToken) Descriptor() ([]byte, []int) {
 	return fileDescriptor_85a1371cefff7db9, []int{10}
 }
-func (m *MsgUpdateNFT) XXX_Unmarshal(b []byte) error {
+func (m *MsgUpdateToken) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgUpdateNFT) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgUpdateToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgUpdateNFT.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgUpdateToken.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -576,55 +576,55 @@ func (m *MsgUpdateNFT) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
-func (m *MsgUpdateNFT) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgUpdateNFT.Merge(m, src)
+func (m *MsgUpdateToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateToken.Merge(m, src)
 }
-func (m *MsgUpdateNFT) XXX_Size() int {
+func (m *MsgUpdateToken) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgUpdateNFT) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgUpdateNFT.DiscardUnknown(m)
+func (m *MsgUpdateToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateToken.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgUpdateNFT proto.InternalMessageInfo
+var xxx_messageInfo_MsgUpdateToken proto.InternalMessageInfo
 
-func (m *MsgUpdateNFT) GetOwner() string {
+func (m *MsgUpdateToken) GetOwner() string {
 	if m != nil {
 		return m.Owner
 	}
 	return ""
 }
 
-func (m *MsgUpdateNFT) GetNft() NFT {
+func (m *MsgUpdateToken) GetToken() Token {
 	if m != nil {
-		return m.Nft
+		return m.Token
 	}
-	return NFT{}
+	return Token{}
 }
 
-func (m *MsgUpdateNFT) GetProperties() []Property {
+func (m *MsgUpdateToken) GetProperties() []Property {
 	if m != nil {
 		return m.Properties
 	}
 	return nil
 }
 
-// MsgUpdateNFTResponse is the Msg/UpdateNFT response type.
-type MsgUpdateNFTResponse struct {
+// MsgUpdateTokenResponse is the Msg/UpdateToken response type.
+type MsgUpdateTokenResponse struct {
 }
 
-func (m *MsgUpdateNFTResponse) Reset()         { *m = MsgUpdateNFTResponse{} }
-func (m *MsgUpdateNFTResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgUpdateNFTResponse) ProtoMessage()    {}
-func (*MsgUpdateNFTResponse) Descriptor() ([]byte, []int) {
+func (m *MsgUpdateTokenResponse) Reset()         { *m = MsgUpdateTokenResponse{} }
+func (m *MsgUpdateTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateTokenResponse) ProtoMessage()    {}
+func (*MsgUpdateTokenResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_85a1371cefff7db9, []int{11}
 }
-func (m *MsgUpdateNFTResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgUpdateTokenResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgUpdateNFTResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgUpdateTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgUpdateNFTResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgUpdateTokenResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -634,17 +634,17 @@ func (m *MsgUpdateNFTResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-func (m *MsgUpdateNFTResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgUpdateNFTResponse.Merge(m, src)
+func (m *MsgUpdateTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateTokenResponse.Merge(m, src)
 }
-func (m *MsgUpdateNFTResponse) XXX_Size() int {
+func (m *MsgUpdateTokenResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgUpdateNFTResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgUpdateNFTResponse.DiscardUnknown(m)
+func (m *MsgUpdateTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateTokenResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgUpdateNFTResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgUpdateTokenResponse proto.InternalMessageInfo
 
 func init() {
 	proto.RegisterType((*MsgSend)(nil), "andromeda.internft.v1alpha1.MsgSend")
@@ -653,12 +653,12 @@ func init() {
 	proto.RegisterType((*MsgNewClassResponse)(nil), "andromeda.internft.v1alpha1.MsgNewClassResponse")
 	proto.RegisterType((*MsgUpdateClass)(nil), "andromeda.internft.v1alpha1.MsgUpdateClass")
 	proto.RegisterType((*MsgUpdateClassResponse)(nil), "andromeda.internft.v1alpha1.MsgUpdateClassResponse")
-	proto.RegisterType((*MsgMintNFT)(nil), "andromeda.internft.v1alpha1.MsgMintNFT")
-	proto.RegisterType((*MsgMintNFTResponse)(nil), "andromeda.internft.v1alpha1.MsgMintNFTResponse")
-	proto.RegisterType((*MsgBurnNFT)(nil), "andromeda.internft.v1alpha1.MsgBurnNFT")
-	proto.RegisterType((*MsgBurnNFTResponse)(nil), "andromeda.internft.v1alpha1.MsgBurnNFTResponse")
-	proto.RegisterType((*MsgUpdateNFT)(nil), "andromeda.internft.v1alpha1.MsgUpdateNFT")
-	proto.RegisterType((*MsgUpdateNFTResponse)(nil), "andromeda.internft.v1alpha1.MsgUpdateNFTResponse")
+	proto.RegisterType((*MsgNewToken)(nil), "andromeda.internft.v1alpha1.MsgNewToken")
+	proto.RegisterType((*MsgNewTokenResponse)(nil), "andromeda.internft.v1alpha1.MsgNewTokenResponse")
+	proto.RegisterType((*MsgBurnToken)(nil), "andromeda.internft.v1alpha1.MsgBurnToken")
+	proto.RegisterType((*MsgBurnTokenResponse)(nil), "andromeda.internft.v1alpha1.MsgBurnTokenResponse")
+	proto.RegisterType((*MsgUpdateToken)(nil), "andromeda.internft.v1alpha1.MsgUpdateToken")
+	proto.RegisterType((*MsgUpdateTokenResponse)(nil), "andromeda.internft.v1alpha1.MsgUpdateTokenResponse")
 }
 
 func init() {
@@ -666,54 +666,53 @@ func init() {
 }
 
 var fileDescriptor_85a1371cefff7db9 = []byte{
-	// 747 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x96, 0x3d, 0x6f, 0xd3, 0x5c,
-	0x14, 0xc7, 0xe3, 0x38, 0x7d, 0x3b, 0x79, 0x1e, 0x10, 0x26, 0x14, 0x93, 0x8a, 0x34, 0x8a, 0x8a,
-	0x1a, 0x4a, 0xb1, 0x9b, 0x16, 0x21, 0x14, 0x24, 0x44, 0x82, 0x54, 0x54, 0x21, 0x57, 0x51, 0x1a,
-	0x10, 0xaa, 0x2a, 0x21, 0x37, 0xbe, 0x31, 0x96, 0x1a, 0x5f, 0xcb, 0xf7, 0xf6, 0x25, 0x1b, 0xea,
-	0x27, 0xe8, 0x67, 0x60, 0x64, 0xea, 0xc0, 0xc4, 0xc2, 0x5a, 0x31, 0x15, 0x26, 0x26, 0x84, 0xd2,
-	0xa1, 0x12, 0x1f, 0x80, 0xb1, 0x42, 0xb6, 0xef, 0x75, 0x4d, 0x07, 0x3b, 0x05, 0xa9, 0x4c, 0xad,
-	0x7d, 0x7e, 0xe7, 0xfc, 0xcf, 0xff, 0xdc, 0x17, 0x07, 0xa6, 0x74, 0xdb, 0x70, 0x71, 0x17, 0x19,
-	0xba, 0x6a, 0xd9, 0x14, 0xb9, 0x76, 0x87, 0xaa, 0x5b, 0x15, 0x7d, 0xc3, 0x79, 0xad, 0x57, 0x54,
-	0xba, 0xa3, 0x38, 0x2e, 0xa6, 0x58, 0x9a, 0x08, 0x29, 0x85, 0x53, 0x0a, 0xa7, 0xf2, 0xd3, 0xb1,
-	0x25, 0x7a, 0x0e, 0x22, 0x41, 0x95, 0xfc, 0xf5, 0x36, 0x26, 0x5d, 0x4c, 0xd4, 0x2e, 0x31, 0xd5,
-	0xad, 0x8a, 0xf7, 0x87, 0x05, 0x6e, 0x04, 0x81, 0x57, 0xfe, 0x93, 0x1a, 0x3c, 0xb0, 0x50, 0xce,
-	0xc4, 0x26, 0x0e, 0xde, 0x7b, 0xff, 0xf1, 0x04, 0x13, 0x63, 0x73, 0x03, 0xa9, 0xfe, 0xd3, 0xfa,
-	0x66, 0x47, 0xd5, 0xed, 0x5e, 0x10, 0x2a, 0x7d, 0x10, 0x60, 0x44, 0x23, 0xe6, 0x0a, 0xb2, 0x0d,
-	0x69, 0x0e, 0x86, 0x09, 0xb2, 0x0d, 0xe4, 0xca, 0x42, 0x51, 0x28, 0x8f, 0xd5, 0xe5, 0x2f, 0xef,
-	0xef, 0xe6, 0x58, 0xf9, 0x9a, 0x61, 0xb8, 0x88, 0x90, 0x15, 0xea, 0x5a, 0xb6, 0xd9, 0x64, 0x9c,
-	0x74, 0x1f, 0xc6, 0x5c, 0xd4, 0xb6, 0x1c, 0x0b, 0xd9, 0x54, 0x4e, 0x27, 0x24, 0x9d, 0xa2, 0xd2,
-	0x03, 0x10, 0xed, 0x0e, 0x95, 0xc5, 0xa2, 0x50, 0xce, 0xce, 0x17, 0x95, 0x98, 0x71, 0x29, 0xcb,
-	0x8b, 0xad, 0x7a, 0xe6, 0xe0, 0xdb, 0x64, 0xaa, 0xe9, 0xa5, 0x54, 0xb3, 0xbb, 0xc7, 0xfb, 0x33,
-	0x4c, 0xbe, 0x74, 0x05, 0x2e, 0xb3, 0xde, 0x9b, 0x88, 0x38, 0xd8, 0x26, 0xa8, 0x74, 0x22, 0x40,
-	0x56, 0x23, 0xe6, 0x32, 0xda, 0x7e, 0xb2, 0xa1, 0x13, 0x22, 0xdd, 0x83, 0x51, 0xec, 0x20, 0x57,
-	0xa7, 0x38, 0xd9, 0x55, 0x48, 0x4a, 0x8f, 0x60, 0xa8, 0xed, 0xa5, 0xfb, 0x9e, 0xb2, 0xf3, 0xa5,
-	0xd8, 0x0e, 0x7d, 0x21, 0xd6, 0x63, 0x90, 0x26, 0x3d, 0x86, 0x61, 0xea, 0xea, 0x16, 0x25, 0xb2,
-	0x58, 0x14, 0x13, 0x0b, 0xb4, 0x3c, 0x94, 0x15, 0x60, 0x79, 0x52, 0x19, 0x32, 0x86, 0x4e, 0x75,
-	0x39, 0xe3, 0x37, 0x90, 0x53, 0x82, 0x15, 0x54, 0xf8, 0x0a, 0x2a, 0x35, 0xbb, 0xd7, 0xf4, 0x89,
-	0xea, 0xff, 0xde, 0x44, 0xc2, 0xd6, 0x4b, 0xd7, 0xe0, 0x6a, 0xc4, 0x7f, 0x38, 0x97, 0x8f, 0x02,
-	0x5c, 0xd2, 0x88, 0xf9, 0xdc, 0x31, 0x74, 0x8a, 0xfe, 0xe5, 0x68, 0xb8, 0x31, 0xf1, 0xbc, 0xc6,
-	0x64, 0x18, 0xff, 0xdd, 0x40, 0xe8, 0x6d, 0x2f, 0x0d, 0xa0, 0x11, 0x53, 0xb3, 0x6c, 0xba, 0xbc,
-	0xd8, 0xfa, 0x43, 0x5f, 0x17, 0xbe, 0x95, 0xa5, 0x67, 0x00, 0x8e, 0xeb, 0xe9, 0x53, 0x0b, 0x11,
-	0x39, 0xe3, 0x6f, 0x94, 0x5b, 0xb1, 0x05, 0x1a, 0x01, 0xde, 0x63, 0x55, 0x22, 0xe9, 0x67, 0x87,
-	0x95, 0x03, 0xe9, 0x74, 0x22, 0xe1, 0xa0, 0x76, 0x05, 0x7f, 0x50, 0xf5, 0x4d, 0xd7, 0xf6, 0x06,
-	0xa5, 0xc0, 0x10, 0xde, 0xb6, 0x07, 0x38, 0xee, 0x01, 0xc6, 0xad, 0xa6, 0xcf, 0x7f, 0x6a, 0xc1,
-	0xeb, 0x2e, 0xa8, 0xc2, 0x5a, 0x63, 0x3d, 0x84, 0xad, 0x7d, 0x16, 0xe0, 0xbf, 0x70, 0x79, 0x2f,
-	0xb4, 0xb9, 0x33, 0xeb, 0x20, 0xfe, 0xdd, 0x3a, 0x44, 0x9d, 0x8e, 0x43, 0x2e, 0x6a, 0x89, 0x7b,
-	0x9d, 0xff, 0x99, 0x01, 0x51, 0x23, 0xa6, 0xb4, 0x0a, 0x19, 0xff, 0xde, 0x9d, 0x8a, 0x15, 0x63,
-	0x37, 0x5c, 0x7e, 0x76, 0x10, 0x8a, 0x6b, 0x48, 0x1d, 0x18, 0x0d, 0xef, 0xc0, 0x72, 0x52, 0x26,
-	0x27, 0xf3, 0x73, 0x83, 0x92, 0xa1, 0x0e, 0x86, 0x6c, 0xf4, 0x4e, 0xb9, 0x93, 0x54, 0x20, 0x02,
-	0xe7, 0x17, 0xce, 0x01, 0x87, 0x82, 0x6d, 0x18, 0xe1, 0x07, 0x7d, 0x3a, 0x29, 0x9f, 0x81, 0x79,
-	0x75, 0x40, 0x30, 0x2a, 0xc2, 0x0f, 0x49, 0xa2, 0x08, 0x03, 0x93, 0x45, 0xce, 0x6c, 0x79, 0xc9,
-	0x82, 0xb1, 0xd3, 0xed, 0x7e, 0x7b, 0xb0, 0x59, 0x78, 0x42, 0x95, 0x81, 0x51, 0x2e, 0x95, 0x1f,
-	0x7a, 0x73, 0xbc, 0x3f, 0x23, 0xd4, 0x4f, 0x84, 0x83, 0x7e, 0x41, 0x38, 0xec, 0x17, 0x84, 0xef,
-	0xfd, 0x82, 0xb0, 0x77, 0x54, 0x48, 0x1d, 0x1e, 0x15, 0x52, 0x5f, 0x8f, 0x0a, 0x29, 0x98, 0x6c,
-	0xe3, 0x6e, 0x5c, 0xdd, 0xfa, 0x48, 0x6b, 0xa7, 0xe1, 0xdd, 0xd1, 0x0d, 0x61, 0x75, 0x36, 0xe6,
-	0x17, 0xcc, 0x43, 0xfe, 0x86, 0xbf, 0x78, 0x9b, 0x16, 0x6b, 0x4b, 0x2f, 0xdf, 0xa5, 0x27, 0x6a,
-	0x61, 0xf1, 0x25, 0x5e, 0xfc, 0x05, 0x63, 0x3e, 0x45, 0xa2, 0x6b, 0x3c, 0xba, 0xc6, 0xa3, 0xfd,
-	0xf4, 0x74, 0x4c, 0x74, 0xed, 0x69, 0xa3, 0xae, 0x21, 0xaa, 0x7b, 0x9f, 0x8c, 0x1f, 0xe9, 0x9b,
-	0x21, 0x59, 0xad, 0x72, 0xb4, 0x5a, 0xe5, 0xec, 0xfa, 0xb0, 0xff, 0x99, 0x59, 0xf8, 0x15, 0x00,
-	0x00, 0xff, 0xff, 0xe9, 0x59, 0x6c, 0xb9, 0xc7, 0x09, 0x00, 0x00,
+	// 734 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x96, 0xbd, 0x6f, 0xd3, 0x4e,
+	0x18, 0xc7, 0xe3, 0x38, 0xe9, 0xcb, 0xe5, 0xf7, 0x03, 0x61, 0x42, 0x31, 0xae, 0x48, 0xab, 0xa8,
+	0xa8, 0xa1, 0x14, 0xbb, 0x69, 0x11, 0x43, 0x90, 0x10, 0x09, 0x03, 0xaa, 0x50, 0x50, 0x94, 0x16,
+	0x84, 0xaa, 0x4a, 0xc8, 0x8d, 0xaf, 0xc6, 0xa2, 0xb9, 0xb3, 0x7c, 0xd7, 0x97, 0x6c, 0x08, 0x89,
+	0x85, 0x89, 0x8d, 0x9d, 0x91, 0xa9, 0x03, 0x3b, 0x8c, 0x15, 0x53, 0xc5, 0x04, 0x0b, 0x42, 0xe9,
+	0x50, 0x89, 0x3f, 0xa2, 0x42, 0xbe, 0xf3, 0xb9, 0x6e, 0x11, 0xb6, 0x5b, 0x86, 0x4e, 0xad, 0xfd,
+	0x7c, 0x9e, 0x97, 0xef, 0xf3, 0x3c, 0x77, 0x0e, 0x98, 0x30, 0x91, 0xe5, 0xe1, 0x2e, 0xb4, 0x4c,
+	0xc3, 0x41, 0x14, 0x7a, 0x68, 0x95, 0x1a, 0x1b, 0x55, 0x73, 0xcd, 0x7d, 0x6e, 0x56, 0x0d, 0xba,
+	0xa5, 0xbb, 0x1e, 0xa6, 0x58, 0x19, 0x0d, 0x29, 0x5d, 0x50, 0xba, 0xa0, 0xb4, 0xc9, 0xd8, 0x10,
+	0x3d, 0x17, 0x12, 0x1e, 0x45, 0xbb, 0xdc, 0xc1, 0xa4, 0x8b, 0x89, 0xd1, 0x25, 0xb6, 0xb1, 0x51,
+	0xf5, 0xff, 0x04, 0x86, 0x2b, 0xdc, 0xf0, 0x8c, 0x3d, 0x19, 0xfc, 0x21, 0x30, 0x15, 0x6d, 0x6c,
+	0x63, 0xfe, 0xde, 0xff, 0x4f, 0x38, 0xd8, 0x18, 0xdb, 0x6b, 0xd0, 0x60, 0x4f, 0x2b, 0xeb, 0xab,
+	0x86, 0x89, 0x7a, 0xdc, 0x54, 0xfe, 0x2c, 0x81, 0xc1, 0x26, 0xb1, 0x17, 0x20, 0xb2, 0x94, 0x19,
+	0x30, 0x40, 0x20, 0xb2, 0xa0, 0xa7, 0x4a, 0xe3, 0x52, 0x65, 0xb8, 0xa1, 0x7e, 0xfd, 0x78, 0xb3,
+	0x18, 0x84, 0xaf, 0x5b, 0x96, 0x07, 0x09, 0x59, 0xa0, 0x9e, 0x83, 0xec, 0x76, 0xc0, 0x29, 0xb7,
+	0xc1, 0xb0, 0x07, 0x3b, 0x8e, 0xeb, 0x40, 0x44, 0xd5, 0x6c, 0x82, 0xd3, 0x21, 0xaa, 0xdc, 0x05,
+	0x79, 0x8a, 0x5f, 0x40, 0xa4, 0xca, 0xe3, 0x52, 0xa5, 0x30, 0x5b, 0xd6, 0x63, 0x1a, 0xa6, 0x2f,
+	0xfa, 0x64, 0x23, 0xb7, 0xf3, 0x63, 0x2c, 0xd3, 0xe6, 0x6e, 0xb5, 0xc2, 0xab, 0xfd, 0xed, 0xa9,
+	0xa0, 0x88, 0xf2, 0x05, 0x70, 0x3e, 0x50, 0xd0, 0x86, 0xc4, 0xc5, 0x88, 0xc0, 0xf2, 0x81, 0x04,
+	0x0a, 0x4d, 0x62, 0x3f, 0x82, 0x9b, 0xf7, 0xd7, 0x4c, 0x42, 0x94, 0x5b, 0x60, 0x08, 0xbb, 0xd0,
+	0x33, 0x29, 0x4e, 0xd6, 0x16, 0x92, 0x7e, 0x95, 0x1d, 0xdf, 0x9d, 0x29, 0x4b, 0xaa, 0x92, 0x25,
+	0x12, 0x55, 0x32, 0x37, 0xe5, 0x1e, 0x18, 0xa0, 0x9e, 0xe9, 0x50, 0xa2, 0xca, 0xe3, 0x72, 0xb2,
+	0x4c, 0x1f, 0x0d, 0x02, 0x04, 0x7e, 0x4a, 0x05, 0xe4, 0x2c, 0x93, 0x9a, 0x6a, 0x8e, 0x15, 0x50,
+	0xd4, 0xf9, 0x1c, 0x75, 0x31, 0x47, 0xbd, 0x8e, 0x7a, 0x6d, 0x46, 0xd4, 0xfe, 0xf7, 0x3b, 0x12,
+	0x96, 0x5e, 0xbe, 0x04, 0x2e, 0x46, 0xf4, 0x87, 0x7d, 0xf9, 0x24, 0x81, 0x73, 0x4d, 0x62, 0x3f,
+	0x76, 0x2d, 0x93, 0xc2, 0xb3, 0x6c, 0x8d, 0x10, 0x26, 0x9f, 0x54, 0x98, 0x0a, 0x46, 0x8e, 0x0a,
+	0x08, 0xb5, 0xbd, 0xcb, 0x8a, 0x99, 0xb3, 0x85, 0x39, 0xa5, 0xb0, 0x33, 0xda, 0x68, 0xe5, 0x21,
+	0x00, 0xae, 0xe7, 0x57, 0x41, 0x1d, 0x48, 0xd4, 0x1c, 0xdb, 0x97, 0x6b, 0xb1, 0x41, 0x5a, 0x1c,
+	0xef, 0x05, 0x71, 0x22, 0xee, 0x7f, 0x5d, 0x06, 0x96, 0x37, 0x6c, 0xd8, 0x1b, 0x09, 0xfc, 0xd7,
+	0x24, 0x76, 0x63, 0xdd, 0x43, 0xbc, 0x63, 0x3a, 0xc8, 0xe3, 0x4d, 0x94, 0xe2, 0xf8, 0x73, 0xec,
+	0x50, 0x73, 0xf6, 0x74, 0xa7, 0x18, 0xf8, 0x65, 0xf2, 0x58, 0xe5, 0x11, 0x50, 0x8c, 0xd6, 0x12,
+	0x16, 0xf9, 0x3d, 0xba, 0xb1, 0x67, 0x52, 0xe6, 0xb1, 0xd1, 0xc8, 0xff, 0x36, 0x9a, 0xa8, 0xe6,
+	0xe8, 0x2e, 0x1f, 0x51, 0x3d, 0xfb, 0x3a, 0x0f, 0xe4, 0x26, 0xb1, 0x95, 0x25, 0x90, 0x63, 0x37,
+	0xf3, 0x44, 0x6c, 0xba, 0xe0, 0xf6, 0xd3, 0xa6, 0xd3, 0x50, 0x22, 0x87, 0xb2, 0x0a, 0x86, 0xc2,
+	0xfb, 0xb1, 0x92, 0xe4, 0x29, 0x48, 0x6d, 0x26, 0x2d, 0x19, 0xe6, 0xc1, 0xa0, 0x10, 0xbd, 0x6f,
+	0x6e, 0x24, 0x05, 0x88, 0xc0, 0xda, 0xdc, 0x09, 0xe0, 0x63, 0xc2, 0xf8, 0xae, 0xa4, 0x11, 0xc6,
+	0xc8, 0x54, 0xc2, 0x8e, 0x0c, 0x49, 0x71, 0xc0, 0xf0, 0xe1, 0xd9, 0xb9, 0x9e, 0xe4, 0x1e, 0xa2,
+	0x5a, 0x35, 0x35, 0xfa, 0x67, 0x0f, 0x79, 0xb2, 0x94, 0x3d, 0xe4, 0xe9, 0xe6, 0x4e, 0x00, 0x8b,
+	0x84, 0x5a, 0xfe, 0xe5, 0xfe, 0xf6, 0x94, 0xd4, 0x38, 0x90, 0x76, 0xfa, 0x25, 0x69, 0xb7, 0x5f,
+	0x92, 0x7e, 0xf6, 0x4b, 0xd2, 0xdb, 0xbd, 0x52, 0x66, 0x77, 0xaf, 0x94, 0xf9, 0xb6, 0x57, 0xca,
+	0x80, 0xb1, 0x0e, 0xee, 0xc6, 0x45, 0x6e, 0x0c, 0x2e, 0x6e, 0xb5, 0xfc, 0xeb, 0xbc, 0x25, 0x2d,
+	0x4d, 0xc7, 0xfc, 0xe4, 0xb9, 0x23, 0xde, 0x88, 0x17, 0xef, 0xb3, 0x72, 0x7d, 0xfe, 0xe9, 0x87,
+	0xec, 0x68, 0x3d, 0x0c, 0x3e, 0x2f, 0x82, 0x3f, 0x09, 0x98, 0x2f, 0x11, 0xeb, 0xb2, 0xb0, 0x2e,
+	0x0b, 0x6b, 0x3f, 0x3b, 0x19, 0x63, 0x5d, 0x7e, 0xd0, 0x6a, 0x34, 0x21, 0x35, 0xfd, 0xaf, 0xcb,
+	0xaf, 0xec, 0xd5, 0x90, 0xac, 0xd5, 0x04, 0x5a, 0xab, 0x09, 0x76, 0x65, 0x80, 0x7d, 0x91, 0xe6,
+	0x7e, 0x07, 0x00, 0x00, 0xff, 0xff, 0xbb, 0x34, 0x04, 0x64, 0xf8, 0x09, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -728,18 +727,18 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
-	// Send defines a method to send an NFT from one account to another account.
+	// Send defines a method to send a token from one account to another account.
 	Send(ctx context.Context, in *MsgSend, opts ...grpc.CallOption) (*MsgSendResponse, error)
 	// NewClass defines a method to create a class.
 	NewClass(ctx context.Context, in *MsgNewClass, opts ...grpc.CallOption) (*MsgNewClassResponse, error)
 	// UpdateClass defines a method to update a class.
 	UpdateClass(ctx context.Context, in *MsgUpdateClass, opts ...grpc.CallOption) (*MsgUpdateClassResponse, error)
-	// MintNFT defines a method to mint an NFT.
-	MintNFT(ctx context.Context, in *MsgMintNFT, opts ...grpc.CallOption) (*MsgMintNFTResponse, error)
-	// BurnNFT defines a method to burn an NFT.
-	BurnNFT(ctx context.Context, in *MsgBurnNFT, opts ...grpc.CallOption) (*MsgBurnNFTResponse, error)
-	// UpdateNFT defines a method to update an NFT.
-	UpdateNFT(ctx context.Context, in *MsgUpdateNFT, opts ...grpc.CallOption) (*MsgUpdateNFTResponse, error)
+	// NewToken defines a method to create a token.
+	NewToken(ctx context.Context, in *MsgNewToken, opts ...grpc.CallOption) (*MsgNewTokenResponse, error)
+	// BurnToken defines a method to burn a token.
+	BurnToken(ctx context.Context, in *MsgBurnToken, opts ...grpc.CallOption) (*MsgBurnTokenResponse, error)
+	// UpdateToken defines a method to update a token.
+	UpdateToken(ctx context.Context, in *MsgUpdateToken, opts ...grpc.CallOption) (*MsgUpdateTokenResponse, error)
 }
 
 type msgClient struct {
@@ -777,27 +776,27 @@ func (c *msgClient) UpdateClass(ctx context.Context, in *MsgUpdateClass, opts ..
 	return out, nil
 }
 
-func (c *msgClient) MintNFT(ctx context.Context, in *MsgMintNFT, opts ...grpc.CallOption) (*MsgMintNFTResponse, error) {
-	out := new(MsgMintNFTResponse)
-	err := c.cc.Invoke(ctx, "/andromeda.internft.v1alpha1.Msg/MintNFT", in, out, opts...)
+func (c *msgClient) NewToken(ctx context.Context, in *MsgNewToken, opts ...grpc.CallOption) (*MsgNewTokenResponse, error) {
+	out := new(MsgNewTokenResponse)
+	err := c.cc.Invoke(ctx, "/andromeda.internft.v1alpha1.Msg/NewToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) BurnNFT(ctx context.Context, in *MsgBurnNFT, opts ...grpc.CallOption) (*MsgBurnNFTResponse, error) {
-	out := new(MsgBurnNFTResponse)
-	err := c.cc.Invoke(ctx, "/andromeda.internft.v1alpha1.Msg/BurnNFT", in, out, opts...)
+func (c *msgClient) BurnToken(ctx context.Context, in *MsgBurnToken, opts ...grpc.CallOption) (*MsgBurnTokenResponse, error) {
+	out := new(MsgBurnTokenResponse)
+	err := c.cc.Invoke(ctx, "/andromeda.internft.v1alpha1.Msg/BurnToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) UpdateNFT(ctx context.Context, in *MsgUpdateNFT, opts ...grpc.CallOption) (*MsgUpdateNFTResponse, error) {
-	out := new(MsgUpdateNFTResponse)
-	err := c.cc.Invoke(ctx, "/andromeda.internft.v1alpha1.Msg/UpdateNFT", in, out, opts...)
+func (c *msgClient) UpdateToken(ctx context.Context, in *MsgUpdateToken, opts ...grpc.CallOption) (*MsgUpdateTokenResponse, error) {
+	out := new(MsgUpdateTokenResponse)
+	err := c.cc.Invoke(ctx, "/andromeda.internft.v1alpha1.Msg/UpdateToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -806,18 +805,18 @@ func (c *msgClient) UpdateNFT(ctx context.Context, in *MsgUpdateNFT, opts ...grp
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
-	// Send defines a method to send an NFT from one account to another account.
+	// Send defines a method to send a token from one account to another account.
 	Send(context.Context, *MsgSend) (*MsgSendResponse, error)
 	// NewClass defines a method to create a class.
 	NewClass(context.Context, *MsgNewClass) (*MsgNewClassResponse, error)
 	// UpdateClass defines a method to update a class.
 	UpdateClass(context.Context, *MsgUpdateClass) (*MsgUpdateClassResponse, error)
-	// MintNFT defines a method to mint an NFT.
-	MintNFT(context.Context, *MsgMintNFT) (*MsgMintNFTResponse, error)
-	// BurnNFT defines a method to burn an NFT.
-	BurnNFT(context.Context, *MsgBurnNFT) (*MsgBurnNFTResponse, error)
-	// UpdateNFT defines a method to update an NFT.
-	UpdateNFT(context.Context, *MsgUpdateNFT) (*MsgUpdateNFTResponse, error)
+	// NewToken defines a method to create a token.
+	NewToken(context.Context, *MsgNewToken) (*MsgNewTokenResponse, error)
+	// BurnToken defines a method to burn a token.
+	BurnToken(context.Context, *MsgBurnToken) (*MsgBurnTokenResponse, error)
+	// UpdateToken defines a method to update a token.
+	UpdateToken(context.Context, *MsgUpdateToken) (*MsgUpdateTokenResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -833,14 +832,14 @@ func (*UnimplementedMsgServer) NewClass(ctx context.Context, req *MsgNewClass) (
 func (*UnimplementedMsgServer) UpdateClass(ctx context.Context, req *MsgUpdateClass) (*MsgUpdateClassResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateClass not implemented")
 }
-func (*UnimplementedMsgServer) MintNFT(ctx context.Context, req *MsgMintNFT) (*MsgMintNFTResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MintNFT not implemented")
+func (*UnimplementedMsgServer) NewToken(ctx context.Context, req *MsgNewToken) (*MsgNewTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NewToken not implemented")
 }
-func (*UnimplementedMsgServer) BurnNFT(ctx context.Context, req *MsgBurnNFT) (*MsgBurnNFTResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BurnNFT not implemented")
+func (*UnimplementedMsgServer) BurnToken(ctx context.Context, req *MsgBurnToken) (*MsgBurnTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BurnToken not implemented")
 }
-func (*UnimplementedMsgServer) UpdateNFT(ctx context.Context, req *MsgUpdateNFT) (*MsgUpdateNFTResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateNFT not implemented")
+func (*UnimplementedMsgServer) UpdateToken(ctx context.Context, req *MsgUpdateToken) (*MsgUpdateTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateToken not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -901,56 +900,56 @@ func _Msg_UpdateClass_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_MintNFT_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgMintNFT)
+func _Msg_NewToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgNewToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).MintNFT(ctx, in)
+		return srv.(MsgServer).NewToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/andromeda.internft.v1alpha1.Msg/MintNFT",
+		FullMethod: "/andromeda.internft.v1alpha1.Msg/NewToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).MintNFT(ctx, req.(*MsgMintNFT))
+		return srv.(MsgServer).NewToken(ctx, req.(*MsgNewToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_BurnNFT_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgBurnNFT)
+func _Msg_BurnToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgBurnToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).BurnNFT(ctx, in)
+		return srv.(MsgServer).BurnToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/andromeda.internft.v1alpha1.Msg/BurnNFT",
+		FullMethod: "/andromeda.internft.v1alpha1.Msg/BurnToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).BurnNFT(ctx, req.(*MsgBurnNFT))
+		return srv.(MsgServer).BurnToken(ctx, req.(*MsgBurnToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_UpdateNFT_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgUpdateNFT)
+func _Msg_UpdateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).UpdateNFT(ctx, in)
+		return srv.(MsgServer).UpdateToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/andromeda.internft.v1alpha1.Msg/UpdateNFT",
+		FullMethod: "/andromeda.internft.v1alpha1.Msg/UpdateToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).UpdateNFT(ctx, req.(*MsgUpdateNFT))
+		return srv.(MsgServer).UpdateToken(ctx, req.(*MsgUpdateToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -972,16 +971,16 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_UpdateClass_Handler,
 		},
 		{
-			MethodName: "MintNFT",
-			Handler:    _Msg_MintNFT_Handler,
+			MethodName: "NewToken",
+			Handler:    _Msg_NewToken_Handler,
 		},
 		{
-			MethodName: "BurnNFT",
-			Handler:    _Msg_BurnNFT_Handler,
+			MethodName: "BurnToken",
+			Handler:    _Msg_BurnToken_Handler,
 		},
 		{
-			MethodName: "UpdateNFT",
-			Handler:    _Msg_UpdateNFT_Handler,
+			MethodName: "UpdateToken",
+			Handler:    _Msg_UpdateToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1009,7 +1008,7 @@ func (m *MsgSend) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	{
-		size, err := m.Nft.MarshalToSizedBuffer(dAtA[:i])
+		size, err := m.Token.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -1222,7 +1221,7 @@ func (m *MsgUpdateClassResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgMintNFT) Marshal() (dAtA []byte, err error) {
+func (m *MsgNewToken) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1232,12 +1231,12 @@ func (m *MsgMintNFT) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgMintNFT) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgNewToken) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgMintNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgNewToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1257,7 +1256,7 @@ func (m *MsgMintNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		}
 	}
 	{
-		size, err := m.Nft.MarshalToSizedBuffer(dAtA[:i])
+		size, err := m.Token.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -1283,7 +1282,7 @@ func (m *MsgMintNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgMintNFTResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgNewTokenResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1293,12 +1292,12 @@ func (m *MsgMintNFTResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgMintNFTResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgNewTokenResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgMintNFTResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgNewTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1306,7 +1305,7 @@ func (m *MsgMintNFTResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgBurnNFT) Marshal() (dAtA []byte, err error) {
+func (m *MsgBurnToken) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1316,18 +1315,18 @@ func (m *MsgBurnNFT) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgBurnNFT) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgBurnToken) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgBurnNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgBurnToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
 	{
-		size, err := m.Nft.MarshalToSizedBuffer(dAtA[:i])
+		size, err := m.Token.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -1346,7 +1345,7 @@ func (m *MsgBurnNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgBurnNFTResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgBurnTokenResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1356,12 +1355,12 @@ func (m *MsgBurnNFTResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgBurnNFTResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgBurnTokenResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgBurnNFTResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgBurnTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1369,7 +1368,7 @@ func (m *MsgBurnNFTResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgUpdateNFT) Marshal() (dAtA []byte, err error) {
+func (m *MsgUpdateToken) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1379,12 +1378,12 @@ func (m *MsgUpdateNFT) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgUpdateNFT) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgUpdateToken) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgUpdateNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgUpdateToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1404,7 +1403,7 @@ func (m *MsgUpdateNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		}
 	}
 	{
-		size, err := m.Nft.MarshalToSizedBuffer(dAtA[:i])
+		size, err := m.Token.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -1423,7 +1422,7 @@ func (m *MsgUpdateNFT) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgUpdateNFTResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgUpdateTokenResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1433,12 +1432,12 @@ func (m *MsgUpdateNFTResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgUpdateNFTResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgUpdateTokenResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgUpdateNFTResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgUpdateTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1471,7 +1470,7 @@ func (m *MsgSend) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = m.Nft.Size()
+	l = m.Token.Size()
 	n += 1 + l + sovTx(uint64(l))
 	return n
 }
@@ -1547,7 +1546,7 @@ func (m *MsgUpdateClassResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgMintNFT) Size() (n int) {
+func (m *MsgNewToken) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1561,7 +1560,7 @@ func (m *MsgMintNFT) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = m.Nft.Size()
+	l = m.Token.Size()
 	n += 1 + l + sovTx(uint64(l))
 	if len(m.Properties) > 0 {
 		for _, e := range m.Properties {
@@ -1572,7 +1571,7 @@ func (m *MsgMintNFT) Size() (n int) {
 	return n
 }
 
-func (m *MsgMintNFTResponse) Size() (n int) {
+func (m *MsgNewTokenResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1581,7 +1580,7 @@ func (m *MsgMintNFTResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgBurnNFT) Size() (n int) {
+func (m *MsgBurnToken) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1591,12 +1590,12 @@ func (m *MsgBurnNFT) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = m.Nft.Size()
+	l = m.Token.Size()
 	n += 1 + l + sovTx(uint64(l))
 	return n
 }
 
-func (m *MsgBurnNFTResponse) Size() (n int) {
+func (m *MsgBurnTokenResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1605,7 +1604,7 @@ func (m *MsgBurnNFTResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgUpdateNFT) Size() (n int) {
+func (m *MsgUpdateToken) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1615,7 +1614,7 @@ func (m *MsgUpdateNFT) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = m.Nft.Size()
+	l = m.Token.Size()
 	n += 1 + l + sovTx(uint64(l))
 	if len(m.Properties) > 0 {
 		for _, e := range m.Properties {
@@ -1626,7 +1625,7 @@ func (m *MsgUpdateNFT) Size() (n int) {
 	return n
 }
 
-func (m *MsgUpdateNFTResponse) Size() (n int) {
+func (m *MsgUpdateTokenResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1736,7 +1735,7 @@ func (m *MsgSend) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1763,7 +1762,7 @@ func (m *MsgSend) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.Nft.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.Token.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -2274,7 +2273,7 @@ func (m *MsgUpdateClassResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgMintNFT) Unmarshal(dAtA []byte) error {
+func (m *MsgNewToken) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2297,10 +2296,10 @@ func (m *MsgMintNFT) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgMintNFT: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgNewToken: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgMintNFT: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgNewToken: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2369,7 +2368,7 @@ func (m *MsgMintNFT) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -2396,7 +2395,7 @@ func (m *MsgMintNFT) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.Nft.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.Token.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -2455,7 +2454,7 @@ func (m *MsgMintNFT) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgMintNFTResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgNewTokenResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2478,10 +2477,10 @@ func (m *MsgMintNFTResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgMintNFTResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgNewTokenResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgMintNFTResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgNewTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2505,7 +2504,7 @@ func (m *MsgMintNFTResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgBurnNFT) Unmarshal(dAtA []byte) error {
+func (m *MsgBurnToken) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2528,10 +2527,10 @@ func (m *MsgBurnNFT) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgBurnNFT: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgBurnToken: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgBurnNFT: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgBurnToken: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2568,7 +2567,7 @@ func (m *MsgBurnNFT) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -2595,7 +2594,7 @@ func (m *MsgBurnNFT) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.Nft.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.Token.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -2620,7 +2619,7 @@ func (m *MsgBurnNFT) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgBurnNFTResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgBurnTokenResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2643,10 +2642,10 @@ func (m *MsgBurnNFTResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgBurnNFTResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgBurnTokenResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgBurnNFTResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgBurnTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2670,7 +2669,7 @@ func (m *MsgBurnNFTResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgUpdateNFT) Unmarshal(dAtA []byte) error {
+func (m *MsgUpdateToken) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2693,10 +2692,10 @@ func (m *MsgUpdateNFT) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgUpdateNFT: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgUpdateToken: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgUpdateNFT: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgUpdateToken: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2733,7 +2732,7 @@ func (m *MsgUpdateNFT) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Nft", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -2760,7 +2759,7 @@ func (m *MsgUpdateNFT) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.Nft.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.Token.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -2819,7 +2818,7 @@ func (m *MsgUpdateNFT) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgUpdateNFTResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgUpdateTokenResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2842,10 +2841,10 @@ func (m *MsgUpdateNFTResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgUpdateNFTResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgUpdateTokenResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgUpdateNFTResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgUpdateTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

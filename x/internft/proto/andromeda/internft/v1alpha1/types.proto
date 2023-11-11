@@ -6,7 +6,7 @@ import "gogoproto/gogo.proto";
 // Params defines the parameters for the module.
 message Params {}
 
-// Trait defines a trait associated with a classification of NFT.
+// Trait defines a trait associated with the class of token.
 message Trait {
   // the indentifier of the trait
   string id = 1;
@@ -15,26 +15,26 @@ message Trait {
   bool variable = 2;
 }
 
-// Class defines a classification of NFT.
+// Class defines a classification of token.
 message Class {
   // the identifier of the classfication
   string id = 1;
 }
 
-// Property defines a property associated with an NFT.
+// Property defines a property associated with an token.
 message Property {
-  // the identifier of the property
-  string id = 1;
+  // the identifier of the corresponding trait
+  string trait_id = 1;
 
   // the fact associated with the property
   string fact = 2;
 }
 
-// NFT defines a non-fungible token.
-message NFT {
-  // the identifier of the class for the NFT
+// Token defines a non-fungible token.
+message Token {
+  // the identifier of the class for the token
   string class_id = 1;
 
-  // the identifier of the NFT
+  // the identifier of the token
   string id = 2;
 }

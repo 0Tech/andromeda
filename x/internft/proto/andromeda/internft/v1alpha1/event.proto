@@ -8,14 +8,14 @@ import "google/protobuf/any.proto";
 
 // EventSend is emitted on Msg/Send.
 message EventSend {
-  // the sender of the NFT
+  // the sender of the token
   string sender = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the recipient of the NFT
+  // the recipient of the token
   string receiver = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the NFT sent
-  NFT nft = 3 [(gogoproto.nullable) = false];
+  // the token sent
+  Token token = 3 [(gogoproto.nullable) = false];
 }
 
 // EventNewClass is emitted on Msg/NewClass.
@@ -23,7 +23,7 @@ message EventNewClass {
   // the operator of the class
   string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the new class to create
+  // the new class created
   Class class = 2 [(gogoproto.nullable) = false];
 
   // the traits of the new class
@@ -45,37 +45,37 @@ message EventUpdateClass {
   google.protobuf.Any data = 3;
 }
 
-// EventMintNFT is emitted on Msg/MintNFT.
-message EventMintNFT {
+// EventNewToken is emitted on Msg/NewToken.
+message EventNewToken {
   // the operator of the class
   string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the recipient of the new NFT
+  // the recipient of the new token
   string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the new NFT minted
-  NFT nft = 3 [(gogoproto.nullable) = false];
+  // the new token created
+  Token token = 3 [(gogoproto.nullable) = false];
 
-  // the properties of the new NFT
+  // the properties of the new token
   repeated Property properties = 4 [(gogoproto.nullable) = false];
 }
 
-// EventBurnNFT is emitted on Msg/BurnNFT.
-message EventBurnNFT {
-  // the owner of the NFT
+// EventBurnToken is emitted on Msg/BurnToken.
+message EventBurnToken {
+  // the owner of the token
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the NFT burnt
-  NFT nft = 2 [(gogoproto.nullable) = false];
+  // the token burnt
+  Token token = 2 [(gogoproto.nullable) = false];
 }
 
-// EventUpdateNFT is emitted on Msg/UpdateNFT.
-message EventUpdateNFT {
-  // the owner of the NFT
+// EventUpdateToken is emitted on Msg/UpdateToken.
+message EventUpdateToken {
+  // the owner of the token
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the NFT updated
-  NFT nft = 2 [(gogoproto.nullable) = false];
+  // the token updated
+  Token token = 2 [(gogoproto.nullable) = false];
 
   // the new properties
   repeated Property properties = 3 [(gogoproto.nullable) = false];
