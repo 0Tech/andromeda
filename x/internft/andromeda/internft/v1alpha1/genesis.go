@@ -44,31 +44,31 @@ func (s GenesisState) ValidateBasic() error {
 			traits[trait.Id] = struct{}{}
 		}
 
-		seenNFTIDs := map[string]struct{}{}
-		for nftIndex, genNFT := range genClass.Nfts {
-			errHint := fmt.Sprintf("%s.nfts[%d]", errHint, nftIndex)
+		seenTokenIDs := map[string]struct{}{}
+		for tokenIndex, genToken := range genClass.Tokens {
+			errHint := fmt.Sprintf("%s.tokens[%d]", errHint, tokenIndex)
 
-			id := genNFT.Id
-			if err := ValidateNFTID(id); err != nil {
+			id := genToken.Id
+			if err := ValidateTokenID(id); err != nil {
 				return errorsmod.Wrap(err, errHint)
 			}
 
-			if _, seen := seenNFTIDs[id]; seen {
-				return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("unsorted nfts"), errHint)
+			if _, seen := seenTokenIDs[id]; seen {
+				return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("unsorted tokens"), errHint)
 			}
-			seenNFTIDs[id] = struct{}{}
+			seenTokenIDs[id] = struct{}{}
 
-			if err := Properties(genNFT.Properties).ValidateBasic(); err != nil {
+			if err := Properties(genToken.Properties).ValidateBasic(); err != nil {
 				return errorsmod.Wrap(err, errHint)
 			}
 
-			for _, property := range genNFT.Properties {
-				if _, hasTrait := traits[property.Id]; !hasTrait {
-					return errorsmod.Wrap(ErrTraitNotFound.Wrap(property.Id), errHint)
+			for _, property := range genToken.Properties {
+				if _, hasTrait := traits[property.TraitId]; !hasTrait {
+					return errorsmod.Wrap(ErrTraitNotFound.Wrap(property.TraitId), errHint)
 				}
 			}
 
-			if err := ValidateAddress(genNFT.Owner); err != nil {
+			if err := ValidateAddress(genToken.Owner); err != nil {
 				return errorsmod.Wrap(errorsmod.Wrap(err, "owner"), errHint)
 			}
 		}

@@ -14,9 +14,9 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 		&MsgSend{}:        "MsgSend",
 		&MsgNewClass{}:    "MsgNewClass",
 		&MsgUpdateClass{}: "MsgUpdateClass",
-		&MsgMintNFT{}:     "MsgMintNFT",
-		&MsgBurnNFT{}:     "MsgBurnNFT",
-		&MsgUpdateNFT{}:   "MsgUpdateNFT",
+		&MsgNewToken{}:     "MsgNewToken",
+		&MsgBurnToken{}:     "MsgBurnToken",
+		&MsgUpdateToken{}:   "MsgUpdateToken",
 	} {
 		const prefix = "andromeda/x/internft/"
 		legacy.RegisterAminoMsg(cdc, msg, prefix+name)
@@ -28,9 +28,9 @@ func RegisterInterfaces(registry types.InterfaceRegistry) {
 		&MsgSend{},
 		&MsgNewClass{},
 		&MsgUpdateClass{},
-		&MsgMintNFT{},
-		&MsgBurnNFT{},
-		&MsgUpdateNFT{},
+		&MsgNewToken{},
+		&MsgBurnToken{},
+		&MsgUpdateToken{},
 	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)

@@ -33,7 +33,7 @@ func TestImportExportGenesis(t *testing.T) {
 
 	addr := createAddresses(1, "addr")[0]
 	classIDs := createIDs(2, "class")
-	nftIDs := createIDs(2, "nft42")
+	tokenIDs := createIDs(2, "token42")
 
 	testCases := map[string]struct {
 		gs *internftv1alpha1.GenesisState
@@ -56,36 +56,36 @@ func TestImportExportGenesis(t *testing.T) {
 								Variable: true,
 							},
 						},
-						Nfts: []internftv1alpha1.GenesisNFT{
+						Tokens: []internftv1alpha1.GenesisToken{
 							{
-								Id: nftIDs[0],
+								Id: tokenIDs[0],
 								Properties: []internftv1alpha1.Property{
 									{
-										Id:   "color",
+										TraitId:   "color",
 										Fact: "white",
 									},
 									{
-										Id:   "level",
+										TraitId:   "level",
 										Fact: "42",
 									},
 								},
 								Owner: addr.String(),
 							},
 							{
-								Id:    nftIDs[1],
+								Id:    tokenIDs[1],
 								Owner: addr.String(),
 							},
 						},
 					},
 					{
 						Id:              classIDs[1],
-						Nfts: []internftv1alpha1.GenesisNFT{
+						Tokens: []internftv1alpha1.GenesisToken{
 							{
-								Id:    nftIDs[0],
+								Id:    tokenIDs[0],
 								Owner: addr.String(),
 							},
 							{
-								Id:    nftIDs[1],
+								Id:    tokenIDs[1],
 								Owner: addr.String(),
 							},
 						},

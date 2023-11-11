@@ -44,7 +44,7 @@ type KeeperTestSuite struct {
 	mutableTraitID   string
 	immutableTraitID string
 
-	nftIDs map[string]string
+	tokenIDs map[string]string
 }
 
 func createAddresses(size int, prefix string) []sdk.AccAddress {
@@ -179,35 +179,35 @@ func (s *KeeperTestSuite) SetupTest() {
 	err = s.keeper.NewClass(s.ctx, class, traits)
 	s.Assert().NoError(err)
 
-	// vendor mints nfts to all accounts
-	nftIDs := createIDs(len(addresses), "nft")
-	s.nftIDs = map[string]string{}
+	// vendor creates tokens and distributes then to all accounts
+	tokenIDs := createIDs(len(addresses), "token")
+	s.tokenIDs = map[string]string{}
 	for i := range addresses {
 		recipient := *addresses[i]
-		nftID := nftIDs[i]
-		s.nftIDs[recipient.String()] = nftID
+		tokenID := tokenIDs[i]
+		s.tokenIDs[recipient.String()] = tokenID
 
 		// except for stranger
 		if recipient.Equals(s.stranger) {
 			continue
 		}
 
-		nft := internftv1alpha1.NFT{
+		token := internftv1alpha1.Token{
 			ClassId: class.Id,
-			Id: nftID,
+			Id: tokenID,
 		}
 		properties := []internftv1alpha1.Property{
 			{
-				Id: s.mutableTraitID,
+				TraitId: s.mutableTraitID,
 				Fact: "42",
 			},
 			{
-				Id: s.immutableTraitID,
+				TraitId: s.immutableTraitID,
 				Fact: "black",
 			},
 		}
 
-		err := s.keeper.MintNFT(s.ctx, recipient, nft, properties)
+		err := s.keeper.NewToken(s.ctx, recipient, token, properties)
 		s.Assert().NoError(err)
 	}
 }

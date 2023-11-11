@@ -12,7 +12,7 @@ import (
 
 func TestGenesisState(t *testing.T) {
 	classIDs := createIDs(2, "class")
-	nftIDs := createIDs(2, "nft")
+	tokenIDs := createIDs(2, "token")
 	const traitID = "uri"
 	addr := createAddresses(1, "addr")[0]
 
@@ -34,26 +34,26 @@ func TestGenesisState(t *testing.T) {
 								Id: traitID,
 							},
 						},
-						Nfts: []internftv1alpha1.GenesisNFT{
+						Tokens: []internftv1alpha1.GenesisToken{
 							{
-								Id:    nftIDs[0],
+								Id:    tokenIDs[0],
 								Owner: addr.String(),
 							},
 							{
-								Id:    nftIDs[1],
+								Id:    tokenIDs[1],
 								Owner: addr.String(),
 							},
 						},
 					},
 					{
 						Id:              classIDs[1],
-						Nfts: []internftv1alpha1.GenesisNFT{
+						Tokens: []internftv1alpha1.GenesisToken{
 							{
-								Id:    nftIDs[0],
+								Id:    tokenIDs[0],
 								Owner: addr.String(),
 							},
 							{
-								Id:    nftIDs[1],
+								Id:    tokenIDs[1],
 								Owner: addr.String(),
 							},
 						},
@@ -99,13 +99,13 @@ func TestGenesisState(t *testing.T) {
 			},
 			err: sdkerrors.ErrInvalidRequest,
 		},
-		"invalid nft id": {
+		"invalid token id": {
 			s: internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
 				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id:              classIDs[0],
-						Nfts: []internftv1alpha1.GenesisNFT{
+						Tokens: []internftv1alpha1.GenesisToken{
 							{
 								Owner: addr.String(),
 							},
@@ -113,7 +113,7 @@ func TestGenesisState(t *testing.T) {
 					},
 				},
 			},
-			err: internftv1alpha1.ErrInvalidNFTID,
+			err: internftv1alpha1.ErrInvalidTokenID,
 		},
 		"invalid property id": {
 			s: internftv1alpha1.GenesisState{
@@ -126,9 +126,9 @@ func TestGenesisState(t *testing.T) {
 								Id: traitID,
 							},
 						},
-						Nfts: []internftv1alpha1.GenesisNFT{
+						Tokens: []internftv1alpha1.GenesisToken{
 							{
-								Id: nftIDs[0],
+								Id: tokenIDs[0],
 								Properties: []internftv1alpha1.Property{
 									{},
 								},
@@ -151,12 +151,12 @@ func TestGenesisState(t *testing.T) {
 								Id: traitID,
 							},
 						},
-						Nfts: []internftv1alpha1.GenesisNFT{
+						Tokens: []internftv1alpha1.GenesisToken{
 							{
-								Id: nftIDs[0],
+								Id: tokenIDs[0],
 								Properties: []internftv1alpha1.Property{
 									{
-										Id: "nosuchid",
+										TraitId: "nosuchid",
 									},
 								},
 								Owner: addr.String(),
@@ -173,9 +173,9 @@ func TestGenesisState(t *testing.T) {
 				Classes: []internftv1alpha1.GenesisClass{
 					{
 						Id:              classIDs[0],
-						Nfts: []internftv1alpha1.GenesisNFT{
+						Tokens: []internftv1alpha1.GenesisToken{
 							{
-								Id:    nftIDs[0],
+								Id:    tokenIDs[0],
 								Owner: "invalid",
 							},
 						},

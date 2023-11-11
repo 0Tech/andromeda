@@ -22,19 +22,18 @@ func NewMsgServer(keeper Keeper) internftv1alpha1.MsgServer {
 	}
 }
 
-// Send defines a method to send an nft from one account to another account.
 func (s msgServer) Send(ctx context.Context, req *internftv1alpha1.MsgSend) (*internftv1alpha1.MsgSendResponse, error) {
 	sender := sdk.MustAccAddressFromBech32(req.Sender)
 	recipient := sdk.MustAccAddressFromBech32(req.Recipient)
 
-	if err := s.keeper.Send(ctx, sender, recipient, req.Nft); err != nil {
+	if err := s.keeper.Send(ctx, sender, recipient, req.Token); err != nil {
 		return nil, err
 	}
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventSend{
 		Sender:   req.Sender,
 		Receiver: req.Recipient,
-		Nft:      req.Nft,
+		Token:      req.Token,
 	}); err != nil {
 		panic(err)
 	}
@@ -42,7 +41,6 @@ func (s msgServer) Send(ctx context.Context, req *internftv1alpha1.MsgSend) (*in
 	return &internftv1alpha1.MsgSendResponse{}, nil
 }
 
-// NewClass defines a method to create a class.
 func (s msgServer) NewClass(ctx context.Context, req *internftv1alpha1.MsgNewClass) (*internftv1alpha1.MsgNewClassResponse, error) {
 	if err := s.keeper.NewClass(ctx, req.Class, req.Traits); err != nil {
 		return nil, err
@@ -59,7 +57,6 @@ func (s msgServer) NewClass(ctx context.Context, req *internftv1alpha1.MsgNewCla
 	return &internftv1alpha1.MsgNewClassResponse{}, nil
 }
 
-// UpdateClass defines a method to update a class.
 func (s msgServer) UpdateClass(ctx context.Context, req *internftv1alpha1.MsgUpdateClass) (*internftv1alpha1.MsgUpdateClassResponse, error) {
 	// TODO: data
 
@@ -77,55 +74,52 @@ func (s msgServer) UpdateClass(ctx context.Context, req *internftv1alpha1.MsgUpd
 	return &internftv1alpha1.MsgUpdateClassResponse{}, nil
 }
 
-// MintNFT defines a method to mint an nft.
-func (s msgServer) MintNFT(ctx context.Context, req *internftv1alpha1.MsgMintNFT) (*internftv1alpha1.MsgMintNFTResponse, error) {
+func (s msgServer) NewToken(ctx context.Context, req *internftv1alpha1.MsgNewToken) (*internftv1alpha1.MsgNewTokenResponse, error) {
 	recipient := sdk.MustAccAddressFromBech32(req.Recipient)
 
-	if err := s.keeper.MintNFT(ctx, recipient, req.Nft, req.Properties); err != nil {
+	if err := s.keeper.NewToken(ctx, recipient, req.Token, req.Properties); err != nil {
 		return nil, err
 	}
 
-	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventMintNFT{
-		Nft: req.Nft,
+	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventNewToken{
+		Token: req.Token,
 		Properties: req.Properties, // TODO: sort
 		Recipient:  req.Recipient,
 	}); err != nil {
 		panic(err)
 	}
 
-	return &internftv1alpha1.MsgMintNFTResponse{}, nil
+	return &internftv1alpha1.MsgNewTokenResponse{}, nil
 }
 
-// BurnNFT defines a method to burn an nft.
-func (s msgServer) BurnNFT(ctx context.Context, req *internftv1alpha1.MsgBurnNFT) (*internftv1alpha1.MsgBurnNFTResponse, error) {
+func (s msgServer) BurnToken(ctx context.Context, req *internftv1alpha1.MsgBurnToken) (*internftv1alpha1.MsgBurnTokenResponse, error) {
 	owner := sdk.MustAccAddressFromBech32(req.Owner)
 
-	if err := s.keeper.BurnNFT(ctx, owner, req.Nft); err != nil {
+	if err := s.keeper.BurnToken(ctx, owner, req.Token); err != nil {
 		return nil, err
 	}
 
-	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventBurnNFT{
+	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventBurnToken{
 		Owner: req.Owner,
-		Nft:   req.Nft,
+		Token:   req.Token,
 	}); err != nil {
 		panic(err)
 	}
 
-	return &internftv1alpha1.MsgBurnNFTResponse{}, nil
+	return &internftv1alpha1.MsgBurnTokenResponse{}, nil
 }
 
-// UpdateNFT defines a method to update an nft.
-func (s msgServer) UpdateNFT(ctx context.Context, req *internftv1alpha1.MsgUpdateNFT) (*internftv1alpha1.MsgUpdateNFTResponse, error) {
-	if err := s.keeper.UpdateNFT(ctx, req.Nft, req.Properties); err != nil {
+func (s msgServer) UpdateToken(ctx context.Context, req *internftv1alpha1.MsgUpdateToken) (*internftv1alpha1.MsgUpdateTokenResponse, error) {
+	if err := s.keeper.UpdateToken(ctx, req.Token, req.Properties); err != nil {
 		return nil, err
 	}
 
-	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventUpdateNFT{
-		Nft:        req.Nft,
+	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventUpdateToken{
+		Token:        req.Token,
 		Properties: req.Properties,
 	}); err != nil {
 		panic(err)
 	}
 
-	return &internftv1alpha1.MsgUpdateNFTResponse{}, nil
+	return &internftv1alpha1.MsgUpdateTokenResponse{}, nil
 }

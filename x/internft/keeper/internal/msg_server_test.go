@@ -8,15 +8,15 @@ import (
 
 func (s *KeeperTestSuite) TestMsgSend() {
 	testCases := map[string]struct {
-		nftID  string
+		tokenID  string
 		err error
 	}{
 		"valid request": {
-			nftID: s.nftIDs[s.vendor.String()],
+			tokenID: s.tokenIDs[s.vendor.String()],
 		},
 		"insufficient funds": {
-			nftID:  s.nftIDs[s.customer.String()],
-			err: internftv1alpha1.ErrInsufficientNFT,
+			tokenID:  s.tokenIDs[s.customer.String()],
+			err: internftv1alpha1.ErrInsufficientToken,
 		},
 	}
 
@@ -27,9 +27,9 @@ func (s *KeeperTestSuite) TestMsgSend() {
 			req := &internftv1alpha1.MsgSend{
 				Sender:    s.vendor.String(),
 				Recipient: s.customer.String(),
-				Nft: internftv1alpha1.NFT{
+				Token: internftv1alpha1.Token{
 					ClassId: s.vendor.String(),
-					Id:      tc.nftID,
+					Id:      tc.tokenID,
 				},
 			}
 			err := req.ValidateBasic()
@@ -119,8 +119,8 @@ func (s *KeeperTestSuite) TestMsgUpdateClass() {
 	}
 }
 
-func (s *KeeperTestSuite) TestMsgMintNFT() {
-	newNFTID := createIDs(1, "newnft")[0]
+func (s *KeeperTestSuite) TestMsgNewToken() {
+	newTokenID := createIDs(1, "newtoken")[0]
 	testCases := map[string]struct {
 		classID string
 		err     error
@@ -138,23 +138,23 @@ func (s *KeeperTestSuite) TestMsgMintNFT() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internftv1alpha1.MsgMintNFT{
+			req := &internftv1alpha1.MsgNewToken{
 				Operator: tc.classID,
 				Recipient: s.customer.String(),
-				Nft: internftv1alpha1.NFT{
+				Token: internftv1alpha1.Token{
 					ClassId: tc.classID,
-					Id: newNFTID,
+					Id: newTokenID,
 				},
 				Properties: []internftv1alpha1.Property{
 					{
-						Id: s.mutableTraitID,
+						TraitId: s.mutableTraitID,
 					},
 				},
 			}
 			err := req.ValidateBasic()
 			s.Assert().NoError(err)
 
-			res, err := s.msgServer.MintNFT(ctx, req)
+			res, err := s.msgServer.NewToken(ctx, req)
 			s.Require().ErrorIs(err, tc.err)
 			if tc.err != nil {
 				return
@@ -164,17 +164,17 @@ func (s *KeeperTestSuite) TestMsgMintNFT() {
 	}
 }
 
-func (s *KeeperTestSuite) TestMsgBurnNFT() {
+func (s *KeeperTestSuite) TestMsgBurnToken() {
 	testCases := map[string]struct {
-		nftID  string
+		tokenID  string
 		err error
 	}{
 		"valid request": {
-			nftID: s.nftIDs[s.vendor.String()],
+			tokenID: s.tokenIDs[s.vendor.String()],
 		},
-		"insufficient nft": {
-			nftID: s.nftIDs[s.customer.String()],
-			err: internftv1alpha1.ErrInsufficientNFT,
+		"insufficient token": {
+			tokenID: s.tokenIDs[s.customer.String()],
+			err: internftv1alpha1.ErrInsufficientToken,
 		},
 	}
 
@@ -182,17 +182,17 @@ func (s *KeeperTestSuite) TestMsgBurnNFT() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internftv1alpha1.MsgBurnNFT{
+			req := &internftv1alpha1.MsgBurnToken{
 				Owner: s.vendor.String(),
-				Nft: internftv1alpha1.NFT{
+				Token: internftv1alpha1.Token{
 					ClassId: s.vendor.String(),
-					Id:      tc.nftID,
+					Id:      tc.tokenID,
 				},
 			}
 			err := req.ValidateBasic()
 			s.Assert().NoError(err)
 
-			res, err := s.msgServer.BurnNFT(ctx, req)
+			res, err := s.msgServer.BurnToken(ctx, req)
 			s.Require().ErrorIs(err, tc.err)
 			if tc.err != nil {
 				return
@@ -202,17 +202,17 @@ func (s *KeeperTestSuite) TestMsgBurnNFT() {
 	}
 }
 
-func (s *KeeperTestSuite) TestMsgUpdateNFT() {
+func (s *KeeperTestSuite) TestMsgUpdateToken() {
 	testCases := map[string]struct {
-		nftID  string
+		tokenID  string
 		err error
 	}{
 		"valid request": {
-			nftID: s.nftIDs[s.vendor.String()],
+			tokenID: s.tokenIDs[s.vendor.String()],
 		},
-		"nft not found": {
-			nftID: s.nftIDs[s.stranger.String()],
-			err: internftv1alpha1.ErrNFTNotFound,
+		"token not found": {
+			tokenID: s.tokenIDs[s.stranger.String()],
+			err: internftv1alpha1.ErrTokenNotFound,
 		},
 	}
 
@@ -220,22 +220,22 @@ func (s *KeeperTestSuite) TestMsgUpdateNFT() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internftv1alpha1.MsgUpdateNFT{
+			req := &internftv1alpha1.MsgUpdateToken{
 				Owner: s.vendor.String(),
-				Nft: internftv1alpha1.NFT{
+				Token: internftv1alpha1.Token{
 					ClassId: s.vendor.String(),
-					Id:      tc.nftID,
+					Id:      tc.tokenID,
 				},
 				Properties: []internftv1alpha1.Property{
 					{
-						Id: s.mutableTraitID,
+						TraitId: s.mutableTraitID,
 					},
 				},
 			}
 			err := req.ValidateBasic()
 			s.Assert().NoError(err)
 
-			res, err := s.msgServer.UpdateNFT(ctx, req)
+			res, err := s.msgServer.UpdateToken(ctx, req)
 			s.Require().ErrorIs(err, tc.err)
 			if tc.err != nil {
 				return

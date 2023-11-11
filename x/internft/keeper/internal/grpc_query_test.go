@@ -181,7 +181,7 @@ func (s *KeeperTestSuite) TestQueryTraits() {
 	}
 }
 
-func (s *KeeperTestSuite) TestQueryNFT() {
+func (s *KeeperTestSuite) TestQueryToken() {
 	testCases := map[string]struct {
 		classID string
 		code    codes.Code
@@ -192,7 +192,7 @@ func (s *KeeperTestSuite) TestQueryNFT() {
 		"invalid class id": {
 			code: codes.InvalidArgument,
 		},
-		"nft not found": {
+		"token not found": {
 			classID: s.customer.String(),
 			code:    codes.NotFound,
 		},
@@ -202,27 +202,27 @@ func (s *KeeperTestSuite) TestQueryNFT() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internftv1alpha1.QueryNFTRequest{
+			req := &internftv1alpha1.QueryTokenRequest{
 				ClassId: tc.classID,
-				NftId:      s.nftIDs[s.customer.String()],
+				TokenId:      s.tokenIDs[s.customer.String()],
 			}
 
-			res, err := s.queryServer.NFT(ctx, req)
+			res, err := s.queryServer.Token(ctx, req)
 			s.Require().Equal(tc.code, status.Code(err))
 			if tc.code != codes.OK {
 				return
 			}
 			s.Require().NotNil(res)
 
-			nft := res.Nft
-			s.Require().NotNil(nft)
-			s.Require().Equal(req.ClassId, nft.ClassId)
-			s.Require().Equal(req.NftId, nft.Id)
+			token := res.Token
+			s.Require().NotNil(token)
+			s.Require().Equal(req.ClassId, token.ClassId)
+			s.Require().Equal(req.TokenId, token.Id)
 		})
 	}
 }
 
-func (s *KeeperTestSuite) TestQueryNFTs() {
+func (s *KeeperTestSuite) TestQueryTokens() {
 	testCases := map[string]struct {
 		classID string
 		code    codes.Code
@@ -239,19 +239,19 @@ func (s *KeeperTestSuite) TestQueryNFTs() {
 		s.Run(name, func() {
 			ctx, _ := s.ctx.CacheContext()
 
-			req := &internftv1alpha1.QueryNFTsRequest{
+			req := &internftv1alpha1.QueryTokensRequest{
 				ClassId: tc.classID,
 			}
 
-			res, err := s.queryServer.NFTs(ctx, req)
+			res, err := s.queryServer.Tokens(ctx, req)
 			s.Require().Equal(tc.code, status.Code(err))
 			if tc.code != codes.OK {
 				return
 			}
 			s.Require().NotNil(res)
 
-			nfts := res.Nfts
-			s.Require().Len(nfts, len(s.nftIDs)-1)
+			tokens := res.Tokens
+			s.Require().Len(tokens, len(s.tokenIDs)-1)
 		})
 	}
 }
@@ -259,15 +259,15 @@ func (s *KeeperTestSuite) TestQueryNFTs() {
 func (s *KeeperTestSuite) TestQueryProperty() {
 	testCases := map[string]struct {
 		classID    string
-		propertyID string
+		traitID string
 		code       codes.Code
 	}{
 		"valid request": {
 			classID:    s.vendor.String(),
-			propertyID: s.immutableTraitID,
+			traitID: s.immutableTraitID,
 		},
 		"invalid class id": {
-			propertyID: s.immutableTraitID,
+			traitID: s.immutableTraitID,
 			code:       codes.InvalidArgument,
 		},
 		"invalid trait id": {
@@ -276,7 +276,7 @@ func (s *KeeperTestSuite) TestQueryProperty() {
 		},
 		"trait not found": {
 			classID:    s.customer.String(),
-			propertyID: s.immutableTraitID,
+			traitID: s.immutableTraitID,
 			code:       codes.NotFound,
 		},
 	}
@@ -287,8 +287,8 @@ func (s *KeeperTestSuite) TestQueryProperty() {
 
 			req := &internftv1alpha1.QueryPropertyRequest{
 				ClassId:    tc.classID,
-				NftId:      s.nftIDs[s.customer.String()],
-				PropertyId: tc.propertyID,
+				TokenId:      s.tokenIDs[s.customer.String()],
+				TraitId: tc.traitID,
 			}
 
 			res, err := s.queryServer.Property(ctx, req)
@@ -300,7 +300,7 @@ func (s *KeeperTestSuite) TestQueryProperty() {
 
 			property := res.Property
 			s.Require().NotNil(property)
-			s.Require().Equal(tc.propertyID, property.Id)
+			s.Require().Equal(tc.traitID, property.TraitId)
 		})
 	}
 }
@@ -324,7 +324,7 @@ func (s *KeeperTestSuite) TestQueryProperties() {
 
 			req := &internftv1alpha1.QueryPropertiesRequest{
 				ClassId: tc.classID,
-				NftId:   s.nftIDs[s.customer.String()],
+				TokenId:   s.tokenIDs[s.customer.String()],
 			}
 
 			res, err := s.queryServer.Properties(ctx, req)
@@ -351,7 +351,7 @@ func (s *KeeperTestSuite) TestQueryOwner() {
 		"invalid class id": {
 			code: codes.InvalidArgument,
 		},
-		"nft not found": {
+		"token not found": {
 			classID: s.customer.String(),
 			code:    codes.NotFound,
 		},
@@ -363,7 +363,7 @@ func (s *KeeperTestSuite) TestQueryOwner() {
 
 			req := &internftv1alpha1.QueryOwnerRequest{
 				ClassId: tc.classID,
-				NftId:   s.nftIDs[s.customer.String()],
+				TokenId:   s.tokenIDs[s.customer.String()],
 			}
 
 			res, err := s.queryServer.Owner(ctx, req)

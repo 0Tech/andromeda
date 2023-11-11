@@ -10,40 +10,40 @@ func (s *KeeperTestSuite) TestSend() {
 	type send struct {
 		sender sdk.AccAddress
 		recipient sdk.AccAddress
-		nft internftv1alpha1.NFT
+		token internftv1alpha1.Token
 	}
 
 	tester := func(subject send) error {
-		s.Assert().NoError(subject.nft.ValidateBasic())
+		s.Assert().NoError(subject.token.ValidateBasic())
 
 		ctx, _ := s.ctx.CacheContext()
-		err := s.keeper.Send(ctx, subject.sender, subject.recipient, subject.nft)
+		err := s.keeper.Send(ctx, subject.sender, subject.recipient, subject.token)
 		if err != nil {
 			return err
 		}
 
-		classBefore, err := s.keeper.GetClass(s.ctx, subject.nft.ClassId)
+		classBefore, err := s.keeper.GetClass(s.ctx, subject.token.ClassId)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(classBefore)
-		s.Assert().Equal(subject.nft.ClassId, classBefore.Id)
-		nftBefore, err := s.keeper.GetNFT(s.ctx, subject.nft)
+		s.Assert().Equal(subject.token.ClassId, classBefore.Id)
+		tokenBefore, err := s.keeper.GetToken(s.ctx, subject.token)
 		s.Assert().NoError(err)
-		s.Assert().NotNil(nftBefore)
-		s.Assert().Equal(subject.nft, *nftBefore)
-		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.nft)
+		s.Assert().NotNil(tokenBefore)
+		s.Assert().Equal(subject.token, *tokenBefore)
+		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.token)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(ownerBefore)
 		s.Assert().Equal(subject.sender, *ownerBefore)
 
-		classAfter, err := s.keeper.GetClass(ctx, subject.nft.ClassId)
+		classAfter, err := s.keeper.GetClass(ctx, subject.token.ClassId)
 		s.Require().NoError(err)
 		s.Require().NotNil(classAfter)
-		s.Require().Equal(subject.nft.ClassId, classAfter.Id)
-		nftAfter, err := s.keeper.GetNFT(ctx, subject.nft)
+		s.Require().Equal(subject.token.ClassId, classAfter.Id)
+		tokenAfter, err := s.keeper.GetToken(ctx, subject.token)
 		s.Require().NoError(err)
-		s.Require().NotNil(nftAfter)
-		s.Require().Equal(subject.nft, *nftAfter)
-		ownerAfter, err := s.keeper.GetOwner(ctx, subject.nft)
+		s.Require().NotNil(tokenAfter)
+		s.Require().Equal(subject.token, *tokenAfter)
+		ownerAfter, err := s.keeper.GetOwner(ctx, subject.token)
 		s.Require().NoError(err)
 		s.Require().NotNil(ownerAfter)
 		s.Require().Equal(subject.recipient, *ownerAfter)
@@ -62,7 +62,7 @@ func (s *KeeperTestSuite) TestSend() {
 					subject.sender = s.stranger
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientNFT
+					return internftv1alpha1.ErrInsufficientToken
 				},
 			},
 		},
@@ -79,23 +79,23 @@ func (s *KeeperTestSuite) TestSend() {
 			},
 		},
 		{
-			"nft exists": {
+			"token exists": {
 				malleate: func(subject *send) {
-					subject.nft = internftv1alpha1.NFT{
+					subject.token = internftv1alpha1.Token{
 						ClassId: s.vendor.String(),
-						Id: s.nftIDs[s.vendor.String()],
+						Id: s.tokenIDs[s.vendor.String()],
 					}
 				},
 			},
-			"nft not found": {
+			"token not found": {
 				malleate: func(subject *send) {
-					subject.nft = internftv1alpha1.NFT{
+					subject.token = internftv1alpha1.Token{
 						ClassId: s.vendor.String(),
-						Id: s.nftIDs[s.stranger.String()],
+						Id: s.tokenIDs[s.stranger.String()],
 					}
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientNFT
+					return internftv1alpha1.ErrInsufficientToken
 				},
 			},
 		},

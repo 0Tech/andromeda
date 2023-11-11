@@ -218,14 +218,14 @@ func TestTraits(t *testing.T) {
 	doTest(t, tester, cases)
 }
 
-func TestNFT(t *testing.T) {
-	tester := func(subject internftv1alpha1.NFT) error {
+func TestToken(t *testing.T) {
+	tester := func(subject internftv1alpha1.Token) error {
 		return subject.ValidateBasic()
 	}
-	cases := []map[string]Case[internftv1alpha1.NFT]{
+	cases := []map[string]Case[internftv1alpha1.Token]{
 		{
 			"valid class id": {
-				malleate: func(subject *internftv1alpha1.NFT) {
+				malleate: func(subject *internftv1alpha1.Token) {
 					subject.ClassId = createIDs(1, "class")[0]
 				},
 			},
@@ -236,14 +236,14 @@ func TestNFT(t *testing.T) {
 			},
 		},
 		{
-			"valid nft id": {
-				malleate: func(subject *internftv1alpha1.NFT) {
-					subject.Id = createIDs(1, "nft")[0]
+			"valid token id": {
+				malleate: func(subject *internftv1alpha1.Token) {
+					subject.Id = createIDs(1, "token")[0]
 				},
 			},
-			"empty nft id": {
+			"empty token id": {
 				err: func() error {
-					return internftv1alpha1.ErrInvalidNFTID
+					return internftv1alpha1.ErrInvalidTokenID
 				},
 			},
 		},
@@ -280,7 +280,7 @@ func TestProperties(t *testing.T) {
 				"of valid id": {
 					malleate: func(subject *[]internftv1alpha1.Property) {
 						if added {
-							(*subject)[len(*subject) - 1].Id = traitID
+							(*subject)[len(*subject) - 1].TraitId = traitID
 						}
 					},
 				},
@@ -331,7 +331,7 @@ func TestProperties(t *testing.T) {
 				"of valid id": {
 					malleate: func(subject *[]internftv1alpha1.Property) {
 						if addedDup {
-							(*subject)[len(*subject) - 1].Id = traitID
+							(*subject)[len(*subject) - 1].TraitId = traitID
 						}
 					},
 				},

@@ -65,20 +65,20 @@ func (t Traits) ValidateBasic() error {
 	return nil
 }
 
-func ValidateNFTID(id string) error {
+func ValidateTokenID(id string) error {
 	if _, err := sdk.AccAddressFromBech32(id); err != nil {
-		return ErrInvalidNFTID.Wrap(id)
+		return ErrInvalidTokenID.Wrap(id)
 	}
 
 	return nil
 }
 
-func (nft NFT) ValidateBasic() error {
-	if err := ValidateClassID(nft.ClassId); err != nil {
+func (t Token) ValidateBasic() error {
+	if err := ValidateClassID(t.ClassId); err != nil {
 		return err
 	}
 
-	if err := ValidateNFTID(nft.Id); err != nil {
+	if err := ValidateTokenID(t.Id); err != nil {
 		return err
 	}
 
@@ -86,7 +86,7 @@ func (nft NFT) ValidateBasic() error {
 }
 
 func (p Property) ValidateBasic() error {
-	if len(p.Id) == 0 {
+	if len(p.TraitId) == 0 {
 		return ErrInvalidTraitID.Wrap("empty")
 	}
 
@@ -99,13 +99,13 @@ func (p Properties) ValidateBasic() error {
 	seenIDs := map[string]struct{}{}
 	for _, property := range p {
 		if err := property.ValidateBasic(); err != nil {
-			return errorsmod.Wrap(err, property.Id)
+			return errorsmod.Wrap(err, property.TraitId)
 		}
 
-		if _, seen := seenIDs[property.Id]; seen {
-			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("duplicate id"), property.Id)
+		if _, seen := seenIDs[property.TraitId]; seen {
+			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("duplicate trait id"), property.TraitId)
 		}
-		seenIDs[property.Id] = struct{}{}
+		seenIDs[property.TraitId] = struct{}{}
 	}
 
 	return nil

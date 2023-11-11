@@ -117,40 +117,40 @@ func (k Keeper) iterateClasses(ctx context.Context, fn func(class internftv1alph
 	}
 }
 
-func (k Keeper) MintNFT(ctx context.Context, owner sdk.AccAddress, nft internftv1alpha1.NFT, properties []internftv1alpha1.Property) error {
-	if err := k.hasClass(ctx, nft.ClassId); err != nil {
+func (k Keeper) NewToken(ctx context.Context, owner sdk.AccAddress, token internftv1alpha1.Token, properties []internftv1alpha1.Property) error {
+	if err := k.hasClass(ctx, token.ClassId); err != nil {
 		return err
 	}
 
-	if err := k.hasNFT(ctx, nft); err == nil {
+	if err := k.hasToken(ctx, token); err == nil {
 		// TODO(@0Tech): define the error
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("nft already exists"), nft.String())
+		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("token already exists"), token.String())
 	}
-	k.setNFT(ctx, nft)
+	k.setToken(ctx, token)
 
 	for _, property := range properties {
-		if err := k.hasTrait(ctx, nft.ClassId, property.Id); err != nil {
-			return errorsmod.Wrap(err, property.Id)
+		if err := k.hasTrait(ctx, token.ClassId, property.TraitId); err != nil {
+			return errorsmod.Wrap(err, property.TraitId)
 		}
 
-		k.setProperty(ctx, nft, property)
+		k.setProperty(ctx, token, property)
 	}
 
-	k.setOwner(ctx, nft, owner)
+	k.setOwner(ctx, token, owner)
 
 	return nil
 }
 
-// func (k Keeper) hasProperty(ctx context.Context, nft internftv1alpha1.NFT, propertyID string) error {
-// 	_, err := k.GetProperty(ctx, nft, propertyID)
+// func (k Keeper) hasProperty(ctx context.Context, token internftv1alpha1.Token, propertyID string) error {
+// 	_, err := k.GetProperty(ctx, token, propertyID)
 // 	return err
 // }
 
-func (k Keeper) GetProperty(ctx context.Context, nft internftv1alpha1.NFT, propertyID string) (*internftv1alpha1.Property, error) {
-	property, err := k.properties.Get(ctx, collections.Join3(nft.ClassId, nft.Id, propertyID))
+func (k Keeper) GetProperty(ctx context.Context, token internftv1alpha1.Token, propertyID string) (*internftv1alpha1.Property, error) {
+	property, err := k.properties.Get(ctx, collections.Join3(token.ClassId, token.Id, propertyID))
 	if err != nil {
 		if errorsmod.IsOf(err, collections.ErrNotFound) {
-			err = internftv1alpha1.ErrTraitNotFound.Wrapf("%s, %s", nft.ClassId, propertyID)
+			err = internftv1alpha1.ErrTraitNotFound.Wrapf("%s, %s", token.ClassId, propertyID)
 		}
 
 		return nil, err
@@ -159,14 +159,14 @@ func (k Keeper) GetProperty(ctx context.Context, nft internftv1alpha1.NFT, prope
 	return &property, nil
 }
 
-func (k Keeper) setProperty(ctx context.Context, nft internftv1alpha1.NFT, property internftv1alpha1.Property) {
-	if err := k.properties.Set(ctx, collections.Join3(nft.ClassId, nft.Id, property.Id), property); err != nil {
+func (k Keeper) setProperty(ctx context.Context, token internftv1alpha1.Token, property internftv1alpha1.Property) {
+	if err := k.properties.Set(ctx, collections.Join3(token.ClassId, token.Id, property.TraitId), property); err != nil {
 		panic(err)
 	}
 }
 
-func (k Keeper) iteratePropertiesOfNFT(ctx context.Context, nft internftv1alpha1.NFT, fn func(property internftv1alpha1.Property)) {
-	rng := collections.NewSuperPrefixedTripleRange[string, string, string](nft.ClassId, nft.Id)
+func (k Keeper) iteratePropertiesOfToken(ctx context.Context, token internftv1alpha1.Token, fn func(property internftv1alpha1.Property)) {
+	rng := collections.NewSuperPrefixedTripleRange[string, string, string](token.ClassId, token.Id)
 	iter, err := k.properties.Iterate(ctx, rng)
 	if err != nil {
 		panic(err)
@@ -183,87 +183,87 @@ func (k Keeper) iteratePropertiesOfNFT(ctx context.Context, nft internftv1alpha1
 	}
 }
 
-func (k Keeper) BurnNFT(ctx context.Context, owner sdk.AccAddress, nft internftv1alpha1.NFT) error {
-	if err := k.validateOwner(ctx, nft, owner); err != nil {
+func (k Keeper) BurnToken(ctx context.Context, owner sdk.AccAddress, token internftv1alpha1.Token) error {
+	if err := k.validateOwner(ctx, token, owner); err != nil {
 		return err
 	}
-	k.deleteOwner(ctx, nft)
+	k.deleteOwner(ctx, token)
 
-	if err := k.hasNFT(ctx, nft); err != nil {
+	if err := k.hasToken(ctx, token); err != nil {
 		panic(err)
 	}
-	k.deleteNFT(ctx, nft)
+	k.deleteToken(ctx, token)
 
-	k.properties.Clear(ctx, collections.NewSuperPrefixedTripleRange[string, string, string](nft.ClassId, nft.Id))
+	k.properties.Clear(ctx, collections.NewSuperPrefixedTripleRange[string, string, string](token.ClassId, token.Id))
 
 	return nil
 }
 
-func (k Keeper) UpdateNFT(ctx context.Context, nft internftv1alpha1.NFT, properties []internftv1alpha1.Property) error {
-	if err := k.hasNFT(ctx, nft); err != nil {
+func (k Keeper) UpdateToken(ctx context.Context, token internftv1alpha1.Token, properties []internftv1alpha1.Property) error {
+	if err := k.hasToken(ctx, token); err != nil {
 		return err
 	}
 
 	for _, property := range properties {
-		trait, err := k.GetTrait(ctx, nft.ClassId, property.Id)
+		trait, err := k.GetTrait(ctx, token.ClassId, property.TraitId)
 		if err != nil {
 			return err
 		}
 
 		if !trait.Variable {
-			return internftv1alpha1.ErrTraitImmutable.Wrap(property.Id)
+			return internftv1alpha1.ErrTraitImmutable.Wrap(property.TraitId)
 		}
 
-		k.setProperty(ctx, nft, property)
+		k.setProperty(ctx, token, property)
 	}
 
 	return nil
 }
 
-func (k Keeper) hasNFT(ctx context.Context, nft internftv1alpha1.NFT) error {
-	_, err := k.GetNFT(ctx, nft)
+func (k Keeper) hasToken(ctx context.Context, token internftv1alpha1.Token) error {
+	_, err := k.GetToken(ctx, token)
 	return err
 }
 
-func (k Keeper) GetNFT(ctx context.Context, nft internftv1alpha1.NFT) (*internftv1alpha1.NFT, error) {
-	nft, err := k.nfts.Get(ctx, collections.Join(nft.ClassId, nft.Id))
+func (k Keeper) GetToken(ctx context.Context, token internftv1alpha1.Token) (*internftv1alpha1.Token, error) {
+	token, err := k.tokens.Get(ctx, collections.Join(token.ClassId, token.Id))
 	if err != nil {
 		if errorsmod.IsOf(err, collections.ErrNotFound) {
-			err = internftv1alpha1.ErrNFTNotFound.Wrap(nft.String())
+			err = internftv1alpha1.ErrTokenNotFound.Wrap(token.String())
 		}
 
 		return nil, err
 	}
 
-	return &nft, nil
+	return &token, nil
 }
 
-func (k Keeper) setNFT(ctx context.Context, nft internftv1alpha1.NFT) {
-	if err := k.nfts.Set(ctx, collections.Join(nft.ClassId, nft.Id), nft); err != nil {
+func (k Keeper) setToken(ctx context.Context, token internftv1alpha1.Token) {
+	if err := k.tokens.Set(ctx, collections.Join(token.ClassId, token.Id), token); err != nil {
 		panic(err)
 	}
 }
 
-func (k Keeper) deleteNFT(ctx context.Context, nft internftv1alpha1.NFT) {
-	if err := k.nfts.Remove(ctx, collections.Join(nft.ClassId, nft.Id)); err != nil {
+func (k Keeper) deleteToken(ctx context.Context, token internftv1alpha1.Token) {
+	if err := k.tokens.Remove(ctx, collections.Join(token.ClassId, token.Id)); err != nil {
 		panic(err)
 	}
 }
 
-func (k Keeper) iterateNFTsOfClass(ctx context.Context, classID string, fn func(nft internftv1alpha1.NFT)) {
+func (k Keeper) iterateTokensOfClass(ctx context.Context, classID string, fn func(token internftv1alpha1.Token)) {
 	rng := collections.NewPrefixedPairRange[string, string](classID)
-	iter, err := k.nfts.Iterate(ctx, rng)
+	iter, err := k.tokens.Iterate(ctx, rng)
 	if err != nil {
 		panic(err)
 	}
 	defer iter.Close()
 
 	for ; iter.Valid(); iter.Next() {
-		nft, err := iter.Value()
+		token, err := iter.Value()
 		if err != nil {
 			panic(err)
 		}
 
-		fn(nft)
+		fn(token)
 	}
 }

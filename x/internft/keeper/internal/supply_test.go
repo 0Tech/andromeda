@@ -156,82 +156,82 @@ func (s *KeeperTestSuite) TestUpdateClass() {
 	doTest(s, tester, cases)
 }
 
-func (s *KeeperTestSuite) TestMintNFT() {
-	type mintNFT struct {
+func (s *KeeperTestSuite) TestNewToken() {
+	type newToken struct {
 		owner sdk.AccAddress
-		nft internftv1alpha1.NFT
+		token internftv1alpha1.Token
 		properties []internftv1alpha1.Property
 	}
 
-	tester := func(subject mintNFT) error {
-		s.Assert().NoError(subject.nft.ValidateBasic())
+	tester := func(subject newToken) error {
+		s.Assert().NoError(subject.token.ValidateBasic())
 		s.Assert().NoError(internftv1alpha1.Properties(subject.properties).ValidateBasic())
 
 		ctx, _ := s.ctx.CacheContext()
-		err := s.keeper.MintNFT(ctx, subject.owner, subject.nft, subject.properties)
+		err := s.keeper.NewToken(ctx, subject.owner, subject.token, subject.properties)
 		if err != nil {
 			return err
 		}
 
-		classBefore, err := s.keeper.GetClass(s.ctx, subject.nft.ClassId)
+		classBefore, err := s.keeper.GetClass(s.ctx, subject.token.ClassId)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(classBefore)
-		s.Assert().Equal(subject.nft.ClassId, classBefore.Id)
-		nftBefore, err := s.keeper.GetNFT(s.ctx, subject.nft)
+		s.Assert().Equal(subject.token.ClassId, classBefore.Id)
+		tokenBefore, err := s.keeper.GetToken(s.ctx, subject.token)
 		s.Assert().Error(err)
-		s.Assert().Nil(nftBefore)
-		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.nft)
+		s.Assert().Nil(tokenBefore)
+		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.token)
 		s.Assert().Error(err)
 		s.Assert().Nil(ownerBefore)
 		for _, property := range subject.properties {
-			propertyBefore, err := s.keeper.GetProperty(s.ctx, subject.nft, property.Id)
-			s.Assert().Error(err, property.Id)
-			s.Assert().Nil(propertyBefore, property.Id)
+			propertyBefore, err := s.keeper.GetProperty(s.ctx, subject.token, property.TraitId)
+			s.Assert().Error(err, property.TraitId)
+			s.Assert().Nil(propertyBefore, property.TraitId)
 		}
 
-		classAfter, err := s.keeper.GetClass(ctx, subject.nft.ClassId)
+		classAfter, err := s.keeper.GetClass(ctx, subject.token.ClassId)
 		s.Require().NoError(err)
 		s.Require().NotNil(classAfter)
-		s.Require().Equal(subject.nft.ClassId, classAfter.Id)
-		nftAfter, err := s.keeper.GetNFT(ctx, subject.nft)
+		s.Require().Equal(subject.token.ClassId, classAfter.Id)
+		tokenAfter, err := s.keeper.GetToken(ctx, subject.token)
 		s.Require().NoError(err)
-		s.Require().NotNil(nftAfter)
-		s.Require().Equal(subject.nft, *nftAfter)
-		ownerAfter, err := s.keeper.GetOwner(ctx, subject.nft)
+		s.Require().NotNil(tokenAfter)
+		s.Require().Equal(subject.token, *tokenAfter)
+		ownerAfter, err := s.keeper.GetOwner(ctx, subject.token)
 		s.Require().NoError(err)
 		s.Require().NotNil(ownerAfter)
 		s.Require().Equal(subject.owner, *ownerAfter)
 		for _, property := range subject.properties {
-			propertyAfter, err := s.keeper.GetProperty(ctx, subject.nft, property.Id)
-			s.Require().NoError(err, property.Id)
-			s.Require().NotNil(propertyAfter, property.Id)
-			s.Require().Equal(property, *propertyAfter, property.Id)
+			propertyAfter, err := s.keeper.GetProperty(ctx, subject.token, property.TraitId)
+			s.Require().NoError(err, property.TraitId)
+			s.Require().NotNil(propertyAfter, property.TraitId)
+			s.Require().Equal(property, *propertyAfter, property.TraitId)
 		}
 
 		return nil
 	}
-	cases := []map[string]Case[mintNFT]{
+	cases := []map[string]Case[newToken]{
 		{
 			"for operator": {
-				malleate: func(subject *mintNFT) {
+				malleate: func(subject *newToken) {
 					subject.owner = s.vendor
 				},
 			},
 			"not for operator": {
-				malleate: func(subject *mintNFT) {
+				malleate: func(subject *newToken) {
 					subject.owner = s.stranger
 				},
 			},
 		},
 		{
 			"class exists": {
-				malleate: func(subject *mintNFT) {
-					subject.nft.ClassId = s.vendor.String()
+				malleate: func(subject *newToken) {
+					subject.token.ClassId = s.vendor.String()
 				},
 			},
 			"class not found": {
-				malleate: func(subject *mintNFT) {
-					subject.nft.ClassId = s.stranger.String()
+				malleate: func(subject *newToken) {
+					subject.token.ClassId = s.stranger.String()
 				},
 				err: func() error {
 					return internftv1alpha1.ErrClassNotFound
@@ -239,14 +239,14 @@ func (s *KeeperTestSuite) TestMintNFT() {
 			},
 		},
 		{
-			"nft not found": {
-				malleate: func(subject *mintNFT) {
-					subject.nft.Id = s.nftIDs[s.stranger.String()]
+			"token not found": {
+				malleate: func(subject *newToken) {
+					subject.token.Id = s.tokenIDs[s.stranger.String()]
 				},
 			},
-			"nft already exists": {
-				malleate: func(subject *mintNFT) {
-					subject.nft.Id = s.nftIDs[s.customer.String()]
+			"token already exists": {
+				malleate: func(subject *newToken) {
+					subject.token.Id = s.tokenIDs[s.customer.String()]
 				},
 				err: func() error {
 					return sdkerrors.ErrInvalidRequest
@@ -262,18 +262,18 @@ func (s *KeeperTestSuite) TestMintNFT() {
 		fact := fmt.Sprintf("fact%02d", i)
 
 		added := false
-		cases = append(cases, []map[string]Case[mintNFT]{
+		cases = append(cases, []map[string]Case[newToken]{
 			{
 				"no property": {
-					malleate: func(subject *mintNFT) {
+					malleate: func(subject *newToken) {
 						added = false
 					},
 				},
 				"add property": {
-					malleate: func(subject *mintNFT) {
+					malleate: func(subject *newToken) {
 						added = true
 						subject.properties = append(subject.properties, internftv1alpha1.Property{
-							Id: traitID,
+							TraitId: traitID,
 						})
 					},
 				},
@@ -282,7 +282,7 @@ func (s *KeeperTestSuite) TestMintNFT() {
 				"with no fact": {
 				},
 				"with fact": {
-					malleate: func(subject *mintNFT) {
+					malleate: func(subject *newToken) {
 						if added {
 							subject.properties[len(subject.properties) - 1].Fact = fact
 						}
@@ -295,30 +295,30 @@ func (s *KeeperTestSuite) TestMintNFT() {
 	doTest(s, tester, cases)
 }
 
-func (s *KeeperTestSuite) TestBurnNFT() {
-	type burnNFT struct {
+func (s *KeeperTestSuite) TestBurnToken() {
+	type burnToken struct {
 		owner sdk.AccAddress
-		nft internftv1alpha1.NFT
+		token internftv1alpha1.Token
 	}
 
-	tester := func(subject burnNFT) error {
-		s.Assert().NoError(subject.nft.ValidateBasic())
+	tester := func(subject burnToken) error {
+		s.Assert().NoError(subject.token.ValidateBasic())
 
 		ctx, _ := s.ctx.CacheContext()
-		err := s.keeper.BurnNFT(ctx, subject.owner, subject.nft)
+		err := s.keeper.BurnToken(ctx, subject.owner, subject.token)
 		if err != nil {
 			return err
 		}
 
-		classBefore, err := s.keeper.GetClass(s.ctx, subject.nft.ClassId)
+		classBefore, err := s.keeper.GetClass(s.ctx, subject.token.ClassId)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(classBefore)
-		s.Assert().Equal(subject.nft.ClassId, classBefore.Id)
-		nftBefore, err := s.keeper.GetNFT(s.ctx, subject.nft)
+		s.Assert().Equal(subject.token.ClassId, classBefore.Id)
+		tokenBefore, err := s.keeper.GetToken(s.ctx, subject.token)
 		s.Assert().NoError(err)
-		s.Assert().NotNil(nftBefore)
-		s.Assert().Equal(subject.nft, *nftBefore)
-		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.nft)
+		s.Assert().NotNil(tokenBefore)
+		s.Assert().Equal(subject.token, *tokenBefore)
+		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.token)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(ownerBefore)
 		s.Assert().Equal(subject.owner, *ownerBefore)
@@ -326,83 +326,83 @@ func (s *KeeperTestSuite) TestBurnNFT() {
 			s.immutableTraitID,
 			s.mutableTraitID,
 		}{
-			propertyBefore, err := s.keeper.GetProperty(s.ctx, subject.nft, traitID)
+			propertyBefore, err := s.keeper.GetProperty(s.ctx, subject.token, traitID)
 			s.Assert().NoError(err, traitID)
 			s.Assert().NotNil(propertyBefore, traitID)
 		}
 
-		classAfter, err := s.keeper.GetClass(ctx, subject.nft.ClassId)
+		classAfter, err := s.keeper.GetClass(ctx, subject.token.ClassId)
 		s.Require().NoError(err)
 		s.Require().NotNil(classAfter)
-		s.Require().Equal(subject.nft.ClassId, classAfter.Id)
-		nftAfter, err := s.keeper.GetNFT(ctx, subject.nft)
+		s.Require().Equal(subject.token.ClassId, classAfter.Id)
+		tokenAfter, err := s.keeper.GetToken(ctx, subject.token)
 		s.Require().Error(err)
-		s.Require().Nil(nftAfter)
-		ownerAfter, err := s.keeper.GetOwner(ctx, subject.nft)
+		s.Require().Nil(tokenAfter)
+		ownerAfter, err := s.keeper.GetOwner(ctx, subject.token)
 		s.Require().Error(err)
 		s.Require().Nil(ownerAfter)
 		for _, traitID := range []string{
 			s.immutableTraitID,
 			s.mutableTraitID,
 		}{
-			propertyAfter, err := s.keeper.GetProperty(ctx, subject.nft, traitID)
+			propertyAfter, err := s.keeper.GetProperty(ctx, subject.token, traitID)
 			s.Require().Error(err, traitID)
 			s.Require().Nil(propertyAfter, traitID)
 		}
 
 		return nil
 	}
-	cases := []map[string]Case[burnNFT]{
+	cases := []map[string]Case[burnToken]{
 		{
 			"by owner": {
-				malleate: func(subject *burnNFT) {
+				malleate: func(subject *burnToken) {
 					subject.owner = s.customer
 				},
 			},
 			"by operator": {
-				malleate: func(subject *burnNFT) {
+				malleate: func(subject *burnToken) {
 					subject.owner = s.vendor
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientNFT
+					return internftv1alpha1.ErrInsufficientToken
 				},
 			},
 			"by other": {
-				malleate: func(subject *burnNFT) {
+				malleate: func(subject *burnToken) {
 					subject.owner = s.stranger
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientNFT
+					return internftv1alpha1.ErrInsufficientToken
 				},
 			},
 		},
 		{
 			"class exists": {
-				malleate: func(subject *burnNFT) {
-					subject.nft.ClassId = s.vendor.String()
+				malleate: func(subject *burnToken) {
+					subject.token.ClassId = s.vendor.String()
 				},
 			},
 			"class not found": {
-				malleate: func(subject *burnNFT) {
-					subject.nft.ClassId = s.stranger.String()
+				malleate: func(subject *burnToken) {
+					subject.token.ClassId = s.stranger.String()
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientNFT
+					return internftv1alpha1.ErrInsufficientToken
 				},
 			},
 		},
 		{
-			"nft exists": {
-				malleate: func(subject *burnNFT) {
-					subject.nft.Id = s.nftIDs[s.customer.String()]
+			"token exists": {
+				malleate: func(subject *burnToken) {
+					subject.token.Id = s.tokenIDs[s.customer.String()]
 				},
 			},
-			"nft not found": {
-				malleate: func(subject *burnNFT) {
-					subject.nft.Id = s.nftIDs[s.stranger.String()]
+			"token not found": {
+				malleate: func(subject *burnToken) {
+					subject.token.Id = s.tokenIDs[s.stranger.String()]
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientNFT
+					return internftv1alpha1.ErrInsufficientToken
 				},
 			},
 		},
@@ -411,87 +411,87 @@ func (s *KeeperTestSuite) TestBurnNFT() {
 	doTest(s, tester, cases)
 }
 
-func (s *KeeperTestSuite) TestUpdateNFT() {
-	type updateNFT struct {
-		nft internftv1alpha1.NFT
+func (s *KeeperTestSuite) TestUpdateToken() {
+	type updateToken struct {
+		token internftv1alpha1.Token
 		properties []internftv1alpha1.Property
 	}
 
-	tester := func(subject updateNFT) error {
-		s.Assert().NoError(subject.nft.ValidateBasic())
+	tester := func(subject updateToken) error {
+		s.Assert().NoError(subject.token.ValidateBasic())
 		s.Assert().NoError(internftv1alpha1.Properties(subject.properties).ValidateBasic())
 
 		ctx, _ := s.ctx.CacheContext()
-		err := s.keeper.UpdateNFT(ctx, subject.nft, subject.properties)
+		err := s.keeper.UpdateToken(ctx, subject.token, subject.properties)
 		if err != nil {
 			return err
 		}
 
-		classBefore, err := s.keeper.GetClass(s.ctx, subject.nft.ClassId)
+		classBefore, err := s.keeper.GetClass(s.ctx, subject.token.ClassId)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(classBefore)
-		s.Assert().Equal(subject.nft.ClassId, classBefore.Id)
-		nftBefore, err := s.keeper.GetNFT(s.ctx, subject.nft)
+		s.Assert().Equal(subject.token.ClassId, classBefore.Id)
+		tokenBefore, err := s.keeper.GetToken(s.ctx, subject.token)
 		s.Assert().NoError(err)
-		s.Assert().NotNil(nftBefore)
-		s.Assert().Equal(subject.nft, *nftBefore)
-		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.nft)
+		s.Assert().NotNil(tokenBefore)
+		s.Assert().Equal(subject.token, *tokenBefore)
+		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.token)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(ownerBefore)
 		for _, property := range subject.properties {
-			propertyBefore, err := s.keeper.GetProperty(s.ctx, subject.nft, property.Id)
-			s.Assert().NoError(err, property.Id)
-			s.Assert().NotNil(propertyBefore, property.Id)
+			propertyBefore, err := s.keeper.GetProperty(s.ctx, subject.token, property.TraitId)
+			s.Assert().NoError(err, property.TraitId)
+			s.Assert().NotNil(propertyBefore, property.TraitId)
 		}
 
-		classAfter, err := s.keeper.GetClass(ctx, subject.nft.ClassId)
+		classAfter, err := s.keeper.GetClass(ctx, subject.token.ClassId)
 		s.Require().NoError(err)
 		s.Require().NotNil(classAfter)
-		s.Require().Equal(subject.nft.ClassId, classAfter.Id)
-		nftAfter, err := s.keeper.GetNFT(ctx, subject.nft)
+		s.Require().Equal(subject.token.ClassId, classAfter.Id)
+		tokenAfter, err := s.keeper.GetToken(ctx, subject.token)
 		s.Require().NoError(err)
-		s.Require().NotNil(nftAfter)
-		s.Require().Equal(subject.nft, *nftAfter)
-		ownerAfter, err := s.keeper.GetOwner(ctx, subject.nft)
+		s.Require().NotNil(tokenAfter)
+		s.Require().Equal(subject.token, *tokenAfter)
+		ownerAfter, err := s.keeper.GetOwner(ctx, subject.token)
 		s.Require().NoError(err)
 		s.Require().NotNil(ownerAfter)
 		for _, property := range subject.properties {
-			propertyAfter, err := s.keeper.GetProperty(ctx, subject.nft, property.Id)
-			s.Require().NoError(err, property.Id)
-			s.Require().NotNil(propertyAfter, property.Id)
-			s.Require().Equal(property, *propertyAfter, property.Id)
+			propertyAfter, err := s.keeper.GetProperty(ctx, subject.token, property.TraitId)
+			s.Require().NoError(err, property.TraitId)
+			s.Require().NotNil(propertyAfter, property.TraitId)
+			s.Require().Equal(property, *propertyAfter, property.TraitId)
 		}
 
 		return nil
 	}
-	cases := []map[string]Case[updateNFT]{
+	cases := []map[string]Case[updateToken]{
 		{
 			"class exists": {
-				malleate: func(subject *updateNFT) {
-					subject.nft.ClassId = s.vendor.String()
+				malleate: func(subject *updateToken) {
+					subject.token.ClassId = s.vendor.String()
 				},
 			},
 			"class not found": {
-				malleate: func(subject *updateNFT) {
-					subject.nft.ClassId = s.stranger.String()
+				malleate: func(subject *updateToken) {
+					subject.token.ClassId = s.stranger.String()
 				},
 				err: func() error {
-					return internftv1alpha1.ErrNFTNotFound
+					return internftv1alpha1.ErrTokenNotFound
 				},
 			},
 		},
 		{
-			"nft exists": {
-				malleate: func(subject *updateNFT) {
-					subject.nft.Id = s.nftIDs[s.customer.String()]
+			"token exists": {
+				malleate: func(subject *updateToken) {
+					subject.token.Id = s.tokenIDs[s.customer.String()]
 				},
 			},
-			"nft not found": {
-				malleate: func(subject *updateNFT) {
-					subject.nft.Id = s.nftIDs[s.stranger.String()]
+			"token not found": {
+				malleate: func(subject *updateToken) {
+					subject.token.Id = s.tokenIDs[s.stranger.String()]
 				},
 				err: func() error {
-					return internftv1alpha1.ErrNFTNotFound
+					return internftv1alpha1.ErrTokenNotFound
 				},
 			},
 		},
@@ -504,18 +504,18 @@ func (s *KeeperTestSuite) TestUpdateNFT() {
 		fact := fmt.Sprintf("newfact%02d", i)
 
 		added := false
-		cases = append(cases, []map[string]Case[updateNFT]{
+		cases = append(cases, []map[string]Case[updateToken]{
 			{
 				"no property": {
-					malleate: func(subject *updateNFT) {
+					malleate: func(subject *updateToken) {
 						added = false
 					},
 				},
 				"add property": {
-					malleate: func(subject *updateNFT) {
+					malleate: func(subject *updateToken) {
 						added = true
 						subject.properties = append(subject.properties, internftv1alpha1.Property{
-							Id: traitID,
+							TraitId: traitID,
 						})
 					},
 					err: func() error {
@@ -530,7 +530,7 @@ func (s *KeeperTestSuite) TestUpdateNFT() {
 				"with no fact": {
 				},
 				"with fact": {
-					malleate: func(subject *updateNFT) {
+					malleate: func(subject *updateToken) {
 						if added {
 							subject.properties[len(subject.properties) - 1].Fact = fact
 						}

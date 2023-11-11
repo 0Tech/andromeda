@@ -16,7 +16,7 @@ func (m MsgSend) ValidateBasic() error {
 		return errorsmod.Wrap(err, "recipient")
 	}
 
-	if err := m.Nft.ValidateBasic(); err != nil {
+	if err := m.Token.ValidateBasic(); err != nil {
 		return err
 	}
 
@@ -62,7 +62,7 @@ func (m MsgUpdateClass) ValidateBasic() error {
 }
 
 // ValidateBasic implements Msg.
-func (m MsgMintNFT) ValidateBasic() error {
+func (m MsgNewToken) ValidateBasic() error {
 	if err := ValidateAddress(m.Operator); err != nil {
 		return errorsmod.Wrap(err, "operator")
 	}
@@ -71,7 +71,7 @@ func (m MsgMintNFT) ValidateBasic() error {
 		return errorsmod.Wrap(err, "recipient")
 	}
 
-	if err := m.Nft.ValidateBasic(); err != nil {
+	if err := m.Token.ValidateBasic(); err != nil {
 		return err
 	}
 
@@ -79,7 +79,7 @@ func (m MsgMintNFT) ValidateBasic() error {
 		return err
 	}
 
-	if err := ValidateOperator(m.Operator, m.Nft.ClassId); err != nil {
+	if err := ValidateOperator(m.Operator, m.Token.ClassId); err != nil {
 		return err
 	}
 
@@ -87,12 +87,12 @@ func (m MsgMintNFT) ValidateBasic() error {
 }
 
 // ValidateBasic implements Msg.
-func (m MsgBurnNFT) ValidateBasic() error {
+func (m MsgBurnToken) ValidateBasic() error {
 	if err := ValidateAddress(m.Owner); err != nil {
 		return errorsmod.Wrap(err, "owner")
 	}
 
-	if err := m.Nft.ValidateBasic(); err != nil {
+	if err := m.Token.ValidateBasic(); err != nil {
 		return err
 	}
 
@@ -100,12 +100,12 @@ func (m MsgBurnNFT) ValidateBasic() error {
 }
 
 // ValidateBasic implements Msg.
-func (m MsgUpdateNFT) ValidateBasic() error {
+func (m MsgUpdateToken) ValidateBasic() error {
 	if err := ValidateAddress(m.Owner); err != nil {
 		return errorsmod.Wrap(err, "owner")
 	}
 
-	if err := m.Nft.ValidateBasic(); err != nil {
+	if err := m.Token.ValidateBasic(); err != nil {
 		return err
 	}
 

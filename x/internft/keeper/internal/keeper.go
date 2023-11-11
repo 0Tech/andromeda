@@ -21,7 +21,7 @@ type Keeper struct {
 	params collections.Item[internftv1alpha1.Params]
 	classes collections.Map[string, internftv1alpha1.Class]
 	traits collections.Map[collections.Pair[string, string], internftv1alpha1.Trait]
-	nfts collections.Map[collections.Pair[string, string], internftv1alpha1.NFT]
+	tokens collections.Map[collections.Pair[string, string], internftv1alpha1.Token]
 	properties collections.Map[collections.Triple[string, string, string], internftv1alpha1.Property]
 	owners collections.Map[collections.Pair[string, string], sdk.AccAddress]
 }
@@ -46,9 +46,9 @@ func NewKeeper(
 		traits: collections.NewMap(sb, traitKeyPrefix, "traits",
 			collections.PairKeyCodec(collections.StringKey, collections.StringKey),
 			codec.CollValue[internftv1alpha1.Trait](cdc)),
-		nfts: collections.NewMap(sb, nftKeyPrefix, "nfts",
+		tokens: collections.NewMap(sb, tokenKeyPrefix, "tokens",
 			collections.PairKeyCodec(collections.StringKey, collections.StringKey),
-			codec.CollValue[internftv1alpha1.NFT](cdc)),
+			codec.CollValue[internftv1alpha1.Token](cdc)),
 		properties: collections.NewMap(sb, propertyKeyPrefix, "properties",
 			collections.TripleKeyCodec(collections.StringKey, collections.StringKey, collections.StringKey),
 			codec.CollValue[internftv1alpha1.Property](cdc)),

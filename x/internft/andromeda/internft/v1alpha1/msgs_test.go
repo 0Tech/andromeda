@@ -41,7 +41,7 @@ func TestMsgSend(t *testing.T) {
 		{
 			"valid class id": {
 				malleate: func(subject *internftv1alpha1.MsgSend) {
-					subject.Nft.ClassId = createIDs(1, "class")[0]
+					subject.Token.ClassId = createIDs(1, "class")[0]
 				},
 			},
 			"empty class id": {
@@ -51,14 +51,14 @@ func TestMsgSend(t *testing.T) {
 			},
 		},
 		{
-			"valid nft id": {
+			"valid token id": {
 				malleate: func(subject *internftv1alpha1.MsgSend) {
-					subject.Nft.Id = createIDs(1, "nft")[0]
+					subject.Token.Id = createIDs(1, "token")[0]
 				},
 			},
-			"empty nft id": {
+			"empty token id": {
 				err: func() error {
-					return internftv1alpha1.ErrInvalidNFTID
+					return internftv1alpha1.ErrInvalidTokenID
 				},
 			},
 		},
@@ -251,14 +251,14 @@ func TestMsgUpdateClass(t *testing.T) {
 	doTest(t, tester, cases)
 }
 
-func TestMsgMintNFT(t *testing.T) {
-	tester := func(subject internftv1alpha1.MsgMintNFT) error {
+func TestMsgNewToken(t *testing.T) {
+	tester := func(subject internftv1alpha1.MsgNewToken) error {
 		return subject.ValidateBasic()
 	}
-	cases := []map[string]Case[internftv1alpha1.MsgMintNFT]{
+	cases := []map[string]Case[internftv1alpha1.MsgNewToken]{
 		{
 			"valid operator": {
-				malleate: func(subject *internftv1alpha1.MsgMintNFT) {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
 					subject.Operator = createAddresses(2, "addr")[0].String()
 				},
 			},
@@ -270,7 +270,7 @@ func TestMsgMintNFT(t *testing.T) {
 		},
 		{
 			"valid recipient": {
-				malleate: func(subject *internftv1alpha1.MsgMintNFT)  {
+				malleate: func(subject *internftv1alpha1.MsgNewToken)  {
 					subject.Recipient = createAddresses(2, "addr")[1].String()
 				},
 			},
@@ -282,8 +282,8 @@ func TestMsgMintNFT(t *testing.T) {
 		},
 		{
 			"valid class id": {
-				malleate: func(subject *internftv1alpha1.MsgMintNFT) {
-					subject.Nft.ClassId = createAddresses(2, "addr")[0].String()
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					subject.Token.ClassId = createAddresses(2, "addr")[0].String()
 				},
 			},
 			"empty class id": {
@@ -292,8 +292,8 @@ func TestMsgMintNFT(t *testing.T) {
 				},
 			},
 			"unauthorized class id": {
-				malleate: func(subject *internftv1alpha1.MsgMintNFT) {
-					subject.Nft.ClassId = createAddresses(2, "addr")[1].String()
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					subject.Token.ClassId = createAddresses(2, "addr")[1].String()
 				},
 				err: func() error {
 					return sdkerrors.ErrUnauthorized
@@ -301,14 +301,14 @@ func TestMsgMintNFT(t *testing.T) {
 			},
 		},
 		{
-			"valid nft id": {
-				malleate: func(subject *internftv1alpha1.MsgMintNFT) {
-					subject.Nft.Id = createIDs(1, "nft")[0]
+			"valid token id": {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					subject.Token.Id = createIDs(1, "token")[0]
 				},
 			},
-			"empty nft id": {
+			"empty token id": {
 				err: func() error {
-					return internftv1alpha1.ErrInvalidNFTID
+					return internftv1alpha1.ErrInvalidTokenID
 				},
 			},
 		},
@@ -319,15 +319,15 @@ func TestMsgMintNFT(t *testing.T) {
 		fact := fmt.Sprintf("fact%02d", i)
 
 		added := false
-		cases = append(cases, []map[string]Case[internftv1alpha1.MsgMintNFT]{
+		cases = append(cases, []map[string]Case[internftv1alpha1.MsgNewToken]{
 			{
 				"no property": {
-					malleate: func(subject *internftv1alpha1.MsgMintNFT) {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
 						added = false
 					},
 				},
 				"add property": {
-					malleate: func(subject *internftv1alpha1.MsgMintNFT) {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
 						added = true
 						subject.Properties = append(subject.Properties, internftv1alpha1.Property{})
 					},
@@ -335,9 +335,9 @@ func TestMsgMintNFT(t *testing.T) {
 			},
 			{
 				"of valid id": {
-					malleate: func(subject *internftv1alpha1.MsgMintNFT) {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
 						if added {
-							subject.Properties[len(subject.Properties) - 1].Id = traitID
+							subject.Properties[len(subject.Properties) - 1].TraitId = traitID
 						}
 					},
 				},
@@ -354,7 +354,7 @@ func TestMsgMintNFT(t *testing.T) {
 				"with no fact": {
 				},
 				"with fact": {
-					malleate: func(subject *internftv1alpha1.MsgMintNFT) {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
 						if added {
 							subject.Properties[len(subject.Properties) - 1].Fact = fact
 						}
@@ -364,15 +364,15 @@ func TestMsgMintNFT(t *testing.T) {
 		}...)
 
 		addedDup := false
-		cases = append(cases, []map[string]Case[internftv1alpha1.MsgMintNFT]{
+		cases = append(cases, []map[string]Case[internftv1alpha1.MsgNewToken]{
 			{
 				"no duplicate property": {
-					malleate: func(subject *internftv1alpha1.MsgMintNFT) {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
 						addedDup = false
 					},
 				},
 				"add duplicate property": {
-					malleate: func(subject *internftv1alpha1.MsgMintNFT) {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
 						addedDup = true
 						subject.Properties = append(subject.Properties, internftv1alpha1.Property{})
 					},
@@ -386,9 +386,9 @@ func TestMsgMintNFT(t *testing.T) {
 			},
 			{
 				"of valid id": {
-					malleate: func(subject *internftv1alpha1.MsgMintNFT) {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
 						if addedDup {
-							subject.Properties[len(subject.Properties) - 1].Id = traitID
+							subject.Properties[len(subject.Properties) - 1].TraitId = traitID
 						}
 					},
 				},
@@ -405,7 +405,7 @@ func TestMsgMintNFT(t *testing.T) {
 				"with no fact": {
 				},
 				"with fact": {
-					malleate: func(subject *internftv1alpha1.MsgMintNFT) {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
 						if addedDup {
 							subject.Properties[len(subject.Properties) - 1].Fact = fact
 						}
@@ -418,14 +418,14 @@ func TestMsgMintNFT(t *testing.T) {
 	doTest(t, tester, cases)
 }
 
-func TestMsgBurnNFT(t *testing.T) {
-	tester := func(subject internftv1alpha1.MsgBurnNFT) error {
+func TestMsgBurnToken(t *testing.T) {
+	tester := func(subject internftv1alpha1.MsgBurnToken) error {
 		return subject.ValidateBasic()
 	}
-	cases := []map[string]Case[internftv1alpha1.MsgBurnNFT]{
+	cases := []map[string]Case[internftv1alpha1.MsgBurnToken]{
 		{
 			"valid owner": {
-				malleate: func(subject *internftv1alpha1.MsgBurnNFT) {
+				malleate: func(subject *internftv1alpha1.MsgBurnToken) {
 					subject.Owner = createAddresses(1, "addr")[0].String()
 				},
 			},
@@ -437,8 +437,8 @@ func TestMsgBurnNFT(t *testing.T) {
 		},
 		{
 			"valid class id": {
-				malleate: func(subject *internftv1alpha1.MsgBurnNFT) {
-					subject.Nft.ClassId = createIDs(1, "class")[0]
+				malleate: func(subject *internftv1alpha1.MsgBurnToken) {
+					subject.Token.ClassId = createIDs(1, "class")[0]
 				},
 			},
 			"empty class id": {
@@ -448,14 +448,14 @@ func TestMsgBurnNFT(t *testing.T) {
 			},
 		},
 		{
-			"valid nft id": {
-				malleate: func(subject *internftv1alpha1.MsgBurnNFT) {
-					subject.Nft.Id = createIDs(1, "nft")[0]
+			"valid token id": {
+				malleate: func(subject *internftv1alpha1.MsgBurnToken) {
+					subject.Token.Id = createIDs(1, "token")[0]
 				},
 			},
-			"empty nft id": {
+			"empty token id": {
 				err: func() error {
-					return internftv1alpha1.ErrInvalidNFTID
+					return internftv1alpha1.ErrInvalidTokenID
 				},
 			},
 		},
@@ -464,14 +464,14 @@ func TestMsgBurnNFT(t *testing.T) {
 	doTest(t, tester, cases)
 }
 
-func TestMsgUpdateNFT(t *testing.T) {
-	tester := func(subject internftv1alpha1.MsgUpdateNFT) error {
+func TestMsgUpdateToken(t *testing.T) {
+	tester := func(subject internftv1alpha1.MsgUpdateToken) error {
 		return subject.ValidateBasic()
 	}
-	cases := []map[string]Case[internftv1alpha1.MsgUpdateNFT]{
+	cases := []map[string]Case[internftv1alpha1.MsgUpdateToken]{
 		{
 			"valid owner": {
-				malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
+				malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 					subject.Owner = createAddresses(1, "addr")[0].String()
 				},
 			},
@@ -483,8 +483,8 @@ func TestMsgUpdateNFT(t *testing.T) {
 		},
 		{
 			"valid class id": {
-				malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
-					subject.Nft.ClassId = createIDs(1, "class")[0]
+				malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
+					subject.Token.ClassId = createIDs(1, "class")[0]
 				},
 			},
 			"empty class id": {
@@ -494,23 +494,23 @@ func TestMsgUpdateNFT(t *testing.T) {
 			},
 		},
 		{
-			"valid nft id": {
-				malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
-					subject.Nft.Id = createIDs(1, "nft")[0]
+			"valid token id": {
+				malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
+					subject.Token.Id = createIDs(1, "token")[0]
 				},
 			},
-			"empty nft id": {
+			"empty token id": {
 				err: func() error {
-					return internftv1alpha1.ErrInvalidNFTID
+					return internftv1alpha1.ErrInvalidTokenID
 				},
 			},
 		},
 	}
 
 	addedEver := false
-	cases = append(cases, map[string]Case[internftv1alpha1.MsgUpdateNFT]{
+	cases = append(cases, map[string]Case[internftv1alpha1.MsgUpdateToken]{
 		"": {
-			malleate: func(_ *internftv1alpha1.MsgUpdateNFT) {
+			malleate: func(_ *internftv1alpha1.MsgUpdateToken) {
 				addedEver = false
 			},
 		},
@@ -520,15 +520,15 @@ func TestMsgUpdateNFT(t *testing.T) {
 		fact := fmt.Sprintf("fact%02d", i)
 
 		added := false
-		cases = append(cases, []map[string]Case[internftv1alpha1.MsgUpdateNFT]{
+		cases = append(cases, []map[string]Case[internftv1alpha1.MsgUpdateToken]{
 			{
 				"no property": {
-					malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
+					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						added = false
 					},
 				},
 				"add property": {
-					malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
+					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						addedEver = true
 						added = true
 						subject.Properties = append(subject.Properties, internftv1alpha1.Property{})
@@ -537,9 +537,9 @@ func TestMsgUpdateNFT(t *testing.T) {
 			},
 			{
 				"of valid id": {
-					malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
+					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						if added {
-							subject.Properties[len(subject.Properties) - 1].Id = traitID
+							subject.Properties[len(subject.Properties) - 1].TraitId = traitID
 						}
 					},
 				},
@@ -556,7 +556,7 @@ func TestMsgUpdateNFT(t *testing.T) {
 				"with no fact": {
 				},
 				"with fact": {
-					malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
+					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						if added {
 							subject.Properties[len(subject.Properties) - 1].Fact = fact
 						}
@@ -566,15 +566,15 @@ func TestMsgUpdateNFT(t *testing.T) {
 		}...)
 
 		addedDup := false
-		cases = append(cases, []map[string]Case[internftv1alpha1.MsgUpdateNFT]{
+		cases = append(cases, []map[string]Case[internftv1alpha1.MsgUpdateToken]{
 			{
 				"no duplicate property": {
-					malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
+					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						addedDup = false
 					},
 				},
 				"add duplicate property": {
-					malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
+					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						addedEver = true
 						addedDup = true
 						subject.Properties = append(subject.Properties, internftv1alpha1.Property{})
@@ -589,9 +589,9 @@ func TestMsgUpdateNFT(t *testing.T) {
 			},
 			{
 				"of valid id": {
-					malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
+					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						if addedDup {
-							subject.Properties[len(subject.Properties) - 1].Id = traitID
+							subject.Properties[len(subject.Properties) - 1].TraitId = traitID
 						}
 					},
 				},
@@ -608,7 +608,7 @@ func TestMsgUpdateNFT(t *testing.T) {
 				"with no fact": {
 				},
 				"with fact": {
-					malleate: func(subject *internftv1alpha1.MsgUpdateNFT) {
+					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						if addedDup {
 							subject.Properties[len(subject.Properties) - 1].Fact = fact
 						}
@@ -617,7 +617,7 @@ func TestMsgUpdateNFT(t *testing.T) {
 			},
 		}...)
 	}
-	cases = append(cases, map[string]Case[internftv1alpha1.MsgUpdateNFT]{
+	cases = append(cases, map[string]Case[internftv1alpha1.MsgUpdateToken]{
 		"": {
 			err: func() error {
 				if !addedEver {

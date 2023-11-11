@@ -21,19 +21,19 @@ func (k Keeper) InitGenesis(ctx context.Context, gs *internftv1alpha1.GenesisSta
 			k.setTrait(ctx, class.Id, trait)
 		}
 
-		for _, genNFT := range genClass.Nfts {
-			nft := internftv1alpha1.NFT{
+		for _, genToken := range genClass.Tokens {
+			token := internftv1alpha1.Token{
 				ClassId: class.Id,
-				Id:      genNFT.Id,
+				Id:      genToken.Id,
 			}
-			k.setNFT(ctx, nft)
+			k.setToken(ctx, token)
 
-			for _, property := range genNFT.Properties {
-				k.setProperty(ctx, nft, property)
+			for _, property := range genToken.Properties {
+				k.setProperty(ctx, token, property)
 			}
 
-			owner := genNFT.Owner
-			k.setOwner(ctx, nft, sdk.MustAccAddressFromBech32(owner))
+			owner := genToken.Owner
+			k.setOwner(ctx, token, sdk.MustAccAddressFromBech32(owner))
 		}
 	}
 
@@ -53,26 +53,26 @@ func (k Keeper) ExportGenesis(ctx context.Context) *internftv1alpha1.GenesisStat
 
 		genClasses[classIndex].Traits = k.getTraitsOfClass(ctx, class.Id)
 
-		nfts := k.getNFTsOfClass(ctx, class.Id)
+		tokens := k.getTokensOfClass(ctx, class.Id)
 
-		var genNFTs []internftv1alpha1.GenesisNFT
-		if len(nfts) != 0 {
-			genNFTs = make([]internftv1alpha1.GenesisNFT, len(nfts))
+		var genTokens []internftv1alpha1.GenesisToken
+		if len(tokens) != 0 {
+			genTokens = make([]internftv1alpha1.GenesisToken, len(tokens))
 		}
 
-		for nftIndex, nft := range nfts {
-			genNFTs[nftIndex].Id = nft.Id
+		for tokenIndex, token := range tokens {
+			genTokens[tokenIndex].Id = token.Id
 
-			genNFTs[nftIndex].Properties = k.getPropertiesOfNFT(ctx, nft)
+			genTokens[tokenIndex].Properties = k.getPropertiesOfToken(ctx, token)
 
-			owner, err := k.getOwner(ctx, nft)
+			owner, err := k.getOwner(ctx, token)
 			if err != nil {
 				panic(err)
 			}
-			genNFTs[nftIndex].Owner = owner.String()
+			genTokens[tokenIndex].Owner = owner.String()
 		}
 
-		genClasses[classIndex].Nfts = genNFTs
+		genClasses[classIndex].Tokens = genTokens
 	}
 
 	return &internftv1alpha1.GenesisState{
@@ -97,16 +97,16 @@ func (k Keeper) getTraitsOfClass(ctx context.Context, classID string) (traits []
 	return
 }
 
-func (k Keeper) getNFTsOfClass(ctx context.Context, classID string) (nfts []internftv1alpha1.NFT) {
-	k.iterateNFTsOfClass(ctx, classID, func(nft internftv1alpha1.NFT) {
-		nfts = append(nfts, nft)
+func (k Keeper) getTokensOfClass(ctx context.Context, classID string) (tokens []internftv1alpha1.Token) {
+	k.iterateTokensOfClass(ctx, classID, func(token internftv1alpha1.Token) {
+		tokens = append(tokens, token)
 	})
 
 	return
 }
 
-func (k Keeper) getPropertiesOfNFT(ctx context.Context, nft internftv1alpha1.NFT) (properties []internftv1alpha1.Property) {
-	k.iteratePropertiesOfNFT(ctx, nft, func(property internftv1alpha1.Property) {
+func (k Keeper) getPropertiesOfToken(ctx context.Context, token internftv1alpha1.Token) (properties []internftv1alpha1.Property) {
+	k.iteratePropertiesOfToken(ctx, token, func(property internftv1alpha1.Property) {
 		properties = append(properties, property)
 	})
 
