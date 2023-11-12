@@ -27,7 +27,7 @@ func (s *KeeperTestSuite) TestMsgSend() {
 			req := &internftv1alpha1.MsgSend{
 				Sender:    s.vendor.String(),
 				Recipient: s.customer.String(),
-				Token: internftv1alpha1.Token{
+				Token: &internftv1alpha1.Token{
 					ClassId: s.vendor.String(),
 					Id:      tc.tokenID,
 				},
@@ -65,9 +65,10 @@ func (s *KeeperTestSuite) TestMsgNewClass() {
 
 			req := &internftv1alpha1.MsgNewClass{
 				Operator: tc.operator.String(),
-				Class: internftv1alpha1.Class{
+				Class: &internftv1alpha1.Class{
 					Id: tc.operator.String(),
 				},
+				Traits: []*internftv1alpha1.Trait{},
 			}
 			err := req.ValidateBasic()
 			s.Assert().NoError(err)
@@ -102,7 +103,7 @@ func (s *KeeperTestSuite) TestMsgUpdateClass() {
 
 			req := &internftv1alpha1.MsgUpdateClass{
 				Operator: tc.classID,
-				Class: internftv1alpha1.Class{
+				Class: &internftv1alpha1.Class{
 					Id: tc.classID,
 				},
 			}
@@ -141,13 +142,14 @@ func (s *KeeperTestSuite) TestMsgNewToken() {
 			req := &internftv1alpha1.MsgNewToken{
 				Operator: tc.classID,
 				Recipient: s.customer.String(),
-				Token: internftv1alpha1.Token{
+				Token: &internftv1alpha1.Token{
 					ClassId: tc.classID,
 					Id: newTokenID,
 				},
-				Properties: []internftv1alpha1.Property{
+				Properties: []*internftv1alpha1.Property{
 					{
 						TraitId: s.mutableTraitID,
+						Fact: "fact",
 					},
 				},
 			}
@@ -184,7 +186,7 @@ func (s *KeeperTestSuite) TestMsgBurnToken() {
 
 			req := &internftv1alpha1.MsgBurnToken{
 				Owner: s.vendor.String(),
-				Token: internftv1alpha1.Token{
+				Token: &internftv1alpha1.Token{
 					ClassId: s.vendor.String(),
 					Id:      tc.tokenID,
 				},
@@ -210,9 +212,9 @@ func (s *KeeperTestSuite) TestMsgUpdateToken() {
 		"valid request": {
 			tokenID: s.tokenIDs[s.vendor.String()],
 		},
-		"token not found": {
+		"not the owner": {
 			tokenID: s.tokenIDs[s.stranger.String()],
-			err: internftv1alpha1.ErrTokenNotFound,
+			err: internftv1alpha1.ErrInsufficientToken,
 		},
 	}
 
@@ -222,13 +224,14 @@ func (s *KeeperTestSuite) TestMsgUpdateToken() {
 
 			req := &internftv1alpha1.MsgUpdateToken{
 				Owner: s.vendor.String(),
-				Token: internftv1alpha1.Token{
+				Token: &internftv1alpha1.Token{
 					ClassId: s.vendor.String(),
 					Id:      tc.tokenID,
 				},
-				Properties: []internftv1alpha1.Property{
+				Properties: []*internftv1alpha1.Property{
 					{
 						TraitId: s.mutableTraitID,
+						Fact: "newfact",
 					},
 				},
 			}

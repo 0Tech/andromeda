@@ -157,7 +157,7 @@ func (s *KeeperTestSuite) SetupTest() {
 	s.keeper.SetParams(s.ctx, internftv1alpha1.Params{})
 
 	// vendor creates a class
-	class := internftv1alpha1.Class{
+	class := &internftv1alpha1.Class{
 		Id: s.vendor.String(),
 	}
 	err := class.ValidateBasic()
@@ -166,13 +166,14 @@ func (s *KeeperTestSuite) SetupTest() {
 	s.mutableTraitID = "level"
 	s.immutableTraitID = "color"
 
-	traits := []internftv1alpha1.Trait{
+	traits := []*internftv1alpha1.Trait{
 		{
 			Id:      s.mutableTraitID,
-			Variable: true,
+			Mutability: internftv1alpha1.Trait_MUTABILITY_MUTABLE,
 		},
 		{
 			Id: s.immutableTraitID,
+			Mutability: internftv1alpha1.Trait_MUTABILITY_IMMUTABLE,
 		},
 	}
 
@@ -192,11 +193,11 @@ func (s *KeeperTestSuite) SetupTest() {
 			continue
 		}
 
-		token := internftv1alpha1.Token{
+		token := &internftv1alpha1.Token{
 			ClassId: class.Id,
 			Id: tokenID,
 		}
-		properties := []internftv1alpha1.Property{
+		properties := []*internftv1alpha1.Property{
 			{
 				TraitId: s.mutableTraitID,
 				Fact: "42",

@@ -11,8 +11,8 @@ import (
 
 func (s *KeeperTestSuite) TestNewClass() {
 	type newClass struct {
-		class internftv1alpha1.Class
-		traits []internftv1alpha1.Trait
+		class *internftv1alpha1.Class
+		traits []*internftv1alpha1.Trait
 	}
 
 	tester := func(subject newClass) error {
@@ -37,12 +37,12 @@ func (s *KeeperTestSuite) TestNewClass() {
 		classAfter, err := s.keeper.GetClass(ctx, subject.class.Id)
 		s.Require().NoError(err)
 		s.Require().NotNil(classAfter)
-		s.Require().Equal(subject.class, *classAfter)
+		s.Require().Equal(subject.class, classAfter)
 		for _, trait := range subject.traits {
 			traitAfter, err := s.keeper.GetTrait(ctx, subject.class.Id, trait.Id)
 			s.Require().NoError(err, trait.Id)
 			s.Require().NotNil(traitAfter, trait.Id)
-			s.Require().Equal(trait, *traitAfter, trait.Id)
+			s.Require().Equal(trait, traitAfter, trait.Id)
 		}
 
 		return nil
@@ -51,14 +51,14 @@ func (s *KeeperTestSuite) TestNewClass() {
 		{
 			"class not found": {
 				malleate: func(subject *newClass) {
-					subject.class = internftv1alpha1.Class{
+					subject.class = &internftv1alpha1.Class{
 						Id: s.customer.String(),
 					}
 				},
 			},
 			"class already exists": {
 				malleate: func(subject *newClass) {
-					subject.class = internftv1alpha1.Class{
+					subject.class = &internftv1alpha1.Class{
 						Id: s.vendor.String(),
 					}
 				},
@@ -68,34 +68,48 @@ func (s *KeeperTestSuite) TestNewClass() {
 			},
 		},
 	}
+	cases = append(cases, map[string]Case[newClass]{
+		"": {
+			malleate: func(subject *newClass) {
+				subject.traits = []*internftv1alpha1.Trait{}
+			},
+		},
+	})
 	for i := 0; i < 4; i++ {
 		traitID := fmt.Sprintf("trait%02d", i)
 
-		added := false
+		addedTrait := false
 		cases = append(cases, []map[string]Case[newClass]{
 			{
-				"no trait": {
+				"[nil trait id": {
 					malleate: func(subject *newClass) {
-						added = false
+						addedTrait = false
 					},
 				},
-				"add trait": {
+				"[valid trait id": {
 					malleate: func(subject *newClass) {
-						added = true
-						subject.traits = append(subject.traits, internftv1alpha1.Trait{
+						addedTrait = true
+						subject.traits = append(subject.traits, &internftv1alpha1.Trait{
 							Id: traitID,
 						})
 					},
 				},
 			},
 			{
-				"immutable": {
-				},
-				"mutable": {
+				"immutable]": {
 					malleate: func(subject *newClass) {
-						if added {
-							subject.traits[len(subject.traits) - 1].Variable = true
+						if !addedTrait {
+							return
 						}
+						subject.traits[len(subject.traits) - 1].Mutability = internftv1alpha1.Trait_MUTABILITY_IMMUTABLE
+					},
+				},
+				"mutable]": {
+					malleate: func(subject *newClass) {
+						if !addedTrait {
+							return
+						}
+						subject.traits[len(subject.traits) - 1].Mutability = internftv1alpha1.Trait_MUTABILITY_MUTABLE
 					},
 				},
 			},
@@ -107,7 +121,7 @@ func (s *KeeperTestSuite) TestNewClass() {
 
 func (s *KeeperTestSuite) TestUpdateClass() {
 	type updateClass struct {
-		class internftv1alpha1.Class
+		class *internftv1alpha1.Class
 	}
 
 	tester := func(subject updateClass) error {
@@ -122,12 +136,12 @@ func (s *KeeperTestSuite) TestUpdateClass() {
 		classBefore, err := s.keeper.GetClass(s.ctx, subject.class.Id)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(classBefore)
-		s.Assert().Equal(subject.class, *classBefore)
+		s.Assert().Equal(subject.class, classBefore)
 
 		classAfter, err := s.keeper.GetClass(ctx, subject.class.Id)
 		s.Require().NoError(err)
 		s.Require().NotNil(classAfter)
-		s.Require().Equal(subject.class, *classAfter)
+		s.Require().Equal(subject.class, classAfter)
 
 		return nil
 	}
@@ -135,14 +149,14 @@ func (s *KeeperTestSuite) TestUpdateClass() {
 		{
 			"class exists": {
 				malleate: func(subject *updateClass) {
-					subject.class = internftv1alpha1.Class{
+					subject.class = &internftv1alpha1.Class{
 						Id: s.vendor.String(),
 					}
 				},
 			},
 			"class not found": {
 				malleate: func(subject *updateClass) {
-					subject.class = internftv1alpha1.Class{
+					subject.class = &internftv1alpha1.Class{
 						Id: s.customer.String(),
 					}
 				},
@@ -159,11 +173,12 @@ func (s *KeeperTestSuite) TestUpdateClass() {
 func (s *KeeperTestSuite) TestNewToken() {
 	type newToken struct {
 		owner sdk.AccAddress
-		token internftv1alpha1.Token
-		properties []internftv1alpha1.Property
+		token *internftv1alpha1.Token
+		properties []*internftv1alpha1.Property
 	}
 
 	tester := func(subject newToken) error {
+		s.Assert().NotEmpty(subject.owner)
 		s.Assert().NoError(subject.token.ValidateBasic())
 		s.Assert().NoError(internftv1alpha1.Properties(subject.properties).ValidateBasic())
 
@@ -196,7 +211,7 @@ func (s *KeeperTestSuite) TestNewToken() {
 		tokenAfter, err := s.keeper.GetToken(ctx, subject.token)
 		s.Require().NoError(err)
 		s.Require().NotNil(tokenAfter)
-		s.Require().Equal(subject.token, *tokenAfter)
+		s.Require().Equal(subject.token, tokenAfter)
 		ownerAfter, err := s.keeper.GetOwner(ctx, subject.token)
 		s.Require().NoError(err)
 		s.Require().NotNil(ownerAfter)
@@ -205,7 +220,7 @@ func (s *KeeperTestSuite) TestNewToken() {
 			propertyAfter, err := s.keeper.GetProperty(ctx, subject.token, property.TraitId)
 			s.Require().NoError(err, property.TraitId)
 			s.Require().NotNil(propertyAfter, property.TraitId)
-			s.Require().Equal(property, *propertyAfter, property.TraitId)
+			s.Require().Equal(property, propertyAfter, property.TraitId)
 		}
 
 		return nil
@@ -226,12 +241,16 @@ func (s *KeeperTestSuite) TestNewToken() {
 		{
 			"class exists": {
 				malleate: func(subject *newToken) {
-					subject.token.ClassId = s.vendor.String()
+					subject.token = &internftv1alpha1.Token{
+						ClassId: s.vendor.String(),
+					}
 				},
 			},
 			"class not found": {
 				malleate: func(subject *newToken) {
-					subject.token.ClassId = s.stranger.String()
+					subject.token = &internftv1alpha1.Token{
+						ClassId: s.stranger.String(),
+					}
 				},
 				err: func() error {
 					return internftv1alpha1.ErrClassNotFound
@@ -254,6 +273,13 @@ func (s *KeeperTestSuite) TestNewToken() {
 			},
 		},
 	}
+	cases = append(cases, map[string]Case[newToken]{
+		"": {
+			malleate: func(subject *newToken) {
+				subject.properties = []*internftv1alpha1.Property{}
+			},
+		},
+	})
 	for i, traitID := range []string{
 		s.immutableTraitID,
 		s.mutableTraitID,
@@ -261,35 +287,18 @@ func (s *KeeperTestSuite) TestNewToken() {
 		traitID := traitID
 		fact := fmt.Sprintf("fact%02d", i)
 
-		added := false
-		cases = append(cases, []map[string]Case[newToken]{
-			{
-				"no property": {
-					malleate: func(subject *newToken) {
-						added = false
-					},
-				},
-				"add property": {
-					malleate: func(subject *newToken) {
-						added = true
-						subject.properties = append(subject.properties, internftv1alpha1.Property{
-							TraitId: traitID,
-						})
-					},
+		cases = append(cases, map[string]Case[newToken]{
+			"not add property": {
+			},
+			"add property": {
+				malleate: func(subject *newToken) {
+					subject.properties = append(subject.properties, &internftv1alpha1.Property{
+						TraitId: traitID,
+						Fact: fact,
+					})
 				},
 			},
-			{
-				"with no fact": {
-				},
-				"with fact": {
-					malleate: func(subject *newToken) {
-						if added {
-							subject.properties[len(subject.properties) - 1].Fact = fact
-						}
-					},
-				},
-			},
-		}...)
+		})
 	}
 
 	doTest(s, tester, cases)
@@ -298,10 +307,11 @@ func (s *KeeperTestSuite) TestNewToken() {
 func (s *KeeperTestSuite) TestBurnToken() {
 	type burnToken struct {
 		owner sdk.AccAddress
-		token internftv1alpha1.Token
+		token *internftv1alpha1.Token
 	}
 
 	tester := func(subject burnToken) error {
+		s.Assert().NotEmpty(subject.owner)
 		s.Assert().NoError(subject.token.ValidateBasic())
 
 		ctx, _ := s.ctx.CacheContext()
@@ -317,7 +327,7 @@ func (s *KeeperTestSuite) TestBurnToken() {
 		tokenBefore, err := s.keeper.GetToken(s.ctx, subject.token)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(tokenBefore)
-		s.Assert().Equal(subject.token, *tokenBefore)
+		s.Assert().Equal(subject.token, tokenBefore)
 		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.token)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(ownerBefore)
@@ -379,12 +389,16 @@ func (s *KeeperTestSuite) TestBurnToken() {
 		{
 			"class exists": {
 				malleate: func(subject *burnToken) {
-					subject.token.ClassId = s.vendor.String()
+					subject.token = &internftv1alpha1.Token{
+						ClassId: s.vendor.String(),
+					}
 				},
 			},
 			"class not found": {
 				malleate: func(subject *burnToken) {
-					subject.token.ClassId = s.stranger.String()
+					subject.token = &internftv1alpha1.Token{
+						ClassId: s.stranger.String(),
+					}
 				},
 				err: func() error {
 					return internftv1alpha1.ErrInsufficientToken
@@ -413,8 +427,8 @@ func (s *KeeperTestSuite) TestBurnToken() {
 
 func (s *KeeperTestSuite) TestUpdateToken() {
 	type updateToken struct {
-		token internftv1alpha1.Token
-		properties []internftv1alpha1.Property
+		token *internftv1alpha1.Token
+		properties []*internftv1alpha1.Property
 	}
 
 	tester := func(subject updateToken) error {
@@ -434,7 +448,7 @@ func (s *KeeperTestSuite) TestUpdateToken() {
 		tokenBefore, err := s.keeper.GetToken(s.ctx, subject.token)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(tokenBefore)
-		s.Assert().Equal(subject.token, *tokenBefore)
+		s.Assert().Equal(subject.token, tokenBefore)
 		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.token)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(ownerBefore)
@@ -451,7 +465,7 @@ func (s *KeeperTestSuite) TestUpdateToken() {
 		tokenAfter, err := s.keeper.GetToken(ctx, subject.token)
 		s.Require().NoError(err)
 		s.Require().NotNil(tokenAfter)
-		s.Require().Equal(subject.token, *tokenAfter)
+		s.Require().Equal(subject.token, tokenAfter)
 		ownerAfter, err := s.keeper.GetOwner(ctx, subject.token)
 		s.Require().NoError(err)
 		s.Require().NotNil(ownerAfter)
@@ -459,7 +473,7 @@ func (s *KeeperTestSuite) TestUpdateToken() {
 			propertyAfter, err := s.keeper.GetProperty(ctx, subject.token, property.TraitId)
 			s.Require().NoError(err, property.TraitId)
 			s.Require().NotNil(propertyAfter, property.TraitId)
-			s.Require().Equal(property, *propertyAfter, property.TraitId)
+			s.Require().Equal(property, propertyAfter, property.TraitId)
 		}
 
 		return nil
@@ -468,12 +482,16 @@ func (s *KeeperTestSuite) TestUpdateToken() {
 		{
 			"class exists": {
 				malleate: func(subject *updateToken) {
-					subject.token.ClassId = s.vendor.String()
+					subject.token = &internftv1alpha1.Token{
+						ClassId: s.vendor.String(),
+					}
 				},
 			},
 			"class not found": {
 				malleate: func(subject *updateToken) {
-					subject.token.ClassId = s.stranger.String()
+					subject.token = &internftv1alpha1.Token{
+						ClassId: s.stranger.String(),
+					}
 				},
 				err: func() error {
 					return internftv1alpha1.ErrTokenNotFound
@@ -496,6 +514,13 @@ func (s *KeeperTestSuite) TestUpdateToken() {
 			},
 		},
 	}
+	cases = append(cases, map[string]Case[updateToken]{
+		"": {
+			malleate: func(subject *updateToken) {
+				subject.properties = []*internftv1alpha1.Property{}
+			},
+		},
+	})
 	for i, traitID := range []string{
 		s.immutableTraitID,
 		s.mutableTraitID,
@@ -503,41 +528,24 @@ func (s *KeeperTestSuite) TestUpdateToken() {
 		traitID := traitID
 		fact := fmt.Sprintf("newfact%02d", i)
 
-		added := false
-		cases = append(cases, []map[string]Case[updateToken]{
-			{
-				"no property": {
-					malleate: func(subject *updateToken) {
-						added = false
-					},
+		cases = append(cases, map[string]Case[updateToken]{
+			"not add property": {
+			},
+			"add property": {
+				malleate: func(subject *updateToken) {
+					subject.properties = append(subject.properties, &internftv1alpha1.Property{
+						TraitId: traitID,
+						Fact: fact,
+					})
 				},
-				"add property": {
-					malleate: func(subject *updateToken) {
-						added = true
-						subject.properties = append(subject.properties, internftv1alpha1.Property{
-							TraitId: traitID,
-						})
-					},
-					err: func() error {
-						if traitID == s.immutableTraitID {
-							return internftv1alpha1.ErrTraitImmutable
-						}
-						return nil
-					},
+				err: func() error {
+					if traitID == s.immutableTraitID {
+						return internftv1alpha1.ErrTraitImmutable
+					}
+					return nil
 				},
 			},
-			{
-				"with no fact": {
-				},
-				"with fact": {
-					malleate: func(subject *updateToken) {
-						if added {
-							subject.properties[len(subject.properties) - 1].Fact = fact
-						}
-					},
-				},
-			},
-		}...)
+		})
 	}
 
 	doTest(s, tester, cases)

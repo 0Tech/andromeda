@@ -26,34 +26,40 @@ func TestGenesisState(t *testing.T) {
 		"all features": {
 			s: internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
-				Classes: []internftv1alpha1.GenesisClass{
+				Classes: []*internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internftv1alpha1.Trait{
+						Traits: []*internftv1alpha1.Trait{
 							{
 								Id: traitID,
+								Mutability: internftv1alpha1.Trait_MUTABILITY_IMMUTABLE,
 							},
 						},
-						Tokens: []internftv1alpha1.GenesisToken{
+						Tokens: []*internftv1alpha1.GenesisToken{
 							{
 								Id:    tokenIDs[0],
+								Properties: []*internftv1alpha1.Property{},
 								Owner: addr.String(),
 							},
 							{
 								Id:    tokenIDs[1],
+								Properties: []*internftv1alpha1.Property{},
 								Owner: addr.String(),
 							},
 						},
 					},
 					{
 						Id:              classIDs[1],
-						Tokens: []internftv1alpha1.GenesisToken{
+						Traits: []*internftv1alpha1.Trait{},
+						Tokens: []*internftv1alpha1.GenesisToken{
 							{
 								Id:    tokenIDs[0],
+								Properties: []*internftv1alpha1.Property{},
 								Owner: addr.String(),
 							},
 							{
 								Id:    tokenIDs[1],
+								Properties: []*internftv1alpha1.Property{},
 								Owner: addr.String(),
 							},
 						},
@@ -64,36 +70,45 @@ func TestGenesisState(t *testing.T) {
 		"invalid class id": {
 			s: internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
-				Classes: []internftv1alpha1.GenesisClass{
+				Classes: []*internftv1alpha1.GenesisClass{
 					{
+						Id: "not-in-bech32",
+						Traits: []*internftv1alpha1.Trait{},
+						Tokens: []*internftv1alpha1.GenesisToken{},
 					},
 				},
 			},
 			err: internftv1alpha1.ErrInvalidClassID,
 		},
-		"invalid trait id": {
+		"nil trait id": {
 			s: internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
-				Classes: []internftv1alpha1.GenesisClass{
+				Classes: []*internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internftv1alpha1.Trait{
-							{},
+						Traits: []*internftv1alpha1.Trait{
+							{
+								Mutability: internftv1alpha1.Trait_MUTABILITY_IMMUTABLE,
+							},
 						},
 					},
 				},
 			},
-			err: internftv1alpha1.ErrInvalidTraitID,
+			err: sdkerrors.ErrNotSupported,
 		},
 		"duplicate class": {
 			s: internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
-				Classes: []internftv1alpha1.GenesisClass{
+				Classes: []*internftv1alpha1.GenesisClass{
 					{
 						Id:              classIDs[0],
+						Traits: []*internftv1alpha1.Trait{},
+						Tokens: []*internftv1alpha1.GenesisToken{},
 					},
 					{
 						Id:              classIDs[0],
+						Traits: []*internftv1alpha1.Trait{},
+						Tokens: []*internftv1alpha1.GenesisToken{},
 					},
 				},
 			},
@@ -102,11 +117,14 @@ func TestGenesisState(t *testing.T) {
 		"invalid token id": {
 			s: internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
-				Classes: []internftv1alpha1.GenesisClass{
+				Classes: []*internftv1alpha1.GenesisClass{
 					{
 						Id:              classIDs[0],
-						Tokens: []internftv1alpha1.GenesisToken{
+						Traits: []*internftv1alpha1.Trait{},
+						Tokens: []*internftv1alpha1.GenesisToken{
 							{
+								Id: "not-in-bech32",
+								Properties: []*internftv1alpha1.Property{},
 								Owner: addr.String(),
 							},
 						},
@@ -115,22 +133,25 @@ func TestGenesisState(t *testing.T) {
 			},
 			err: internftv1alpha1.ErrInvalidTokenID,
 		},
-		"invalid property id": {
+		"nil trait id in property": {
 			s: internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
-				Classes: []internftv1alpha1.GenesisClass{
+				Classes: []*internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internftv1alpha1.Trait{
+						Traits: []*internftv1alpha1.Trait{
 							{
 								Id: traitID,
+								Mutability: internftv1alpha1.Trait_MUTABILITY_IMMUTABLE,
 							},
 						},
-						Tokens: []internftv1alpha1.GenesisToken{
+						Tokens: []*internftv1alpha1.GenesisToken{
 							{
 								Id: tokenIDs[0],
-								Properties: []internftv1alpha1.Property{
-									{},
+								Properties: []*internftv1alpha1.Property{
+									{
+										Fact: "fact",
+									},
 								},
 								Owner: addr.String(),
 							},
@@ -138,25 +159,27 @@ func TestGenesisState(t *testing.T) {
 					},
 				},
 			},
-			err: internftv1alpha1.ErrInvalidTraitID,
+			err: sdkerrors.ErrNotSupported,
 		},
 		"no corresponding trait": {
 			s: internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
-				Classes: []internftv1alpha1.GenesisClass{
+				Classes: []*internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internftv1alpha1.Trait{
+						Traits: []*internftv1alpha1.Trait{
 							{
 								Id: traitID,
+								Mutability: internftv1alpha1.Trait_MUTABILITY_IMMUTABLE,
 							},
 						},
-						Tokens: []internftv1alpha1.GenesisToken{
+						Tokens: []*internftv1alpha1.GenesisToken{
 							{
 								Id: tokenIDs[0],
-								Properties: []internftv1alpha1.Property{
+								Properties: []*internftv1alpha1.Property{
 									{
-										TraitId: "nosuchid",
+										TraitId: "no-such-id",
+										Fact: "fact",
 									},
 								},
 								Owner: addr.String(),
@@ -170,12 +193,14 @@ func TestGenesisState(t *testing.T) {
 		"invalid owner": {
 			s: internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
-				Classes: []internftv1alpha1.GenesisClass{
+				Classes: []*internftv1alpha1.GenesisClass{
 					{
 						Id:              classIDs[0],
-						Tokens: []internftv1alpha1.GenesisToken{
+						Traits: []*internftv1alpha1.Trait{},
+						Tokens: []*internftv1alpha1.GenesisToken{
 							{
 								Id:    tokenIDs[0],
+								Properties: []*internftv1alpha1.Property{},
 								Owner: "invalid",
 							},
 						},

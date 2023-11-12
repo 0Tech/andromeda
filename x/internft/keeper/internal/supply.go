@@ -12,7 +12,7 @@ import (
 	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
-func (k Keeper) NewClass(ctx context.Context, class internftv1alpha1.Class, traits []internftv1alpha1.Trait) error {
+func (k Keeper) NewClass(ctx context.Context, class *internftv1alpha1.Class, traits []*internftv1alpha1.Trait) error {
 	if err := k.hasClass(ctx, class.Id); err == nil {
 		return internftv1alpha1.ErrClassAlreadyExists.Wrap(class.Id)
 	}
@@ -25,7 +25,7 @@ func (k Keeper) NewClass(ctx context.Context, class internftv1alpha1.Class, trai
 	return nil
 }
 
-func (k Keeper) UpdateClass(ctx context.Context, class internftv1alpha1.Class) error {
+func (k Keeper) UpdateClass(ctx context.Context, class *internftv1alpha1.Class) error {
 	if err := k.hasClass(ctx, class.Id); err != nil {
 		return err
 	}
@@ -52,8 +52,8 @@ func (k Keeper) GetClass(ctx context.Context, classID string) (*internftv1alpha1
 	return &class, nil
 }
 
-func (k Keeper) setClass(ctx context.Context, class internftv1alpha1.Class) {
-	if err := k.classes.Set(ctx, class.Id, class); err != nil {
+func (k Keeper) setClass(ctx context.Context, class *internftv1alpha1.Class) {
+	if err := k.classes.Set(ctx, class.Id, *class); err != nil {
 		panic(err)
 	}
 }
@@ -76,8 +76,8 @@ func (k Keeper) GetTrait(ctx context.Context, classID string, traitID string) (*
 	return &trait, nil
 }
 
-func (k Keeper) setTrait(ctx context.Context, classID string, trait internftv1alpha1.Trait) {
-	if err := k.traits.Set(ctx, collections.Join(classID, trait.Id), trait); err != nil {
+func (k Keeper) setTrait(ctx context.Context, classID string, trait *internftv1alpha1.Trait) {
+	if err := k.traits.Set(ctx, collections.Join(classID, trait.Id), *trait); err != nil {
 		panic(err)
 	}
 }
@@ -117,7 +117,7 @@ func (k Keeper) iterateClasses(ctx context.Context, fn func(class internftv1alph
 	}
 }
 
-func (k Keeper) NewToken(ctx context.Context, owner sdk.AccAddress, token internftv1alpha1.Token, properties []internftv1alpha1.Property) error {
+func (k Keeper) NewToken(ctx context.Context, owner sdk.AccAddress, token *internftv1alpha1.Token, properties []*internftv1alpha1.Property) error {
 	if err := k.hasClass(ctx, token.ClassId); err != nil {
 		return err
 	}
@@ -146,7 +146,7 @@ func (k Keeper) NewToken(ctx context.Context, owner sdk.AccAddress, token intern
 // 	return err
 // }
 
-func (k Keeper) GetProperty(ctx context.Context, token internftv1alpha1.Token, propertyID string) (*internftv1alpha1.Property, error) {
+func (k Keeper) GetProperty(ctx context.Context, token *internftv1alpha1.Token, propertyID string) (*internftv1alpha1.Property, error) {
 	property, err := k.properties.Get(ctx, collections.Join3(token.ClassId, token.Id, propertyID))
 	if err != nil {
 		if errorsmod.IsOf(err, collections.ErrNotFound) {
@@ -159,13 +159,13 @@ func (k Keeper) GetProperty(ctx context.Context, token internftv1alpha1.Token, p
 	return &property, nil
 }
 
-func (k Keeper) setProperty(ctx context.Context, token internftv1alpha1.Token, property internftv1alpha1.Property) {
-	if err := k.properties.Set(ctx, collections.Join3(token.ClassId, token.Id, property.TraitId), property); err != nil {
+func (k Keeper) setProperty(ctx context.Context, token *internftv1alpha1.Token, property *internftv1alpha1.Property) {
+	if err := k.properties.Set(ctx, collections.Join3(token.ClassId, token.Id, property.TraitId), *property); err != nil {
 		panic(err)
 	}
 }
 
-func (k Keeper) iteratePropertiesOfToken(ctx context.Context, token internftv1alpha1.Token, fn func(property internftv1alpha1.Property)) {
+func (k Keeper) iteratePropertiesOfToken(ctx context.Context, token *internftv1alpha1.Token, fn func(property internftv1alpha1.Property)) {
 	rng := collections.NewSuperPrefixedTripleRange[string, string, string](token.ClassId, token.Id)
 	iter, err := k.properties.Iterate(ctx, rng)
 	if err != nil {
@@ -183,7 +183,7 @@ func (k Keeper) iteratePropertiesOfToken(ctx context.Context, token internftv1al
 	}
 }
 
-func (k Keeper) BurnToken(ctx context.Context, owner sdk.AccAddress, token internftv1alpha1.Token) error {
+func (k Keeper) BurnToken(ctx context.Context, owner sdk.AccAddress, token *internftv1alpha1.Token) error {
 	if err := k.validateOwner(ctx, token, owner); err != nil {
 		return err
 	}
@@ -199,7 +199,7 @@ func (k Keeper) BurnToken(ctx context.Context, owner sdk.AccAddress, token inter
 	return nil
 }
 
-func (k Keeper) UpdateToken(ctx context.Context, token internftv1alpha1.Token, properties []internftv1alpha1.Property) error {
+func (k Keeper) UpdateToken(ctx context.Context, token *internftv1alpha1.Token, properties []*internftv1alpha1.Property) error {
 	if err := k.hasToken(ctx, token); err != nil {
 		return err
 	}
@@ -210,23 +210,24 @@ func (k Keeper) UpdateToken(ctx context.Context, token internftv1alpha1.Token, p
 			return err
 		}
 
-		if !trait.Variable {
+		switch trait.Mutability {
+		case internftv1alpha1.Trait_MUTABILITY_IMMUTABLE:
 			return internftv1alpha1.ErrTraitImmutable.Wrap(property.TraitId)
 		}
-
+		
 		k.setProperty(ctx, token, property)
 	}
 
 	return nil
 }
 
-func (k Keeper) hasToken(ctx context.Context, token internftv1alpha1.Token) error {
+func (k Keeper) hasToken(ctx context.Context, token *internftv1alpha1.Token) error {
 	_, err := k.GetToken(ctx, token)
 	return err
 }
 
-func (k Keeper) GetToken(ctx context.Context, token internftv1alpha1.Token) (*internftv1alpha1.Token, error) {
-	token, err := k.tokens.Get(ctx, collections.Join(token.ClassId, token.Id))
+func (k Keeper) GetToken(ctx context.Context, token *internftv1alpha1.Token) (*internftv1alpha1.Token, error) {
+	_, err := k.tokens.Get(ctx, collections.Join(token.ClassId, token.Id))
 	if err != nil {
 		if errorsmod.IsOf(err, collections.ErrNotFound) {
 			err = internftv1alpha1.ErrTokenNotFound.Wrap(token.String())
@@ -235,16 +236,16 @@ func (k Keeper) GetToken(ctx context.Context, token internftv1alpha1.Token) (*in
 		return nil, err
 	}
 
-	return &token, nil
+	return token, nil
 }
 
-func (k Keeper) setToken(ctx context.Context, token internftv1alpha1.Token) {
-	if err := k.tokens.Set(ctx, collections.Join(token.ClassId, token.Id), token); err != nil {
+func (k Keeper) setToken(ctx context.Context, token *internftv1alpha1.Token) {
+	if err := k.tokens.Set(ctx, collections.Join(token.ClassId, token.Id), *token); err != nil {
 		panic(err)
 	}
 }
 
-func (k Keeper) deleteToken(ctx context.Context, token internftv1alpha1.Token) {
+func (k Keeper) deleteToken(ctx context.Context, token *internftv1alpha1.Token) {
 	if err := k.tokens.Remove(ctx, collections.Join(token.ClassId, token.Id)); err != nil {
 		panic(err)
 	}

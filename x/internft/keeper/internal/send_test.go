@@ -10,10 +10,12 @@ func (s *KeeperTestSuite) TestSend() {
 	type send struct {
 		sender sdk.AccAddress
 		recipient sdk.AccAddress
-		token internftv1alpha1.Token
+		token *internftv1alpha1.Token
 	}
 
 	tester := func(subject send) error {
+		s.Assert().NotEmpty(subject.sender)
+		s.Assert().NotEmpty(subject.recipient)
 		s.Assert().NoError(subject.token.ValidateBasic())
 
 		ctx, _ := s.ctx.CacheContext()
@@ -29,7 +31,7 @@ func (s *KeeperTestSuite) TestSend() {
 		tokenBefore, err := s.keeper.GetToken(s.ctx, subject.token)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(tokenBefore)
-		s.Assert().Equal(subject.token, *tokenBefore)
+		s.Assert().Equal(subject.token, tokenBefore)
 		ownerBefore, err := s.keeper.GetOwner(s.ctx, subject.token)
 		s.Assert().NoError(err)
 		s.Assert().NotNil(ownerBefore)
@@ -42,7 +44,7 @@ func (s *KeeperTestSuite) TestSend() {
 		tokenAfter, err := s.keeper.GetToken(ctx, subject.token)
 		s.Require().NoError(err)
 		s.Require().NotNil(tokenAfter)
-		s.Require().Equal(subject.token, *tokenAfter)
+		s.Require().Equal(subject.token, tokenAfter)
 		ownerAfter, err := s.keeper.GetOwner(ctx, subject.token)
 		s.Require().NoError(err)
 		s.Require().NotNil(ownerAfter)
@@ -54,7 +56,7 @@ func (s *KeeperTestSuite) TestSend() {
 		{
 			"sender is owner": {
 				malleate: func(subject *send) {
-					subject.sender = s.vendor
+					subject.sender = s.customer
 				},
 			},
 			"sender is not owner": {
@@ -67,32 +69,45 @@ func (s *KeeperTestSuite) TestSend() {
 			},
 		},
 		{
-			"recipient is owner": {
+			"recipient is sender": {
+				malleate: func(subject *send) {
+					subject.recipient = s.customer
+				},
+			},
+			"recipient is not sender": {
 				malleate: func(subject *send) {
 					subject.recipient = s.vendor
 				},
 			},
-			"recipient is not owner": {
+		},
+		{
+			"class exists": {
 				malleate: func(subject *send) {
-					subject.recipient = s.stranger
+					subject.token = &internftv1alpha1.Token{
+						ClassId: s.vendor.String(),
+					}
+				},
+			},
+			"class not found": {
+				malleate: func(subject *send) {
+					subject.token = &internftv1alpha1.Token{
+						ClassId: s.stranger.String(),
+					}
+				},
+				err: func() error {
+					return internftv1alpha1.ErrInsufficientToken
 				},
 			},
 		},
 		{
 			"token exists": {
 				malleate: func(subject *send) {
-					subject.token = internftv1alpha1.Token{
-						ClassId: s.vendor.String(),
-						Id: s.tokenIDs[s.vendor.String()],
-					}
+					subject.token.Id = s.tokenIDs[s.customer.String()]
 				},
 			},
 			"token not found": {
 				malleate: func(subject *send) {
-					subject.token = internftv1alpha1.Token{
-						ClassId: s.vendor.String(),
-						Id: s.tokenIDs[s.stranger.String()],
-					}
+					subject.token.Id = s.tokenIDs[s.stranger.String()]
 				},
 				err: func() error {
 					return internftv1alpha1.ErrInsufficientToken

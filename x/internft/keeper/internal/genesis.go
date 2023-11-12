@@ -9,10 +9,10 @@ import (
 )
 
 func (k Keeper) InitGenesis(ctx context.Context, gs *internftv1alpha1.GenesisState) error {
-	k.SetParams(ctx, gs.Params)
+	k.SetParams(ctx, *gs.Params)
 
 	for _, genClass := range gs.Classes {
-		class := internftv1alpha1.Class{
+		class := &internftv1alpha1.Class{
 			Id: genClass.Id,
 		}
 		k.setClass(ctx, class)
@@ -22,7 +22,7 @@ func (k Keeper) InitGenesis(ctx context.Context, gs *internftv1alpha1.GenesisSta
 		}
 
 		for _, genToken := range genClass.Tokens {
-			token := internftv1alpha1.Token{
+			token := &internftv1alpha1.Token{
 				ClassId: class.Id,
 				Id:      genToken.Id,
 			}
@@ -41,28 +41,21 @@ func (k Keeper) InitGenesis(ctx context.Context, gs *internftv1alpha1.GenesisSta
 }
 
 func (k Keeper) ExportGenesis(ctx context.Context) *internftv1alpha1.GenesisState {
+	genesis := &internftv1alpha1.GenesisState{}
+	genesis.Params = k.GetParams(ctx)
+	
 	classes := k.getClasses(ctx)
-
-	var genClasses []internftv1alpha1.GenesisClass
-	if len(classes) != 0 {
-		genClasses = make([]internftv1alpha1.GenesisClass, len(classes))
-	}
-
+	genClasses := make([]*internftv1alpha1.GenesisClass, len(classes))
 	for classIndex, class := range classes {
+		genClasses[classIndex] = &internftv1alpha1.GenesisClass{}
 		genClasses[classIndex].Id = class.Id
-
 		genClasses[classIndex].Traits = k.getTraitsOfClass(ctx, class.Id)
 
 		tokens := k.getTokensOfClass(ctx, class.Id)
-
-		var genTokens []internftv1alpha1.GenesisToken
-		if len(tokens) != 0 {
-			genTokens = make([]internftv1alpha1.GenesisToken, len(tokens))
-		}
-
+		genTokens := make([]*internftv1alpha1.GenesisToken, len(tokens))
 		for tokenIndex, token := range tokens {
+			genTokens[tokenIndex] = &internftv1alpha1.GenesisToken{}
 			genTokens[tokenIndex].Id = token.Id
-
 			genTokens[tokenIndex].Properties = k.getPropertiesOfToken(ctx, token)
 
 			owner, err := k.getOwner(ctx, token)
@@ -71,14 +64,11 @@ func (k Keeper) ExportGenesis(ctx context.Context) *internftv1alpha1.GenesisStat
 			}
 			genTokens[tokenIndex].Owner = owner.String()
 		}
-
 		genClasses[classIndex].Tokens = genTokens
 	}
+	genesis.Classes = genClasses
 
-	return &internftv1alpha1.GenesisState{
-		Params:  k.GetParams(ctx),
-		Classes: genClasses,
-	}
+	return genesis
 }
 
 func (k Keeper) getClasses(ctx context.Context) (classes []internftv1alpha1.Class) {
@@ -89,25 +79,28 @@ func (k Keeper) getClasses(ctx context.Context) (classes []internftv1alpha1.Clas
 	return
 }
 
-func (k Keeper) getTraitsOfClass(ctx context.Context, classID string) (traits []internftv1alpha1.Trait) {
+func (k Keeper) getTraitsOfClass(ctx context.Context, classID string) (traits []*internftv1alpha1.Trait) {
+	traits = []*internftv1alpha1.Trait{}
 	k.iterateTraitsOfClass(ctx, classID, func(trait internftv1alpha1.Trait) {
-		traits = append(traits, trait)
+		traits = append(traits, &trait)
 	})
 
 	return
 }
 
-func (k Keeper) getTokensOfClass(ctx context.Context, classID string) (tokens []internftv1alpha1.Token) {
+func (k Keeper) getTokensOfClass(ctx context.Context, classID string) (tokens []*internftv1alpha1.Token) {
+	tokens = []*internftv1alpha1.Token{}
 	k.iterateTokensOfClass(ctx, classID, func(token internftv1alpha1.Token) {
-		tokens = append(tokens, token)
+		tokens = append(tokens, &token)
 	})
 
 	return
 }
 
-func (k Keeper) getPropertiesOfToken(ctx context.Context, token internftv1alpha1.Token) (properties []internftv1alpha1.Property) {
+func (k Keeper) getPropertiesOfToken(ctx context.Context, token *internftv1alpha1.Token) (properties []*internftv1alpha1.Property) {
+	properties = []*internftv1alpha1.Property{}
 	k.iteratePropertiesOfToken(ctx, token, func(property internftv1alpha1.Property) {
-		properties = append(properties, property)
+		properties = append(properties, &property)
 	})
 
 	return

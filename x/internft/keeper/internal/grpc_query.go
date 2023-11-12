@@ -63,8 +63,8 @@ func (s queryServer) Classes(ctx context.Context, req *internftv1alpha1.QueryCla
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	classes, pageRes, err := query.CollectionPaginate(ctx, s.keeper.classes, req.Pagination, func(_ string, value internftv1alpha1.Class) (internftv1alpha1.Class, error) {
-		return value, nil
+	classes, pageRes, err := query.CollectionPaginate(ctx, s.keeper.classes, req.Pagination, func(_ string, value internftv1alpha1.Class) (*internftv1alpha1.Class, error) {
+		return &value, nil
 	})
 	if err != nil {
 		return nil, err
@@ -108,8 +108,8 @@ func (s queryServer) Traits(ctx context.Context, req *internftv1alpha1.QueryTrai
 		return nil, err
 	}
 
-	traits, pageRes, err := query.CollectionPaginate(ctx, s.keeper.traits, req.Pagination, func(_ collections.Pair[string, string], value internftv1alpha1.Trait) (internftv1alpha1.Trait, error) {
-		return value, nil
+	traits, pageRes, err := query.CollectionPaginate(ctx, s.keeper.traits, req.Pagination, func(_ collections.Pair[string, string], value internftv1alpha1.Trait) (*internftv1alpha1.Trait, error) {
+		return &value, nil
 	}, func(o *query.CollectionsPaginateOptions[collections.Pair[string, string]]) {
 		prefix := collections.PairPrefix[string, string](req.ClassId)
 		o.Prefix = &prefix
@@ -129,7 +129,7 @@ func (s queryServer) Token(ctx context.Context, req *internftv1alpha1.QueryToken
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	token := internftv1alpha1.Token{
+	token := &internftv1alpha1.Token{
 		ClassId: req.ClassId,
 		Id: req.TokenId,
 	}
@@ -142,7 +142,7 @@ func (s queryServer) Token(ctx context.Context, req *internftv1alpha1.QueryToken
 	}
 
 	return &internftv1alpha1.QueryTokenResponse{
-		Token: &token,
+		Token: token,
 	}, nil
 }
 
@@ -155,8 +155,8 @@ func (s queryServer) Tokens(ctx context.Context, req *internftv1alpha1.QueryToke
 		return nil, err
 	}
 
-	tokens, pageRes, err := query.CollectionPaginate(ctx, s.keeper.tokens, req.Pagination, func(_ collections.Pair[string, string], value internftv1alpha1.Token) (internftv1alpha1.Token, error) {
-		return value, nil
+	tokens, pageRes, err := query.CollectionPaginate(ctx, s.keeper.tokens, req.Pagination, func(_ collections.Pair[string, string], value internftv1alpha1.Token) (*internftv1alpha1.Token, error) {
+		return &value, nil
 	}, func(o *query.CollectionsPaginateOptions[collections.Pair[string, string]]) {
 		prefix := collections.PairPrefix[string, string](req.ClassId)
 		o.Prefix = &prefix
@@ -176,7 +176,7 @@ func (s queryServer) Property(ctx context.Context, req *internftv1alpha1.QueryPr
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	token := internftv1alpha1.Token{
+	token := &internftv1alpha1.Token{
 		ClassId: req.ClassId,
 		Id: req.TokenId,
 	}
@@ -211,8 +211,8 @@ func (s queryServer) Properties(ctx context.Context, req *internftv1alpha1.Query
 		return nil, err
 	}
 
-	properties, pageRes, err := query.CollectionPaginate(ctx, s.keeper.properties, req.Pagination, func(_ collections.Triple[string, string, string], value internftv1alpha1.Property) (internftv1alpha1.Property, error) {
-		return value, nil
+	properties, pageRes, err := query.CollectionPaginate(ctx, s.keeper.properties, req.Pagination, func(_ collections.Triple[string, string, string], value internftv1alpha1.Property) (*internftv1alpha1.Property, error) {
+		return &value, nil
 	}, func(o *query.CollectionsPaginateOptions[collections.Triple[string, string, string]]) {
 		prefix := collections.TripleSuperPrefix[string, string, string](token.ClassId, token.Id)
 		o.Prefix = &prefix
@@ -232,7 +232,7 @@ func (s queryServer) Owner(ctx context.Context, req *internftv1alpha1.QueryOwner
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	token := internftv1alpha1.Token{
+	token := &internftv1alpha1.Token{
 		ClassId: req.ClassId,
 		Id: req.TokenId,
 	}

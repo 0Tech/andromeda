@@ -110,11 +110,18 @@ func (s msgServer) BurnToken(ctx context.Context, req *internftv1alpha1.MsgBurnT
 }
 
 func (s msgServer) UpdateToken(ctx context.Context, req *internftv1alpha1.MsgUpdateToken) (*internftv1alpha1.MsgUpdateTokenResponse, error) {
+	owner := sdk.MustAccAddressFromBech32(req.Owner)
+
+	if err := s.keeper.validateOwner(ctx, req.Token, owner); err != nil {
+		return nil, err
+	}
+
 	if err := s.keeper.UpdateToken(ctx, req.Token, req.Properties); err != nil {
 		return nil, err
 	}
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventUpdateToken{
+		Owner: req.Owner,
 		Token:        req.Token,
 		Properties: req.Properties,
 	}); err != nil {

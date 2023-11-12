@@ -23,8 +23,32 @@ func ValidateClassID(id string) error {
 	return nil
 }
 
-func (class Class) ValidateBasic() error {
-	if err := ValidateClassID(class.Id); err != nil {
+func (p Params) ValidateCompatibility() error {
+	return nil
+}
+
+func (p Params) ValidateBasic() error {
+	if err := p.ValidateCompatibility(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c Class) ValidateCompatibility() error {
+	if c.Id == "" {
+		return sdkerrors.ErrNotSupported.Wrap("nil id")
+	}
+
+	return nil
+}
+
+func (c Class) ValidateBasic() error {
+	if err := c.ValidateCompatibility(); err != nil {
+		return err
+	}
+
+	if err := ValidateClassID(c.Id); err != nil {
 		return err
 	}
 
@@ -32,14 +56,26 @@ func (class Class) ValidateBasic() error {
 }
 
 func ValidateTraitID(id string) error {
-	if len(id) == 0 {
-		return ErrInvalidTraitID.Wrap("empty")
+	return nil
+}
+
+func (t Trait) ValidateCompatibility() error {
+	if t.Id == "" {
+		return sdkerrors.ErrNotSupported.Wrap("nil id")
+	}
+
+	if t.Mutability == Trait_MUTABILITY_UNSPECIFIED {
+		return sdkerrors.ErrNotSupported.Wrap("nil mutability")
 	}
 
 	return nil
 }
 
 func (t Trait) ValidateBasic() error {
+	if err := t.ValidateCompatibility(); err != nil {
+		return err
+	}
+
 	if err := ValidateTraitID(t.Id); err != nil {
 		return err
 	}
@@ -47,17 +83,21 @@ func (t Trait) ValidateBasic() error {
 	return nil
 }
 
-type Traits []Trait
+type Traits []*Trait
 
-func (t Traits) ValidateBasic() error {
+func (ts Traits) ValidateBasic() error {
 	seenIDs := map[string]struct{}{}
-	for _, trait := range t {
+	for i, trait := range ts {
+		if trait == nil {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("nil trait"), "index %d", i)
+		}
+
 		if err := trait.ValidateBasic(); err != nil {
-			return errorsmod.Wrap(err, trait.Id)
+			return errorsmod.Wrapf(err, "index %d", i)
 		}
 
 		if _, seen := seenIDs[trait.Id]; seen {
-			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("duplicate id"), trait.Id)
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("duplicate id"), "index %d", i)
 		}
 		seenIDs[trait.Id] = struct{}{}
 	}
@@ -73,7 +113,23 @@ func ValidateTokenID(id string) error {
 	return nil
 }
 
+func (t Token) ValidateCompatibility() error {
+	if t.ClassId == "" {
+		return sdkerrors.ErrNotSupported.Wrap("nil class id")
+	}
+
+	if t.Id == "" {
+		return sdkerrors.ErrNotSupported.Wrap("nil id")
+	}
+
+	return nil
+}
+
 func (t Token) ValidateBasic() error {
+	if err := t.ValidateCompatibility(); err != nil {
+		return err
+	}
+
 	if err := ValidateClassID(t.ClassId); err != nil {
 		return err
 	}
@@ -85,27 +141,47 @@ func (t Token) ValidateBasic() error {
 	return nil
 }
 
-func (p Property) ValidateBasic() error {
-	if len(p.TraitId) == 0 {
-		return ErrInvalidTraitID.Wrap("empty")
+func (p Property) ValidateCompatibility() error {
+	if p.TraitId == "" {
+		return sdkerrors.ErrNotSupported.Wrap("nil trait id")
+	}
+
+	if p.Fact == "" {
+		return sdkerrors.ErrNotSupported.Wrap("nil fact")
 	}
 
 	return nil
 }
 
-type Properties []Property
+func (p Property) ValidateBasic() error {
+	if err := p.ValidateCompatibility(); err != nil {
+		return err
+	}
 
-func (p Properties) ValidateBasic() error {
-	seenIDs := map[string]struct{}{}
-	for _, property := range p {
+	if err := ValidateTraitID(p.TraitId); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+type Properties []*Property
+
+func (ps Properties) ValidateBasic() error {
+	seenTraitIDs := map[string]struct{}{}
+	for i, property := range ps {
+		if property == nil {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("nil property"), "index %d", i)
+		}
+
 		if err := property.ValidateBasic(); err != nil {
-			return errorsmod.Wrap(err, property.TraitId)
+			return errorsmod.Wrapf(err, "index %d", i)
 		}
 
-		if _, seen := seenIDs[property.TraitId]; seen {
-			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("duplicate trait id"), property.TraitId)
+		if _, seen := seenTraitIDs[property.TraitId]; seen {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("duplicate trait id"), "index %d", i)
 		}
-		seenIDs[property.TraitId] = struct{}{}
+		seenTraitIDs[property.TraitId] = struct{}{}
 	}
 
 	return nil

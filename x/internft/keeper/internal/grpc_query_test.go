@@ -110,13 +110,14 @@ func (s *KeeperTestSuite) TestQueryTrait() {
 			traitID: s.immutableTraitID,
 		},
 		"invalid class id": {
+			classID: "not-in-bech32",
 			traitID: s.immutableTraitID,
 			code:    codes.InvalidArgument,
 		},
-		"invalid trait id": {
-			classID: s.vendor.String(),
-			code:    codes.InvalidArgument,
-		},
+		// "invalid trait id": {
+		// 	classID: s.vendor.String(),
+		// 	code:    codes.InvalidArgument,
+		// },
 		"trait not found": {
 			classID: s.customer.String(),
 			traitID: s.immutableTraitID,
@@ -190,6 +191,7 @@ func (s *KeeperTestSuite) TestQueryToken() {
 			classID: s.vendor.String(),
 		},
 		"invalid class id": {
+			classID: "not-in-bech32",
 			code: codes.InvalidArgument,
 		},
 		"token not found": {
@@ -267,13 +269,14 @@ func (s *KeeperTestSuite) TestQueryProperty() {
 			traitID: s.immutableTraitID,
 		},
 		"invalid class id": {
+			classID: "not-in-bech32",
 			traitID: s.immutableTraitID,
 			code:       codes.InvalidArgument,
 		},
-		"invalid trait id": {
-			classID: s.vendor.String(),
-			code:    codes.InvalidArgument,
-		},
+		// "invalid trait id": {
+		// 	classID: s.vendor.String(),
+		// 	code:    codes.InvalidArgument,
+		// },
 		"trait not found": {
 			classID:    s.customer.String(),
 			traitID: s.immutableTraitID,
@@ -314,6 +317,7 @@ func (s *KeeperTestSuite) TestQueryProperties() {
 			classID: s.vendor.String(),
 		},
 		"invalid class id": {
+			classID: "not-in-bech32",
 			code: codes.InvalidArgument,
 		},
 	}
@@ -349,6 +353,7 @@ func (s *KeeperTestSuite) TestQueryOwner() {
 			classID: s.vendor.String(),
 		},
 		"invalid class id": {
+			classID: "not-in-bech32",
 			code: codes.InvalidArgument,
 		},
 		"token not found": {

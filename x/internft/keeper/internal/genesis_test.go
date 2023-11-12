@@ -44,22 +44,23 @@ func TestImportExportGenesis(t *testing.T) {
 		"all features": {
 			gs: &internftv1alpha1.GenesisState{
 				Params: internftv1alpha1.DefaultParams(),
-				Classes: []internftv1alpha1.GenesisClass{
+				Classes: []*internftv1alpha1.GenesisClass{
 					{
 						Id: classIDs[0],
-						Traits: []internftv1alpha1.Trait{
+						Traits: []*internftv1alpha1.Trait{
 							{
 								Id: "color",
+								Mutability: internftv1alpha1.Trait_MUTABILITY_IMMUTABLE,
 							},
 							{
 								Id:      "level",
-								Variable: true,
+								Mutability: internftv1alpha1.Trait_MUTABILITY_MUTABLE,
 							},
 						},
-						Tokens: []internftv1alpha1.GenesisToken{
+						Tokens: []*internftv1alpha1.GenesisToken{
 							{
 								Id: tokenIDs[0],
-								Properties: []internftv1alpha1.Property{
+								Properties: []*internftv1alpha1.Property{
 									{
 										TraitId:   "color",
 										Fact: "white",
@@ -73,19 +74,23 @@ func TestImportExportGenesis(t *testing.T) {
 							},
 							{
 								Id:    tokenIDs[1],
+								Properties: []*internftv1alpha1.Property{},
 								Owner: addr.String(),
 							},
 						},
 					},
 					{
 						Id:              classIDs[1],
-						Tokens: []internftv1alpha1.GenesisToken{
+						Traits: []*internftv1alpha1.Trait{},
+						Tokens: []*internftv1alpha1.GenesisToken{
 							{
 								Id:    tokenIDs[0],
+								Properties: []*internftv1alpha1.Property{},
 								Owner: addr.String(),
 							},
 							{
 								Id:    tokenIDs[1],
+								Properties: []*internftv1alpha1.Property{},
 								Owner: addr.String(),
 							},
 						},

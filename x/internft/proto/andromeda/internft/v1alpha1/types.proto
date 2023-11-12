@@ -1,8 +1,6 @@
 syntax = "proto3";
 package andromeda.internft.v1alpha1;
 
-import "gogoproto/gogo.proto";
-
 // Params defines the parameters for the module.
 message Params {}
 
@@ -11,8 +9,18 @@ message Trait {
   // the indentifier of the trait
   string id = 1;
 
-  // the flag to tell whether a property value of the trait can be changed or not
-  bool variable = 2;
+  // Mutability defines a flag to tell whether a property value of the trait can be changed or not.
+  enum Mutability {
+	// MUTABILITY_UNSPECIFIED is preserved for unexpected enum values.
+	MUTABILITY_UNSPECIFIED = 0;
+
+	// MUTABILITY_IMMUTABLE indicates the corresponding property is immutable.
+	MUTABILITY_IMMUTABLE = 1;
+
+	// MUTABILITY_MUTABLE indicates the corresponding property is mutable.
+	MUTABILITY_MUTABLE = 2;
+  }
+  Mutability mutability = 2;
 }
 
 // Class defines a classification of token.

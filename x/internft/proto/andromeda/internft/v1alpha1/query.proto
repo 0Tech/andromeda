@@ -4,7 +4,6 @@ package andromeda.internft.v1alpha1;
 import "andromeda/internft/v1alpha1/types.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "cosmos_proto/cosmos.proto";
-import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 
 // Query defines the module's Query service.
@@ -66,7 +65,7 @@ message QueryParamsRequest {}
 // QueryParamsResponse is the response type for the Query/Params RPC method.
 message QueryParamsResponse {
   // the parameters of the module
-  Params params = 1 [(gogoproto.nullable) = false];
+  Params params = 1;
 }
 
 // QueryClassRequest is the request type for the Query/Class RPC method.
@@ -90,7 +89,7 @@ message QueryClassesRequest {
 // QueryClassesResponse is the response type for the Query/Classes RPC method.
 message QueryClassesResponse {
   // all the classes
-  repeated Class classes = 1 [(gogoproto.nullable) = false];
+  repeated Class classes = 1;
 
   // pagination in the response
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
@@ -123,7 +122,7 @@ message QueryTraitsRequest {
 // QueryTraitsResponse is the response type for the Query/Traits RPC method.
 message QueryTraitsResponse {
   // all the traits of the corresponding class
-  repeated Trait traits = 1 [(gogoproto.nullable) = false];
+  repeated Trait traits = 1;
 
   // pagination in the response
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
@@ -156,7 +155,7 @@ message QueryTokensRequest {
 // QueryTokensResponse is the response type for the Query/Tokens RPC method.
 message QueryTokensResponse {
   // all the tokens of the corresponding class
-  repeated Token tokens = 1 [(gogoproto.nullable) = false];
+  repeated Token tokens = 1;
 
   // pagination in the response
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
@@ -195,7 +194,7 @@ message QueryPropertiesRequest {
 // QueryPropertiesResponse is the response type for the Query/Properties RPC method.
 message QueryPropertiesResponse {
   // all the properties of the corresponding token
-  repeated Property properties = 1 [(gogoproto.nullable) = false];
+  repeated Property properties = 1;
 
   // pagination in the response
   cosmos.base.query.v1beta1.PageResponse pagination = 2;

@@ -3,7 +3,6 @@ package andromeda.internft.v1alpha1;
 
 import "andromeda/internft/v1alpha1/types.proto";
 import "cosmos_proto/cosmos.proto";
-import "gogoproto/gogo.proto";
 import "google/protobuf/any.proto";
 
 // EventSend is emitted on Msg/Send.
@@ -15,7 +14,7 @@ message EventSend {
   string receiver = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the token sent
-  Token token = 3 [(gogoproto.nullable) = false];
+  Token token = 3;
 }
 
 // EventNewClass is emitted on Msg/NewClass.
@@ -24,10 +23,10 @@ message EventNewClass {
   string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the new class created
-  Class class = 2 [(gogoproto.nullable) = false];
+  Class class = 2;
 
   // the traits of the new class
-  repeated Trait traits = 3 [(gogoproto.nullable) = false];
+  repeated Trait traits = 3;
 
   // app specific metadata of the new class
   google.protobuf.Any data = 4;
@@ -39,7 +38,7 @@ message EventUpdateClass {
   string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the class updated
-  Class class = 2 [(gogoproto.nullable) = false];
+  Class class = 2;
 
   // app specific metadata of the class
   google.protobuf.Any data = 3;
@@ -54,10 +53,10 @@ message EventNewToken {
   string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the new token created
-  Token token = 3 [(gogoproto.nullable) = false];
+  Token token = 3;
 
   // the properties of the new token
-  repeated Property properties = 4 [(gogoproto.nullable) = false];
+  repeated Property properties = 4;
 }
 
 // EventBurnToken is emitted on Msg/BurnToken.
@@ -66,7 +65,7 @@ message EventBurnToken {
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the token burnt
-  Token token = 2 [(gogoproto.nullable) = false];
+  Token token = 2;
 }
 
 // EventUpdateToken is emitted on Msg/UpdateToken.
@@ -75,8 +74,8 @@ message EventUpdateToken {
   string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the token updated
-  Token token = 2 [(gogoproto.nullable) = false];
+  Token token = 2;
 
   // the new properties
-  repeated Property properties = 3 [(gogoproto.nullable) = false];
+  repeated Property properties = 3;
 }
