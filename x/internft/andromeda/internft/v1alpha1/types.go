@@ -37,7 +37,7 @@ func (p Params) ValidateBasic() error {
 
 func (c Class) ValidateCompatibility() error {
 	if c.Id == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil id")
+		return ErrUnimplemented.Wrap("nil id")
 	}
 
 	return nil
@@ -61,11 +61,11 @@ func ValidateTraitID(id string) error {
 
 func (t Trait) ValidateCompatibility() error {
 	if t.Id == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil id")
+		return ErrUnimplemented.Wrap("nil id")
 	}
 
 	if t.Mutability == Trait_MUTABILITY_UNSPECIFIED {
-		return sdkerrors.ErrNotSupported.Wrap("nil mutability")
+		return ErrUnimplemented.Wrap("nil mutability")
 	}
 
 	return nil
@@ -115,11 +115,11 @@ func ValidateTokenID(id string) error {
 
 func (t Token) ValidateCompatibility() error {
 	if t.ClassId == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil class id")
+		return ErrUnimplemented.Wrap("nil class id")
 	}
 
 	if t.Id == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil id")
+		return ErrUnimplemented.Wrap("nil id")
 	}
 
 	return nil
@@ -143,11 +143,11 @@ func (t Token) ValidateBasic() error {
 
 func (p Property) ValidateCompatibility() error {
 	if p.TraitId == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil trait id")
+		return ErrUnimplemented.Wrap("nil trait id")
 	}
 
 	if p.Fact == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil fact")
+		return ErrUnimplemented.Wrap("nil fact")
 	}
 
 	return nil
@@ -189,7 +189,7 @@ func (ps Properties) ValidateBasic() error {
 
 func ValidateOperator(operator, classID string) error {
 	if operator != classID {
-		return sdkerrors.ErrUnauthorized.Wrapf("%s over class %s", operator, classID)
+		return errorsmod.Wrap(ErrPermissionDenied.Wrapf("not operator of class %s", classID), operator)
 	}
 
 	return nil

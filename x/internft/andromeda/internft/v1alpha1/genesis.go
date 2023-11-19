@@ -20,15 +20,15 @@ func DefaultParams() *Params {
 
 func (t GenesisToken) ValidateCompatibility() error {
 	if t.Id == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil id")
+		return ErrUnimplemented.Wrap("nil id")
 	}
 
 	if t.Properties == nil {
-		return sdkerrors.ErrNotSupported.Wrap("nil properties")
+		return ErrUnimplemented.Wrap("nil properties")
 	}
 
 	if t.Owner == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil owner")
+		return ErrUnimplemented.Wrap("nil owner")
 	}
 
 	return nil
@@ -80,15 +80,15 @@ func (ts GenesisTokens) ValidateBasic(traitIDs map[string]struct{}) error {
 
 func (c GenesisClass) ValidateCompatibility() error {
 	if c.Id == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil id")
+		return ErrUnimplemented.Wrap("nil id")
 	}
 
 	if c.Traits == nil {
-		return sdkerrors.ErrNotSupported.Wrap("nil traits")
+		return ErrUnimplemented.Wrap("nil traits")
 	}
 
 	if c.Tokens == nil {
-		return sdkerrors.ErrNotSupported.Wrap("nil tokens")
+		return ErrUnimplemented.Wrap("nil tokens")
 	}
 
 	return nil
@@ -139,11 +139,11 @@ func (cs GenesisClasses) ValidateBasic() error {
 
 func (s GenesisState) ValidateCompatibility() error {
 	if s.Params == nil {
-		return sdkerrors.ErrNotSupported.Wrap("nil params")
+		return ErrUnimplemented.Wrap("nil params")
 	}
 
 	if s.Classes == nil {
-		return sdkerrors.ErrNotSupported.Wrap("nil classes")
+		return ErrUnimplemented.Wrap("nil classes")
 	}
 
 	return nil

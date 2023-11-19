@@ -2,21 +2,19 @@ package internftv1alpha1
 
 import (
 	errorsmod "cosmossdk.io/errors"
-
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (m MsgSend) ValidateCompatibility() error {
 	if m.Sender == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil sender")
+		return ErrUnimplemented.Wrap("nil sender")
 	}
 
 	if m.Recipient == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil recipient")
+		return ErrUnimplemented.Wrap("nil recipient")
 	}
 
 	if m.Token == nil {
-		return sdkerrors.ErrNotSupported.Wrap("nil token")
+		return ErrUnimplemented.Wrap("nil token")
 	}
 
 	return nil
@@ -44,18 +42,22 @@ func (m MsgSend) ValidateBasic() error {
 
 func (m MsgNewClass) ValidateCompatibility() error {
 	if m.Operator == "" {
-		return sdkerrors.ErrNotSupported.Wrap("nil operator")
+		return ErrUnimplemented.Wrap("nil operator")
 	}
 
 	if m.Class == nil {
-		return sdkerrors.ErrNotSupported.Wrap("nil class")
+		return ErrUnimplemented.Wrap("nil class")
 	}
 
 	if m.Traits == nil {
-		return sdkerrors.ErrNotSupported.Wrap("nil traits")
+		return ErrUnimplemented.Wrap("nil traits")
 	}
 
-	// TODO: data
+	// TODO(@0Tech): data
+	// if m.Data == nil {
+	// 	return ErrUnimplemented.Wrap("nil data")
+	// }
+
 	return nil
 }
 
@@ -76,15 +78,31 @@ func (m MsgNewClass) ValidateBasic() error {
 		return errorsmod.Wrap(err, "traits")
 	}
 
-	if err := ValidateOperator(m.Operator, m.Class.Id); err != nil {
-		return err
+	return nil
+}
+
+func (m MsgUpdateClass) ValidateCompatibility() error {
+	if m.Operator == "" {
+		return ErrUnimplemented.Wrap("nil operator")
 	}
+
+	if m.Class == nil {
+		return ErrUnimplemented.Wrap("nil class")
+	}
+
+	// TODO(@0Tech): data
+	// if m.Data == nil {
+	// 	return ErrUnimplemented.Wrap("nil data")
+	// }
 
 	return nil
 }
 
-// ValidateBasic implements Msg.
 func (m MsgUpdateClass) ValidateBasic() error {
+	if err := m.ValidateCompatibility(); err != nil {
+		return err
+	}
+
 	if err := ValidateAddress(m.Operator); err != nil {
 		return errorsmod.Wrap(err, "operator")
 	}
@@ -93,15 +111,34 @@ func (m MsgUpdateClass) ValidateBasic() error {
 		return errorsmod.Wrap(err, "class")
 	}
 
-	if err := ValidateOperator(m.Operator, m.Class.Id); err != nil {
-		return err
+	return nil
+}
+
+func (m MsgNewToken) ValidateCompatibility() error {
+	if m.Operator == "" {
+		return ErrUnimplemented.Wrap("nil operator")
+	}
+
+	if m.Recipient == "" {
+		return ErrUnimplemented.Wrap("nil recipient")
+	}
+
+	if m.Token == nil {
+		return ErrUnimplemented.Wrap("nil token")
+	}
+
+	if m.Properties == nil {
+		return ErrUnimplemented.Wrap("nil properties")
 	}
 
 	return nil
 }
 
-// ValidateBasic implements Msg.
 func (m MsgNewToken) ValidateBasic() error {
+	if err := m.ValidateCompatibility(); err != nil {
+		return err
+	}
+
 	if err := ValidateAddress(m.Operator); err != nil {
 		return errorsmod.Wrap(err, "operator")
 	}
@@ -118,15 +155,26 @@ func (m MsgNewToken) ValidateBasic() error {
 		return errorsmod.Wrap(err, "properties")
 	}
 
-	if err := ValidateOperator(m.Operator, m.Token.ClassId); err != nil {
-		return err
+	return nil
+}
+
+func (m MsgBurnToken) ValidateCompatibility() error {
+	if m.Owner == "" {
+		return ErrUnimplemented.Wrap("nil owner")
+	}
+
+	if m.Token == nil {
+		return ErrUnimplemented.Wrap("nil token")
 	}
 
 	return nil
 }
 
-// ValidateBasic implements Msg.
 func (m MsgBurnToken) ValidateBasic() error {
+	if err := m.ValidateCompatibility(); err != nil {
+		return err
+	}
+
 	if err := ValidateAddress(m.Owner); err != nil {
 		return errorsmod.Wrap(err, "owner")
 	}
@@ -138,18 +186,33 @@ func (m MsgBurnToken) ValidateBasic() error {
 	return nil
 }
 
-// ValidateBasic implements Msg.
+func (m MsgUpdateToken) ValidateCompatibility() error {
+	if m.Owner == "" {
+		return ErrUnimplemented.Wrap("nil owner")
+	}
+
+	if m.Token == nil {
+		return ErrUnimplemented.Wrap("nil token")
+	}
+
+	if m.Properties == nil {
+		return ErrUnimplemented.Wrap("nil properties")
+	}
+
+	return nil
+}
+
 func (m MsgUpdateToken) ValidateBasic() error {
+	if err := m.ValidateCompatibility(); err != nil {
+		return err
+	}
+
 	if err := ValidateAddress(m.Owner); err != nil {
 		return errorsmod.Wrap(err, "owner")
 	}
 
 	if err := m.Token.ValidateBasic(); err != nil {
 		return err
-	}
-
-	if len(m.Properties) == 0 {
-		return sdkerrors.ErrInvalidRequest.Wrap("empty properties")
 	}
 
 	if err := Properties(m.Properties).ValidateBasic(); err != nil {

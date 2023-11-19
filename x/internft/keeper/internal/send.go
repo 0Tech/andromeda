@@ -23,7 +23,7 @@ func (k Keeper) Send(ctx context.Context, sender, recipient sdk.AccAddress, toke
 
 func (k Keeper) validateOwner(ctx context.Context, token *internftv1alpha1.Token, owner sdk.AccAddress) error {
 	if actual, err := k.getOwner(ctx, token); err != nil || !owner.Equals(actual) {
-		return errorsmod.Wrap(internftv1alpha1.ErrInsufficientToken.Wrap("not owns token"), token.String())
+		return errorsmod.Wrap(internftv1alpha1.ErrPermissionDenied.Wrapf("not owner of %s", token), owner.String())
 	}
 
 	return nil

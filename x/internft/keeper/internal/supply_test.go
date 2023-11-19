@@ -374,7 +374,7 @@ func (s *KeeperTestSuite) TestBurnToken() {
 					subject.owner = s.vendor
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientToken
+					return internftv1alpha1.ErrPermissionDenied
 				},
 			},
 			"by other": {
@@ -382,7 +382,7 @@ func (s *KeeperTestSuite) TestBurnToken() {
 					subject.owner = s.stranger
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientToken
+					return internftv1alpha1.ErrPermissionDenied
 				},
 			},
 		},
@@ -401,7 +401,7 @@ func (s *KeeperTestSuite) TestBurnToken() {
 					}
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientToken
+					return internftv1alpha1.ErrPermissionDenied
 				},
 			},
 		},
@@ -416,7 +416,7 @@ func (s *KeeperTestSuite) TestBurnToken() {
 					subject.token.Id = s.tokenIDs[s.stranger.String()]
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientToken
+					return internftv1alpha1.ErrPermissionDenied
 				},
 			},
 		},

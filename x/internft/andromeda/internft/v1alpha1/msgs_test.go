@@ -17,7 +17,7 @@ func TestMsgSend(t *testing.T) {
 		{
 			"nil sender": {
 				err: func() error {
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"valid sender": {
@@ -37,7 +37,7 @@ func TestMsgSend(t *testing.T) {
 		{
 			"nil recipient": {
 				err: func() error {
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"valid recipient": {
@@ -45,7 +45,7 @@ func TestMsgSend(t *testing.T) {
 					subject.Recipient = createAddresses(2, "addr")[1].String()
 				},
 			},
-			"invalid sender": {
+			"invalid recipient": {
 				malleate: func(subject *internftv1alpha1.MsgSend) {
 					subject.Recipient = "not-in-bech32"
 				},
@@ -64,7 +64,7 @@ func TestMsgSend(t *testing.T) {
 					addedToken = false
 				},
 				err: func() error {
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"[non-nil token": {
@@ -80,7 +80,7 @@ func TestMsgSend(t *testing.T) {
 					if !addedToken {
 						return nil
 					}
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"valid class id": {
@@ -112,7 +112,7 @@ func TestMsgSend(t *testing.T) {
 					if !addedToken {
 						return nil
 					}
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"valid token id]": {
@@ -151,7 +151,7 @@ func TestMsgNewClass(t *testing.T) {
 		{
 			"nil operator": {
 				err: func() error {
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"valid operator": {
@@ -178,7 +178,7 @@ func TestMsgNewClass(t *testing.T) {
 					addedClass = false
 				},
 				err: func() error {
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"[non-nil class": {
@@ -194,7 +194,7 @@ func TestMsgNewClass(t *testing.T) {
 					if !addedClass {
 						return nil
 					}
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"valid class id]": {
@@ -219,20 +219,6 @@ func TestMsgNewClass(t *testing.T) {
 					return internftv1alpha1.ErrInvalidClassID
 				},
 			},
-			"unauthorized class id]": {
-				malleate: func(subject *internftv1alpha1.MsgNewClass) {
-					if !addedClass {
-						return
-					}
-					subject.Class.Id = createAddresses(2, "addr")[1].String()
-				},
-				err: func() error {
-					if !addedClass {
-						return nil
-					}
-					return sdkerrors.ErrUnauthorized
-				},
-			},
 		},
 	}...)
 
@@ -243,7 +229,7 @@ func TestMsgNewClass(t *testing.T) {
 				addedTraits = false
 			},
 			err: func() error {
-				return sdkerrors.ErrNotSupported
+				return internftv1alpha1.ErrUnimplemented
 			},
 		},
 		"non-nil traits": {
@@ -280,7 +266,7 @@ func TestMsgNewClass(t *testing.T) {
 						if !addedTrait {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"valid id": {
@@ -298,7 +284,7 @@ func TestMsgNewClass(t *testing.T) {
 						if !addedTrait {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"immutable]": {
@@ -350,7 +336,7 @@ func TestMsgNewClass(t *testing.T) {
 						if !addedDuplicateTrait {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"valid id": {
@@ -368,7 +354,7 @@ func TestMsgNewClass(t *testing.T) {
 						if !addedDuplicateTrait {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"immutable]": {
@@ -395,176 +381,313 @@ func TestMsgNewClass(t *testing.T) {
 }
 
 func TestMsgUpdateClass(t *testing.T) {
-	return
 	tester := func(subject internftv1alpha1.MsgUpdateClass) error {
 		return subject.ValidateBasic()
 	}
 	cases := []map[string]Case[internftv1alpha1.MsgUpdateClass]{
 		{
+			"nil operator": {
+				err: func() error {
+					return internftv1alpha1.ErrUnimplemented
+				},
+			},
 			"valid operator": {
 				malleate: func(subject *internftv1alpha1.MsgUpdateClass) {
 					subject.Operator = createAddresses(2, "addr")[0].String()
 				},
 			},
-			"empty operator": {
+			"invalid operator": {
+				malleate: func(subject *internftv1alpha1.MsgUpdateClass) {
+					subject.Operator = "not-in-bech32"
+				},
 				err: func() error {
 					return sdkerrors.ErrInvalidAddress
 				},
 			},
 		},
+	}
+
+	addedClass := false
+	cases = append(cases, []map[string]Case[internftv1alpha1.MsgUpdateClass]{
 		{
-			"valid class id": {
+			"[nil class": {
 				malleate: func(subject *internftv1alpha1.MsgUpdateClass) {
-					subject.Class.Id = createAddresses(2, "addr")[0].String()
-				},
-			},
-			"empty class id": {
-				err: func() error {
-					return internftv1alpha1.ErrInvalidClassID
-				},
-			},
-			"unauthorized class id": {
-				malleate: func(subject *internftv1alpha1.MsgUpdateClass) {
-					subject.Class.Id = createAddresses(2, "addr")[1].String()
+					addedClass = false
 				},
 				err: func() error {
-					return sdkerrors.ErrUnauthorized
+					return internftv1alpha1.ErrUnimplemented
+				},
+			},
+			"[non-nil class": {
+				malleate: func(subject *internftv1alpha1.MsgUpdateClass) {
+					addedClass = true
+					subject.Class = &internftv1alpha1.Class{}
 				},
 			},
 		},
-	}
+		{
+			"nil class id]": {
+				err: func() error {
+					if !addedClass {
+						return nil
+					}
+					return internftv1alpha1.ErrUnimplemented
+				},
+			},
+			"valid class id]": {
+				malleate: func(subject *internftv1alpha1.MsgUpdateClass) {
+					if !addedClass {
+						return
+					}
+					subject.Class.Id = createAddresses(2, "addr")[0].String()
+				},
+			},
+			"invalid class id]": {
+				malleate: func(subject *internftv1alpha1.MsgUpdateClass) {
+					if !addedClass {
+						return
+					}
+					subject.Class.Id = "not-in-bech32"
+				},
+				err: func() error {
+					if !addedClass {
+						return nil
+					}
+					return internftv1alpha1.ErrInvalidClassID
+				},
+			},
+		},
+	}...)
 
 	doTest(t, tester, cases)
 }
 
 func TestMsgNewToken(t *testing.T) {
-	return
 	tester := func(subject internftv1alpha1.MsgNewToken) error {
 		return subject.ValidateBasic()
 	}
 	cases := []map[string]Case[internftv1alpha1.MsgNewToken]{
 		{
+			"nil operator": {
+				err: func() error {
+					return internftv1alpha1.ErrUnimplemented
+				},
+			},
 			"valid operator": {
 				malleate: func(subject *internftv1alpha1.MsgNewToken) {
 					subject.Operator = createAddresses(2, "addr")[0].String()
 				},
 			},
-			"empty operator": {
+			"invalid operator": {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					subject.Operator = "not-in-bech32"
+				},
 				err: func() error {
 					return sdkerrors.ErrInvalidAddress
 				},
 			},
 		},
 		{
+			"nil recipient": {
+				err: func() error {
+					return internftv1alpha1.ErrUnimplemented
+				},
+			},
 			"valid recipient": {
-				malleate: func(subject *internftv1alpha1.MsgNewToken)  {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
 					subject.Recipient = createAddresses(2, "addr")[1].String()
 				},
 			},
-			"empty recipient": {
+			"invalid recipient": {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					subject.Recipient = "not-in-bech32"
+				},
 				err: func() error {
 					return sdkerrors.ErrInvalidAddress
-				},
-			},
-		},
-		{
-			"valid class id": {
-				malleate: func(subject *internftv1alpha1.MsgNewToken) {
-					subject.Token.ClassId = createAddresses(2, "addr")[0].String()
-				},
-			},
-			"empty class id": {
-				err: func() error {
-					return internftv1alpha1.ErrInvalidClassID
-				},
-			},
-			"unauthorized class id": {
-				malleate: func(subject *internftv1alpha1.MsgNewToken) {
-					subject.Token.ClassId = createAddresses(2, "addr")[1].String()
-				},
-				err: func() error {
-					return sdkerrors.ErrUnauthorized
-				},
-			},
-		},
-		{
-			"valid token id": {
-				malleate: func(subject *internftv1alpha1.MsgNewToken) {
-					subject.Token.Id = createIDs(1, "token")[0]
-				},
-			},
-			"empty token id": {
-				err: func() error {
-					return internftv1alpha1.ErrInvalidTokenID
 				},
 			},
 		},
 	}
 
+	addedToken := false
+	cases = append(cases, []map[string]Case[internftv1alpha1.MsgNewToken]{
+		{
+			"[nil token": {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					addedToken = false
+				},
+				err: func() error {
+					return internftv1alpha1.ErrUnimplemented
+				},
+			},
+			"[non-nil token": {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					addedToken = true
+					subject.Token = &internftv1alpha1.Token{}
+				},
+			},
+		},
+		{
+			"nil class id": {
+				err: func() error {
+					if !addedToken {
+						return nil
+					}
+					return internftv1alpha1.ErrUnimplemented
+				},
+			},
+			"valid class id": {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					if !addedToken {
+						return
+					}
+					subject.Token.ClassId = createIDs(1, "class")[0]
+				},
+			},
+			"invalid class id": {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					if !addedToken {
+						return
+					}
+					subject.Token.ClassId = "not-in-bech32"
+				},
+				err: func() error {
+					if !addedToken {
+						return nil
+					}
+					return internftv1alpha1.ErrInvalidClassID
+				},
+			},
+		},
+		{
+			"nil token id]": {
+				err: func() error {
+					if !addedToken {
+						return nil
+					}
+					return internftv1alpha1.ErrUnimplemented
+				},
+			},
+			"valid token id]": {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					if !addedToken {
+						return
+					}
+					subject.Token.Id = createIDs(1, "token")[0]
+				},
+			},
+			"invalid token id]": {
+				malleate: func(subject *internftv1alpha1.MsgNewToken) {
+					if !addedToken {
+						return
+					}
+					subject.Token.Id = "not-in-bech32"
+				},
+				err: func() error {
+					if !addedToken {
+						return nil
+					}
+					return internftv1alpha1.ErrInvalidTokenID
+				},
+			},
+		},
+	}...)
+
+	addedProperties := false
+	cases = append(cases, map[string]Case[internftv1alpha1.MsgNewToken]{
+		"nil properties": {
+			malleate: func(_ *internftv1alpha1.MsgNewToken) {
+				addedProperties = false
+			},
+			err: func() error {
+				return internftv1alpha1.ErrUnimplemented
+			},
+		},
+		"non-nil properties": {
+			malleate: func(subject *internftv1alpha1.MsgNewToken) {
+				addedProperties = true
+				subject.Properties = []*internftv1alpha1.Property{}
+			},
+		},
+	})
 	for i := 0; i < 2; i++ {
 		traitID := fmt.Sprintf("trait%02d", i)
 		fact := fmt.Sprintf("fact%02d", i)
 
-		added := false
+		addedProperty := false
 		cases = append(cases, []map[string]Case[internftv1alpha1.MsgNewToken]{
 			{
-				"no property": {
+				"[nil property": {
 					malleate: func(subject *internftv1alpha1.MsgNewToken) {
-						added = false
+						addedProperty = false
 					},
 				},
-				"add property": {
+				"[non-nil property": {
 					malleate: func(subject *internftv1alpha1.MsgNewToken) {
-						added = true
+						if !addedProperties {
+							return
+						}
+						addedProperty = true
 						subject.Properties = append(subject.Properties, &internftv1alpha1.Property{})
 					},
 				},
 			},
 			{
-				"of valid id": {
-					malleate: func(subject *internftv1alpha1.MsgNewToken) {
-						if added {
-							subject.Properties[len(subject.Properties) - 1].TraitId = traitID
+				"nil trait id": {
+					err: func() error {
+						if !addedProperty {
+							return nil
 						}
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
-				"of empty id": {
-					err: func() error {
-						if added {
-							return internftv1alpha1.ErrInvalidTraitID
+				"valid trait id": {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
+						if !addedProperty {
+							return
 						}
-						return nil
+						subject.Properties[len(subject.Properties) - 1].TraitId = traitID
 					},
 				},
 			},
 			{
-				"with no fact": {
-				},
-				"with fact": {
-					malleate: func(subject *internftv1alpha1.MsgNewToken) {
-						if added {
-							subject.Properties[len(subject.Properties) - 1].Fact = fact
+				"nil fact]": {
+					err: func() error {
+						if !addedProperty {
+							return nil
 						}
+						return internftv1alpha1.ErrUnimplemented
+					},
+				},
+				"valid fact]": {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
+						if !addedProperty {
+							return
+						}
+						subject.Properties[len(subject.Properties) - 1].Fact = fact
 					},
 				},
 			},
 		}...)
 
-		addedDup := false
+		addedDuplicateProperty := false
 		cases = append(cases, []map[string]Case[internftv1alpha1.MsgNewToken]{
 			{
-				"no duplicate property": {
+				"[no duplicate property": {
 					malleate: func(subject *internftv1alpha1.MsgNewToken) {
-						addedDup = false
+						addedDuplicateProperty = false
 					},
 				},
-				"add duplicate property": {
+				"[duplicate property": {
 					malleate: func(subject *internftv1alpha1.MsgNewToken) {
-						addedDup = true
+						if !addedProperty {
+							return
+						}
+						addedDuplicateProperty = true
 						subject.Properties = append(subject.Properties, &internftv1alpha1.Property{})
 					},
 					err: func() error {
-						if added && addedDup {
+						if addedDuplicateProperty {
 							return sdkerrors.ErrInvalidRequest
 						}
 						return nil
@@ -572,30 +695,38 @@ func TestMsgNewToken(t *testing.T) {
 				},
 			},
 			{
-				"of valid id": {
-					malleate: func(subject *internftv1alpha1.MsgNewToken) {
-						if addedDup {
-							subject.Properties[len(subject.Properties) - 1].TraitId = traitID
+				"nil trait id": {
+					err: func() error {
+						if !addedDuplicateProperty {
+							return nil
 						}
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
-				"of empty id": {
-					err: func() error {
-						if addedDup {
-							return internftv1alpha1.ErrInvalidTraitID
+				"valid trait id": {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
+						if !addedDuplicateProperty {
+							return
 						}
-						return nil
+						subject.Properties[len(subject.Properties) - 1].TraitId = traitID
 					},
 				},
 			},
 			{
-				"with no fact": {
-				},
-				"with fact": {
-					malleate: func(subject *internftv1alpha1.MsgNewToken) {
-						if addedDup {
-							subject.Properties[len(subject.Properties) - 1].Fact = fact
+				"nil fact]": {
+					err: func() error {
+						if !addedDuplicateProperty {
+							return nil
 						}
+						return internftv1alpha1.ErrUnimplemented
+					},
+				},
+				"valid fact]": {
+					malleate: func(subject *internftv1alpha1.MsgNewToken) {
+						if !addedDuplicateProperty {
+							return
+						}
+						subject.Properties[len(subject.Properties) - 1].Fact = fact
 					},
 				},
 			},
@@ -725,19 +856,19 @@ func TestMsgUpdateToken(t *testing.T) {
 				},
 			},
 			{
+				"of nil id": {
+					err: func() error {
+						if added {
+							return internftv1alpha1.ErrUnimplemented
+						}
+						return nil
+					},
+				},
 				"of valid id": {
 					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						if added {
 							subject.Properties[len(subject.Properties) - 1].TraitId = traitID
 						}
-					},
-				},
-				"of empty id": {
-					err: func() error {
-						if added {
-							return internftv1alpha1.ErrInvalidTraitID
-						}
-						return nil
 					},
 				},
 			},
@@ -777,19 +908,19 @@ func TestMsgUpdateToken(t *testing.T) {
 				},
 			},
 			{
+				"of nil id": {
+					err: func() error {
+						if addedDup {
+							return internftv1alpha1.ErrUnimplemented
+						}
+						return nil
+					},
+				},
 				"of valid id": {
 					malleate: func(subject *internftv1alpha1.MsgUpdateToken) {
 						if addedDup {
 							subject.Properties[len(subject.Properties) - 1].TraitId = traitID
 						}
-					},
-				},
-				"of empty id": {
-					err: func() error {
-						if addedDup {
-							return internftv1alpha1.ErrInvalidTraitID
-						}
-						return nil
 					},
 				},
 			},

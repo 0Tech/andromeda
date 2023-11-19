@@ -104,7 +104,7 @@ func TestClass(t *testing.T) {
 		{
 			"nil id": {
 				err: func() error {
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"valid id": {
@@ -159,7 +159,7 @@ func TestTraits(t *testing.T) {
 						if !added {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"valid id": {
@@ -177,7 +177,7 @@ func TestTraits(t *testing.T) {
 						if !added {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"immutable]": {
@@ -229,7 +229,7 @@ func TestTraits(t *testing.T) {
 						if !AddedDuplicate {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"valid id": {
@@ -247,7 +247,7 @@ func TestTraits(t *testing.T) {
 						if !AddedDuplicate {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"immutable]": {
@@ -281,7 +281,7 @@ func TestToken(t *testing.T) {
 		{
 			"nil class id": {
 				err: func() error {
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"valid class id": {
@@ -301,7 +301,7 @@ func TestToken(t *testing.T) {
 		{
 			"nil token id": {
 				err: func() error {
-					return sdkerrors.ErrNotSupported
+					return internftv1alpha1.ErrUnimplemented
 				},
 			},
 			"valid token id": {
@@ -357,7 +357,7 @@ func TestProperties(t *testing.T) {
 						if !added {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"valid trait id": {
@@ -375,7 +375,7 @@ func TestProperties(t *testing.T) {
 						if !added {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"valid fact]": {
@@ -419,7 +419,7 @@ func TestProperties(t *testing.T) {
 						if !addedDuplicate {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"valid trait id": {
@@ -437,7 +437,7 @@ func TestProperties(t *testing.T) {
 						if !addedDuplicate {
 							return nil
 						}
-						return sdkerrors.ErrNotSupported
+						return internftv1alpha1.ErrUnimplemented
 					},
 				},
 				"valid fact]": {

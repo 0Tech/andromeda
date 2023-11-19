@@ -42,6 +42,10 @@ func (s msgServer) Send(ctx context.Context, req *internftv1alpha1.MsgSend) (*in
 }
 
 func (s msgServer) NewClass(ctx context.Context, req *internftv1alpha1.MsgNewClass) (*internftv1alpha1.MsgNewClassResponse, error) {
+	if err := internftv1alpha1.ValidateOperator(req.Operator, req.Class.Id); err != nil {
+		return nil, err
+	}
+
 	if err := s.keeper.NewClass(ctx, req.Class, req.Traits); err != nil {
 		return nil, err
 	}
@@ -58,6 +62,10 @@ func (s msgServer) NewClass(ctx context.Context, req *internftv1alpha1.MsgNewCla
 }
 
 func (s msgServer) UpdateClass(ctx context.Context, req *internftv1alpha1.MsgUpdateClass) (*internftv1alpha1.MsgUpdateClassResponse, error) {
+	if err := internftv1alpha1.ValidateOperator(req.Operator, req.Class.Id); err != nil {
+		return nil, err
+	}
+
 	// TODO: data
 
 	if err := s.keeper.UpdateClass(ctx, req.Class); err != nil {
@@ -65,6 +73,7 @@ func (s msgServer) UpdateClass(ctx context.Context, req *internftv1alpha1.MsgUpd
 	}
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventUpdateClass{
+		Operator: req.Operator,
 		Class: req.Class,
 		Data:  req.Data,
 	}); err != nil {
@@ -75,6 +84,10 @@ func (s msgServer) UpdateClass(ctx context.Context, req *internftv1alpha1.MsgUpd
 }
 
 func (s msgServer) NewToken(ctx context.Context, req *internftv1alpha1.MsgNewToken) (*internftv1alpha1.MsgNewTokenResponse, error) {
+	if err := internftv1alpha1.ValidateOperator(req.Operator, req.Token.ClassId); err != nil {
+		return nil, err
+	}
+
 	recipient := sdk.MustAccAddressFromBech32(req.Recipient)
 
 	if err := s.keeper.NewToken(ctx, recipient, req.Token, req.Properties); err != nil {

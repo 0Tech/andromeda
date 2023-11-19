@@ -14,9 +14,9 @@ func (s *KeeperTestSuite) TestMsgSend() {
 		"valid request": {
 			tokenID: s.tokenIDs[s.vendor.String()],
 		},
-		"insufficient funds": {
+		"not the owner": {
 			tokenID:  s.tokenIDs[s.customer.String()],
-			err: internftv1alpha1.ErrInsufficientToken,
+			err: internftv1alpha1.ErrPermissionDenied,
 		},
 	}
 
@@ -53,6 +53,10 @@ func (s *KeeperTestSuite) TestMsgNewClass() {
 		"valid request": {
 			operator: s.customer,
 		},
+		// "not the operator": {
+		// 	operator: s.customer,
+		// 	err:   internftv1alpha1.ErrPermissionDenied,
+		// },
 		"class already exists": {
 			operator: s.vendor,
 			err:   internftv1alpha1.ErrClassAlreadyExists,
@@ -91,6 +95,10 @@ func (s *KeeperTestSuite) TestMsgUpdateClass() {
 		"valid request": {
 			classID: s.vendor.String(),
 		},
+		// "not the operator": {
+		// 	classID: s.vendor.String(),
+		// 	err:     internftv1alpha1.ErrPermissionDenied,
+		// },
 		"class not found": {
 			classID: s.customer.String(),
 			err:     internftv1alpha1.ErrClassNotFound,
@@ -129,6 +137,10 @@ func (s *KeeperTestSuite) TestMsgNewToken() {
 		"valid request": {
 			classID: s.vendor.String(),
 		},
+		// "not the operator": {
+		// 	classID: s.customer.String(),
+		// 	err:     internftv1alpha1.ErrPermissionDenied,
+		// },
 		"class not found": {
 			classID: s.customer.String(),
 			err:     internftv1alpha1.ErrClassNotFound,
@@ -174,9 +186,9 @@ func (s *KeeperTestSuite) TestMsgBurnToken() {
 		"valid request": {
 			tokenID: s.tokenIDs[s.vendor.String()],
 		},
-		"insufficient token": {
+		"not the owner": {
 			tokenID: s.tokenIDs[s.customer.String()],
-			err: internftv1alpha1.ErrInsufficientToken,
+			err: internftv1alpha1.ErrPermissionDenied,
 		},
 	}
 
@@ -214,7 +226,7 @@ func (s *KeeperTestSuite) TestMsgUpdateToken() {
 		},
 		"not the owner": {
 			tokenID: s.tokenIDs[s.stranger.String()],
-			err: internftv1alpha1.ErrInsufficientToken,
+			err: internftv1alpha1.ErrPermissionDenied,
 		},
 	}
 

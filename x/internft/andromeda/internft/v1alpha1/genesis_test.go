@@ -94,7 +94,7 @@ func TestGenesisState(t *testing.T) {
 					},
 				},
 			},
-			err: sdkerrors.ErrNotSupported,
+			err: internftv1alpha1.ErrUnimplemented,
 		},
 		"duplicate class": {
 			s: internftv1alpha1.GenesisState{
@@ -159,7 +159,7 @@ func TestGenesisState(t *testing.T) {
 					},
 				},
 			},
-			err: sdkerrors.ErrNotSupported,
+			err: internftv1alpha1.ErrUnimplemented,
 		},
 		"no corresponding trait": {
 			s: internftv1alpha1.GenesisState{

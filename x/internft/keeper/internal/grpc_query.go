@@ -32,6 +32,10 @@ func (s queryServer) Params(ctx context.Context, req *internftv1alpha1.QueryPara
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
+	if err := req.ValidateBasic(); err != nil {
+		return nil, err
+	}
+
 	params := s.keeper.GetParams(ctx)
 
 	return &internftv1alpha1.QueryParamsResponse{

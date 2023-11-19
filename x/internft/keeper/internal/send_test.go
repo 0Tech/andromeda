@@ -64,7 +64,7 @@ func (s *KeeperTestSuite) TestSend() {
 					subject.sender = s.stranger
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientToken
+					return internftv1alpha1.ErrPermissionDenied
 				},
 			},
 		},
@@ -95,7 +95,7 @@ func (s *KeeperTestSuite) TestSend() {
 					}
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientToken
+					return internftv1alpha1.ErrPermissionDenied
 				},
 			},
 		},
@@ -110,7 +110,7 @@ func (s *KeeperTestSuite) TestSend() {
 					subject.token.Id = s.tokenIDs[s.stranger.String()]
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInsufficientToken
+					return internftv1alpha1.ErrPermissionDenied
 				},
 			},
 		},
