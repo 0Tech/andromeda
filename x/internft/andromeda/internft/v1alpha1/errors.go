@@ -12,14 +12,12 @@ const errorCodespace = ModuleName
 const (
 	_ uint32 = iota + 1 << 1 - 1
 	errorCodeUnimplemented
-	errorCodeInvalidClassID
-	errorCodeInvalidTokenID
+	errorCodeInvalidID
 )
 
 var (
 	ErrUnimplemented = errors.RegisterWithGRPCCode(errorCodespace, errorCodeUnimplemented, codes.Unimplemented, "unimplemented request")
-	ErrInvalidClassID     = errors.RegisterWithGRPCCode(errorCodespace, errorCodeInvalidClassID, codes.InvalidArgument, "invalid class id")
-	ErrInvalidTokenID       = errors.RegisterWithGRPCCode(errorCodespace, errorCodeInvalidTokenID, codes.InvalidArgument, "invalid token id")
+	ErrInvalidID     = errors.RegisterWithGRPCCode(errorCodespace, errorCodeInvalidID, codes.InvalidArgument, "invalid id")
 )
 
 // stateful errors
@@ -30,6 +28,7 @@ const (
 	errorCodeTraitNotFound
 	errorCodeTraitImmutable
 	errorCodeTokenNotFound
+	errorCodeTokenAlreadyExists
 	errorCodePermissionDenied
 )
 
@@ -39,5 +38,6 @@ var (
 	ErrTraitNotFound      = errors.RegisterWithGRPCCode(errorCodespace, errorCodeTraitNotFound, codes.NotFound, "trait not found")
 	ErrTraitImmutable     = errors.RegisterWithGRPCCode(errorCodespace, errorCodeTraitImmutable, codes.FailedPrecondition, "trait immutable")
 	ErrTokenNotFound        = errors.RegisterWithGRPCCode(errorCodespace, errorCodeTokenNotFound, codes.NotFound, "token not found")
+	ErrTokenAlreadyExists = errors.RegisterWithGRPCCode(errorCodespace, errorCodeTokenAlreadyExists, codes.AlreadyExists, "token already exists")
 	ErrPermissionDenied = errors.RegisterWithGRPCCode(errorCodespace, errorCodePermissionDenied, codes.PermissionDenied, "permission denied")
 )

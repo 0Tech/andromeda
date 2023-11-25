@@ -4,7 +4,10 @@ func (q QueryParamsRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryParamsRequest) ValidateBasic() error {
+type QueryParamsInternal struct {
+}
+
+func (qi *QueryParamsInternal) Parse(q QueryParamsRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
@@ -20,12 +23,16 @@ func (q QueryClassRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryClassRequest) ValidateBasic() error {
+type QueryClassInternal struct {
+	ClassID ID
+}
+
+func (qi *QueryClassInternal) Parse(q QueryClassRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateClassID(q.ClassId); err != nil {
+	if err := qi.ClassID.Parse(q.ClassId); err != nil {
 		return err
 	}
 
@@ -36,7 +43,10 @@ func (q QueryClassesRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryClassesRequest) ValidateBasic() error {
+type QueryClassesInternal struct {
+}
+
+func (qi *QueryClassesInternal) Parse(q QueryClassesRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
@@ -56,12 +66,21 @@ func (q QueryTraitRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryTraitRequest) ValidateBasic() error {
+type QueryTraitInternal struct {
+	ClassID ID
+	TraitID ID
+}
+
+func (qi *QueryTraitInternal) Parse(q QueryTraitRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateClassID(q.ClassId); err != nil {
+	if err := qi.ClassID.Parse(q.ClassId); err != nil {
+		return err
+	}
+
+	if err := qi.TraitID.Parse(q.TraitId); err != nil {
 		return err
 	}
 
@@ -76,12 +95,16 @@ func (q QueryTraitsRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryTraitsRequest) ValidateBasic() error {
+type QueryTraitsInternal struct {
+	ClassID ID
+}
+
+func (qi *QueryTraitsInternal) Parse(q QueryTraitsRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateClassID(q.ClassId); err != nil {
+	if err := qi.ClassID.Parse(q.ClassId); err != nil {
 		return err
 	}
 
@@ -100,16 +123,21 @@ func (q QueryTokenRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryTokenRequest) ValidateBasic() error {
+type QueryTokenInternal struct {
+	ClassID ID
+	TokenID ID
+}
+
+func (qi *QueryTokenInternal) Parse(q QueryTokenRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateClassID(q.ClassId); err != nil {
+	if err := qi.ClassID.Parse(q.ClassId); err != nil {
 		return err
 	}
 
-	if err := ValidateTokenID(q.TokenId); err != nil {
+	if err := qi.TokenID.Parse(q.TokenId); err != nil {
 		return err
 	}
 
@@ -124,12 +152,16 @@ func (q QueryTokensRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryTokensRequest) ValidateBasic() error {
+type QueryTokensInternal struct {
+	ClassID ID
+}
+
+func (qi *QueryTokensInternal) Parse(q QueryTokensRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateClassID(q.ClassId); err != nil {
+	if err := qi.ClassID.Parse(q.ClassId); err != nil {
 		return err
 	}
 
@@ -152,16 +184,26 @@ func (q QueryPropertyRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryPropertyRequest) ValidateBasic() error {
+type QueryPropertyInternal struct {
+	ClassID ID
+	TokenID ID
+	TraitID ID
+}
+
+func (qi *QueryPropertyInternal) Parse(q QueryPropertyRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateClassID(q.ClassId); err != nil {
+	if err := qi.ClassID.Parse(q.ClassId); err != nil {
 		return err
 	}
 
-	if err := ValidateTokenID(q.TokenId); err != nil {
+	if err := qi.TokenID.Parse(q.TokenId); err != nil {
+		return err
+	}
+
+	if err := qi.TraitID.Parse(q.TraitId); err != nil {
 		return err
 	}
 
@@ -180,16 +222,21 @@ func (q QueryPropertiesRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryPropertiesRequest) ValidateBasic() error {
+type QueryPropertiesInternal struct {
+	ClassID ID
+	TokenID ID
+}
+
+func (qi *QueryPropertiesInternal) Parse(q QueryPropertiesRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateClassID(q.ClassId); err != nil {
+	if err := qi.ClassID.Parse(q.ClassId); err != nil {
 		return err
 	}
 
-	if err := ValidateTokenID(q.TokenId); err != nil {
+	if err := qi.TokenID.Parse(q.TokenId); err != nil {
 		return err
 	}
 
@@ -208,16 +255,21 @@ func (q QueryOwnerRequest) ValidateCompatibility() error {
 	return nil
 }
 
-func (q QueryOwnerRequest) ValidateBasic() error {
+type QueryOwnerInternal struct {
+	ClassID ID
+	TokenID ID
+}
+
+func (qi *QueryOwnerInternal) Parse(q QueryOwnerRequest) error {
 	if err := q.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateClassID(q.ClassId); err != nil {
+	if err := qi.ClassID.Parse(q.ClassId); err != nil {
 		return err
 	}
 
-	if err := ValidateTokenID(q.TokenId); err != nil {
+	if err := qi.TokenID.Parse(q.TokenId); err != nil {
 		return err
 	}
 

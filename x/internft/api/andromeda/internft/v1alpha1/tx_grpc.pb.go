@@ -19,30 +19,30 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_Send_FullMethodName        = "/andromeda.internft.v1alpha1.Msg/Send"
-	Msg_NewClass_FullMethodName    = "/andromeda.internft.v1alpha1.Msg/NewClass"
-	Msg_UpdateClass_FullMethodName = "/andromeda.internft.v1alpha1.Msg/UpdateClass"
-	Msg_NewToken_FullMethodName    = "/andromeda.internft.v1alpha1.Msg/NewToken"
-	Msg_BurnToken_FullMethodName   = "/andromeda.internft.v1alpha1.Msg/BurnToken"
-	Msg_UpdateToken_FullMethodName = "/andromeda.internft.v1alpha1.Msg/UpdateToken"
+	Msg_SendToken_FullMethodName      = "/andromeda.internft.v1alpha1.Msg/SendToken"
+	Msg_CreateClass_FullMethodName    = "/andromeda.internft.v1alpha1.Msg/CreateClass"
+	Msg_UpdateTrait_FullMethodName    = "/andromeda.internft.v1alpha1.Msg/UpdateTrait"
+	Msg_MintToken_FullMethodName      = "/andromeda.internft.v1alpha1.Msg/MintToken"
+	Msg_BurnToken_FullMethodName      = "/andromeda.internft.v1alpha1.Msg/BurnToken"
+	Msg_UpdateProperty_FullMethodName = "/andromeda.internft.v1alpha1.Msg/UpdateProperty"
 )
 
 // MsgClient is the client API for Msg service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgClient interface {
-	// Send defines a method to send a token from one account to another account.
-	Send(ctx context.Context, in *MsgSend, opts ...grpc.CallOption) (*MsgSendResponse, error)
-	// NewClass defines a method to create a class.
-	NewClass(ctx context.Context, in *MsgNewClass, opts ...grpc.CallOption) (*MsgNewClassResponse, error)
-	// UpdateClass defines a method to update a class.
-	UpdateClass(ctx context.Context, in *MsgUpdateClass, opts ...grpc.CallOption) (*MsgUpdateClassResponse, error)
-	// NewToken defines a method to create a token.
-	NewToken(ctx context.Context, in *MsgNewToken, opts ...grpc.CallOption) (*MsgNewTokenResponse, error)
+	// SendToken defines a method to send a token from one account to another account.
+	SendToken(ctx context.Context, in *MsgSendToken, opts ...grpc.CallOption) (*MsgSendTokenResponse, error)
+	// CreateClass defines a method to create a class.
+	CreateClass(ctx context.Context, in *MsgCreateClass, opts ...grpc.CallOption) (*MsgCreateClassResponse, error)
+	// UpdateTrait defines a method to update a class trait.
+	UpdateTrait(ctx context.Context, in *MsgUpdateTrait, opts ...grpc.CallOption) (*MsgUpdateTraitResponse, error)
+	// MintToken defines a method to mint a token.
+	MintToken(ctx context.Context, in *MsgMintToken, opts ...grpc.CallOption) (*MsgMintTokenResponse, error)
 	// BurnToken defines a method to burn a token.
 	BurnToken(ctx context.Context, in *MsgBurnToken, opts ...grpc.CallOption) (*MsgBurnTokenResponse, error)
-	// UpdateToken defines a method to update a token.
-	UpdateToken(ctx context.Context, in *MsgUpdateToken, opts ...grpc.CallOption) (*MsgUpdateTokenResponse, error)
+	// UpdateProperty defines a method to update a token property.
+	UpdateProperty(ctx context.Context, in *MsgUpdateProperty, opts ...grpc.CallOption) (*MsgUpdatePropertyResponse, error)
 }
 
 type msgClient struct {
@@ -53,36 +53,36 @@ func NewMsgClient(cc grpc.ClientConnInterface) MsgClient {
 	return &msgClient{cc}
 }
 
-func (c *msgClient) Send(ctx context.Context, in *MsgSend, opts ...grpc.CallOption) (*MsgSendResponse, error) {
-	out := new(MsgSendResponse)
-	err := c.cc.Invoke(ctx, Msg_Send_FullMethodName, in, out, opts...)
+func (c *msgClient) SendToken(ctx context.Context, in *MsgSendToken, opts ...grpc.CallOption) (*MsgSendTokenResponse, error) {
+	out := new(MsgSendTokenResponse)
+	err := c.cc.Invoke(ctx, Msg_SendToken_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) NewClass(ctx context.Context, in *MsgNewClass, opts ...grpc.CallOption) (*MsgNewClassResponse, error) {
-	out := new(MsgNewClassResponse)
-	err := c.cc.Invoke(ctx, Msg_NewClass_FullMethodName, in, out, opts...)
+func (c *msgClient) CreateClass(ctx context.Context, in *MsgCreateClass, opts ...grpc.CallOption) (*MsgCreateClassResponse, error) {
+	out := new(MsgCreateClassResponse)
+	err := c.cc.Invoke(ctx, Msg_CreateClass_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) UpdateClass(ctx context.Context, in *MsgUpdateClass, opts ...grpc.CallOption) (*MsgUpdateClassResponse, error) {
-	out := new(MsgUpdateClassResponse)
-	err := c.cc.Invoke(ctx, Msg_UpdateClass_FullMethodName, in, out, opts...)
+func (c *msgClient) UpdateTrait(ctx context.Context, in *MsgUpdateTrait, opts ...grpc.CallOption) (*MsgUpdateTraitResponse, error) {
+	out := new(MsgUpdateTraitResponse)
+	err := c.cc.Invoke(ctx, Msg_UpdateTrait_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) NewToken(ctx context.Context, in *MsgNewToken, opts ...grpc.CallOption) (*MsgNewTokenResponse, error) {
-	out := new(MsgNewTokenResponse)
-	err := c.cc.Invoke(ctx, Msg_NewToken_FullMethodName, in, out, opts...)
+func (c *msgClient) MintToken(ctx context.Context, in *MsgMintToken, opts ...grpc.CallOption) (*MsgMintTokenResponse, error) {
+	out := new(MsgMintTokenResponse)
+	err := c.cc.Invoke(ctx, Msg_MintToken_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -98,9 +98,9 @@ func (c *msgClient) BurnToken(ctx context.Context, in *MsgBurnToken, opts ...grp
 	return out, nil
 }
 
-func (c *msgClient) UpdateToken(ctx context.Context, in *MsgUpdateToken, opts ...grpc.CallOption) (*MsgUpdateTokenResponse, error) {
-	out := new(MsgUpdateTokenResponse)
-	err := c.cc.Invoke(ctx, Msg_UpdateToken_FullMethodName, in, out, opts...)
+func (c *msgClient) UpdateProperty(ctx context.Context, in *MsgUpdateProperty, opts ...grpc.CallOption) (*MsgUpdatePropertyResponse, error) {
+	out := new(MsgUpdatePropertyResponse)
+	err := c.cc.Invoke(ctx, Msg_UpdateProperty_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -111,18 +111,18 @@ func (c *msgClient) UpdateToken(ctx context.Context, in *MsgUpdateToken, opts ..
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
 type MsgServer interface {
-	// Send defines a method to send a token from one account to another account.
-	Send(context.Context, *MsgSend) (*MsgSendResponse, error)
-	// NewClass defines a method to create a class.
-	NewClass(context.Context, *MsgNewClass) (*MsgNewClassResponse, error)
-	// UpdateClass defines a method to update a class.
-	UpdateClass(context.Context, *MsgUpdateClass) (*MsgUpdateClassResponse, error)
-	// NewToken defines a method to create a token.
-	NewToken(context.Context, *MsgNewToken) (*MsgNewTokenResponse, error)
+	// SendToken defines a method to send a token from one account to another account.
+	SendToken(context.Context, *MsgSendToken) (*MsgSendTokenResponse, error)
+	// CreateClass defines a method to create a class.
+	CreateClass(context.Context, *MsgCreateClass) (*MsgCreateClassResponse, error)
+	// UpdateTrait defines a method to update a class trait.
+	UpdateTrait(context.Context, *MsgUpdateTrait) (*MsgUpdateTraitResponse, error)
+	// MintToken defines a method to mint a token.
+	MintToken(context.Context, *MsgMintToken) (*MsgMintTokenResponse, error)
 	// BurnToken defines a method to burn a token.
 	BurnToken(context.Context, *MsgBurnToken) (*MsgBurnTokenResponse, error)
-	// UpdateToken defines a method to update a token.
-	UpdateToken(context.Context, *MsgUpdateToken) (*MsgUpdateTokenResponse, error)
+	// UpdateProperty defines a method to update a token property.
+	UpdateProperty(context.Context, *MsgUpdateProperty) (*MsgUpdatePropertyResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -130,23 +130,23 @@ type MsgServer interface {
 type UnimplementedMsgServer struct {
 }
 
-func (UnimplementedMsgServer) Send(context.Context, *MsgSend) (*MsgSendResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
+func (UnimplementedMsgServer) SendToken(context.Context, *MsgSendToken) (*MsgSendTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendToken not implemented")
 }
-func (UnimplementedMsgServer) NewClass(context.Context, *MsgNewClass) (*MsgNewClassResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method NewClass not implemented")
+func (UnimplementedMsgServer) CreateClass(context.Context, *MsgCreateClass) (*MsgCreateClassResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateClass not implemented")
 }
-func (UnimplementedMsgServer) UpdateClass(context.Context, *MsgUpdateClass) (*MsgUpdateClassResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateClass not implemented")
+func (UnimplementedMsgServer) UpdateTrait(context.Context, *MsgUpdateTrait) (*MsgUpdateTraitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTrait not implemented")
 }
-func (UnimplementedMsgServer) NewToken(context.Context, *MsgNewToken) (*MsgNewTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method NewToken not implemented")
+func (UnimplementedMsgServer) MintToken(context.Context, *MsgMintToken) (*MsgMintTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MintToken not implemented")
 }
 func (UnimplementedMsgServer) BurnToken(context.Context, *MsgBurnToken) (*MsgBurnTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BurnToken not implemented")
 }
-func (UnimplementedMsgServer) UpdateToken(context.Context, *MsgUpdateToken) (*MsgUpdateTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateToken not implemented")
+func (UnimplementedMsgServer) UpdateProperty(context.Context, *MsgUpdateProperty) (*MsgUpdatePropertyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProperty not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -161,74 +161,74 @@ func RegisterMsgServer(s grpc.ServiceRegistrar, srv MsgServer) {
 	s.RegisterService(&Msg_ServiceDesc, srv)
 }
 
-func _Msg_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgSend)
+func _Msg_SendToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgSendToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).Send(ctx, in)
+		return srv.(MsgServer).SendToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Msg_Send_FullMethodName,
+		FullMethod: Msg_SendToken_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).Send(ctx, req.(*MsgSend))
+		return srv.(MsgServer).SendToken(ctx, req.(*MsgSendToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_NewClass_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgNewClass)
+func _Msg_CreateClass_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateClass)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).NewClass(ctx, in)
+		return srv.(MsgServer).CreateClass(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Msg_NewClass_FullMethodName,
+		FullMethod: Msg_CreateClass_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).NewClass(ctx, req.(*MsgNewClass))
+		return srv.(MsgServer).CreateClass(ctx, req.(*MsgCreateClass))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_UpdateClass_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgUpdateClass)
+func _Msg_UpdateTrait_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateTrait)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).UpdateClass(ctx, in)
+		return srv.(MsgServer).UpdateTrait(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Msg_UpdateClass_FullMethodName,
+		FullMethod: Msg_UpdateTrait_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).UpdateClass(ctx, req.(*MsgUpdateClass))
+		return srv.(MsgServer).UpdateTrait(ctx, req.(*MsgUpdateTrait))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_NewToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgNewToken)
+func _Msg_MintToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgMintToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).NewToken(ctx, in)
+		return srv.(MsgServer).MintToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Msg_NewToken_FullMethodName,
+		FullMethod: Msg_MintToken_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).NewToken(ctx, req.(*MsgNewToken))
+		return srv.(MsgServer).MintToken(ctx, req.(*MsgMintToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -251,20 +251,20 @@ func _Msg_BurnToken_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_UpdateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgUpdateToken)
+func _Msg_UpdateProperty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateProperty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).UpdateToken(ctx, in)
+		return srv.(MsgServer).UpdateProperty(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Msg_UpdateToken_FullMethodName,
+		FullMethod: Msg_UpdateProperty_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).UpdateToken(ctx, req.(*MsgUpdateToken))
+		return srv.(MsgServer).UpdateProperty(ctx, req.(*MsgUpdateProperty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -277,28 +277,28 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Send",
-			Handler:    _Msg_Send_Handler,
+			MethodName: "SendToken",
+			Handler:    _Msg_SendToken_Handler,
 		},
 		{
-			MethodName: "NewClass",
-			Handler:    _Msg_NewClass_Handler,
+			MethodName: "CreateClass",
+			Handler:    _Msg_CreateClass_Handler,
 		},
 		{
-			MethodName: "UpdateClass",
-			Handler:    _Msg_UpdateClass_Handler,
+			MethodName: "UpdateTrait",
+			Handler:    _Msg_UpdateTrait_Handler,
 		},
 		{
-			MethodName: "NewToken",
-			Handler:    _Msg_NewToken_Handler,
+			MethodName: "MintToken",
+			Handler:    _Msg_MintToken_Handler,
 		},
 		{
 			MethodName: "BurnToken",
 			Handler:    _Msg_BurnToken_Handler,
 		},
 		{
-			MethodName: "UpdateToken",
-			Handler:    _Msg_UpdateToken_Handler,
+			MethodName: "UpdateProperty",
+			Handler:    _Msg_UpdateProperty_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

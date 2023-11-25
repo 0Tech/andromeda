@@ -4,7 +4,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 )
 
-func (m MsgSend) ValidateCompatibility() error {
+func (m MsgSendToken) ValidateCompatibility() error {
 	if m.Sender == "" {
 		return ErrUnimplemented.Wrap("nil sender")
 	}
@@ -20,27 +20,33 @@ func (m MsgSend) ValidateCompatibility() error {
 	return nil
 }
 
-func (m MsgSend) ValidateBasic() error {
+type MsgSendTokenInternal struct {
+	Sender Address
+	Recipient Address
+	Token TokenInternal
+}
+
+func (mi *MsgSendTokenInternal) Parse(m MsgSendToken) error {
 	if err := m.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateAddress(m.Sender); err != nil {
+	if err := mi.Sender.Parse(m.Sender); err != nil {
 		return errorsmod.Wrap(err, "sender")
 	}
 
-	if err := ValidateAddress(m.Recipient); err != nil {
+	if err := mi.Recipient.Parse(m.Recipient); err != nil {
 		return errorsmod.Wrap(err, "recipient")
 	}
 
-	if err := m.Token.ValidateBasic(); err != nil {
+	if err := mi.Token.Parse(*m.Token); err != nil {
 		return errorsmod.Wrap(err, "token")
 	}
 
 	return nil
 }
 
-func (m MsgNewClass) ValidateCompatibility() error {
+func (m MsgCreateClass) ValidateCompatibility() error {
 	if m.Operator == "" {
 		return ErrUnimplemented.Wrap("nil operator")
 	}
@@ -49,39 +55,31 @@ func (m MsgNewClass) ValidateCompatibility() error {
 		return ErrUnimplemented.Wrap("nil class")
 	}
 
-	if m.Traits == nil {
-		return ErrUnimplemented.Wrap("nil traits")
-	}
-
-	// TODO(@0Tech): data
-	// if m.Data == nil {
-	// 	return ErrUnimplemented.Wrap("nil data")
-	// }
-
 	return nil
 }
 
-func (m MsgNewClass) ValidateBasic() error {
+type MsgCreateClassInternal struct {
+	Operator Address
+	Class ClassInternal
+}
+
+func (mi *MsgCreateClassInternal) Parse(m MsgCreateClass) error {
 	if err := m.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateAddress(m.Operator); err != nil {
+	if err := mi.Operator.Parse(m.Operator); err != nil {
 		return errorsmod.Wrap(err, "operator")
 	}
 
-	if err := m.Class.ValidateBasic(); err != nil {
+	if err := mi.Class.Parse(*m.Class); err != nil {
 		return errorsmod.Wrap(err, "class")
-	}
-
-	if err := Traits(m.Traits).ValidateBasic(); err != nil {
-		return errorsmod.Wrap(err, "traits")
 	}
 
 	return nil
 }
 
-func (m MsgUpdateClass) ValidateCompatibility() error {
+func (m MsgUpdateTrait) ValidateCompatibility() error {
 	if m.Operator == "" {
 		return ErrUnimplemented.Wrap("nil operator")
 	}
@@ -90,69 +88,67 @@ func (m MsgUpdateClass) ValidateCompatibility() error {
 		return ErrUnimplemented.Wrap("nil class")
 	}
 
-	// TODO(@0Tech): data
-	// if m.Data == nil {
-	// 	return ErrUnimplemented.Wrap("nil data")
-	// }
+	if m.Trait == nil {
+		return ErrUnimplemented.Wrap("nil trait")
+	}
 
 	return nil
 }
 
-func (m MsgUpdateClass) ValidateBasic() error {
+type MsgUpdateTraitInternal struct {
+	Operator Address
+	Class ClassInternal
+	Trait TraitInternal
+}
+
+func (mi *MsgUpdateTraitInternal) Parse(m MsgUpdateTrait) error {
 	if err := m.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateAddress(m.Operator); err != nil {
+	if err := mi.Operator.Parse(m.Operator); err != nil {
 		return errorsmod.Wrap(err, "operator")
 	}
 
-	if err := m.Class.ValidateBasic(); err != nil {
+	if err := mi.Class.Parse(*m.Class); err != nil {
 		return errorsmod.Wrap(err, "class")
+	}
+
+	if err := mi.Trait.Parse(*m.Trait); err != nil {
+		return errorsmod.Wrap(err, "trait")
 	}
 
 	return nil
 }
 
-func (m MsgNewToken) ValidateCompatibility() error {
+func (m MsgMintToken) ValidateCompatibility() error {
 	if m.Operator == "" {
 		return ErrUnimplemented.Wrap("nil operator")
-	}
-
-	if m.Recipient == "" {
-		return ErrUnimplemented.Wrap("nil recipient")
 	}
 
 	if m.Token == nil {
 		return ErrUnimplemented.Wrap("nil token")
 	}
 
-	if m.Properties == nil {
-		return ErrUnimplemented.Wrap("nil properties")
-	}
-
 	return nil
 }
 
-func (m MsgNewToken) ValidateBasic() error {
+type MsgMintTokenInternal struct {
+	Operator Address
+	Token TokenInternal
+}
+
+func (mi *MsgMintTokenInternal) Parse(m MsgMintToken) error {
 	if err := m.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateAddress(m.Operator); err != nil {
+	if err := mi.Operator.Parse(m.Operator); err != nil {
 		return errorsmod.Wrap(err, "operator")
 	}
 
-	if err := ValidateAddress(m.Recipient); err != nil {
-		return errorsmod.Wrap(err, "recipient")
-	}
-
-	if err := m.Token.ValidateBasic(); err != nil {
+	if err := mi.Token.Parse(*m.Token); err != nil {
 		return errorsmod.Wrap(err, "token")
-	}
-
-	if err := Properties(m.Properties).ValidateBasic(); err != nil {
-		return errorsmod.Wrap(err, "properties")
 	}
 
 	return nil
@@ -170,53 +166,64 @@ func (m MsgBurnToken) ValidateCompatibility() error {
 	return nil
 }
 
-func (m MsgBurnToken) ValidateBasic() error {
+type MsgBurnTokenInternal struct {
+	Owner Address
+	Token TokenInternal
+}
+
+func (mi *MsgBurnTokenInternal) Parse(m MsgBurnToken) error {
 	if err := m.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateAddress(m.Owner); err != nil {
+	if err := mi.Owner.Parse(m.Owner); err != nil {
 		return errorsmod.Wrap(err, "owner")
 	}
 
-	if err := m.Token.ValidateBasic(); err != nil {
-		return err
+	if err := mi.Token.Parse(*m.Token); err != nil {
+		return errorsmod.Wrap(err, "token")
 	}
 
 	return nil
 }
 
-func (m MsgUpdateToken) ValidateCompatibility() error {
-	if m.Owner == "" {
-		return ErrUnimplemented.Wrap("nil owner")
+func (m MsgUpdateProperty) ValidateCompatibility() error {
+	if m.Operator == "" {
+		return ErrUnimplemented.Wrap("nil operator")
 	}
 
 	if m.Token == nil {
 		return ErrUnimplemented.Wrap("nil token")
 	}
 
-	if m.Properties == nil {
-		return ErrUnimplemented.Wrap("nil properties")
+	if m.Property == nil {
+		return ErrUnimplemented.Wrap("nil property")
 	}
 
 	return nil
 }
 
-func (m MsgUpdateToken) ValidateBasic() error {
+type MsgUpdatePropertyInternal struct {
+	Operator Address
+	Token TokenInternal
+	Property PropertyInternal
+}
+
+func (mi *MsgUpdatePropertyInternal) Parse(m MsgUpdateProperty) error {
 	if err := m.ValidateCompatibility(); err != nil {
 		return err
 	}
 
-	if err := ValidateAddress(m.Owner); err != nil {
+	if err := mi.Operator.Parse(m.Operator); err != nil {
 		return errorsmod.Wrap(err, "owner")
 	}
 
-	if err := m.Token.ValidateBasic(); err != nil {
-		return err
+	if err := mi.Token.Parse(*m.Token); err != nil {
+		return errorsmod.Wrap(err, "token")
 	}
 
-	if err := Properties(m.Properties).ValidateBasic(); err != nil {
-		return err
+	if err := mi.Property.Parse(*m.Property); err != nil {
+		return errorsmod.Wrap(err, "property")
 	}
 
 	return nil

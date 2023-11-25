@@ -10,27 +10,27 @@ import "google/protobuf/any.proto";
 service Msg {
   option (cosmos.msg.v1.service) = true;
 
-  // Send defines a method to send a token from one account to another account.
-  rpc Send(MsgSend) returns (MsgSendResponse);
+  // SendToken defines a method to send a token from one account to another account.
+  rpc SendToken(MsgSendToken) returns (MsgSendTokenResponse);
 
-  // NewClass defines a method to create a class.
-  rpc NewClass(MsgNewClass) returns (MsgNewClassResponse);
+  // CreateClass defines a method to create a class.
+  rpc CreateClass(MsgCreateClass) returns (MsgCreateClassResponse);
 
-  // UpdateClass defines a method to update a class.
-  rpc UpdateClass(MsgUpdateClass) returns (MsgUpdateClassResponse);
+  // UpdateTrait defines a method to update a class trait.
+  rpc UpdateTrait(MsgUpdateTrait) returns (MsgUpdateTraitResponse);
 
-  // NewToken defines a method to create a token.
-  rpc NewToken(MsgNewToken) returns (MsgNewTokenResponse);
+  // MintToken defines a method to mint a token.
+  rpc MintToken(MsgMintToken) returns (MsgMintTokenResponse);
 
   // BurnToken defines a method to burn a token.
   rpc BurnToken(MsgBurnToken) returns (MsgBurnTokenResponse);
 
-  // UpdateToken defines a method to update a token.
-  rpc UpdateToken(MsgUpdateToken) returns (MsgUpdateTokenResponse);
+  // UpdateProperty defines a method to update a token property.
+  rpc UpdateProperty(MsgUpdateProperty) returns (MsgUpdatePropertyResponse);
 }
 
-// MsgSend is the Msg/Send request type.
-message MsgSend {
+// MsgSendToken is the Msg/SendToken request type.
+message MsgSendToken {
   option (cosmos.msg.v1.signer) = "sender";
 
   // the sender of the token
@@ -43,11 +43,11 @@ message MsgSend {
   Token token = 3;
 }
 
-// MsgSendResponse is the Msg/Send response type.
-message MsgSendResponse {}
+// MsgSendTokenResponse is the Msg/SendToken response type.
+message MsgSendTokenResponse {}
 
-// MsgNewClass is the Msg/NewClass request type.
-message MsgNewClass {
+// MsgCreateClass is the Msg/CreateClass request type.
+message MsgCreateClass {
   option (cosmos.msg.v1.signer) = "operator";
 
   // the operator of the class
@@ -55,19 +55,13 @@ message MsgNewClass {
 
   // the new class created
   Class class = 2;
-
-  // the traits of the new class
-  repeated Trait traits = 3;
-
-  // app specific metadata of the new class (optional)
-  google.protobuf.Any data = 4;
 }
 
-// MsgNewClassResponse is the Msg/NewClass response type.
-message MsgNewClassResponse {}
+// MsgCreateClassResponse is the Msg/CreateClass response type.
+message MsgCreateClassResponse {}
 
-// MsgUpdateClass is the Msg/UpdateClass request type.
-message MsgUpdateClass {
+// MsgUpdateTrait is the Msg/UpdateTrait request type.
+message MsgUpdateTrait {
   option (cosmos.msg.v1.signer) = "operator";
 
   // the operator of the class
@@ -76,32 +70,26 @@ message MsgUpdateClass {
   // the class to update
   Class class = 2;
 
-  // app specific metadata of the class (optional)
-  google.protobuf.Any data = 3;
+  // the new trait
+  Trait trait = 3;
 }
 
-// MsgUpdateClassResponse is the Msg/UpdateClass response type.
-message MsgUpdateClassResponse {}
+// MsgUpdateTraitResponse is the Msg/UpdateTrait response type.
+message MsgUpdateTraitResponse {}
 
-// MsgNewToken is the Msg/NewToken request type.
-message MsgNewToken {
+// MsgMintToken is the Msg/MintToken request type.
+message MsgMintToken {
   option (cosmos.msg.v1.signer) = "operator";
 
   // the operator of the class
   string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the recipient of the new token
-  string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-
-  // the new token to create
-  Token token = 3;
-
-  // the properties of the new token
-  repeated Property properties = 4;
+  // the new token to mint
+  Token token = 2;
 }
 
-// MsgNewTokenResponse is the Msg/NewToken response type.
-message MsgNewTokenResponse {}
+// MsgMintTokenResponse is the Msg/MintToken response type.
+message MsgMintTokenResponse {}
 
 // MsgBurnToken is the Msg/BurnToken request type.
 message MsgBurnToken {
@@ -117,19 +105,19 @@ message MsgBurnToken {
 // MsgBurnTokenResponse is the Msg/BurnToken response type.
 message MsgBurnTokenResponse {}
 
-// MsgUpdateToken is the Msg/UpdateToken request type.
-message MsgUpdateToken {
-  option (cosmos.msg.v1.signer) = "owner";
+// MsgUpdateProperty is the Msg/UpdateProperty request type.
+message MsgUpdateProperty {
+  option (cosmos.msg.v1.signer) = "operator";
 
-  // the owner of the token
-  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // the operator of the class
+  string operator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the token to update
   Token token = 2;
 
-  // the new properties
-  repeated Property properties = 3;
+  // the new property
+  Property property = 3;
 }
 
-// MsgUpdateTokenResponse is the Msg/UpdateToken response type.
-message MsgUpdateTokenResponse {}
+// MsgUpdatePropertyResponse is the Msg/UpdateProperty response type.
+message MsgUpdatePropertyResponse {}

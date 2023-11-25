@@ -32,7 +32,8 @@ func (s queryServer) Params(ctx context.Context, req *internftv1alpha1.QueryPara
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	if err := req.ValidateBasic(); err != nil {
+	var parsed internftv1alpha1.QueryParamsInternal
+	if err := parsed.Parse(*req); err != nil {
 		return nil, err
 	}
 
@@ -48,7 +49,8 @@ func (s queryServer) Class(ctx context.Context, req *internftv1alpha1.QueryClass
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	if err := internftv1alpha1.ValidateClassID(req.ClassId); err != nil {
+	var parsed internftv1alpha1.QueryClassInternal
+	if err := parsed.Parse(*req); err != nil {
 		return nil, err
 	}
 
@@ -65,6 +67,11 @@ func (s queryServer) Class(ctx context.Context, req *internftv1alpha1.QueryClass
 func (s queryServer) Classes(ctx context.Context, req *internftv1alpha1.QueryClassesRequest) (*internftv1alpha1.QueryClassesResponse, error) {
 	if req == nil {
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+	}
+
+	var parsed internftv1alpha1.QueryClassesInternal
+	if err := parsed.Parse(*req); err != nil {
+		return nil, err
 	}
 
 	classes, pageRes, err := query.CollectionPaginate(ctx, s.keeper.classes, req.Pagination, func(_ string, value internftv1alpha1.Class) (*internftv1alpha1.Class, error) {
@@ -85,11 +92,8 @@ func (s queryServer) Trait(ctx context.Context, req *internftv1alpha1.QueryTrait
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	if err := internftv1alpha1.ValidateClassID(req.ClassId); err != nil {
-		return nil, err
-	}
-
-	if err := internftv1alpha1.ValidateTraitID(req.TraitId); err != nil {
+	var parsed internftv1alpha1.QueryTraitInternal
+	if err := parsed.Parse(*req); err != nil {
 		return nil, err
 	}
 
@@ -108,7 +112,8 @@ func (s queryServer) Traits(ctx context.Context, req *internftv1alpha1.QueryTrai
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	if err := internftv1alpha1.ValidateClassID(req.ClassId); err != nil {
+	var parsed internftv1alpha1.QueryTraitsInternal
+	if err := parsed.Parse(*req); err != nil {
 		return nil, err
 	}
 
@@ -133,12 +138,14 @@ func (s queryServer) Token(ctx context.Context, req *internftv1alpha1.QueryToken
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
+	var parsed internftv1alpha1.QueryTokenInternal
+	if err := parsed.Parse(*req); err != nil {
+		return nil, err
+	}
+
 	token := &internftv1alpha1.Token{
 		ClassId: req.ClassId,
 		Id: req.TokenId,
-	}
-	if err := token.ValidateBasic(); err != nil {
-		return nil, err
 	}
 
 	if err := s.keeper.hasToken(ctx, token); err != nil {
@@ -155,7 +162,8 @@ func (s queryServer) Tokens(ctx context.Context, req *internftv1alpha1.QueryToke
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	if err := internftv1alpha1.ValidateClassID(req.ClassId); err != nil {
+	var parsed internftv1alpha1.QueryTokensInternal
+	if err := parsed.Parse(*req); err != nil {
 		return nil, err
 	}
 
@@ -180,16 +188,14 @@ func (s queryServer) Property(ctx context.Context, req *internftv1alpha1.QueryPr
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	token := &internftv1alpha1.Token{
-		ClassId: req.ClassId,
-		Id: req.TokenId,
-	}
-	if err := token.ValidateBasic(); err != nil {
+	var parsed internftv1alpha1.QueryPropertyInternal
+	if err := parsed.Parse(*req); err != nil {
 		return nil, err
 	}
 
-	if err := internftv1alpha1.ValidateTraitID(req.TraitId); err != nil {
-		return nil, err
+	token := &internftv1alpha1.Token{
+		ClassId: req.ClassId,
+		Id: req.TokenId,
 	}
 
 	property, err := s.keeper.GetProperty(ctx, token, req.TraitId)
@@ -207,12 +213,14 @@ func (s queryServer) Properties(ctx context.Context, req *internftv1alpha1.Query
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
+	var parsed internftv1alpha1.QueryPropertiesInternal
+	if err := parsed.Parse(*req); err != nil {
+		return nil, err
+	}
+
 	token := internftv1alpha1.Token{
 		ClassId: req.ClassId,
 		Id: req.TokenId,
-	}
-	if err := token.ValidateBasic(); err != nil {
-		return nil, err
 	}
 
 	properties, pageRes, err := query.CollectionPaginate(ctx, s.keeper.properties, req.Pagination, func(_ collections.Triple[string, string, string], value internftv1alpha1.Property) (*internftv1alpha1.Property, error) {
@@ -236,12 +244,14 @@ func (s queryServer) Owner(ctx context.Context, req *internftv1alpha1.QueryOwner
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
+	var parsed internftv1alpha1.QueryOwnerInternal
+	if err := parsed.Parse(*req); err != nil {
+		return nil, err
+	}
+
 	token := &internftv1alpha1.Token{
 		ClassId: req.ClassId,
 		Id: req.TokenId,
-	}
-	if err := token.ValidateBasic(); err != nil {
-		return nil, err
 	}
 
 	owner, err := s.keeper.GetOwner(ctx, token)

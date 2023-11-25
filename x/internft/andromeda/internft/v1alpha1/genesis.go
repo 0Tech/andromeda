@@ -18,6 +18,28 @@ func DefaultParams() *Params {
 	return &Params{}
 }
 
+type Properties []*Property
+
+func (ps Properties) ValidateBasic() error {
+	seenID := ""
+	for i, property := range ps {
+		if property == nil {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("nil property"), "index %d", i)
+		}
+
+		if err := (&PropertyInternal{}).Parse(*property); err != nil {
+			return errorsmod.Wrapf(err, "index %d", i)
+		}
+
+		if !(property.TraitId > seenID) {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("unsorted property"), "index %d", i)
+		}
+		seenID = property.TraitId
+	}
+
+	return nil
+}
+
 func (t GenesisToken) ValidateCompatibility() error {
 	if t.Id == "" {
 		return ErrUnimplemented.Wrap("nil id")
@@ -39,7 +61,7 @@ func (t GenesisToken) ValidateBasic(traitIDs map[string]struct{}) error {
 		return err
 	}
 
-	if err := ValidateTokenID(t.Id); err != nil {
+	if err := (&ID{}).Parse(t.Id); err != nil {
 		return err
 	}
 
@@ -53,7 +75,7 @@ func (t GenesisToken) ValidateBasic(traitIDs map[string]struct{}) error {
 		}
 	}
 
-	if err := ValidateAddress(t.Owner); err != nil {
+	if err := (&Address{}).Parse(t.Owner); err != nil {
 		return errorsmod.Wrap(err, "owner")
 	}
 
@@ -65,14 +87,40 @@ type GenesisTokens []*GenesisToken
 func (ts GenesisTokens) ValidateBasic(traitIDs map[string]struct{}) error {
 	seenID := ""
 	for i, token := range ts {
+		if token == nil {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("nil token"), "index %d", i)
+		}
+
 		if err := token.ValidateBasic(traitIDs); err != nil {
 			return errorsmod.Wrapf(err, "index %d", i)
 		}
 
 		if !(token.Id > seenID) {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("unsorted tokens"), "index %d", i)
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("unsorted token"), "index %d", i)
 		}
 		seenID = token.Id
+	}
+
+	return nil
+}
+
+type Traits []*Trait
+
+func (ts Traits) ValidateBasic() error {
+	seenID := ""
+	for i, trait := range ts {
+		if trait == nil {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("nil trait"), "index %d", i)
+		}
+
+		if err := (&TraitInternal{}).Parse(*trait); err != nil {
+			return errorsmod.Wrapf(err, "index %d", i)
+		}
+
+		if !(trait.Id > seenID) {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("unsorted trait"), "index %d", i)
+		}
+		seenID = trait.Id
 	}
 
 	return nil
@@ -99,7 +147,7 @@ func (c GenesisClass) ValidateBasic() error {
 		return err
 	}
 
-	if err := ValidateClassID(c.Id); err != nil {
+	if err := (&ID{}).Parse(c.Id); err != nil {
 		return err
 	}
 
@@ -124,12 +172,16 @@ type GenesisClasses []*GenesisClass
 func (cs GenesisClasses) ValidateBasic() error {
 	seenID := ""
 	for i, class := range cs {
+		if class == nil {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("nil class"), "index %d", i)
+		}
+
 		if err := class.ValidateBasic(); err != nil {
 			return errorsmod.Wrapf(err, "index %d", i)
 		}
 
 		if !(class.Id > seenID) {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("unsorted classes"), "index %d", i)
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest.Wrap("unsorted class"), "index %d", i)
 		}
 		seenID = class.Id
 	}
@@ -155,7 +207,7 @@ func (s GenesisState) ValidateBasic() error {
 		return err
 	}
 
-	if err := s.Params.ValidateBasic(); err != nil {
+	if err := (&ParamsInternal{}).Parse(*s.Params); err != nil {
 		return errorsmod.Wrap(err, "params")
 	}
 

@@ -12,7 +12,7 @@ import (
 	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
-func (k Keeper) Send(ctx context.Context, sender, recipient sdk.AccAddress, token *internftv1alpha1.Token) error {
+func (k Keeper) SendToken(ctx context.Context, sender, recipient sdk.AccAddress, token *internftv1alpha1.Token) error {
 	if err := k.validateOwner(ctx, token, sender); err != nil {
 		return err
 	}

@@ -8,36 +8,36 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	anypb "google.golang.org/protobuf/types/known/anypb"
+	_ "google.golang.org/protobuf/types/known/anypb"
 	io "io"
 	reflect "reflect"
 	sync "sync"
 )
 
 var (
-	md_EventSend          protoreflect.MessageDescriptor
-	fd_EventSend_sender   protoreflect.FieldDescriptor
-	fd_EventSend_receiver protoreflect.FieldDescriptor
-	fd_EventSend_token    protoreflect.FieldDescriptor
+	md_EventSendToken          protoreflect.MessageDescriptor
+	fd_EventSendToken_sender   protoreflect.FieldDescriptor
+	fd_EventSendToken_receiver protoreflect.FieldDescriptor
+	fd_EventSendToken_token    protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_event_proto_init()
-	md_EventSend = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventSend")
-	fd_EventSend_sender = md_EventSend.Fields().ByName("sender")
-	fd_EventSend_receiver = md_EventSend.Fields().ByName("receiver")
-	fd_EventSend_token = md_EventSend.Fields().ByName("token")
+	md_EventSendToken = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventSendToken")
+	fd_EventSendToken_sender = md_EventSendToken.Fields().ByName("sender")
+	fd_EventSendToken_receiver = md_EventSendToken.Fields().ByName("receiver")
+	fd_EventSendToken_token = md_EventSendToken.Fields().ByName("token")
 }
 
-var _ protoreflect.Message = (*fastReflection_EventSend)(nil)
+var _ protoreflect.Message = (*fastReflection_EventSendToken)(nil)
 
-type fastReflection_EventSend EventSend
+type fastReflection_EventSendToken EventSendToken
 
-func (x *EventSend) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_EventSend)(x)
+func (x *EventSendToken) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_EventSendToken)(x)
 }
 
-func (x *EventSend) slowProtoReflect() protoreflect.Message {
+func (x *EventSendToken) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -49,43 +49,43 @@ func (x *EventSend) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_EventSend_messageType fastReflection_EventSend_messageType
-var _ protoreflect.MessageType = fastReflection_EventSend_messageType{}
+var _fastReflection_EventSendToken_messageType fastReflection_EventSendToken_messageType
+var _ protoreflect.MessageType = fastReflection_EventSendToken_messageType{}
 
-type fastReflection_EventSend_messageType struct{}
+type fastReflection_EventSendToken_messageType struct{}
 
-func (x fastReflection_EventSend_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_EventSend)(nil)
+func (x fastReflection_EventSendToken_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_EventSendToken)(nil)
 }
-func (x fastReflection_EventSend_messageType) New() protoreflect.Message {
-	return new(fastReflection_EventSend)
+func (x fastReflection_EventSendToken_messageType) New() protoreflect.Message {
+	return new(fastReflection_EventSendToken)
 }
-func (x fastReflection_EventSend_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventSend
+func (x fastReflection_EventSendToken_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventSendToken
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_EventSend) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventSend
+func (x *fastReflection_EventSendToken) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventSendToken
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_EventSend) Type() protoreflect.MessageType {
-	return _fastReflection_EventSend_messageType
+func (x *fastReflection_EventSendToken) Type() protoreflect.MessageType {
+	return _fastReflection_EventSendToken_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_EventSend) New() protoreflect.Message {
-	return new(fastReflection_EventSend)
+func (x *fastReflection_EventSendToken) New() protoreflect.Message {
+	return new(fastReflection_EventSendToken)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_EventSend) Interface() protoreflect.ProtoMessage {
-	return (*EventSend)(x)
+func (x *fastReflection_EventSendToken) Interface() protoreflect.ProtoMessage {
+	return (*EventSendToken)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -93,22 +93,22 @@ func (x *fastReflection_EventSend) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_EventSend) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_EventSendToken) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Sender != "" {
 		value := protoreflect.ValueOfString(x.Sender)
-		if !f(fd_EventSend_sender, value) {
+		if !f(fd_EventSendToken_sender, value) {
 			return
 		}
 	}
 	if x.Receiver != "" {
 		value := protoreflect.ValueOfString(x.Receiver)
-		if !f(fd_EventSend_receiver, value) {
+		if !f(fd_EventSendToken_receiver, value) {
 			return
 		}
 	}
 	if x.Token != nil {
 		value := protoreflect.ValueOfMessage(x.Token.ProtoReflect())
-		if !f(fd_EventSend_token, value) {
+		if !f(fd_EventSendToken_token, value) {
 			return
 		}
 	}
@@ -125,19 +125,19 @@ func (x *fastReflection_EventSend) Range(f func(protoreflect.FieldDescriptor, pr
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_EventSend) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_EventSendToken) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventSend.sender":
+	case "andromeda.internft.v1alpha1.EventSendToken.sender":
 		return x.Sender != ""
-	case "andromeda.internft.v1alpha1.EventSend.receiver":
+	case "andromeda.internft.v1alpha1.EventSendToken.receiver":
 		return x.Receiver != ""
-	case "andromeda.internft.v1alpha1.EventSend.token":
+	case "andromeda.internft.v1alpha1.EventSendToken.token":
 		return x.Token != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSend"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSendToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSend does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSendToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -147,19 +147,19 @@ func (x *fastReflection_EventSend) Has(fd protoreflect.FieldDescriptor) bool {
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventSend) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_EventSendToken) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventSend.sender":
+	case "andromeda.internft.v1alpha1.EventSendToken.sender":
 		x.Sender = ""
-	case "andromeda.internft.v1alpha1.EventSend.receiver":
+	case "andromeda.internft.v1alpha1.EventSendToken.receiver":
 		x.Receiver = ""
-	case "andromeda.internft.v1alpha1.EventSend.token":
+	case "andromeda.internft.v1alpha1.EventSendToken.token":
 		x.Token = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSend"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSendToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSend does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSendToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -169,22 +169,22 @@ func (x *fastReflection_EventSend) Clear(fd protoreflect.FieldDescriptor) {
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_EventSend) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventSendToken) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.EventSend.sender":
+	case "andromeda.internft.v1alpha1.EventSendToken.sender":
 		value := x.Sender
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.EventSend.receiver":
+	case "andromeda.internft.v1alpha1.EventSendToken.receiver":
 		value := x.Receiver
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.EventSend.token":
+	case "andromeda.internft.v1alpha1.EventSendToken.token":
 		value := x.Token
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSend"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSendToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSend does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSendToken does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -198,19 +198,19 @@ func (x *fastReflection_EventSend) Get(descriptor protoreflect.FieldDescriptor) 
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventSend) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_EventSendToken) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventSend.sender":
+	case "andromeda.internft.v1alpha1.EventSendToken.sender":
 		x.Sender = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.EventSend.receiver":
+	case "andromeda.internft.v1alpha1.EventSendToken.receiver":
 		x.Receiver = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.EventSend.token":
+	case "andromeda.internft.v1alpha1.EventSendToken.token":
 		x.Token = value.Message().Interface().(*Token)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSend"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSendToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSend does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSendToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -224,52 +224,52 @@ func (x *fastReflection_EventSend) Set(fd protoreflect.FieldDescriptor, value pr
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventSend) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventSendToken) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventSend.token":
+	case "andromeda.internft.v1alpha1.EventSendToken.token":
 		if x.Token == nil {
 			x.Token = new(Token)
 		}
 		return protoreflect.ValueOfMessage(x.Token.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventSend.sender":
-		panic(fmt.Errorf("field sender of message andromeda.internft.v1alpha1.EventSend is not mutable"))
-	case "andromeda.internft.v1alpha1.EventSend.receiver":
-		panic(fmt.Errorf("field receiver of message andromeda.internft.v1alpha1.EventSend is not mutable"))
+	case "andromeda.internft.v1alpha1.EventSendToken.sender":
+		panic(fmt.Errorf("field sender of message andromeda.internft.v1alpha1.EventSendToken is not mutable"))
+	case "andromeda.internft.v1alpha1.EventSendToken.receiver":
+		panic(fmt.Errorf("field receiver of message andromeda.internft.v1alpha1.EventSendToken is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSend"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSendToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSend does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSendToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_EventSend) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventSendToken) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventSend.sender":
+	case "andromeda.internft.v1alpha1.EventSendToken.sender":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.EventSend.receiver":
+	case "andromeda.internft.v1alpha1.EventSendToken.receiver":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.EventSend.token":
+	case "andromeda.internft.v1alpha1.EventSendToken.token":
 		m := new(Token)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSend"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventSendToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSend does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventSendToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_EventSend) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_EventSendToken) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventSend", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventSendToken", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -277,7 +277,7 @@ func (x *fastReflection_EventSend) WhichOneof(d protoreflect.OneofDescriptor) pr
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_EventSend) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_EventSendToken) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -288,7 +288,7 @@ func (x *fastReflection_EventSend) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventSend) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_EventSendToken) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -300,7 +300,7 @@ func (x *fastReflection_EventSend) SetUnknown(fields protoreflect.RawFields) {
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_EventSend) IsValid() bool {
+func (x *fastReflection_EventSendToken) IsValid() bool {
 	return x != nil
 }
 
@@ -310,9 +310,9 @@ func (x *fastReflection_EventSend) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_EventSend) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_EventSendToken) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*EventSend)
+		x := input.Message.Interface().(*EventSendToken)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -346,7 +346,7 @@ func (x *fastReflection_EventSend) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*EventSend)
+		x := input.Message.Interface().(*EventSendToken)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -404,7 +404,7 @@ func (x *fastReflection_EventSend) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*EventSend)
+		x := input.Message.Interface().(*EventSendToken)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -436,10 +436,10 @@ func (x *fastReflection_EventSend) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventSend: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventSendToken: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventSend: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventSendToken: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -577,83 +577,28 @@ func (x *fastReflection_EventSend) ProtoMethods() *protoiface.Methods {
 	}
 }
 
-var _ protoreflect.List = (*_EventNewClass_3_list)(nil)
-
-type _EventNewClass_3_list struct {
-	list *[]*Trait
-}
-
-func (x *_EventNewClass_3_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_EventNewClass_3_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
-}
-
-func (x *_EventNewClass_3_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Trait)
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_EventNewClass_3_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Trait)
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_EventNewClass_3_list) AppendMutable() protoreflect.Value {
-	v := new(Trait)
-	*x.list = append(*x.list, v)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_EventNewClass_3_list) Truncate(n int) {
-	for i := n; i < len(*x.list); i++ {
-		(*x.list)[i] = nil
-	}
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_EventNewClass_3_list) NewElement() protoreflect.Value {
-	v := new(Trait)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_EventNewClass_3_list) IsValid() bool {
-	return x.list != nil
-}
-
 var (
-	md_EventNewClass          protoreflect.MessageDescriptor
-	fd_EventNewClass_operator protoreflect.FieldDescriptor
-	fd_EventNewClass_class    protoreflect.FieldDescriptor
-	fd_EventNewClass_traits   protoreflect.FieldDescriptor
-	fd_EventNewClass_data     protoreflect.FieldDescriptor
+	md_EventCreateClass          protoreflect.MessageDescriptor
+	fd_EventCreateClass_operator protoreflect.FieldDescriptor
+	fd_EventCreateClass_class    protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_event_proto_init()
-	md_EventNewClass = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventNewClass")
-	fd_EventNewClass_operator = md_EventNewClass.Fields().ByName("operator")
-	fd_EventNewClass_class = md_EventNewClass.Fields().ByName("class")
-	fd_EventNewClass_traits = md_EventNewClass.Fields().ByName("traits")
-	fd_EventNewClass_data = md_EventNewClass.Fields().ByName("data")
+	md_EventCreateClass = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventCreateClass")
+	fd_EventCreateClass_operator = md_EventCreateClass.Fields().ByName("operator")
+	fd_EventCreateClass_class = md_EventCreateClass.Fields().ByName("class")
 }
 
-var _ protoreflect.Message = (*fastReflection_EventNewClass)(nil)
+var _ protoreflect.Message = (*fastReflection_EventCreateClass)(nil)
 
-type fastReflection_EventNewClass EventNewClass
+type fastReflection_EventCreateClass EventCreateClass
 
-func (x *EventNewClass) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_EventNewClass)(x)
+func (x *EventCreateClass) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_EventCreateClass)(x)
 }
 
-func (x *EventNewClass) slowProtoReflect() protoreflect.Message {
+func (x *EventCreateClass) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -665,43 +610,43 @@ func (x *EventNewClass) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_EventNewClass_messageType fastReflection_EventNewClass_messageType
-var _ protoreflect.MessageType = fastReflection_EventNewClass_messageType{}
+var _fastReflection_EventCreateClass_messageType fastReflection_EventCreateClass_messageType
+var _ protoreflect.MessageType = fastReflection_EventCreateClass_messageType{}
 
-type fastReflection_EventNewClass_messageType struct{}
+type fastReflection_EventCreateClass_messageType struct{}
 
-func (x fastReflection_EventNewClass_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_EventNewClass)(nil)
+func (x fastReflection_EventCreateClass_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_EventCreateClass)(nil)
 }
-func (x fastReflection_EventNewClass_messageType) New() protoreflect.Message {
-	return new(fastReflection_EventNewClass)
+func (x fastReflection_EventCreateClass_messageType) New() protoreflect.Message {
+	return new(fastReflection_EventCreateClass)
 }
-func (x fastReflection_EventNewClass_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventNewClass
+func (x fastReflection_EventCreateClass_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventCreateClass
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_EventNewClass) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventNewClass
+func (x *fastReflection_EventCreateClass) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventCreateClass
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_EventNewClass) Type() protoreflect.MessageType {
-	return _fastReflection_EventNewClass_messageType
+func (x *fastReflection_EventCreateClass) Type() protoreflect.MessageType {
+	return _fastReflection_EventCreateClass_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_EventNewClass) New() protoreflect.Message {
-	return new(fastReflection_EventNewClass)
+func (x *fastReflection_EventCreateClass) New() protoreflect.Message {
+	return new(fastReflection_EventCreateClass)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_EventNewClass) Interface() protoreflect.ProtoMessage {
-	return (*EventNewClass)(x)
+func (x *fastReflection_EventCreateClass) Interface() protoreflect.ProtoMessage {
+	return (*EventCreateClass)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -709,28 +654,16 @@ func (x *fastReflection_EventNewClass) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_EventNewClass) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_EventCreateClass) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Operator != "" {
 		value := protoreflect.ValueOfString(x.Operator)
-		if !f(fd_EventNewClass_operator, value) {
+		if !f(fd_EventCreateClass_operator, value) {
 			return
 		}
 	}
 	if x.Class != nil {
 		value := protoreflect.ValueOfMessage(x.Class.ProtoReflect())
-		if !f(fd_EventNewClass_class, value) {
-			return
-		}
-	}
-	if len(x.Traits) != 0 {
-		value := protoreflect.ValueOfList(&_EventNewClass_3_list{list: &x.Traits})
-		if !f(fd_EventNewClass_traits, value) {
-			return
-		}
-	}
-	if x.Data != nil {
-		value := protoreflect.ValueOfMessage(x.Data.ProtoReflect())
-		if !f(fd_EventNewClass_data, value) {
+		if !f(fd_EventCreateClass_class, value) {
 			return
 		}
 	}
@@ -747,21 +680,17 @@ func (x *fastReflection_EventNewClass) Range(f func(protoreflect.FieldDescriptor
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_EventNewClass) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_EventCreateClass) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewClass.operator":
+	case "andromeda.internft.v1alpha1.EventCreateClass.operator":
 		return x.Operator != ""
-	case "andromeda.internft.v1alpha1.EventNewClass.class":
+	case "andromeda.internft.v1alpha1.EventCreateClass.class":
 		return x.Class != nil
-	case "andromeda.internft.v1alpha1.EventNewClass.traits":
-		return len(x.Traits) != 0
-	case "andromeda.internft.v1alpha1.EventNewClass.data":
-		return x.Data != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventCreateClass"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventCreateClass does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -771,21 +700,17 @@ func (x *fastReflection_EventNewClass) Has(fd protoreflect.FieldDescriptor) bool
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventNewClass) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_EventCreateClass) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewClass.operator":
+	case "andromeda.internft.v1alpha1.EventCreateClass.operator":
 		x.Operator = ""
-	case "andromeda.internft.v1alpha1.EventNewClass.class":
+	case "andromeda.internft.v1alpha1.EventCreateClass.class":
 		x.Class = nil
-	case "andromeda.internft.v1alpha1.EventNewClass.traits":
-		x.Traits = nil
-	case "andromeda.internft.v1alpha1.EventNewClass.data":
-		x.Data = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventCreateClass"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventCreateClass does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -795,28 +720,19 @@ func (x *fastReflection_EventNewClass) Clear(fd protoreflect.FieldDescriptor) {
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_EventNewClass) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventCreateClass) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewClass.operator":
+	case "andromeda.internft.v1alpha1.EventCreateClass.operator":
 		value := x.Operator
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.EventNewClass.class":
+	case "andromeda.internft.v1alpha1.EventCreateClass.class":
 		value := x.Class
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventNewClass.traits":
-		if len(x.Traits) == 0 {
-			return protoreflect.ValueOfList(&_EventNewClass_3_list{})
-		}
-		listValue := &_EventNewClass_3_list{list: &x.Traits}
-		return protoreflect.ValueOfList(listValue)
-	case "andromeda.internft.v1alpha1.EventNewClass.data":
-		value := x.Data
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventCreateClass"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewClass does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventCreateClass does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -830,23 +746,17 @@ func (x *fastReflection_EventNewClass) Get(descriptor protoreflect.FieldDescript
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventNewClass) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_EventCreateClass) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewClass.operator":
+	case "andromeda.internft.v1alpha1.EventCreateClass.operator":
 		x.Operator = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.EventNewClass.class":
+	case "andromeda.internft.v1alpha1.EventCreateClass.class":
 		x.Class = value.Message().Interface().(*Class)
-	case "andromeda.internft.v1alpha1.EventNewClass.traits":
-		lv := value.List()
-		clv := lv.(*_EventNewClass_3_list)
-		x.Traits = *clv.list
-	case "andromeda.internft.v1alpha1.EventNewClass.data":
-		x.Data = value.Message().Interface().(*anypb.Any)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventCreateClass"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventCreateClass does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -860,65 +770,48 @@ func (x *fastReflection_EventNewClass) Set(fd protoreflect.FieldDescriptor, valu
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventNewClass) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventCreateClass) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewClass.class":
+	case "andromeda.internft.v1alpha1.EventCreateClass.class":
 		if x.Class == nil {
 			x.Class = new(Class)
 		}
 		return protoreflect.ValueOfMessage(x.Class.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventNewClass.traits":
-		if x.Traits == nil {
-			x.Traits = []*Trait{}
-		}
-		value := &_EventNewClass_3_list{list: &x.Traits}
-		return protoreflect.ValueOfList(value)
-	case "andromeda.internft.v1alpha1.EventNewClass.data":
-		if x.Data == nil {
-			x.Data = new(anypb.Any)
-		}
-		return protoreflect.ValueOfMessage(x.Data.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventNewClass.operator":
-		panic(fmt.Errorf("field operator of message andromeda.internft.v1alpha1.EventNewClass is not mutable"))
+	case "andromeda.internft.v1alpha1.EventCreateClass.operator":
+		panic(fmt.Errorf("field operator of message andromeda.internft.v1alpha1.EventCreateClass is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventCreateClass"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventCreateClass does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_EventNewClass) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventCreateClass) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewClass.operator":
+	case "andromeda.internft.v1alpha1.EventCreateClass.operator":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.EventNewClass.class":
+	case "andromeda.internft.v1alpha1.EventCreateClass.class":
 		m := new(Class)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventNewClass.traits":
-		list := []*Trait{}
-		return protoreflect.ValueOfList(&_EventNewClass_3_list{list: &list})
-	case "andromeda.internft.v1alpha1.EventNewClass.data":
-		m := new(anypb.Any)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventCreateClass"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventCreateClass does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_EventNewClass) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_EventCreateClass) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventNewClass", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventCreateClass", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -926,7 +819,7 @@ func (x *fastReflection_EventNewClass) WhichOneof(d protoreflect.OneofDescriptor
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_EventNewClass) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_EventCreateClass) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -937,7 +830,7 @@ func (x *fastReflection_EventNewClass) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventNewClass) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_EventCreateClass) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -949,7 +842,7 @@ func (x *fastReflection_EventNewClass) SetUnknown(fields protoreflect.RawFields)
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_EventNewClass) IsValid() bool {
+func (x *fastReflection_EventCreateClass) IsValid() bool {
 	return x != nil
 }
 
@@ -959,9 +852,9 @@ func (x *fastReflection_EventNewClass) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_EventNewClass) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_EventCreateClass) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*EventNewClass)
+		x := input.Message.Interface().(*EventCreateClass)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -981,16 +874,6 @@ func (x *fastReflection_EventNewClass) ProtoMethods() *protoiface.Methods {
 			l = options.Size(x.Class)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if len(x.Traits) > 0 {
-			for _, e := range x.Traits {
-				l = options.Size(e)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
-		}
-		if x.Data != nil {
-			l = options.Size(x.Data)
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -1001,7 +884,7 @@ func (x *fastReflection_EventNewClass) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*EventNewClass)
+		x := input.Message.Interface().(*EventCreateClass)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1019,36 +902,6 @@ func (x *fastReflection_EventNewClass) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.Data != nil {
-			encoded, err := options.Marshal(x.Data)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
-			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0x22
-		}
-		if len(x.Traits) > 0 {
-			for iNdEx := len(x.Traits) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.Traits[iNdEx])
-				if err != nil {
-					return protoiface.MarshalOutput{
-						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-						Buf:               input.Buf,
-					}, err
-				}
-				i -= len(encoded)
-				copy(dAtA[i:], encoded)
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-				i--
-				dAtA[i] = 0x1a
-			}
 		}
 		if x.Class != nil {
 			encoded, err := options.Marshal(x.Class)
@@ -1082,7 +935,7 @@ func (x *fastReflection_EventNewClass) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*EventNewClass)
+		x := input.Message.Interface().(*EventCreateClass)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1114,10 +967,10 @@ func (x *fastReflection_EventNewClass) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventNewClass: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventCreateClass: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventNewClass: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventCreateClass: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -1188,76 +1041,6 @@ func (x *fastReflection_EventNewClass) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
-			case 3:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Traits", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Traits = append(x.Traits, &Trait{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Traits[len(x.Traits)-1]); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			case 4:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if x.Data == nil {
-					x.Data = &anypb.Any{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Data); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -1294,29 +1077,29 @@ func (x *fastReflection_EventNewClass) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_EventUpdateClass          protoreflect.MessageDescriptor
-	fd_EventUpdateClass_operator protoreflect.FieldDescriptor
-	fd_EventUpdateClass_class    protoreflect.FieldDescriptor
-	fd_EventUpdateClass_data     protoreflect.FieldDescriptor
+	md_EventUpdateTrait          protoreflect.MessageDescriptor
+	fd_EventUpdateTrait_operator protoreflect.FieldDescriptor
+	fd_EventUpdateTrait_class    protoreflect.FieldDescriptor
+	fd_EventUpdateTrait_trait    protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_event_proto_init()
-	md_EventUpdateClass = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventUpdateClass")
-	fd_EventUpdateClass_operator = md_EventUpdateClass.Fields().ByName("operator")
-	fd_EventUpdateClass_class = md_EventUpdateClass.Fields().ByName("class")
-	fd_EventUpdateClass_data = md_EventUpdateClass.Fields().ByName("data")
+	md_EventUpdateTrait = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventUpdateTrait")
+	fd_EventUpdateTrait_operator = md_EventUpdateTrait.Fields().ByName("operator")
+	fd_EventUpdateTrait_class = md_EventUpdateTrait.Fields().ByName("class")
+	fd_EventUpdateTrait_trait = md_EventUpdateTrait.Fields().ByName("trait")
 }
 
-var _ protoreflect.Message = (*fastReflection_EventUpdateClass)(nil)
+var _ protoreflect.Message = (*fastReflection_EventUpdateTrait)(nil)
 
-type fastReflection_EventUpdateClass EventUpdateClass
+type fastReflection_EventUpdateTrait EventUpdateTrait
 
-func (x *EventUpdateClass) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_EventUpdateClass)(x)
+func (x *EventUpdateTrait) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_EventUpdateTrait)(x)
 }
 
-func (x *EventUpdateClass) slowProtoReflect() protoreflect.Message {
+func (x *EventUpdateTrait) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1328,43 +1111,43 @@ func (x *EventUpdateClass) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_EventUpdateClass_messageType fastReflection_EventUpdateClass_messageType
-var _ protoreflect.MessageType = fastReflection_EventUpdateClass_messageType{}
+var _fastReflection_EventUpdateTrait_messageType fastReflection_EventUpdateTrait_messageType
+var _ protoreflect.MessageType = fastReflection_EventUpdateTrait_messageType{}
 
-type fastReflection_EventUpdateClass_messageType struct{}
+type fastReflection_EventUpdateTrait_messageType struct{}
 
-func (x fastReflection_EventUpdateClass_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_EventUpdateClass)(nil)
+func (x fastReflection_EventUpdateTrait_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_EventUpdateTrait)(nil)
 }
-func (x fastReflection_EventUpdateClass_messageType) New() protoreflect.Message {
-	return new(fastReflection_EventUpdateClass)
+func (x fastReflection_EventUpdateTrait_messageType) New() protoreflect.Message {
+	return new(fastReflection_EventUpdateTrait)
 }
-func (x fastReflection_EventUpdateClass_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventUpdateClass
+func (x fastReflection_EventUpdateTrait_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventUpdateTrait
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_EventUpdateClass) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventUpdateClass
+func (x *fastReflection_EventUpdateTrait) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventUpdateTrait
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_EventUpdateClass) Type() protoreflect.MessageType {
-	return _fastReflection_EventUpdateClass_messageType
+func (x *fastReflection_EventUpdateTrait) Type() protoreflect.MessageType {
+	return _fastReflection_EventUpdateTrait_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_EventUpdateClass) New() protoreflect.Message {
-	return new(fastReflection_EventUpdateClass)
+func (x *fastReflection_EventUpdateTrait) New() protoreflect.Message {
+	return new(fastReflection_EventUpdateTrait)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_EventUpdateClass) Interface() protoreflect.ProtoMessage {
-	return (*EventUpdateClass)(x)
+func (x *fastReflection_EventUpdateTrait) Interface() protoreflect.ProtoMessage {
+	return (*EventUpdateTrait)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -1372,22 +1155,22 @@ func (x *fastReflection_EventUpdateClass) Interface() protoreflect.ProtoMessage 
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_EventUpdateClass) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_EventUpdateTrait) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Operator != "" {
 		value := protoreflect.ValueOfString(x.Operator)
-		if !f(fd_EventUpdateClass_operator, value) {
+		if !f(fd_EventUpdateTrait_operator, value) {
 			return
 		}
 	}
 	if x.Class != nil {
 		value := protoreflect.ValueOfMessage(x.Class.ProtoReflect())
-		if !f(fd_EventUpdateClass_class, value) {
+		if !f(fd_EventUpdateTrait_class, value) {
 			return
 		}
 	}
-	if x.Data != nil {
-		value := protoreflect.ValueOfMessage(x.Data.ProtoReflect())
-		if !f(fd_EventUpdateClass_data, value) {
+	if x.Trait != nil {
+		value := protoreflect.ValueOfMessage(x.Trait.ProtoReflect())
+		if !f(fd_EventUpdateTrait_trait, value) {
 			return
 		}
 	}
@@ -1404,19 +1187,19 @@ func (x *fastReflection_EventUpdateClass) Range(f func(protoreflect.FieldDescrip
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_EventUpdateClass) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_EventUpdateTrait) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateClass.operator":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.operator":
 		return x.Operator != ""
-	case "andromeda.internft.v1alpha1.EventUpdateClass.class":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.class":
 		return x.Class != nil
-	case "andromeda.internft.v1alpha1.EventUpdateClass.data":
-		return x.Data != nil
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.trait":
+		return x.Trait != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateTrait"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateTrait does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1426,19 +1209,19 @@ func (x *fastReflection_EventUpdateClass) Has(fd protoreflect.FieldDescriptor) b
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventUpdateClass) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_EventUpdateTrait) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateClass.operator":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.operator":
 		x.Operator = ""
-	case "andromeda.internft.v1alpha1.EventUpdateClass.class":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.class":
 		x.Class = nil
-	case "andromeda.internft.v1alpha1.EventUpdateClass.data":
-		x.Data = nil
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.trait":
+		x.Trait = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateTrait"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateTrait does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1448,22 +1231,22 @@ func (x *fastReflection_EventUpdateClass) Clear(fd protoreflect.FieldDescriptor)
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_EventUpdateClass) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventUpdateTrait) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateClass.operator":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.operator":
 		value := x.Operator
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.EventUpdateClass.class":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.class":
 		value := x.Class
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventUpdateClass.data":
-		value := x.Data
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.trait":
+		value := x.Trait
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateTrait"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateClass does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateTrait does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -1477,19 +1260,19 @@ func (x *fastReflection_EventUpdateClass) Get(descriptor protoreflect.FieldDescr
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventUpdateClass) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_EventUpdateTrait) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateClass.operator":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.operator":
 		x.Operator = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.EventUpdateClass.class":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.class":
 		x.Class = value.Message().Interface().(*Class)
-	case "andromeda.internft.v1alpha1.EventUpdateClass.data":
-		x.Data = value.Message().Interface().(*anypb.Any)
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.trait":
+		x.Trait = value.Message().Interface().(*Trait)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateTrait"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateTrait does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1503,56 +1286,56 @@ func (x *fastReflection_EventUpdateClass) Set(fd protoreflect.FieldDescriptor, v
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventUpdateClass) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventUpdateTrait) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateClass.class":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.class":
 		if x.Class == nil {
 			x.Class = new(Class)
 		}
 		return protoreflect.ValueOfMessage(x.Class.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventUpdateClass.data":
-		if x.Data == nil {
-			x.Data = new(anypb.Any)
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.trait":
+		if x.Trait == nil {
+			x.Trait = new(Trait)
 		}
-		return protoreflect.ValueOfMessage(x.Data.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventUpdateClass.operator":
-		panic(fmt.Errorf("field operator of message andromeda.internft.v1alpha1.EventUpdateClass is not mutable"))
+		return protoreflect.ValueOfMessage(x.Trait.ProtoReflect())
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.operator":
+		panic(fmt.Errorf("field operator of message andromeda.internft.v1alpha1.EventUpdateTrait is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateTrait"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateTrait does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_EventUpdateClass) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventUpdateTrait) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateClass.operator":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.operator":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.EventUpdateClass.class":
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.class":
 		m := new(Class)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventUpdateClass.data":
-		m := new(anypb.Any)
+	case "andromeda.internft.v1alpha1.EventUpdateTrait.trait":
+		m := new(Trait)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateClass"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateTrait"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateClass does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateTrait does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_EventUpdateClass) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_EventUpdateTrait) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventUpdateClass", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventUpdateTrait", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -1560,7 +1343,7 @@ func (x *fastReflection_EventUpdateClass) WhichOneof(d protoreflect.OneofDescrip
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_EventUpdateClass) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_EventUpdateTrait) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -1571,7 +1354,7 @@ func (x *fastReflection_EventUpdateClass) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventUpdateClass) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_EventUpdateTrait) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -1583,7 +1366,7 @@ func (x *fastReflection_EventUpdateClass) SetUnknown(fields protoreflect.RawFiel
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_EventUpdateClass) IsValid() bool {
+func (x *fastReflection_EventUpdateTrait) IsValid() bool {
 	return x != nil
 }
 
@@ -1593,9 +1376,9 @@ func (x *fastReflection_EventUpdateClass) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_EventUpdateClass) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_EventUpdateTrait) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*EventUpdateClass)
+		x := input.Message.Interface().(*EventUpdateTrait)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1615,8 +1398,8 @@ func (x *fastReflection_EventUpdateClass) ProtoMethods() *protoiface.Methods {
 			l = options.Size(x.Class)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Data != nil {
-			l = options.Size(x.Data)
+		if x.Trait != nil {
+			l = options.Size(x.Trait)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
@@ -1629,7 +1412,7 @@ func (x *fastReflection_EventUpdateClass) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*EventUpdateClass)
+		x := input.Message.Interface().(*EventUpdateTrait)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1648,8 +1431,8 @@ func (x *fastReflection_EventUpdateClass) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.Data != nil {
-			encoded, err := options.Marshal(x.Data)
+		if x.Trait != nil {
+			encoded, err := options.Marshal(x.Trait)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1694,7 +1477,7 @@ func (x *fastReflection_EventUpdateClass) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*EventUpdateClass)
+		x := input.Message.Interface().(*EventUpdateTrait)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1726,10 +1509,10 @@ func (x *fastReflection_EventUpdateClass) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventUpdateClass: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventUpdateTrait: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventUpdateClass: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventUpdateTrait: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -1802,7 +1585,7 @@ func (x *fastReflection_EventUpdateClass) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Trait", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -1829,10 +1612,10 @@ func (x *fastReflection_EventUpdateClass) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Data == nil {
-					x.Data = &anypb.Any{}
+				if x.Trait == nil {
+					x.Trait = &Trait{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Data); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Trait); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -1871,83 +1654,28 @@ func (x *fastReflection_EventUpdateClass) ProtoMethods() *protoiface.Methods {
 	}
 }
 
-var _ protoreflect.List = (*_EventNewToken_4_list)(nil)
-
-type _EventNewToken_4_list struct {
-	list *[]*Property
-}
-
-func (x *_EventNewToken_4_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_EventNewToken_4_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
-}
-
-func (x *_EventNewToken_4_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Property)
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_EventNewToken_4_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Property)
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_EventNewToken_4_list) AppendMutable() protoreflect.Value {
-	v := new(Property)
-	*x.list = append(*x.list, v)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_EventNewToken_4_list) Truncate(n int) {
-	for i := n; i < len(*x.list); i++ {
-		(*x.list)[i] = nil
-	}
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_EventNewToken_4_list) NewElement() protoreflect.Value {
-	v := new(Property)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_EventNewToken_4_list) IsValid() bool {
-	return x.list != nil
-}
-
 var (
-	md_EventNewToken            protoreflect.MessageDescriptor
-	fd_EventNewToken_operator   protoreflect.FieldDescriptor
-	fd_EventNewToken_recipient  protoreflect.FieldDescriptor
-	fd_EventNewToken_token      protoreflect.FieldDescriptor
-	fd_EventNewToken_properties protoreflect.FieldDescriptor
+	md_EventMintToken          protoreflect.MessageDescriptor
+	fd_EventMintToken_operator protoreflect.FieldDescriptor
+	fd_EventMintToken_token    protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_event_proto_init()
-	md_EventNewToken = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventNewToken")
-	fd_EventNewToken_operator = md_EventNewToken.Fields().ByName("operator")
-	fd_EventNewToken_recipient = md_EventNewToken.Fields().ByName("recipient")
-	fd_EventNewToken_token = md_EventNewToken.Fields().ByName("token")
-	fd_EventNewToken_properties = md_EventNewToken.Fields().ByName("properties")
+	md_EventMintToken = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventMintToken")
+	fd_EventMintToken_operator = md_EventMintToken.Fields().ByName("operator")
+	fd_EventMintToken_token = md_EventMintToken.Fields().ByName("token")
 }
 
-var _ protoreflect.Message = (*fastReflection_EventNewToken)(nil)
+var _ protoreflect.Message = (*fastReflection_EventMintToken)(nil)
 
-type fastReflection_EventNewToken EventNewToken
+type fastReflection_EventMintToken EventMintToken
 
-func (x *EventNewToken) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_EventNewToken)(x)
+func (x *EventMintToken) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_EventMintToken)(x)
 }
 
-func (x *EventNewToken) slowProtoReflect() protoreflect.Message {
+func (x *EventMintToken) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1959,43 +1687,43 @@ func (x *EventNewToken) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_EventNewToken_messageType fastReflection_EventNewToken_messageType
-var _ protoreflect.MessageType = fastReflection_EventNewToken_messageType{}
+var _fastReflection_EventMintToken_messageType fastReflection_EventMintToken_messageType
+var _ protoreflect.MessageType = fastReflection_EventMintToken_messageType{}
 
-type fastReflection_EventNewToken_messageType struct{}
+type fastReflection_EventMintToken_messageType struct{}
 
-func (x fastReflection_EventNewToken_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_EventNewToken)(nil)
+func (x fastReflection_EventMintToken_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_EventMintToken)(nil)
 }
-func (x fastReflection_EventNewToken_messageType) New() protoreflect.Message {
-	return new(fastReflection_EventNewToken)
+func (x fastReflection_EventMintToken_messageType) New() protoreflect.Message {
+	return new(fastReflection_EventMintToken)
 }
-func (x fastReflection_EventNewToken_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventNewToken
+func (x fastReflection_EventMintToken_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventMintToken
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_EventNewToken) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventNewToken
+func (x *fastReflection_EventMintToken) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventMintToken
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_EventNewToken) Type() protoreflect.MessageType {
-	return _fastReflection_EventNewToken_messageType
+func (x *fastReflection_EventMintToken) Type() protoreflect.MessageType {
+	return _fastReflection_EventMintToken_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_EventNewToken) New() protoreflect.Message {
-	return new(fastReflection_EventNewToken)
+func (x *fastReflection_EventMintToken) New() protoreflect.Message {
+	return new(fastReflection_EventMintToken)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_EventNewToken) Interface() protoreflect.ProtoMessage {
-	return (*EventNewToken)(x)
+func (x *fastReflection_EventMintToken) Interface() protoreflect.ProtoMessage {
+	return (*EventMintToken)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -2003,28 +1731,16 @@ func (x *fastReflection_EventNewToken) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_EventNewToken) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_EventMintToken) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Operator != "" {
 		value := protoreflect.ValueOfString(x.Operator)
-		if !f(fd_EventNewToken_operator, value) {
-			return
-		}
-	}
-	if x.Recipient != "" {
-		value := protoreflect.ValueOfString(x.Recipient)
-		if !f(fd_EventNewToken_recipient, value) {
+		if !f(fd_EventMintToken_operator, value) {
 			return
 		}
 	}
 	if x.Token != nil {
 		value := protoreflect.ValueOfMessage(x.Token.ProtoReflect())
-		if !f(fd_EventNewToken_token, value) {
-			return
-		}
-	}
-	if len(x.Properties) != 0 {
-		value := protoreflect.ValueOfList(&_EventNewToken_4_list{list: &x.Properties})
-		if !f(fd_EventNewToken_properties, value) {
+		if !f(fd_EventMintToken_token, value) {
 			return
 		}
 	}
@@ -2041,21 +1757,17 @@ func (x *fastReflection_EventNewToken) Range(f func(protoreflect.FieldDescriptor
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_EventNewToken) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_EventMintToken) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewToken.operator":
+	case "andromeda.internft.v1alpha1.EventMintToken.operator":
 		return x.Operator != ""
-	case "andromeda.internft.v1alpha1.EventNewToken.recipient":
-		return x.Recipient != ""
-	case "andromeda.internft.v1alpha1.EventNewToken.token":
+	case "andromeda.internft.v1alpha1.EventMintToken.token":
 		return x.Token != nil
-	case "andromeda.internft.v1alpha1.EventNewToken.properties":
-		return len(x.Properties) != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventMintToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventMintToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2065,21 +1777,17 @@ func (x *fastReflection_EventNewToken) Has(fd protoreflect.FieldDescriptor) bool
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventNewToken) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_EventMintToken) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewToken.operator":
+	case "andromeda.internft.v1alpha1.EventMintToken.operator":
 		x.Operator = ""
-	case "andromeda.internft.v1alpha1.EventNewToken.recipient":
-		x.Recipient = ""
-	case "andromeda.internft.v1alpha1.EventNewToken.token":
+	case "andromeda.internft.v1alpha1.EventMintToken.token":
 		x.Token = nil
-	case "andromeda.internft.v1alpha1.EventNewToken.properties":
-		x.Properties = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventMintToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventMintToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2089,28 +1797,19 @@ func (x *fastReflection_EventNewToken) Clear(fd protoreflect.FieldDescriptor) {
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_EventNewToken) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventMintToken) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewToken.operator":
+	case "andromeda.internft.v1alpha1.EventMintToken.operator":
 		value := x.Operator
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.EventNewToken.recipient":
-		value := x.Recipient
-		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.EventNewToken.token":
+	case "andromeda.internft.v1alpha1.EventMintToken.token":
 		value := x.Token
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventNewToken.properties":
-		if len(x.Properties) == 0 {
-			return protoreflect.ValueOfList(&_EventNewToken_4_list{})
-		}
-		listValue := &_EventNewToken_4_list{list: &x.Properties}
-		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventMintToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewToken does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventMintToken does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -2124,23 +1823,17 @@ func (x *fastReflection_EventNewToken) Get(descriptor protoreflect.FieldDescript
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventNewToken) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_EventMintToken) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewToken.operator":
+	case "andromeda.internft.v1alpha1.EventMintToken.operator":
 		x.Operator = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.EventNewToken.recipient":
-		x.Recipient = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.EventNewToken.token":
+	case "andromeda.internft.v1alpha1.EventMintToken.token":
 		x.Token = value.Message().Interface().(*Token)
-	case "andromeda.internft.v1alpha1.EventNewToken.properties":
-		lv := value.List()
-		clv := lv.(*_EventNewToken_4_list)
-		x.Properties = *clv.list
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventMintToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventMintToken does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2154,61 +1847,48 @@ func (x *fastReflection_EventNewToken) Set(fd protoreflect.FieldDescriptor, valu
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventNewToken) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventMintToken) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewToken.token":
+	case "andromeda.internft.v1alpha1.EventMintToken.token":
 		if x.Token == nil {
 			x.Token = new(Token)
 		}
 		return protoreflect.ValueOfMessage(x.Token.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventNewToken.properties":
-		if x.Properties == nil {
-			x.Properties = []*Property{}
-		}
-		value := &_EventNewToken_4_list{list: &x.Properties}
-		return protoreflect.ValueOfList(value)
-	case "andromeda.internft.v1alpha1.EventNewToken.operator":
-		panic(fmt.Errorf("field operator of message andromeda.internft.v1alpha1.EventNewToken is not mutable"))
-	case "andromeda.internft.v1alpha1.EventNewToken.recipient":
-		panic(fmt.Errorf("field recipient of message andromeda.internft.v1alpha1.EventNewToken is not mutable"))
+	case "andromeda.internft.v1alpha1.EventMintToken.operator":
+		panic(fmt.Errorf("field operator of message andromeda.internft.v1alpha1.EventMintToken is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventMintToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventMintToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_EventNewToken) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventMintToken) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventNewToken.operator":
+	case "andromeda.internft.v1alpha1.EventMintToken.operator":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.EventNewToken.recipient":
-		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.EventNewToken.token":
+	case "andromeda.internft.v1alpha1.EventMintToken.token":
 		m := new(Token)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventNewToken.properties":
-		list := []*Property{}
-		return protoreflect.ValueOfList(&_EventNewToken_4_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventNewToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventMintToken"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventNewToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventMintToken does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_EventNewToken) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_EventMintToken) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventNewToken", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventMintToken", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -2216,7 +1896,7 @@ func (x *fastReflection_EventNewToken) WhichOneof(d protoreflect.OneofDescriptor
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_EventNewToken) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_EventMintToken) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -2227,7 +1907,7 @@ func (x *fastReflection_EventNewToken) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventNewToken) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_EventMintToken) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -2239,7 +1919,7 @@ func (x *fastReflection_EventNewToken) SetUnknown(fields protoreflect.RawFields)
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_EventNewToken) IsValid() bool {
+func (x *fastReflection_EventMintToken) IsValid() bool {
 	return x != nil
 }
 
@@ -2249,9 +1929,9 @@ func (x *fastReflection_EventNewToken) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_EventNewToken) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_EventMintToken) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*EventNewToken)
+		x := input.Message.Interface().(*EventMintToken)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2267,19 +1947,9 @@ func (x *fastReflection_EventNewToken) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.Recipient)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
 		if x.Token != nil {
 			l = options.Size(x.Token)
 			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if len(x.Properties) > 0 {
-			for _, e := range x.Properties {
-				l = options.Size(e)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -2291,7 +1961,7 @@ func (x *fastReflection_EventNewToken) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*EventNewToken)
+		x := input.Message.Interface().(*EventMintToken)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2309,22 +1979,6 @@ func (x *fastReflection_EventNewToken) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
-		}
-		if len(x.Properties) > 0 {
-			for iNdEx := len(x.Properties) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.Properties[iNdEx])
-				if err != nil {
-					return protoiface.MarshalOutput{
-						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-						Buf:               input.Buf,
-					}, err
-				}
-				i -= len(encoded)
-				copy(dAtA[i:], encoded)
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-				i--
-				dAtA[i] = 0x22
-			}
 		}
 		if x.Token != nil {
 			encoded, err := options.Marshal(x.Token)
@@ -2338,13 +1992,6 @@ func (x *fastReflection_EventNewToken) ProtoMethods() *protoiface.Methods {
 			copy(dAtA[i:], encoded)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x1a
-		}
-		if len(x.Recipient) > 0 {
-			i -= len(x.Recipient)
-			copy(dAtA[i:], x.Recipient)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Recipient)))
-			i--
 			dAtA[i] = 0x12
 		}
 		if len(x.Operator) > 0 {
@@ -2365,7 +2012,7 @@ func (x *fastReflection_EventNewToken) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*EventNewToken)
+		x := input.Message.Interface().(*EventMintToken)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2397,10 +2044,10 @@ func (x *fastReflection_EventNewToken) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventNewToken: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventMintToken: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventNewToken: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventMintToken: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -2436,38 +2083,6 @@ func (x *fastReflection_EventNewToken) ProtoMethods() *protoiface.Methods {
 				x.Operator = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 2:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Recipient", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Recipient = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 3:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
 				}
@@ -2500,40 +2115,6 @@ func (x *fastReflection_EventNewToken) ProtoMethods() *protoiface.Methods {
 					x.Token = &Token{}
 				}
 				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Token); err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				iNdEx = postIndex
-			case 4:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Properties", wireType)
-				}
-				var msglen int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					msglen |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				if msglen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + msglen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Properties = append(x.Properties, &Property{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Properties[len(x.Properties)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -3071,81 +2652,30 @@ func (x *fastReflection_EventBurnToken) ProtoMethods() *protoiface.Methods {
 	}
 }
 
-var _ protoreflect.List = (*_EventUpdateToken_3_list)(nil)
-
-type _EventUpdateToken_3_list struct {
-	list *[]*Property
-}
-
-func (x *_EventUpdateToken_3_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_EventUpdateToken_3_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
-}
-
-func (x *_EventUpdateToken_3_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Property)
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_EventUpdateToken_3_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Property)
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_EventUpdateToken_3_list) AppendMutable() protoreflect.Value {
-	v := new(Property)
-	*x.list = append(*x.list, v)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_EventUpdateToken_3_list) Truncate(n int) {
-	for i := n; i < len(*x.list); i++ {
-		(*x.list)[i] = nil
-	}
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_EventUpdateToken_3_list) NewElement() protoreflect.Value {
-	v := new(Property)
-	return protoreflect.ValueOfMessage(v.ProtoReflect())
-}
-
-func (x *_EventUpdateToken_3_list) IsValid() bool {
-	return x.list != nil
-}
-
 var (
-	md_EventUpdateToken            protoreflect.MessageDescriptor
-	fd_EventUpdateToken_owner      protoreflect.FieldDescriptor
-	fd_EventUpdateToken_token      protoreflect.FieldDescriptor
-	fd_EventUpdateToken_properties protoreflect.FieldDescriptor
+	md_EventUpdateProperty          protoreflect.MessageDescriptor
+	fd_EventUpdateProperty_operator protoreflect.FieldDescriptor
+	fd_EventUpdateProperty_token    protoreflect.FieldDescriptor
+	fd_EventUpdateProperty_property protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_internft_v1alpha1_event_proto_init()
-	md_EventUpdateToken = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventUpdateToken")
-	fd_EventUpdateToken_owner = md_EventUpdateToken.Fields().ByName("owner")
-	fd_EventUpdateToken_token = md_EventUpdateToken.Fields().ByName("token")
-	fd_EventUpdateToken_properties = md_EventUpdateToken.Fields().ByName("properties")
+	md_EventUpdateProperty = File_andromeda_internft_v1alpha1_event_proto.Messages().ByName("EventUpdateProperty")
+	fd_EventUpdateProperty_operator = md_EventUpdateProperty.Fields().ByName("operator")
+	fd_EventUpdateProperty_token = md_EventUpdateProperty.Fields().ByName("token")
+	fd_EventUpdateProperty_property = md_EventUpdateProperty.Fields().ByName("property")
 }
 
-var _ protoreflect.Message = (*fastReflection_EventUpdateToken)(nil)
+var _ protoreflect.Message = (*fastReflection_EventUpdateProperty)(nil)
 
-type fastReflection_EventUpdateToken EventUpdateToken
+type fastReflection_EventUpdateProperty EventUpdateProperty
 
-func (x *EventUpdateToken) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_EventUpdateToken)(x)
+func (x *EventUpdateProperty) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_EventUpdateProperty)(x)
 }
 
-func (x *EventUpdateToken) slowProtoReflect() protoreflect.Message {
+func (x *EventUpdateProperty) slowProtoReflect() protoreflect.Message {
 	mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3157,43 +2687,43 @@ func (x *EventUpdateToken) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_EventUpdateToken_messageType fastReflection_EventUpdateToken_messageType
-var _ protoreflect.MessageType = fastReflection_EventUpdateToken_messageType{}
+var _fastReflection_EventUpdateProperty_messageType fastReflection_EventUpdateProperty_messageType
+var _ protoreflect.MessageType = fastReflection_EventUpdateProperty_messageType{}
 
-type fastReflection_EventUpdateToken_messageType struct{}
+type fastReflection_EventUpdateProperty_messageType struct{}
 
-func (x fastReflection_EventUpdateToken_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_EventUpdateToken)(nil)
+func (x fastReflection_EventUpdateProperty_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_EventUpdateProperty)(nil)
 }
-func (x fastReflection_EventUpdateToken_messageType) New() protoreflect.Message {
-	return new(fastReflection_EventUpdateToken)
+func (x fastReflection_EventUpdateProperty_messageType) New() protoreflect.Message {
+	return new(fastReflection_EventUpdateProperty)
 }
-func (x fastReflection_EventUpdateToken_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventUpdateToken
+func (x fastReflection_EventUpdateProperty_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventUpdateProperty
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_EventUpdateToken) Descriptor() protoreflect.MessageDescriptor {
-	return md_EventUpdateToken
+func (x *fastReflection_EventUpdateProperty) Descriptor() protoreflect.MessageDescriptor {
+	return md_EventUpdateProperty
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_EventUpdateToken) Type() protoreflect.MessageType {
-	return _fastReflection_EventUpdateToken_messageType
+func (x *fastReflection_EventUpdateProperty) Type() protoreflect.MessageType {
+	return _fastReflection_EventUpdateProperty_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_EventUpdateToken) New() protoreflect.Message {
-	return new(fastReflection_EventUpdateToken)
+func (x *fastReflection_EventUpdateProperty) New() protoreflect.Message {
+	return new(fastReflection_EventUpdateProperty)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_EventUpdateToken) Interface() protoreflect.ProtoMessage {
-	return (*EventUpdateToken)(x)
+func (x *fastReflection_EventUpdateProperty) Interface() protoreflect.ProtoMessage {
+	return (*EventUpdateProperty)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -3201,22 +2731,22 @@ func (x *fastReflection_EventUpdateToken) Interface() protoreflect.ProtoMessage 
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_EventUpdateToken) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Owner != "" {
-		value := protoreflect.ValueOfString(x.Owner)
-		if !f(fd_EventUpdateToken_owner, value) {
+func (x *fastReflection_EventUpdateProperty) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Operator != "" {
+		value := protoreflect.ValueOfString(x.Operator)
+		if !f(fd_EventUpdateProperty_operator, value) {
 			return
 		}
 	}
 	if x.Token != nil {
 		value := protoreflect.ValueOfMessage(x.Token.ProtoReflect())
-		if !f(fd_EventUpdateToken_token, value) {
+		if !f(fd_EventUpdateProperty_token, value) {
 			return
 		}
 	}
-	if len(x.Properties) != 0 {
-		value := protoreflect.ValueOfList(&_EventUpdateToken_3_list{list: &x.Properties})
-		if !f(fd_EventUpdateToken_properties, value) {
+	if x.Property != nil {
+		value := protoreflect.ValueOfMessage(x.Property.ProtoReflect())
+		if !f(fd_EventUpdateProperty_property, value) {
 			return
 		}
 	}
@@ -3233,19 +2763,19 @@ func (x *fastReflection_EventUpdateToken) Range(f func(protoreflect.FieldDescrip
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_EventUpdateToken) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_EventUpdateProperty) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateToken.owner":
-		return x.Owner != ""
-	case "andromeda.internft.v1alpha1.EventUpdateToken.token":
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.operator":
+		return x.Operator != ""
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.token":
 		return x.Token != nil
-	case "andromeda.internft.v1alpha1.EventUpdateToken.properties":
-		return len(x.Properties) != 0
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.property":
+		return x.Property != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateProperty"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateProperty does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3255,19 +2785,19 @@ func (x *fastReflection_EventUpdateToken) Has(fd protoreflect.FieldDescriptor) b
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventUpdateToken) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_EventUpdateProperty) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateToken.owner":
-		x.Owner = ""
-	case "andromeda.internft.v1alpha1.EventUpdateToken.token":
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.operator":
+		x.Operator = ""
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.token":
 		x.Token = nil
-	case "andromeda.internft.v1alpha1.EventUpdateToken.properties":
-		x.Properties = nil
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.property":
+		x.Property = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateProperty"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateProperty does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3277,25 +2807,22 @@ func (x *fastReflection_EventUpdateToken) Clear(fd protoreflect.FieldDescriptor)
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_EventUpdateToken) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventUpdateProperty) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateToken.owner":
-		value := x.Owner
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.operator":
+		value := x.Operator
 		return protoreflect.ValueOfString(value)
-	case "andromeda.internft.v1alpha1.EventUpdateToken.token":
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.token":
 		value := x.Token
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventUpdateToken.properties":
-		if len(x.Properties) == 0 {
-			return protoreflect.ValueOfList(&_EventUpdateToken_3_list{})
-		}
-		listValue := &_EventUpdateToken_3_list{list: &x.Properties}
-		return protoreflect.ValueOfList(listValue)
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.property":
+		value := x.Property
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateProperty"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateToken does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateProperty does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -3309,21 +2836,19 @@ func (x *fastReflection_EventUpdateToken) Get(descriptor protoreflect.FieldDescr
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventUpdateToken) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_EventUpdateProperty) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateToken.owner":
-		x.Owner = value.Interface().(string)
-	case "andromeda.internft.v1alpha1.EventUpdateToken.token":
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.operator":
+		x.Operator = value.Interface().(string)
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.token":
 		x.Token = value.Message().Interface().(*Token)
-	case "andromeda.internft.v1alpha1.EventUpdateToken.properties":
-		lv := value.List()
-		clv := lv.(*_EventUpdateToken_3_list)
-		x.Properties = *clv.list
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.property":
+		x.Property = value.Message().Interface().(*Property)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateProperty"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateProperty does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3337,57 +2862,56 @@ func (x *fastReflection_EventUpdateToken) Set(fd protoreflect.FieldDescriptor, v
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventUpdateToken) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventUpdateProperty) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateToken.token":
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.token":
 		if x.Token == nil {
 			x.Token = new(Token)
 		}
 		return protoreflect.ValueOfMessage(x.Token.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventUpdateToken.properties":
-		if x.Properties == nil {
-			x.Properties = []*Property{}
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.property":
+		if x.Property == nil {
+			x.Property = new(Property)
 		}
-		value := &_EventUpdateToken_3_list{list: &x.Properties}
-		return protoreflect.ValueOfList(value)
-	case "andromeda.internft.v1alpha1.EventUpdateToken.owner":
-		panic(fmt.Errorf("field owner of message andromeda.internft.v1alpha1.EventUpdateToken is not mutable"))
+		return protoreflect.ValueOfMessage(x.Property.ProtoReflect())
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.operator":
+		panic(fmt.Errorf("field operator of message andromeda.internft.v1alpha1.EventUpdateProperty is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateProperty"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateProperty does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_EventUpdateToken) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_EventUpdateProperty) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "andromeda.internft.v1alpha1.EventUpdateToken.owner":
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.operator":
 		return protoreflect.ValueOfString("")
-	case "andromeda.internft.v1alpha1.EventUpdateToken.token":
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.token":
 		m := new(Token)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "andromeda.internft.v1alpha1.EventUpdateToken.properties":
-		list := []*Property{}
-		return protoreflect.ValueOfList(&_EventUpdateToken_3_list{list: &list})
+	case "andromeda.internft.v1alpha1.EventUpdateProperty.property":
+		m := new(Property)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateToken"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.internft.v1alpha1.EventUpdateProperty"))
 		}
-		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateToken does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message andromeda.internft.v1alpha1.EventUpdateProperty does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_EventUpdateToken) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_EventUpdateProperty) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventUpdateToken", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in andromeda.internft.v1alpha1.EventUpdateProperty", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -3395,7 +2919,7 @@ func (x *fastReflection_EventUpdateToken) WhichOneof(d protoreflect.OneofDescrip
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_EventUpdateToken) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_EventUpdateProperty) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -3406,7 +2930,7 @@ func (x *fastReflection_EventUpdateToken) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_EventUpdateToken) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_EventUpdateProperty) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -3418,7 +2942,7 @@ func (x *fastReflection_EventUpdateToken) SetUnknown(fields protoreflect.RawFiel
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_EventUpdateToken) IsValid() bool {
+func (x *fastReflection_EventUpdateProperty) IsValid() bool {
 	return x != nil
 }
 
@@ -3428,9 +2952,9 @@ func (x *fastReflection_EventUpdateToken) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_EventUpdateProperty) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*EventUpdateToken)
+		x := input.Message.Interface().(*EventUpdateProperty)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3442,7 +2966,7 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		l = len(x.Owner)
+		l = len(x.Operator)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -3450,11 +2974,9 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 			l = options.Size(x.Token)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if len(x.Properties) > 0 {
-			for _, e := range x.Properties {
-				l = options.Size(e)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
+		if x.Property != nil {
+			l = options.Size(x.Property)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -3466,7 +2988,7 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*EventUpdateToken)
+		x := input.Message.Interface().(*EventUpdateProperty)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3485,21 +3007,19 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.Properties) > 0 {
-			for iNdEx := len(x.Properties) - 1; iNdEx >= 0; iNdEx-- {
-				encoded, err := options.Marshal(x.Properties[iNdEx])
-				if err != nil {
-					return protoiface.MarshalOutput{
-						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-						Buf:               input.Buf,
-					}, err
-				}
-				i -= len(encoded)
-				copy(dAtA[i:], encoded)
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-				i--
-				dAtA[i] = 0x1a
+		if x.Property != nil {
+			encoded, err := options.Marshal(x.Property)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
 			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x1a
 		}
 		if x.Token != nil {
 			encoded, err := options.Marshal(x.Token)
@@ -3515,10 +3035,10 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x12
 		}
-		if len(x.Owner) > 0 {
-			i -= len(x.Owner)
-			copy(dAtA[i:], x.Owner)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Owner)))
+		if len(x.Operator) > 0 {
+			i -= len(x.Operator)
+			copy(dAtA[i:], x.Operator)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Operator)))
 			i--
 			dAtA[i] = 0xa
 		}
@@ -3533,7 +3053,7 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*EventUpdateToken)
+		x := input.Message.Interface().(*EventUpdateProperty)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3565,15 +3085,15 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventUpdateToken: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventUpdateProperty: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventUpdateToken: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: EventUpdateProperty: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Operator", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -3601,7 +3121,7 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Owner = string(dAtA[iNdEx:postIndex])
+				x.Operator = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
@@ -3641,7 +3161,7 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Properties", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Property", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -3668,8 +3188,10 @@ func (x *fastReflection_EventUpdateToken) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Properties = append(x.Properties, &Property{})
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Properties[len(x.Properties)-1]); err != nil {
+				if x.Property == nil {
+					x.Property = &Property{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Property); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -3721,8 +3243,8 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// EventSend is emitted on Msg/Send.
-type EventSend struct {
+// EventSendToken is emitted on Msg/SendToken.
+type EventSendToken struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -3735,8 +3257,8 @@ type EventSend struct {
 	Token *Token `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty"`
 }
 
-func (x *EventSend) Reset() {
-	*x = EventSend{}
+func (x *EventSendToken) Reset() {
+	*x = EventSendToken{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3744,40 +3266,40 @@ func (x *EventSend) Reset() {
 	}
 }
 
-func (x *EventSend) String() string {
+func (x *EventSendToken) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*EventSend) ProtoMessage() {}
+func (*EventSendToken) ProtoMessage() {}
 
-// Deprecated: Use EventSend.ProtoReflect.Descriptor instead.
-func (*EventSend) Descriptor() ([]byte, []int) {
+// Deprecated: Use EventSendToken.ProtoReflect.Descriptor instead.
+func (*EventSendToken) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_event_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *EventSend) GetSender() string {
+func (x *EventSendToken) GetSender() string {
 	if x != nil {
 		return x.Sender
 	}
 	return ""
 }
 
-func (x *EventSend) GetReceiver() string {
+func (x *EventSendToken) GetReceiver() string {
 	if x != nil {
 		return x.Receiver
 	}
 	return ""
 }
 
-func (x *EventSend) GetToken() *Token {
+func (x *EventSendToken) GetToken() *Token {
 	if x != nil {
 		return x.Token
 	}
 	return nil
 }
 
-// EventNewClass is emitted on Msg/NewClass.
-type EventNewClass struct {
+// EventCreateClass is emitted on Msg/CreateClass.
+type EventCreateClass struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -3786,14 +3308,10 @@ type EventNewClass struct {
 	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
 	// the new class created
 	Class *Class `protobuf:"bytes,2,opt,name=class,proto3" json:"class,omitempty"`
-	// the traits of the new class
-	Traits []*Trait `protobuf:"bytes,3,rep,name=traits,proto3" json:"traits,omitempty"`
-	// app specific metadata of the new class
-	Data *anypb.Any `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`
 }
 
-func (x *EventNewClass) Reset() {
-	*x = EventNewClass{}
+func (x *EventCreateClass) Reset() {
+	*x = EventCreateClass{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3801,47 +3319,33 @@ func (x *EventNewClass) Reset() {
 	}
 }
 
-func (x *EventNewClass) String() string {
+func (x *EventCreateClass) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*EventNewClass) ProtoMessage() {}
+func (*EventCreateClass) ProtoMessage() {}
 
-// Deprecated: Use EventNewClass.ProtoReflect.Descriptor instead.
-func (*EventNewClass) Descriptor() ([]byte, []int) {
+// Deprecated: Use EventCreateClass.ProtoReflect.Descriptor instead.
+func (*EventCreateClass) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_event_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *EventNewClass) GetOperator() string {
+func (x *EventCreateClass) GetOperator() string {
 	if x != nil {
 		return x.Operator
 	}
 	return ""
 }
 
-func (x *EventNewClass) GetClass() *Class {
+func (x *EventCreateClass) GetClass() *Class {
 	if x != nil {
 		return x.Class
 	}
 	return nil
 }
 
-func (x *EventNewClass) GetTraits() []*Trait {
-	if x != nil {
-		return x.Traits
-	}
-	return nil
-}
-
-func (x *EventNewClass) GetData() *anypb.Any {
-	if x != nil {
-		return x.Data
-	}
-	return nil
-}
-
-// EventUpdateClass is emitted on Msg/UpdateClass.
-type EventUpdateClass struct {
+// EventUpdateTrait is emitted on Msg/UpdateTrait.
+type EventUpdateTrait struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -3850,12 +3354,12 @@ type EventUpdateClass struct {
 	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
 	// the class updated
 	Class *Class `protobuf:"bytes,2,opt,name=class,proto3" json:"class,omitempty"`
-	// app specific metadata of the class
-	Data *anypb.Any `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	// the new trait
+	Trait *Trait `protobuf:"bytes,3,opt,name=trait,proto3" json:"trait,omitempty"`
 }
 
-func (x *EventUpdateClass) Reset() {
-	*x = EventUpdateClass{}
+func (x *EventUpdateTrait) Reset() {
+	*x = EventUpdateTrait{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3863,56 +3367,52 @@ func (x *EventUpdateClass) Reset() {
 	}
 }
 
-func (x *EventUpdateClass) String() string {
+func (x *EventUpdateTrait) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*EventUpdateClass) ProtoMessage() {}
+func (*EventUpdateTrait) ProtoMessage() {}
 
-// Deprecated: Use EventUpdateClass.ProtoReflect.Descriptor instead.
-func (*EventUpdateClass) Descriptor() ([]byte, []int) {
+// Deprecated: Use EventUpdateTrait.ProtoReflect.Descriptor instead.
+func (*EventUpdateTrait) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_event_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *EventUpdateClass) GetOperator() string {
+func (x *EventUpdateTrait) GetOperator() string {
 	if x != nil {
 		return x.Operator
 	}
 	return ""
 }
 
-func (x *EventUpdateClass) GetClass() *Class {
+func (x *EventUpdateTrait) GetClass() *Class {
 	if x != nil {
 		return x.Class
 	}
 	return nil
 }
 
-func (x *EventUpdateClass) GetData() *anypb.Any {
+func (x *EventUpdateTrait) GetTrait() *Trait {
 	if x != nil {
-		return x.Data
+		return x.Trait
 	}
 	return nil
 }
 
-// EventNewToken is emitted on Msg/NewToken.
-type EventNewToken struct {
+// EventMintToken is emitted on Msg/MintToken.
+type EventMintToken struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// the operator of the class
 	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
-	// the recipient of the new token
-	Recipient string `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty"`
-	// the new token created
-	Token *Token `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty"`
-	// the properties of the new token
-	Properties []*Property `protobuf:"bytes,4,rep,name=properties,proto3" json:"properties,omitempty"`
+	// the new token minted
+	Token *Token `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
 }
 
-func (x *EventNewToken) Reset() {
-	*x = EventNewToken{}
+func (x *EventMintToken) Reset() {
+	*x = EventMintToken{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3920,41 +3420,27 @@ func (x *EventNewToken) Reset() {
 	}
 }
 
-func (x *EventNewToken) String() string {
+func (x *EventMintToken) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*EventNewToken) ProtoMessage() {}
+func (*EventMintToken) ProtoMessage() {}
 
-// Deprecated: Use EventNewToken.ProtoReflect.Descriptor instead.
-func (*EventNewToken) Descriptor() ([]byte, []int) {
+// Deprecated: Use EventMintToken.ProtoReflect.Descriptor instead.
+func (*EventMintToken) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_event_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *EventNewToken) GetOperator() string {
+func (x *EventMintToken) GetOperator() string {
 	if x != nil {
 		return x.Operator
 	}
 	return ""
 }
 
-func (x *EventNewToken) GetRecipient() string {
-	if x != nil {
-		return x.Recipient
-	}
-	return ""
-}
-
-func (x *EventNewToken) GetToken() *Token {
+func (x *EventMintToken) GetToken() *Token {
 	if x != nil {
 		return x.Token
-	}
-	return nil
-}
-
-func (x *EventNewToken) GetProperties() []*Property {
-	if x != nil {
-		return x.Properties
 	}
 	return nil
 }
@@ -4005,22 +3491,22 @@ func (x *EventBurnToken) GetToken() *Token {
 	return nil
 }
 
-// EventUpdateToken is emitted on Msg/UpdateToken.
-type EventUpdateToken struct {
+// EventUpdateProperty is emitted on Msg/UpdateProperty.
+type EventUpdateProperty struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// the owner of the token
-	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+	// the operator of the class
+	Operator string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
 	// the token updated
 	Token *Token `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
-	// the new properties
-	Properties []*Property `protobuf:"bytes,3,rep,name=properties,proto3" json:"properties,omitempty"`
+	// the new property
+	Property *Property `protobuf:"bytes,3,opt,name=property,proto3" json:"property,omitempty"`
 }
 
-func (x *EventUpdateToken) Reset() {
-	*x = EventUpdateToken{}
+func (x *EventUpdateProperty) Reset() {
+	*x = EventUpdateProperty{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_andromeda_internft_v1alpha1_event_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4028,34 +3514,34 @@ func (x *EventUpdateToken) Reset() {
 	}
 }
 
-func (x *EventUpdateToken) String() string {
+func (x *EventUpdateProperty) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*EventUpdateToken) ProtoMessage() {}
+func (*EventUpdateProperty) ProtoMessage() {}
 
-// Deprecated: Use EventUpdateToken.ProtoReflect.Descriptor instead.
-func (*EventUpdateToken) Descriptor() ([]byte, []int) {
+// Deprecated: Use EventUpdateProperty.ProtoReflect.Descriptor instead.
+func (*EventUpdateProperty) Descriptor() ([]byte, []int) {
 	return file_andromeda_internft_v1alpha1_event_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *EventUpdateToken) GetOwner() string {
+func (x *EventUpdateProperty) GetOperator() string {
 	if x != nil {
-		return x.Owner
+		return x.Operator
 	}
 	return ""
 }
 
-func (x *EventUpdateToken) GetToken() *Token {
+func (x *EventUpdateProperty) GetToken() *Token {
 	if x != nil {
 		return x.Token
 	}
 	return nil
 }
 
-func (x *EventUpdateToken) GetProperties() []*Property {
+func (x *EventUpdateProperty) GetProperty() *Property {
 	if x != nil {
-		return x.Properties
+		return x.Property
 	}
 	return nil
 }
@@ -4073,95 +3559,82 @@ var file_andromeda_internft_v1alpha1_event_proto_rawDesc = []byte{
 	0x19, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f,
 	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x19, 0x67, 0x6f, 0x6f, 0x67,
 	0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x61, 0x6e, 0x79, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xad, 0x01, 0x0a, 0x09, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x53,
-	0x65, 0x6e, 0x64, 0x12, 0x30, 0x0a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x18, 0x01, 0x20,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb2, 0x01, 0x0a, 0x0e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x53,
+	0x65, 0x6e, 0x64, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x30, 0x0a, 0x06, 0x73, 0x65, 0x6e, 0x64,
+	0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f,
+	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69,
+	0x6e, 0x67, 0x52, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x12, 0x34, 0x0a, 0x08, 0x72, 0x65,
+	0x63, 0x65, 0x69, 0x76, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4,
+	0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x72, 0x65, 0x63, 0x65, 0x69, 0x76, 0x65, 0x72,
+	0x12, 0x38, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65,
+	0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f,
+	0x6b, 0x65, 0x6e, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x82, 0x01, 0x0a, 0x10, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x12,
+	0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x38, 0x0a, 0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
+	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x2e, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x22,
+	0xbc, 0x01, 0x0a, 0x10, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54,
+	0x72, 0x61, 0x69, 0x74, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d,
+	0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
+	0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x38, 0x0a, 0x05, 0x63, 0x6c,
+	0x61, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72,
+	0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76,
+	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x05, 0x63,
+	0x6c, 0x61, 0x73, 0x73, 0x12, 0x38, 0x0a, 0x05, 0x74, 0x72, 0x61, 0x69, 0x74, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e,
+	0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x31, 0x2e, 0x54, 0x72, 0x61, 0x69, 0x74, 0x52, 0x05, 0x74, 0x72, 0x61, 0x69, 0x74, 0x22, 0x80,
+	0x01, 0x0a, 0x0e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x4d, 0x69, 0x6e, 0x74, 0x54, 0x6f, 0x6b, 0x65,
+	0x6e, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
-	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x73,
-	0x65, 0x6e, 0x64, 0x65, 0x72, 0x12, 0x34, 0x0a, 0x08, 0x72, 0x65, 0x63, 0x65, 0x69, 0x76, 0x65,
-	0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x38, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
+	0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c,
+	0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x22, 0x7a, 0x0a, 0x0e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x42, 0x75, 0x72, 0x6e, 0x54, 0x6f,
+	0x6b, 0x65, 0x6e, 0x12, 0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41,
+	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77,
+	0x6e, 0x65, 0x72, 0x12, 0x38, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xc8, 0x01,
+	0x0a, 0x13, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f,
+	0x70, 0x65, 0x72, 0x74, 0x79, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f,
+	0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73,
 	0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e,
-	0x67, 0x52, 0x08, 0x72, 0x65, 0x63, 0x65, 0x69, 0x76, 0x65, 0x72, 0x12, 0x38, 0x0a, 0x05, 0x74,
-	0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64,
+	0x67, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x38, 0x0a, 0x05, 0x74,
+	0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64,
 	0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e,
 	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x05,
-	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xe5, 0x01, 0x0a, 0x0d, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x4e,
-	0x65, 0x77, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61,
-	0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63,
-	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72,
-	0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x38, 0x0a,
-	0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61,
-	0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
-	0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x43, 0x6c, 0x61, 0x73, 0x73,
-	0x52, 0x05, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x12, 0x3a, 0x0a, 0x06, 0x74, 0x72, 0x61, 0x69, 0x74,
-	0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
+	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x41, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74,
+	0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
 	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x72, 0x61, 0x69, 0x74, 0x52, 0x06, 0x74, 0x72, 0x61,
-	0x69, 0x74, 0x73, 0x12, 0x28, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x04, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x14, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x62, 0x75, 0x66, 0x2e, 0x41, 0x6e, 0x79, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0xac, 0x01,
-	0x0a, 0x10, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6c, 0x61,
-	0x73, 0x73, 0x12, 0x34, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
-	0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08,
-	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x38, 0x0a, 0x05, 0x63, 0x6c, 0x61, 0x73,
-	0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
-	0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x52, 0x05, 0x63, 0x6c, 0x61,
-	0x73, 0x73, 0x12, 0x28, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x14, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x41, 0x6e, 0x79, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0xfe, 0x01, 0x0a,
-	0x0d, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x4e, 0x65, 0x77, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x34,
-	0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72,
-	0x61, 0x74, 0x6f, 0x72, 0x12, 0x36, 0x0a, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e,
-	0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73,
-	0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e,
-	0x67, 0x52, 0x09, 0x72, 0x65, 0x63, 0x69, 0x70, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x38, 0x0a, 0x05,
-	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x61, 0x6e,
-	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74,
-	0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52,
-	0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x45, 0x0a, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72,
-	0x74, 0x69, 0x65, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x61, 0x6e, 0x64,
-	0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e,
-	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74,
-	0x79, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x22, 0x7a, 0x0a,
-	0x0e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x42, 0x75, 0x72, 0x6e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12,
-	0x2e, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18,
-	0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12,
-	0x38, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22,
+	0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x52, 0x08,
+	0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x42, 0xed, 0x01, 0x0a, 0x1f, 0x63, 0x6f, 0x6d,
 	0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72,
-	0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f, 0x6b,
-	0x65, 0x6e, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xc3, 0x01, 0x0a, 0x10, 0x45, 0x76,
-	0x65, 0x6e, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x2e,
-	0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
-	0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x38,
-	0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e,
-	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
-	0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65,
-	0x6e, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x45, 0x0a, 0x0a, 0x70, 0x72, 0x6f, 0x70,
-	0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x61,
-	0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66,
-	0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x65,
-	0x72, 0x74, 0x79, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x69, 0x65, 0x73, 0x42,
-	0xed, 0x01, 0x0a, 0x1f, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
-	0x61, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0x42, 0x0a, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
-	0x01, 0x5a, 0x30, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61,
-	0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68,
-	0x61, 0x31, 0x3b, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x41, 0x49, 0x58, 0xaa, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72,
-	0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x56,
-	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d,
-	0x65, 0x64, 0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61,
-	0x6c, 0x70, 0x68, 0x61, 0x31, 0xe2, 0x02, 0x27, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64,
-	0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea,
-	0x02, 0x1d, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x3a, 0x3a, 0x49, 0x6e, 0x74,
-	0x65, 0x72, 0x6e, 0x66, 0x74, 0x3a, 0x3a, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x66, 0x74, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x42, 0x0a, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x30, 0x61, 0x70, 0x69, 0x2f,
+	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
+	0x66, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b, 0x69, 0x6e, 0x74, 0x65,
+	0x72, 0x6e, 0x66, 0x74, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x41,
+	0x49, 0x58, 0xaa, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x49,
+	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x2e, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
+	0xca, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x49, 0x6e, 0x74,
+	0x65, 0x72, 0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xe2, 0x02,
+	0x27, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x72,
+	0x6e, 0x66, 0x74, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42,
+	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1d, 0x41, 0x6e, 0x64, 0x72, 0x6f,
+	0x6d, 0x65, 0x64, 0x61, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x66, 0x74, 0x3a, 0x3a,
+	0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -4178,35 +3651,31 @@ func file_andromeda_internft_v1alpha1_event_proto_rawDescGZIP() []byte {
 
 var file_andromeda_internft_v1alpha1_event_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_andromeda_internft_v1alpha1_event_proto_goTypes = []interface{}{
-	(*EventSend)(nil),        // 0: andromeda.internft.v1alpha1.EventSend
-	(*EventNewClass)(nil),    // 1: andromeda.internft.v1alpha1.EventNewClass
-	(*EventUpdateClass)(nil), // 2: andromeda.internft.v1alpha1.EventUpdateClass
-	(*EventNewToken)(nil),    // 3: andromeda.internft.v1alpha1.EventNewToken
-	(*EventBurnToken)(nil),   // 4: andromeda.internft.v1alpha1.EventBurnToken
-	(*EventUpdateToken)(nil), // 5: andromeda.internft.v1alpha1.EventUpdateToken
-	(*Token)(nil),            // 6: andromeda.internft.v1alpha1.Token
-	(*Class)(nil),            // 7: andromeda.internft.v1alpha1.Class
-	(*Trait)(nil),            // 8: andromeda.internft.v1alpha1.Trait
-	(*anypb.Any)(nil),        // 9: google.protobuf.Any
-	(*Property)(nil),         // 10: andromeda.internft.v1alpha1.Property
+	(*EventSendToken)(nil),      // 0: andromeda.internft.v1alpha1.EventSendToken
+	(*EventCreateClass)(nil),    // 1: andromeda.internft.v1alpha1.EventCreateClass
+	(*EventUpdateTrait)(nil),    // 2: andromeda.internft.v1alpha1.EventUpdateTrait
+	(*EventMintToken)(nil),      // 3: andromeda.internft.v1alpha1.EventMintToken
+	(*EventBurnToken)(nil),      // 4: andromeda.internft.v1alpha1.EventBurnToken
+	(*EventUpdateProperty)(nil), // 5: andromeda.internft.v1alpha1.EventUpdateProperty
+	(*Token)(nil),               // 6: andromeda.internft.v1alpha1.Token
+	(*Class)(nil),               // 7: andromeda.internft.v1alpha1.Class
+	(*Trait)(nil),               // 8: andromeda.internft.v1alpha1.Trait
+	(*Property)(nil),            // 9: andromeda.internft.v1alpha1.Property
 }
 var file_andromeda_internft_v1alpha1_event_proto_depIdxs = []int32{
-	6,  // 0: andromeda.internft.v1alpha1.EventSend.token:type_name -> andromeda.internft.v1alpha1.Token
-	7,  // 1: andromeda.internft.v1alpha1.EventNewClass.class:type_name -> andromeda.internft.v1alpha1.Class
-	8,  // 2: andromeda.internft.v1alpha1.EventNewClass.traits:type_name -> andromeda.internft.v1alpha1.Trait
-	9,  // 3: andromeda.internft.v1alpha1.EventNewClass.data:type_name -> google.protobuf.Any
-	7,  // 4: andromeda.internft.v1alpha1.EventUpdateClass.class:type_name -> andromeda.internft.v1alpha1.Class
-	9,  // 5: andromeda.internft.v1alpha1.EventUpdateClass.data:type_name -> google.protobuf.Any
-	6,  // 6: andromeda.internft.v1alpha1.EventNewToken.token:type_name -> andromeda.internft.v1alpha1.Token
-	10, // 7: andromeda.internft.v1alpha1.EventNewToken.properties:type_name -> andromeda.internft.v1alpha1.Property
-	6,  // 8: andromeda.internft.v1alpha1.EventBurnToken.token:type_name -> andromeda.internft.v1alpha1.Token
-	6,  // 9: andromeda.internft.v1alpha1.EventUpdateToken.token:type_name -> andromeda.internft.v1alpha1.Token
-	10, // 10: andromeda.internft.v1alpha1.EventUpdateToken.properties:type_name -> andromeda.internft.v1alpha1.Property
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	6, // 0: andromeda.internft.v1alpha1.EventSendToken.token:type_name -> andromeda.internft.v1alpha1.Token
+	7, // 1: andromeda.internft.v1alpha1.EventCreateClass.class:type_name -> andromeda.internft.v1alpha1.Class
+	7, // 2: andromeda.internft.v1alpha1.EventUpdateTrait.class:type_name -> andromeda.internft.v1alpha1.Class
+	8, // 3: andromeda.internft.v1alpha1.EventUpdateTrait.trait:type_name -> andromeda.internft.v1alpha1.Trait
+	6, // 4: andromeda.internft.v1alpha1.EventMintToken.token:type_name -> andromeda.internft.v1alpha1.Token
+	6, // 5: andromeda.internft.v1alpha1.EventBurnToken.token:type_name -> andromeda.internft.v1alpha1.Token
+	6, // 6: andromeda.internft.v1alpha1.EventUpdateProperty.token:type_name -> andromeda.internft.v1alpha1.Token
+	9, // 7: andromeda.internft.v1alpha1.EventUpdateProperty.property:type_name -> andromeda.internft.v1alpha1.Property
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_andromeda_internft_v1alpha1_event_proto_init() }
@@ -4217,7 +3686,7 @@ func file_andromeda_internft_v1alpha1_event_proto_init() {
 	file_andromeda_internft_v1alpha1_types_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_andromeda_internft_v1alpha1_event_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EventSend); i {
+			switch v := v.(*EventSendToken); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4229,7 +3698,7 @@ func file_andromeda_internft_v1alpha1_event_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_event_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EventNewClass); i {
+			switch v := v.(*EventCreateClass); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4241,7 +3710,7 @@ func file_andromeda_internft_v1alpha1_event_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_event_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EventUpdateClass); i {
+			switch v := v.(*EventUpdateTrait); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4253,7 +3722,7 @@ func file_andromeda_internft_v1alpha1_event_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_event_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EventNewToken); i {
+			switch v := v.(*EventMintToken); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4277,7 +3746,7 @@ func file_andromeda_internft_v1alpha1_event_proto_init() {
 			}
 		}
 		file_andromeda_internft_v1alpha1_event_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EventUpdateToken); i {
+			switch v := v.(*EventUpdateProperty); i {
 			case 0:
 				return &v.state
 			case 1:

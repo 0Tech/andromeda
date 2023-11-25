@@ -11,12 +11,12 @@ import (
 // RegisterLegacyAminoCodec registers concrete types on the LegacyAmino codec
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	for msg, name := range map[sdk.Msg]string{
-		&MsgSend{}:        "MsgSend",
-		&MsgNewClass{}:    "MsgNewClass",
-		&MsgUpdateClass{}: "MsgUpdateClass",
-		&MsgNewToken{}:     "MsgNewToken",
+		&MsgSendToken{}:        "MsgSendToken",
+		&MsgCreateClass{}:    "MsgCreateClass",
+		&MsgUpdateTrait{}: "MsgUpdateTrait",
+		&MsgMintToken{}:     "MsgMintToken",
 		&MsgBurnToken{}:     "MsgBurnToken",
-		&MsgUpdateToken{}:   "MsgUpdateToken",
+		&MsgUpdateProperty{}:   "MsgUpdateProperty",
 	} {
 		const prefix = "andromeda/x/internft/"
 		legacy.RegisterAminoMsg(cdc, msg, prefix+name)
@@ -25,12 +25,12 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 
 func RegisterInterfaces(registry types.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgSend{},
-		&MsgNewClass{},
-		&MsgUpdateClass{},
-		&MsgNewToken{},
+		&MsgSendToken{},
+		&MsgCreateClass{},
+		&MsgUpdateTrait{},
+		&MsgMintToken{},
 		&MsgBurnToken{},
-		&MsgUpdateToken{},
+		&MsgUpdateProperty{},
 	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)

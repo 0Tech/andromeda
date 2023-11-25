@@ -7,27 +7,13 @@ import (
 	errorsmod "cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
 
-func (k Keeper) NewClass(ctx context.Context, class *internftv1alpha1.Class, traits []*internftv1alpha1.Trait) error {
+func (k Keeper) CreateClass(ctx context.Context, class *internftv1alpha1.Class) error {
 	if err := k.hasClass(ctx, class.Id); err == nil {
 		return internftv1alpha1.ErrClassAlreadyExists.Wrap(class.Id)
-	}
-	k.setClass(ctx, class)
-
-	for _, trait := range traits {
-		k.setTrait(ctx, class.Id, trait)
-	}
-
-	return nil
-}
-
-func (k Keeper) UpdateClass(ctx context.Context, class *internftv1alpha1.Class) error {
-	if err := k.hasClass(ctx, class.Id); err != nil {
-		return err
 	}
 	k.setClass(ctx, class)
 
@@ -56,6 +42,24 @@ func (k Keeper) setClass(ctx context.Context, class *internftv1alpha1.Class) {
 	if err := k.classes.Set(ctx, class.Id, *class); err != nil {
 		panic(err)
 	}
+}
+
+func (k Keeper) UpdateTrait(ctx context.Context, class *internftv1alpha1.Class, trait *internftv1alpha1.Trait) error {
+	if err := k.hasClass(ctx, class.Id); err != nil {
+		return err
+	}
+
+	// mutating existing trait
+	if prevTrait, err := k.GetTrait(ctx, class.Id, trait.Id); err != nil {
+		switch prevTrait.Mutability {
+		case internftv1alpha1.Trait_MUTABILITY_IMMUTABLE:
+			return internftv1alpha1.ErrTraitImmutable.Wrap(trait.Id)
+		}
+	}
+
+	k.setTrait(ctx, class.Id, trait)
+
+	return nil
 }
 
 func (k Keeper) hasTrait(ctx context.Context, classID string, traitID string) error {
@@ -117,24 +121,15 @@ func (k Keeper) iterateClasses(ctx context.Context, fn func(class internftv1alph
 	}
 }
 
-func (k Keeper) NewToken(ctx context.Context, owner sdk.AccAddress, token *internftv1alpha1.Token, properties []*internftv1alpha1.Property) error {
+func (k Keeper) MintToken(ctx context.Context, owner sdk.AccAddress, token *internftv1alpha1.Token) error {
 	if err := k.hasClass(ctx, token.ClassId); err != nil {
 		return err
 	}
 
 	if err := k.hasToken(ctx, token); err == nil {
-		// TODO(@0Tech): define the error
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest.Wrap("token already exists"), token.String())
+		return internftv1alpha1.ErrTokenAlreadyExists.Wrap(token.String())
 	}
 	k.setToken(ctx, token)
-
-	for _, property := range properties {
-		if err := k.hasTrait(ctx, token.ClassId, property.TraitId); err != nil {
-			return errorsmod.Wrap(err, property.TraitId)
-		}
-
-		k.setProperty(ctx, token, property)
-	}
 
 	k.setOwner(ctx, token, owner)
 
@@ -199,24 +194,22 @@ func (k Keeper) BurnToken(ctx context.Context, owner sdk.AccAddress, token *inte
 	return nil
 }
 
-func (k Keeper) UpdateToken(ctx context.Context, token *internftv1alpha1.Token, properties []*internftv1alpha1.Property) error {
+func (k Keeper) UpdateProperty(ctx context.Context, token *internftv1alpha1.Token, property *internftv1alpha1.Property) error {
 	if err := k.hasToken(ctx, token); err != nil {
 		return err
 	}
 
-	for _, property := range properties {
-		trait, err := k.GetTrait(ctx, token.ClassId, property.TraitId)
-		if err != nil {
-			return err
-		}
-
-		switch trait.Mutability {
-		case internftv1alpha1.Trait_MUTABILITY_IMMUTABLE:
-			return internftv1alpha1.ErrTraitImmutable.Wrap(property.TraitId)
-		}
-		
-		k.setProperty(ctx, token, property)
+	trait, err := k.GetTrait(ctx, token.ClassId, property.TraitId)
+	if err != nil {
+		return err
 	}
+
+	switch trait.Mutability {
+	case internftv1alpha1.Trait_MUTABILITY_IMMUTABLE:
+		return internftv1alpha1.ErrTraitImmutable.Wrap(property.TraitId)
+	}
+		
+	k.setProperty(ctx, token, property)
 
 	return nil
 }

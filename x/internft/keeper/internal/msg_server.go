@@ -22,15 +22,17 @@ func NewMsgServer(keeper Keeper) internftv1alpha1.MsgServer {
 	}
 }
 
-func (s msgServer) Send(ctx context.Context, req *internftv1alpha1.MsgSend) (*internftv1alpha1.MsgSendResponse, error) {
-	sender := sdk.MustAccAddressFromBech32(req.Sender)
-	recipient := sdk.MustAccAddressFromBech32(req.Recipient)
-
-	if err := s.keeper.Send(ctx, sender, recipient, req.Token); err != nil {
+func (s msgServer) SendToken(ctx context.Context, req *internftv1alpha1.MsgSendToken) (*internftv1alpha1.MsgSendTokenResponse, error) {
+	var parsed internftv1alpha1.MsgSendTokenInternal
+	if err := parsed.Parse(*req); err != nil {
 		return nil, err
 	}
 
-	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventSend{
+	if err := s.keeper.SendToken(ctx, parsed.Sender.AccAddress(), parsed.Recipient.AccAddress(), req.Token); err != nil {
+		return nil, err
+	}
+
+	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventSendToken{
 		Sender:   req.Sender,
 		Receiver: req.Recipient,
 		Token:      req.Token,
@@ -38,77 +40,88 @@ func (s msgServer) Send(ctx context.Context, req *internftv1alpha1.MsgSend) (*in
 		panic(err)
 	}
 
-	return &internftv1alpha1.MsgSendResponse{}, nil
+	return &internftv1alpha1.MsgSendTokenResponse{}, nil
 }
 
-func (s msgServer) NewClass(ctx context.Context, req *internftv1alpha1.MsgNewClass) (*internftv1alpha1.MsgNewClassResponse, error) {
+func (s msgServer) CreateClass(ctx context.Context, req *internftv1alpha1.MsgCreateClass) (*internftv1alpha1.MsgCreateClassResponse, error) {
+	var parsed internftv1alpha1.MsgCreateClassInternal
+	if err := parsed.Parse(*req); err != nil {
+		return nil, err
+	}
+
 	if err := internftv1alpha1.ValidateOperator(req.Operator, req.Class.Id); err != nil {
 		return nil, err
 	}
 
-	if err := s.keeper.NewClass(ctx, req.Class, req.Traits); err != nil {
+	if err := s.keeper.CreateClass(ctx, req.Class); err != nil {
 		return nil, err
 	}
 
-	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventNewClass{
+	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventCreateClass{
 		Class:  req.Class,
-		Traits: req.Traits, // TODO: sort
-		Data:   req.Data,
 	}); err != nil {
 		panic(err)
 	}
 
-	return &internftv1alpha1.MsgNewClassResponse{}, nil
+	return &internftv1alpha1.MsgCreateClassResponse{}, nil
 }
 
-func (s msgServer) UpdateClass(ctx context.Context, req *internftv1alpha1.MsgUpdateClass) (*internftv1alpha1.MsgUpdateClassResponse, error) {
+func (s msgServer) UpdateTrait(ctx context.Context, req *internftv1alpha1.MsgUpdateTrait) (*internftv1alpha1.MsgUpdateTraitResponse, error) {
+	var parsed internftv1alpha1.MsgUpdateTraitInternal
+	if err := parsed.Parse(*req); err != nil {
+		return nil, err
+	}
+
 	if err := internftv1alpha1.ValidateOperator(req.Operator, req.Class.Id); err != nil {
 		return nil, err
 	}
 
-	// TODO: data
-
-	if err := s.keeper.UpdateClass(ctx, req.Class); err != nil {
+	if err := s.keeper.UpdateTrait(ctx, req.Class, req.Trait); err != nil {
 		return nil, err
 	}
 
-	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventUpdateClass{
+	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventUpdateTrait{
 		Operator: req.Operator,
 		Class: req.Class,
-		Data:  req.Data,
+		Trait: req.Trait,
 	}); err != nil {
 		panic(err)
 	}
 
-	return &internftv1alpha1.MsgUpdateClassResponse{}, nil
+	return &internftv1alpha1.MsgUpdateTraitResponse{}, nil
 }
 
-func (s msgServer) NewToken(ctx context.Context, req *internftv1alpha1.MsgNewToken) (*internftv1alpha1.MsgNewTokenResponse, error) {
+func (s msgServer) MintToken(ctx context.Context, req *internftv1alpha1.MsgMintToken) (*internftv1alpha1.MsgMintTokenResponse, error) {
+	var parsed internftv1alpha1.MsgMintTokenInternal
+	if err := parsed.Parse(*req); err != nil {
+		return nil, err
+	}
+
 	if err := internftv1alpha1.ValidateOperator(req.Operator, req.Token.ClassId); err != nil {
 		return nil, err
 	}
 
-	recipient := sdk.MustAccAddressFromBech32(req.Recipient)
-
-	if err := s.keeper.NewToken(ctx, recipient, req.Token, req.Properties); err != nil {
+	if err := s.keeper.MintToken(ctx, parsed.Operator.AccAddress(), req.Token); err != nil {
 		return nil, err
 	}
 
-	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventNewToken{
+	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventMintToken{
+		Operator: req.Operator,
 		Token: req.Token,
-		Properties: req.Properties, // TODO: sort
-		Recipient:  req.Recipient,
 	}); err != nil {
 		panic(err)
 	}
 
-	return &internftv1alpha1.MsgNewTokenResponse{}, nil
+	return &internftv1alpha1.MsgMintTokenResponse{}, nil
 }
 
 func (s msgServer) BurnToken(ctx context.Context, req *internftv1alpha1.MsgBurnToken) (*internftv1alpha1.MsgBurnTokenResponse, error) {
-	owner := sdk.MustAccAddressFromBech32(req.Owner)
+	var parsed internftv1alpha1.MsgBurnTokenInternal
+	if err := parsed.Parse(*req); err != nil {
+		return nil, err
+	}
 
-	if err := s.keeper.BurnToken(ctx, owner, req.Token); err != nil {
+	if err := s.keeper.BurnToken(ctx, parsed.Owner.AccAddress(), req.Token); err != nil {
 		return nil, err
 	}
 
@@ -122,24 +135,27 @@ func (s msgServer) BurnToken(ctx context.Context, req *internftv1alpha1.MsgBurnT
 	return &internftv1alpha1.MsgBurnTokenResponse{}, nil
 }
 
-func (s msgServer) UpdateToken(ctx context.Context, req *internftv1alpha1.MsgUpdateToken) (*internftv1alpha1.MsgUpdateTokenResponse, error) {
-	owner := sdk.MustAccAddressFromBech32(req.Owner)
-
-	if err := s.keeper.validateOwner(ctx, req.Token, owner); err != nil {
+func (s msgServer) UpdateProperty(ctx context.Context, req *internftv1alpha1.MsgUpdateProperty) (*internftv1alpha1.MsgUpdatePropertyResponse, error) {
+	var parsed internftv1alpha1.MsgUpdatePropertyInternal
+	if err := parsed.Parse(*req); err != nil {
 		return nil, err
 	}
 
-	if err := s.keeper.UpdateToken(ctx, req.Token, req.Properties); err != nil {
+	if err := internftv1alpha1.ValidateOperator(req.Operator, req.Token.ClassId); err != nil {
 		return nil, err
 	}
 
-	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventUpdateToken{
-		Owner: req.Owner,
+	if err := s.keeper.UpdateProperty(ctx, req.Token, req.Property); err != nil {
+		return nil, err
+	}
+
+	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventUpdateProperty{
+		Operator: req.Operator,
 		Token:        req.Token,
-		Properties: req.Properties,
+		Property: req.Property,
 	}); err != nil {
 		panic(err)
 	}
 
-	return &internftv1alpha1.MsgUpdateTokenResponse{}, nil
+	return &internftv1alpha1.MsgUpdatePropertyResponse{}, nil
 }
