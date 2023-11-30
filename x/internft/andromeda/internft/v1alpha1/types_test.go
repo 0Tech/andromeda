@@ -9,7 +9,6 @@ import (
 	"github.com/stretchr/testify/require"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 	"github.com/0tech/andromeda/x/internft/testutil"
@@ -28,7 +27,7 @@ func createIDs(size int, prefix string) []string {
 	addrs := createAddresses(size, prefix)
 	ids := make([]string, len(addrs))
 	for i, addr := range addrs {
-		ids[i] = addr.String()
+		ids[i] = internftv1alpha1.GetClassID(internftv1alpha1.Address(addr))
 	}
 
 	return ids
@@ -98,7 +97,8 @@ Expected errors are:
 
 func TestClass(t *testing.T) {
 	tester := func(subject internftv1alpha1.Class) error {
-		return subject.ValidateBasic()
+		var parsed internftv1alpha1.ClassInternal
+		return parsed.Parse(subject)
 	}
 	cases := []map[string]Case[internftv1alpha1.Class]{
 		{
@@ -114,10 +114,10 @@ func TestClass(t *testing.T) {
 			},
 			"invalid id": {
 				malleate: func(subject *internftv1alpha1.Class) {
-					subject.Id = "not-in-bech32"
+					subject.Id = "not/in/caip19"
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInvalidClassID
+					return internftv1alpha1.ErrInvalidID
 				},
 			},
 		},
@@ -126,156 +126,10 @@ func TestClass(t *testing.T) {
 	doTest(t, tester, cases)
 }
 
-func TestTraits(t *testing.T) {
-	tester := func(subject []*internftv1alpha1.Trait) error {
-		return internftv1alpha1.Traits(subject).ValidateBasic()
-	}
-	cases := []map[string]Case[[]*internftv1alpha1.Trait]{}
-	for i := 0; i < 2; i++ {
-		traitID := fmt.Sprintf("trait%02d", i)
-
-		added := false
-		cases = append(cases, []map[string]Case[[]*internftv1alpha1.Trait]{
-			{
-				"[nil trait": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						added = false
-						*subject = append(*subject, nil)
-					},
-					err: func() error {
-						return sdkerrors.ErrInvalidRequest
-					},
-				},
-				"[non-nil trait": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						added = true
-						*subject = append(*subject, &internftv1alpha1.Trait{})
-					},
-				},
-			},
-			{
-				"nil id": {
-					err: func() error {
-						if !added {
-							return nil
-						}
-						return internftv1alpha1.ErrUnimplemented
-					},
-				},
-				"valid id": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						if !added {
-							return
-						}
-						(*subject)[len(*subject) - 1].Id = traitID
-					},
-				},
-			},
-			{
-				"nil mutability]": {
-					err: func() error {
-						if !added {
-							return nil
-						}
-						return internftv1alpha1.ErrUnimplemented
-					},
-				},
-				"immutable]": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						if !added {
-							return
-						}
-						(*subject)[len(*subject) - 1].Mutability = internftv1alpha1.Trait_MUTABILITY_IMMUTABLE
-					},
-				},
-				"mutable]": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						if !added {
-							return
-						}
-						(*subject)[len(*subject) - 1].Mutability = internftv1alpha1.Trait_MUTABILITY_MUTABLE
-					},
-				},
-			},
-		}...)
-
-		AddedDuplicate := false
-		cases = append(cases, []map[string]Case[[]*internftv1alpha1.Trait]{
-			{
-				"[no duplicate trait": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						AddedDuplicate = false
-					},
-				},
-				"[duplicate trait": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						if !added {
-							return
-						}
-						AddedDuplicate = true
-						*subject = append(*subject, &internftv1alpha1.Trait{})
-					},
-					err: func() error {
-						if AddedDuplicate {
-							return sdkerrors.ErrInvalidRequest
-						}
-						return nil
-					},
-				},
-			},
-			{
-				"nil id": {
-					err: func() error {
-						if !AddedDuplicate {
-							return nil
-						}
-						return internftv1alpha1.ErrUnimplemented
-					},
-				},
-				"valid id": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						if !AddedDuplicate {
-							return
-						}
-						(*subject)[len(*subject) - 1].Id = traitID
-					},
-				},
-			},
-			{
-				"nil mutability]": {
-					err: func() error {
-						if !AddedDuplicate {
-							return nil
-						}
-						return internftv1alpha1.ErrUnimplemented
-					},
-				},
-				"immutable]": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						if !AddedDuplicate {
-							return
-						}
-						(*subject)[len(*subject) - 1].Mutability = internftv1alpha1.Trait_MUTABILITY_IMMUTABLE
-					},
-				},
-				"mutable]": {
-					malleate: func(subject *[]*internftv1alpha1.Trait) {
-						if !AddedDuplicate {
-							return
-						}
-						(*subject)[len(*subject) - 1].Mutability = internftv1alpha1.Trait_MUTABILITY_MUTABLE
-					},
-				},
-			},
-		}...)
-	}
-
-	doTest(t, tester, cases)
-}
-
 func TestToken(t *testing.T) {
 	tester := func(subject internftv1alpha1.Token) error {
-		return subject.ValidateBasic()
+		var parsed internftv1alpha1.TokenInternal
+		return parsed.Parse(subject)
 	}
 	cases := []map[string]Case[internftv1alpha1.Token]{
 		{
@@ -291,10 +145,10 @@ func TestToken(t *testing.T) {
 			},
 			"invalid class id": {
 				malleate: func(subject *internftv1alpha1.Token) {
-					subject.ClassId = "not-in-bech32"
+					subject.ClassId = "not/in/caip19"
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInvalidClassID
+					return internftv1alpha1.ErrInvalidID
 				},
 			},
 		},
@@ -311,145 +165,13 @@ func TestToken(t *testing.T) {
 			},
 			"invalid token id": {
 				malleate: func(subject *internftv1alpha1.Token) {
-					subject.Id = "not-in-bech32"
+					subject.Id = "not/in/caip19"
 				},
 				err: func() error {
-					return internftv1alpha1.ErrInvalidTokenID
+					return internftv1alpha1.ErrInvalidID
 				},
 			},
 		},
-	}
-
-	doTest(t, tester, cases)
-}
-
-func TestProperties(t *testing.T) {
-	tester := func(subject []*internftv1alpha1.Property) error {
-		return internftv1alpha1.Properties(subject).ValidateBasic()
-	}
-	cases := []map[string]Case[[]*internftv1alpha1.Property]{}
-	for i := 0; i < 2; i++ {
-		traitID := fmt.Sprintf("trait%02d", i)
-		fact := fmt.Sprintf("fact%02d", i)
-
-		added := false
-		cases = append(cases, []map[string]Case[[]*internftv1alpha1.Property]{
-			{
-				"[nil property": {
-					malleate: func(subject *[]*internftv1alpha1.Property) {
-						added = false
-						*subject = append(*subject, nil)
-					},
-					err: func() error {
-						return sdkerrors.ErrInvalidRequest
-					},
-				},
-				"[non-nil property": {
-					malleate: func(subject *[]*internftv1alpha1.Property) {
-						added = true
-						*subject = append(*subject, &internftv1alpha1.Property{})
-					},
-				},
-			},
-			{
-				"nil trait id": {
-					err: func() error {
-						if !added {
-							return nil
-						}
-						return internftv1alpha1.ErrUnimplemented
-					},
-				},
-				"valid trait id": {
-					malleate: func(subject *[]*internftv1alpha1.Property) {
-						if !added {
-							return
-						}
-						(*subject)[len(*subject) - 1].TraitId = traitID
-					},
-				},
-			},
-			{
-				"nil fact]": {
-					err: func() error {
-						if !added {
-							return nil
-						}
-						return internftv1alpha1.ErrUnimplemented
-					},
-				},
-				"valid fact]": {
-					malleate: func(subject *[]*internftv1alpha1.Property) {
-						if !added {
-							return
-						}
-						(*subject)[len(*subject) - 1].Fact = fact
-					},
-				},
-			},
-		}...)
-
-		addedDuplicate := false
-		cases = append(cases, []map[string]Case[[]*internftv1alpha1.Property]{
-			{
-				"[no duplicate property": {
-					malleate: func(subject *[]*internftv1alpha1.Property) {
-						addedDuplicate = false
-					},
-				},
-				"[duplicate property": {
-					malleate: func(subject *[]*internftv1alpha1.Property) {
-						if !added {
-							return
-						}
-						addedDuplicate = true
-						*subject = append(*subject, &internftv1alpha1.Property{})
-					},
-					err: func() error {
-						if addedDuplicate {
-							return sdkerrors.ErrInvalidRequest
-						}
-						return nil
-					},
-				},
-			},
-			{
-				"nil trait id": {
-					err: func() error {
-						if !addedDuplicate {
-							return nil
-						}
-						return internftv1alpha1.ErrUnimplemented
-					},
-				},
-				"valid trait id": {
-					malleate: func(subject *[]*internftv1alpha1.Property) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject) - 1].TraitId = traitID
-					},
-				},
-			},
-			{
-				"nil fact]": {
-					err: func() error {
-						if !addedDuplicate {
-							return nil
-						}
-						return internftv1alpha1.ErrUnimplemented
-					},
-				},
-				"valid fact]": {
-					malleate: func(subject *[]*internftv1alpha1.Property) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject) - 1].Fact = fact
-					},
-				},
-			},
-		}...)
 	}
 
 	doTest(t, tester, cases)

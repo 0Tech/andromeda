@@ -15,8 +15,8 @@ func (k Keeper) GetParams(ctx context.Context) *internftv1alpha1.Params {
 	return &params
 }
 
-func (k Keeper) SetParams(ctx context.Context, params internftv1alpha1.Params) {
-	if err := k.params.Set(ctx, params); err != nil {
+func (k Keeper) SetParams(ctx context.Context, params *internftv1alpha1.Params) {
+	if err := k.params.Set(ctx, *params); err != nil {
 		panic(err)
 	}
 }

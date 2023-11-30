@@ -1,6 +1,7 @@
 package internftv1alpha1
 
 import (
+	"encoding/hex"
 	"regexp"
 
 	errorsmod "cosmossdk.io/errors"
@@ -194,9 +195,18 @@ func (pi *PropertyInternal) Parse(p Property) error {
 
 // TODO(@0Tech): move to msg server
 func ValidateOperator(operator, classID string) error {
-	if operator != classID {
+	var addr Address
+	if err := addr.Parse(operator); err != nil {
+		return err
+	}
+
+	if classID != GetClassID(addr) {
 		return errorsmod.Wrap(ErrPermissionDenied.Wrapf("not operator of class %s", classID), operator)
 	}
 
 	return nil
+}
+
+func GetClassID(operator Address) string {
+	return hex.EncodeToString(operator)
 }

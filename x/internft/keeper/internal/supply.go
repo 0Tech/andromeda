@@ -50,7 +50,7 @@ func (k Keeper) UpdateTrait(ctx context.Context, class *internftv1alpha1.Class, 
 	}
 
 	// mutating existing trait
-	if prevTrait, err := k.GetTrait(ctx, class.Id, trait.Id); err != nil {
+	if prevTrait, err := k.GetTrait(ctx, class.Id, trait.Id); err == nil {
 		switch prevTrait.Mutability {
 		case internftv1alpha1.Trait_MUTABILITY_IMMUTABLE:
 			return internftv1alpha1.ErrTraitImmutable.Wrap(trait.Id)
@@ -204,9 +204,12 @@ func (k Keeper) UpdateProperty(ctx context.Context, token *internftv1alpha1.Toke
 		return err
 	}
 
-	switch trait.Mutability {
-	case internftv1alpha1.Trait_MUTABILITY_IMMUTABLE:
-		return internftv1alpha1.ErrTraitImmutable.Wrap(property.TraitId)
+	// mutating existing property
+	if _, err := k.GetProperty(ctx, token, property.TraitId); err == nil {
+		switch trait.Mutability {
+		case internftv1alpha1.Trait_MUTABILITY_IMMUTABLE:
+			return internftv1alpha1.ErrTraitImmutable.Wrap(property.TraitId)
+		}
 	}
 		
 	k.setProperty(ctx, token, property)

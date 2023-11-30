@@ -9,7 +9,7 @@ import (
 )
 
 func (k Keeper) InitGenesis(ctx context.Context, gs *internftv1alpha1.GenesisState) error {
-	k.SetParams(ctx, *gs.Params)
+	k.SetParams(ctx, gs.Params)
 
 	for _, genClass := range gs.Classes {
 		class := &internftv1alpha1.Class{

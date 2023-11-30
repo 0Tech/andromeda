@@ -16,10 +16,10 @@ func (s *KeeperTestSuite) TestSend() {
 	tester := func(subject send) error {
 		s.Assert().NotEmpty(subject.sender)
 		s.Assert().NotEmpty(subject.recipient)
-		s.Assert().NoError(subject.token.ValidateBasic())
+		s.Assert().NoError((&internftv1alpha1.TokenInternal{}).Parse(*subject.token))
 
 		ctx, _ := s.ctx.CacheContext()
-		err := s.keeper.Send(ctx, subject.sender, subject.recipient, subject.token)
+		err := s.keeper.SendToken(ctx, subject.sender, subject.recipient, subject.token)
 		if err != nil {
 			return err
 		}
@@ -84,14 +84,14 @@ func (s *KeeperTestSuite) TestSend() {
 			"class exists": {
 				malleate: func(subject *send) {
 					subject.token = &internftv1alpha1.Token{
-						ClassId: s.vendor.String(),
+						ClassId: s.classID,
 					}
 				},
 			},
 			"class not found": {
 				malleate: func(subject *send) {
 					subject.token = &internftv1alpha1.Token{
-						ClassId: s.stranger.String(),
+						ClassId: "no-class",
 					}
 				},
 				err: func() error {

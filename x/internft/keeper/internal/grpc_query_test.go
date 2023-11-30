@@ -40,13 +40,14 @@ func (s *KeeperTestSuite) TestQueryClass() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: s.vendor.String(),
+			classID: s.classID,
 		},
 		"invalid class id": {
+			classID: "not/in/caip19",
 			code: codes.InvalidArgument,
 		},
 		"class not found": {
-			classID: s.customer.String(),
+			classID: "no-class",
 			code:    codes.NotFound,
 		},
 	}
@@ -106,20 +107,21 @@ func (s *KeeperTestSuite) TestQueryTrait() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: s.vendor.String(),
+			classID: s.classID,
 			traitID: s.immutableTraitID,
 		},
 		"invalid class id": {
-			classID: "not-in-bech32",
+			classID: "not/in/caip19",
 			traitID: s.immutableTraitID,
 			code:    codes.InvalidArgument,
 		},
-		// "invalid trait id": {
-		// 	classID: s.vendor.String(),
-		// 	code:    codes.InvalidArgument,
-		// },
+		"invalid trait id": {
+			classID: s.classID,
+			traitID: "not/in/caip19",
+			code:    codes.InvalidArgument,
+		},
 		"trait not found": {
-			classID: s.customer.String(),
+			classID: "no-class",
 			traitID: s.immutableTraitID,
 			code:    codes.NotFound,
 		},
@@ -154,9 +156,10 @@ func (s *KeeperTestSuite) TestQueryTraits() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: s.vendor.String(),
+			classID: s.classID,
 		},
 		"invalid class id": {
+			classID: "not/in/caip19",
 			code: codes.InvalidArgument,
 		},
 	}
@@ -188,14 +191,14 @@ func (s *KeeperTestSuite) TestQueryToken() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: s.vendor.String(),
+			classID: s.classID,
 		},
 		"invalid class id": {
-			classID: "not-in-bech32",
+			classID: "not/in/caip19",
 			code: codes.InvalidArgument,
 		},
 		"token not found": {
-			classID: s.customer.String(),
+			classID: "no-class",
 			code:    codes.NotFound,
 		},
 	}
@@ -230,9 +233,10 @@ func (s *KeeperTestSuite) TestQueryTokens() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: s.vendor.String(),
+			classID: s.classID,
 		},
 		"invalid class id": {
+			classID: "not/in/caip19",
 			code: codes.InvalidArgument,
 		},
 	}
@@ -265,20 +269,21 @@ func (s *KeeperTestSuite) TestQueryProperty() {
 		code       codes.Code
 	}{
 		"valid request": {
-			classID:    s.vendor.String(),
+			classID:    s.classID,
 			traitID: s.immutableTraitID,
 		},
 		"invalid class id": {
-			classID: "not-in-bech32",
+			classID: "not/in/caip19",
 			traitID: s.immutableTraitID,
 			code:       codes.InvalidArgument,
 		},
-		// "invalid trait id": {
-		// 	classID: s.vendor.String(),
-		// 	code:    codes.InvalidArgument,
-		// },
+		"invalid trait id": {
+			classID: s.classID,
+			traitID: "not/in/caip19",
+			code:    codes.InvalidArgument,
+		},
 		"trait not found": {
-			classID:    s.customer.String(),
+			classID:    "no-class",
 			traitID: s.immutableTraitID,
 			code:       codes.NotFound,
 		},
@@ -314,10 +319,10 @@ func (s *KeeperTestSuite) TestQueryProperties() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: s.vendor.String(),
+			classID: s.classID,
 		},
 		"invalid class id": {
-			classID: "not-in-bech32",
+			classID: "not/in/caip19",
 			code: codes.InvalidArgument,
 		},
 	}
@@ -350,14 +355,14 @@ func (s *KeeperTestSuite) TestQueryOwner() {
 		code    codes.Code
 	}{
 		"valid request": {
-			classID: s.vendor.String(),
+			classID: s.classID,
 		},
 		"invalid class id": {
-			classID: "not-in-bech32",
+			classID: "not/in/caip19",
 			code: codes.InvalidArgument,
 		},
 		"token not found": {
-			classID: s.customer.String(),
+			classID: "no-class",
 			code:    codes.NotFound,
 		},
 	}

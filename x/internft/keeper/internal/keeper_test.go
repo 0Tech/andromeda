@@ -41,6 +41,8 @@ type KeeperTestSuite struct {
 	customer sdk.AccAddress
 	stranger sdk.AccAddress
 
+	classID string
+
 	mutableTraitID   string
 	immutableTraitID string
 
@@ -60,7 +62,7 @@ func createIDs(size int, prefix string) []string {
 	addrs := createAddresses(size, prefix)
 	ids := make([]string, len(addrs))
 	for i, addr := range addrs {
-		ids[i] = addr.String()
+		ids[i] = internftv1alpha1.GetClassID(internftv1alpha1.Address(addr))
 	}
 
 	return ids
@@ -144,6 +146,9 @@ func (s *KeeperTestSuite) SetupTest() {
 	s.queryServer = keeper.NewQueryServer(s.keeper)
 	s.msgServer = keeper.NewMsgServer(s.keeper)
 
+	// TODO(@0Tech): hide SetParams
+	s.keeper.SetParams(s.ctx, internftv1alpha1.DefaultParams())
+
 	// create accounts
 	addresses := []*sdk.AccAddress{
 		&s.vendor,
@@ -154,31 +159,39 @@ func (s *KeeperTestSuite) SetupTest() {
 		*addresses[i] = address
 	}
 
-	s.keeper.SetParams(s.ctx, internftv1alpha1.Params{})
-
 	// vendor creates a class
+	s.classID = internftv1alpha1.GetClassID(internftv1alpha1.Address(s.vendor))
 	class := &internftv1alpha1.Class{
-		Id: s.vendor.String(),
+		Id: s.classID,
 	}
-	err := class.ValidateBasic()
+
+	var err error
+	_, err = s.msgServer.CreateClass(s.ctx, &internftv1alpha1.MsgCreateClass{
+		Operator: s.vendor.String(),
+		Class: class,
+	})
 	s.Assert().NoError(err)
 
-	s.mutableTraitID = "level"
 	s.immutableTraitID = "color"
+	s.mutableTraitID = "level"
 
-	traits := []*internftv1alpha1.Trait{
-		{
-			Id:      s.mutableTraitID,
-			Mutability: internftv1alpha1.Trait_MUTABILITY_MUTABLE,
-		},
+	for _, trait := range []*internftv1alpha1.Trait{
 		{
 			Id: s.immutableTraitID,
 			Mutability: internftv1alpha1.Trait_MUTABILITY_IMMUTABLE,
 		},
+		{
+			Id:      s.mutableTraitID,
+			Mutability: internftv1alpha1.Trait_MUTABILITY_MUTABLE,
+		},
+	} {
+		_, err = s.msgServer.UpdateTrait(s.ctx, &internftv1alpha1.MsgUpdateTrait{
+			Operator: s.vendor.String(),
+			Class: class,
+			Trait: trait,
+		})
+		s.Assert().NoError(err)
 	}
-
-	err = s.keeper.NewClass(s.ctx, class, traits)
-	s.Assert().NoError(err)
 
 	// vendor creates tokens and distributes then to all accounts
 	tokenIDs := createIDs(len(addresses), "token")
@@ -197,18 +210,32 @@ func (s *KeeperTestSuite) SetupTest() {
 			ClassId: class.Id,
 			Id: tokenID,
 		}
-		properties := []*internftv1alpha1.Property{
-			{
-				TraitId: s.mutableTraitID,
-				Fact: "42",
-			},
+
+		_, err = s.msgServer.MintToken(s.ctx, &internftv1alpha1.MsgMintToken{
+			Operator: s.vendor.String(),
+			Token: token,
+		})
+		s.Assert().NoError(err)
+
+		for _, property := range []*internftv1alpha1.Property{
 			{
 				TraitId: s.immutableTraitID,
 				Fact: "black",
 			},
+			{
+				TraitId: s.mutableTraitID,
+				Fact: "42",
+			},
+		} {
+			_, err = s.msgServer.UpdateProperty(s.ctx, &internftv1alpha1.MsgUpdateProperty{
+				Operator: s.vendor.String(),
+				Token: token,
+				Property: property,
+			})
+			s.Assert().NoError(err)
 		}
 
-		err := s.keeper.NewToken(s.ctx, recipient, token, properties)
+		err = s.keeper.SendToken(s.ctx, s.vendor, recipient, token)
 		s.Assert().NoError(err)
 	}
 }
