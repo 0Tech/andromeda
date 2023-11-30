@@ -24,7 +24,7 @@ func (q QueryClassRequest) ValidateCompatibility() error {
 }
 
 type QueryClassInternal struct {
-	ClassID ID
+	ClassID Reference
 }
 
 func (qi *QueryClassInternal) Parse(q QueryClassRequest) error {
@@ -67,8 +67,8 @@ func (q QueryTraitRequest) ValidateCompatibility() error {
 }
 
 type QueryTraitInternal struct {
-	ClassID ID
-	TraitID ID
+	ClassID Reference
+	TraitID Reference
 }
 
 func (qi *QueryTraitInternal) Parse(q QueryTraitRequest) error {
@@ -96,7 +96,7 @@ func (q QueryTraitsRequest) ValidateCompatibility() error {
 }
 
 type QueryTraitsInternal struct {
-	ClassID ID
+	ClassID Reference
 }
 
 func (qi *QueryTraitsInternal) Parse(q QueryTraitsRequest) error {
@@ -124,8 +124,8 @@ func (q QueryTokenRequest) ValidateCompatibility() error {
 }
 
 type QueryTokenInternal struct {
-	ClassID ID
-	TokenID ID
+	ClassID Reference
+	TokenID TokenID
 }
 
 func (qi *QueryTokenInternal) Parse(q QueryTokenRequest) error {
@@ -153,7 +153,7 @@ func (q QueryTokensRequest) ValidateCompatibility() error {
 }
 
 type QueryTokensInternal struct {
-	ClassID ID
+	ClassID Reference
 }
 
 func (qi *QueryTokensInternal) Parse(q QueryTokensRequest) error {
@@ -185,9 +185,9 @@ func (q QueryPropertyRequest) ValidateCompatibility() error {
 }
 
 type QueryPropertyInternal struct {
-	ClassID ID
-	TokenID ID
-	TraitID ID
+	ClassID Reference
+	TokenID TokenID
+	TraitID Reference
 }
 
 func (qi *QueryPropertyInternal) Parse(q QueryPropertyRequest) error {
@@ -223,8 +223,8 @@ func (q QueryPropertiesRequest) ValidateCompatibility() error {
 }
 
 type QueryPropertiesInternal struct {
-	ClassID ID
-	TokenID ID
+	ClassID Reference
+	TokenID TokenID
 }
 
 func (qi *QueryPropertiesInternal) Parse(q QueryPropertiesRequest) error {
@@ -256,8 +256,8 @@ func (q QueryOwnerRequest) ValidateCompatibility() error {
 }
 
 type QueryOwnerInternal struct {
-	ClassID ID
-	TokenID ID
+	ClassID Reference
+	TokenID TokenID
 }
 
 func (qi *QueryOwnerInternal) Parse(q QueryOwnerRequest) error {

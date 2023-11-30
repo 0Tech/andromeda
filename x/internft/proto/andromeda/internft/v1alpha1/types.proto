@@ -1,6 +1,42 @@
 syntax = "proto3";
 package andromeda.internft.v1alpha1;
 
+// ChainID defines a chain id according to CAIP-2.
+message ChainID {
+  // a case-sensitive identifier in the form of [-a-z0-9]{3,8}
+  // e.g. eip155, bip122, cosmos
+  string namespace = 1;
+
+  // a case-sensitive identifier in the form of [-_a-zA-Z0-9]{1,32}
+  // e.g. 1, 000000000019d6689c085ae165831e93, cosmoshub-4
+  string reference = 2;
+}
+
+// AssetID defines an asset id according to CAIP-19.
+message AssetID {
+  ChainID chain_id = 1;
+
+  // a case-sensitive identifier in the form of [-a-z0-9]{3,8}
+  // e.g. slip44, erc20, erc721
+  string namespace = 2;
+
+  // a case-sensitive identifier in the form of [-.%a-zA-Z0-9]{1,128}
+  // e.g. 60, 0, 118
+  string reference = 3;
+
+  // a case-sensitive identifier in the form of [-.%a-zA-Z0-9]{1,78}
+  string token_id = 4;
+}
+
+// CAIP-10.
+message AccountID {
+  ChainID chain_id = 1;
+
+  // a case-sensitive identifier in the form of [-.%a-zA-Z0-9]{1,128}
+  // e.g. 0xab16a96D359eC26a11e2C2b3d8f8B8942d5Bfcdb, 128Lkh3S7CkDTBZ8W7BbpsN3YYizJMp8p6, cosmos1t2uflqwqe0fsj0shcfkrvpukewcw40yjj6hdc0
+  string address = 2;
+}
+
 // Params defines the parameters for the module.
 message Params {}
 
@@ -25,7 +61,8 @@ message Trait {
 
 // Class defines a classification of token.
 message Class {
-  // the identifier of the classfication
+  // the identifier of the classfication in the form of [-.%a-zA-Z0-9]{1,128},
+  // which corresponds to asset reference in CAIP-19
   string id = 1;
 }
 
@@ -43,6 +80,7 @@ message Token {
   // the identifier of the class for the token
   string class_id = 1;
 
-  // the identifier of the token
+  // the identifier of the token in the form of [-.%a-zA-Z0-9]{1,78},
+  // which corresponds to token id in CAIP-19
   string id = 2;
 }

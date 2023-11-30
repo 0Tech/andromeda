@@ -1,7 +1,7 @@
 package internftv1alpha1
 
 import (
-	"encoding/hex"
+	"regexp"
 
 	errorsmod "cosmossdk.io/errors"
 
@@ -26,14 +26,34 @@ func (a Address) AccAddress() sdk.AccAddress {
 	return sdk.AccAddress(a)
 }
 
-type ID []byte
+type Reference string
 
-func (i *ID) Parse(hexadecimal string) error {
-	id, err := hex.DecodeString(hexadecimal)
-	if err != nil {
-		return ErrInvalidID.Wrap(hexadecimal)
+var (
+	referenceExpr = "[-.%[:alnum:]]{1,128}"
+	referenceRegexp = regexp.MustCompilePOSIX("^" + referenceExpr + "$")
+)
+
+func (r *Reference) Parse(caip19 string) error {
+	if !referenceRegexp.MatchString(caip19) {
+		return errorsmod.Wrap(ErrInvalidID.Wrapf("reference must in form of %s", referenceExpr), caip19)
 	}
-	*i = ID(id)
+	*r = Reference(caip19)
+
+	return nil
+}
+
+type TokenID string
+
+var (
+	tokenIDExpr = "[-.%[:alnum:]]{1,78}"
+	tokenIDRegexp = regexp.MustCompilePOSIX("^" + tokenIDExpr + "$")
+)
+
+func (t *TokenID) Parse(caip19 string) error {
+	if !tokenIDRegexp.MatchString(caip19) {
+		return errorsmod.Wrap(ErrInvalidID.Wrapf("token id must in form of %s", tokenIDExpr), caip19)
+	}
+	*t = TokenID(caip19)
 
 	return nil
 }
@@ -62,7 +82,7 @@ func (c Class) ValidateCompatibility() error {
 }
 
 type ClassInternal struct {
-	ID ID
+	ID Reference
 }
 
 func (ci *ClassInternal) Parse(c Class) error {
@@ -90,7 +110,7 @@ func (t Trait) ValidateCompatibility() error {
 }
 
 type TraitInternal struct {
-	ID ID
+	ID Reference
 	Mutable bool
 }
 
@@ -121,8 +141,8 @@ func (t Token) ValidateCompatibility() error {
 }
 
 type TokenInternal struct {
-	ClassID ID
-	ID ID
+	ClassID Reference
+	ID TokenID
 }
 
 func (ti *TokenInternal) Parse(t Token) error {
@@ -154,7 +174,7 @@ func (p Property) ValidateCompatibility() error {
 }
 
 type PropertyInternal struct {
-	TraitID ID
+	TraitID Reference
 	Fact string
 }
 

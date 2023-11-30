@@ -61,7 +61,8 @@ func (t GenesisToken) ValidateBasic(traitIDs map[string]struct{}) error {
 		return err
 	}
 
-	if err := (&ID{}).Parse(t.Id); err != nil {
+	var id TokenID
+	if err := (&id).Parse(t.Id); err != nil {
 		return err
 	}
 
@@ -147,7 +148,8 @@ func (c GenesisClass) ValidateBasic() error {
 		return err
 	}
 
-	if err := (&ID{}).Parse(c.Id); err != nil {
+	var id Reference
+	if err := (&id).Parse(c.Id); err != nil {
 		return err
 	}
 
