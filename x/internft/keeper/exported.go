@@ -19,14 +19,17 @@ func NewKeeper(
 	cdc codec.BinaryCodec,
 	storeService store.KVStoreService,
 	authority string,
-) Keeper {
-	return Keeper{
-		impl: internal.NewKeeper(
-			cdc,
-			storeService,
-			authority,
-		),
+) (*Keeper, error) {
+	impl, err := internal.NewKeeper(
+		cdc,
+		storeService,
+		authority,
+	)
+	if err != nil {
+		return nil, err
 	}
+
+	return &Keeper{impl: *impl}, nil
 }
 
 func NewMsgServer(keeper Keeper) internftv1alpha1.MsgServer {
@@ -41,6 +44,6 @@ func (k Keeper) InitGenesis(ctx context.Context, gs *internftv1alpha1.GenesisSta
 	return k.impl.InitGenesis(ctx, gs)
 }
 
-func (k Keeper) ExportGenesis(ctx context.Context) *internftv1alpha1.GenesisState {
+func (k Keeper) ExportGenesis(ctx context.Context) (*internftv1alpha1.GenesisState, error) {
 	return k.impl.ExportGenesis(ctx)
 }

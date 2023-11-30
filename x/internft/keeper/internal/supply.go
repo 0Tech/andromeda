@@ -38,10 +38,12 @@ func (k Keeper) GetClass(ctx context.Context, classID string) (*internftv1alpha1
 	return &class, nil
 }
 
-func (k Keeper) setClass(ctx context.Context, class *internftv1alpha1.Class) {
+func (k Keeper) setClass(ctx context.Context, class *internftv1alpha1.Class) error {
 	if err := k.classes.Set(ctx, class.Id, *class); err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
+
+	return nil
 }
 
 func (k Keeper) UpdateTrait(ctx context.Context, class *internftv1alpha1.Class, trait *internftv1alpha1.Trait) error {
@@ -80,45 +82,51 @@ func (k Keeper) GetTrait(ctx context.Context, classID string, traitID string) (*
 	return &trait, nil
 }
 
-func (k Keeper) setTrait(ctx context.Context, classID string, trait *internftv1alpha1.Trait) {
+func (k Keeper) setTrait(ctx context.Context, classID string, trait *internftv1alpha1.Trait) error {
 	if err := k.traits.Set(ctx, collections.Join(classID, trait.Id), *trait); err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
+
+	return nil
 }
 
-func (k Keeper) iterateTraitsOfClass(ctx context.Context, classID string, fn func(trait internftv1alpha1.Trait)) {
+func (k Keeper) iterateTraitsOfClass(ctx context.Context, classID string, fn func(trait internftv1alpha1.Trait)) error {
 	rng := collections.NewPrefixedPairRange[string, string](classID)
 	iter, err := k.traits.Iterate(ctx, rng)
 	if err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 	defer iter.Close()
 
 	for ; iter.Valid(); iter.Next() {
 		trait, err := iter.Value()
 		if err != nil {
-			panic(err)
+			return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
 		fn(trait)
 	}
+
+	return nil
 }
 
-func (k Keeper) iterateClasses(ctx context.Context, fn func(class internftv1alpha1.Class)) {
+func (k Keeper) iterateClasses(ctx context.Context, fn func(class internftv1alpha1.Class)) error {
 	iter, err := k.classes.Iterate(ctx, nil)
 	if err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 	defer iter.Close()
 
 	for ; iter.Valid(); iter.Next() {
 		class, err := iter.Value()
 		if err != nil {
-			panic(err)
+			return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
 		fn(class)
 	}
+
+	return nil
 }
 
 func (k Keeper) MintToken(ctx context.Context, owner sdk.AccAddress, token *internftv1alpha1.Token) error {
@@ -154,40 +162,48 @@ func (k Keeper) GetProperty(ctx context.Context, token *internftv1alpha1.Token, 
 	return &property, nil
 }
 
-func (k Keeper) setProperty(ctx context.Context, token *internftv1alpha1.Token, property *internftv1alpha1.Property) {
+func (k Keeper) setProperty(ctx context.Context, token *internftv1alpha1.Token, property *internftv1alpha1.Property) error {
 	if err := k.properties.Set(ctx, collections.Join3(token.ClassId, token.Id, property.TraitId), *property); err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
+
+	return nil
 }
 
-func (k Keeper) iteratePropertiesOfToken(ctx context.Context, token *internftv1alpha1.Token, fn func(property internftv1alpha1.Property)) {
+func (k Keeper) iteratePropertiesOfToken(ctx context.Context, token *internftv1alpha1.Token, fn func(property internftv1alpha1.Property)) error {
 	rng := collections.NewSuperPrefixedTripleRange[string, string, string](token.ClassId, token.Id)
 	iter, err := k.properties.Iterate(ctx, rng)
 	if err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 	defer iter.Close()
 
 	for ; iter.Valid(); iter.Next() {
 		property, err := iter.Value()
 		if err != nil {
-			panic(err)
+			return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
 		fn(property)
 	}
+
+	return nil
 }
 
 func (k Keeper) BurnToken(ctx context.Context, owner sdk.AccAddress, token *internftv1alpha1.Token) error {
 	if err := k.validateOwner(ctx, token, owner); err != nil {
 		return err
 	}
-	k.deleteOwner(ctx, token)
+	if err := k.deleteOwner(ctx, token); err != nil {
+		return err
+	}
 
 	if err := k.hasToken(ctx, token); err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
-	k.deleteToken(ctx, token)
+	if err := k.deleteToken(ctx, token); err != nil {
+		return err
+	}
 
 	k.properties.Clear(ctx, collections.NewSuperPrefixedTripleRange[string, string, string](token.ClassId, token.Id))
 
@@ -235,32 +251,38 @@ func (k Keeper) GetToken(ctx context.Context, token *internftv1alpha1.Token) (*i
 	return token, nil
 }
 
-func (k Keeper) setToken(ctx context.Context, token *internftv1alpha1.Token) {
+func (k Keeper) setToken(ctx context.Context, token *internftv1alpha1.Token) error {
 	if err := k.tokens.Set(ctx, collections.Join(token.ClassId, token.Id), *token); err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
+
+	return nil
 }
 
-func (k Keeper) deleteToken(ctx context.Context, token *internftv1alpha1.Token) {
+func (k Keeper) deleteToken(ctx context.Context, token *internftv1alpha1.Token) error {
 	if err := k.tokens.Remove(ctx, collections.Join(token.ClassId, token.Id)); err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
+
+	return nil
 }
 
-func (k Keeper) iterateTokensOfClass(ctx context.Context, classID string, fn func(token internftv1alpha1.Token)) {
+func (k Keeper) iterateTokensOfClass(ctx context.Context, classID string, fn func(token internftv1alpha1.Token)) error {
 	rng := collections.NewPrefixedPairRange[string, string](classID)
 	iter, err := k.tokens.Iterate(ctx, rng)
 	if err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 	defer iter.Close()
 
 	for ; iter.Valid(); iter.Next() {
 		token, err := iter.Value()
 		if err != nil {
-			panic(err)
+			return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
 		fn(token)
 	}
+
+	return nil
 }

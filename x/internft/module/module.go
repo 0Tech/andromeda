@@ -136,7 +136,11 @@ func (am AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONCodec, data json.
 
 // ExportGenesis returns the exported genesis state as raw bytes for the module.
 func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.RawMessage {
-	gs := am.keeper.ExportGenesis(sdk.UnwrapSDKContext(ctx))
+	gs, err := am.keeper.ExportGenesis(sdk.UnwrapSDKContext(ctx))
+	if err != nil {
+		panic(err)
+	}
+
 	return cdc.MustMarshalJSON(gs)
 }
 
@@ -185,8 +189,12 @@ func ProvideModule(in InterNFTInputs) InterNFTOutputs {
 		authority = authtypes.NewModuleAddressOrBech32Address(in.Config.Authority)
 	}
 
-	k := keeper.NewKeeper(in.Cdc, in.StoreService, authority.String())
-	m := NewAppModule(in.Cdc, k)
+	k, err := keeper.NewKeeper(in.Cdc, in.StoreService, authority.String())
+	if err != nil {
+		panic(err)
+	}
 
-	return InterNFTOutputs{Keeper: k, Module: m}
+	m := NewAppModule(in.Cdc, *k)
+
+	return InterNFTOutputs{Keeper: *k, Module: m}
 }

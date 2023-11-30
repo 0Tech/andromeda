@@ -26,7 +26,8 @@ func TestImportExportGenesis(t *testing.T) {
 	encCfg := moduletestutil.MakeTestEncodingConfig(module.AppModuleBasic{})
 	key := storetypes.NewKVStoreKey(internftv1alpha1.StoreKey)
 	storeService := runtime.NewKVStoreService(key)
-	keeper := keeper.NewKeeper(encCfg.Codec, storeService, authtypes.NewModuleAddress(govtypes.ModuleName).String())
+	keeper, err := keeper.NewKeeper(encCfg.Codec, storeService, authtypes.NewModuleAddress(govtypes.ModuleName).String())
+	assert.NoError(t, err)
 
 	testCtx := testutil.DefaultContextWithDB(t, key, storetypes.NewTransientStoreKey("transient_test"))
 	ctx := testCtx.Ctx.WithBlockHeader(cmtproto.Header{Time: cmttime.Now()})
@@ -110,7 +111,8 @@ func TestImportExportGenesis(t *testing.T) {
 			err = keeper.InitGenesis(ctx, tc.gs)
 			require.NoError(t, err)
 
-			exported := keeper.ExportGenesis(ctx)
+			exported, err := keeper.ExportGenesis(ctx)
+			require.NoError(t, err)
 			require.Equal(t, tc.gs, exported)
 		})
 	}

@@ -138,7 +138,9 @@ func (s *KeeperTestSuite) SetupTest() {
 	encCfg := moduletestutil.MakeTestEncodingConfig(module.AppModuleBasic{})
 	key := storetypes.NewKVStoreKey(internftv1alpha1.StoreKey)
 	storeService := runtime.NewKVStoreService(key)
-	s.keeper = keeper.NewKeeper(encCfg.Codec, storeService, authtypes.NewModuleAddress(govtypes.ModuleName).String())
+	k, err := keeper.NewKeeper(encCfg.Codec, storeService, authtypes.NewModuleAddress(govtypes.ModuleName).String())
+	s.Assert().NoError(err)
+	s.keeper = *k
 
 	testCtx := testutil.DefaultContextWithDB(s.T(), key, storetypes.NewTransientStoreKey("transient_test"))
 	s.ctx = testCtx.Ctx.WithBlockHeader(cmtproto.Header{Time: cmttime.Now()})
@@ -146,8 +148,7 @@ func (s *KeeperTestSuite) SetupTest() {
 	s.queryServer = keeper.NewQueryServer(s.keeper)
 	s.msgServer = keeper.NewMsgServer(s.keeper)
 
-	// TODO(@0Tech): hide SetParams
-	s.keeper.SetParams(s.ctx, internftv1alpha1.DefaultParams())
+	s.keeper.UpdateParams(s.ctx, internftv1alpha1.DefaultParams())
 
 	// create accounts
 	addresses := []*sdk.AccAddress{
@@ -165,7 +166,6 @@ func (s *KeeperTestSuite) SetupTest() {
 		Id: s.classID,
 	}
 
-	var err error
 	_, err = s.msgServer.CreateClass(s.ctx, &internftv1alpha1.MsgCreateClass{
 		Operator: s.vendor.String(),
 		Class: class,

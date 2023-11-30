@@ -37,7 +37,10 @@ func (s queryServer) Params(ctx context.Context, req *internftv1alpha1.QueryPara
 		return nil, err
 	}
 
-	params := s.keeper.GetParams(ctx)
+	params, err := s.keeper.GetParams(ctx)
+	if err != nil {
+		return nil, err
+	}
 
 	return &internftv1alpha1.QueryParamsResponse{
 		Params: params,

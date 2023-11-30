@@ -30,11 +30,9 @@ func NewKeeper(
 	cdc codec.BinaryCodec,
 	storeService store.KVStoreService,
 	authority string,
-) Keeper {
-	// TODO(@0Tech): add authority check
-
+) (*Keeper, error) {
 	sb := collections.NewSchemaBuilder(storeService)
-	k := Keeper{
+	k := &Keeper{
 		cdc:       cdc,
 		storeService: storeService,
 		authority: authority,
@@ -57,11 +55,12 @@ func NewKeeper(
 			collcodec.KeyToValueCodec(sdk.AccAddressKey)),
 	}
 
-	if schema, err := sb.Build(); err != nil {
-		panic(err)
-	} else {
-		k.schema = schema
+	schema, err := sb.Build()
+	if err != nil {
+		return nil, err
 	}
 
-	return k
+	k.schema = schema
+
+	return k, nil
 }

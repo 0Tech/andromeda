@@ -11,6 +11,7 @@ const errorCodespace = ModuleName
 // stateless errors
 const (
 	_ uint32 = iota + 1 << 1 - 1
+
 	errorCodeUnimplemented
 	errorCodeInvalidID
 )
@@ -23,6 +24,8 @@ var (
 // stateful errors
 const (
 	_ uint32 = iota + 1 << (32 - 1) - 1
+
+	errorCodeInvariantBroken
 	errorCodeClassNotFound
 	errorCodeClassAlreadyExists
 	errorCodeTraitNotFound
@@ -33,6 +36,7 @@ const (
 )
 
 var (
+	ErrInvariantBroken      = errors.RegisterWithGRPCCode(errorCodespace, errorCodeInvariantBroken, codes.Internal, "invariant broken")
 	ErrClassNotFound      = errors.RegisterWithGRPCCode(errorCodespace, errorCodeClassNotFound, codes.NotFound, "class not found")
 	ErrClassAlreadyExists = errors.RegisterWithGRPCCode(errorCodespace, errorCodeClassAlreadyExists, codes.AlreadyExists, "class already exists")
 	ErrTraitNotFound      = errors.RegisterWithGRPCCode(errorCodespace, errorCodeTraitNotFound, codes.NotFound, "trait not found")

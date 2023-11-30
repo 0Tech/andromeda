@@ -37,7 +37,7 @@ func (s msgServer) SendToken(ctx context.Context, req *internftv1alpha1.MsgSendT
 		Receiver: req.Recipient,
 		Token:      req.Token,
 	}); err != nil {
-		panic(err)
+		return nil, internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return &internftv1alpha1.MsgSendTokenResponse{}, nil
@@ -60,7 +60,7 @@ func (s msgServer) CreateClass(ctx context.Context, req *internftv1alpha1.MsgCre
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventCreateClass{
 		Class:  req.Class,
 	}); err != nil {
-		panic(err)
+		return nil, internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return &internftv1alpha1.MsgCreateClassResponse{}, nil
@@ -85,7 +85,7 @@ func (s msgServer) UpdateTrait(ctx context.Context, req *internftv1alpha1.MsgUpd
 		Class: req.Class,
 		Trait: req.Trait,
 	}); err != nil {
-		panic(err)
+		return nil, internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return &internftv1alpha1.MsgUpdateTraitResponse{}, nil
@@ -109,7 +109,7 @@ func (s msgServer) MintToken(ctx context.Context, req *internftv1alpha1.MsgMintT
 		Operator: req.Operator,
 		Token: req.Token,
 	}); err != nil {
-		panic(err)
+		return nil, internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return &internftv1alpha1.MsgMintTokenResponse{}, nil
@@ -129,7 +129,7 @@ func (s msgServer) BurnToken(ctx context.Context, req *internftv1alpha1.MsgBurnT
 		Owner: req.Owner,
 		Token:   req.Token,
 	}); err != nil {
-		panic(err)
+		return nil, internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return &internftv1alpha1.MsgBurnTokenResponse{}, nil
@@ -154,7 +154,7 @@ func (s msgServer) UpdateProperty(ctx context.Context, req *internftv1alpha1.Msg
 		Token:        req.Token,
 		Property: req.Property,
 	}); err != nil {
-		panic(err)
+		return nil, internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return &internftv1alpha1.MsgUpdatePropertyResponse{}, nil

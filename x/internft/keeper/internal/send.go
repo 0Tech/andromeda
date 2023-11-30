@@ -7,7 +7,6 @@ import (
 	errorsmod "cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	internftv1alpha1 "github.com/0tech/andromeda/x/internft/andromeda/internft/v1alpha1"
 )
@@ -36,38 +35,33 @@ func (k Keeper) GetOwner(ctx context.Context, token *internftv1alpha1.Token) (*s
 
 	owner, err := k.getOwner(ctx, token)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	return owner, nil
 }
 
-// func (k Keeper) hasOwner(ctx context.Context, token internftv1alpha1.Token) error {
-// 	_, err := k.getOwner(ctx, token)
-// 	return err
-// }
-
 func (k Keeper) getOwner(ctx context.Context, token *internftv1alpha1.Token) (*sdk.AccAddress, error) {
 	owner, err := k.owners.Get(ctx, collections.Join(token.ClassId, token.Id))
 	if err != nil {
-		if sdkerrors.ErrNotFound.Is(err) {
-			err = errorsmod.Wrap(sdkerrors.ErrNotFound.Wrap("owner"), token.String())
-		}
-
-		return nil, err
+		return nil, internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return &owner, nil
 }
 
-func (k Keeper) setOwner(ctx context.Context, token *internftv1alpha1.Token, owner sdk.AccAddress) {
+func (k Keeper) setOwner(ctx context.Context, token *internftv1alpha1.Token, owner sdk.AccAddress) error {
 	if err := k.owners.Set(ctx, collections.Join(token.ClassId, token.Id), owner); err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
+
+	return nil
 }
 
-func (k Keeper) deleteOwner(ctx context.Context, token *internftv1alpha1.Token) {
+func (k Keeper) deleteOwner(ctx context.Context, token *internftv1alpha1.Token) error {
 	if err := k.owners.Remove(ctx, collections.Join(token.ClassId, token.Id)); err != nil {
-		panic(err)
+		return internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
+
+	return nil
 }
