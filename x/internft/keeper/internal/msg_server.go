@@ -34,7 +34,7 @@ func (s msgServer) SendToken(ctx context.Context, req *internftv1alpha1.MsgSendT
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventSendToken{
 		Sender:   req.Sender,
-		Receiver: req.Recipient,
+		Recipient: req.Recipient,
 		Token:      req.Token,
 	}); err != nil {
 		return nil, internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
@@ -58,6 +58,7 @@ func (s msgServer) CreateClass(ctx context.Context, req *internftv1alpha1.MsgCre
 	}
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&internftv1alpha1.EventCreateClass{
+		Operator: req.Operator,
 		Class:  req.Class,
 	}); err != nil {
 		return nil, internftv1alpha1.ErrInvariantBroken.Wrap(err.Error())
