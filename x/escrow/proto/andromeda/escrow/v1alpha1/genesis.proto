@@ -1,0 +1,53 @@
+syntax = "proto3";
+package andromeda.escrow.v1alpha1;
+
+import "cosmos_proto/cosmos.proto";
+import "google/protobuf/any.proto";
+
+// GenesisState defines the module's genesis state.
+message GenesisState {
+  // Params defines the parameters for the module.
+  message Params {}
+
+  // all the paramaters of the module
+  Params params = 1;
+
+  // the identifier of the next agent
+  uint64 next_agent = 2;
+
+  // Agent defines an account taking charge of a proposal.
+  message Agent {
+	// the address of the agent
+	string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+	// the address of the creator
+	string creator = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  }
+
+  // all the agents
+  repeated Agent agents = 3;
+
+  // the identifier of the next proposal
+  uint64 next_proposal = 4;
+
+  // Proposal defines a proposal.
+  message Proposal {
+	// the unique identifier
+	uint64 id = 1;
+
+	// the address of the proposer
+	string proposer = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+	// the address of the agent in charge
+	string agent = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+	// the messages which has been executed on the submission
+	repeated google.protobuf.Any pre_actions = 4;
+
+	// the messages which will be executed after the actions included in Msg/Exec
+	repeated google.protobuf.Any post_actions = 5;
+  }
+
+  // all the proposals
+  repeated Proposal proposals = 5;
+}

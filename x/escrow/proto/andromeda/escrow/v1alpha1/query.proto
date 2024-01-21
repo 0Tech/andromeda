@@ -1,0 +1,155 @@
+syntax = "proto3";
+package andromeda.escrow.v1alpha1;
+
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "cosmos_proto/cosmos.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
+
+// Query defines the module's Query service.
+service Query {
+  // Params queries the module parameters.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/andromeda/escrow/v1alpha1/params";
+  }
+
+  // Agent queries an agent.
+  rpc Agent(QueryAgentRequest) returns (QueryAgentResponse) {
+    option (google.api.http).get = "/andromeda/escrow/v1alpha1/agents/{address}";
+  }
+
+  // Agents queries all the agents.
+  rpc Agents(QueryAgentsRequest) returns (QueryAgentsResponse) {
+    option (google.api.http).get = "/andromeda/escrow/v1alpha1/agents";
+  }
+
+  // Proposal queries a proposal.
+  rpc Proposal(QueryProposalRequest) returns (QueryProposalResponse) {
+    option (google.api.http).get = "/andromeda/escrow/v1alpha1/proposals/{id}";
+  }
+
+  // Proposals queries all the proposals.
+  rpc Proposals(QueryProposalsRequest) returns (QueryProposalsResponse) {
+    option (google.api.http).get = "/andromeda/escrow/v1alpha1/proposals";
+  }
+}
+
+// QueryParamsRequest is the request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // Params defines the parameters for the module.
+  message Params {}
+
+  // the parameters of the module
+  Params params = 1;
+}
+
+// QueryAgentRequest is the request type for the Query/Agent RPC method.
+message QueryAgentRequest {
+  // the address of an agent
+  string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// QueryAgentResponse is the response type for the Query/Agent RPC method.
+message QueryAgentResponse {
+  // Agent defines an account taking charge of a proposal.
+  message Agent {
+	// the address of the agent
+	string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+	// the address of the creator
+	string creator = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  }
+
+  // the corresponding agent
+  Agent agent = 1;
+}
+
+// QueryAgentsRequest is the request type for the Query/Agents RPC method.
+message QueryAgentsRequest {
+  // optional pagination for the request
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAgentsResponse is the response type for the Query/Agents RPC method.
+message QueryAgentsResponse {
+  // Agent defines an account taking charge of a proposal.
+  message Agent {
+	// the address of the agent
+	string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+	// the address of the creator
+	string creator = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  }
+
+  // all the agents
+  repeated Agent agents = 1;
+
+  // pagination in the response
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryProposalRequest is the request type for the Query/Proposal RPC method.
+message QueryProposalRequest {
+  // the identifier of a proposal
+  uint64 id = 1;
+}
+
+// QueryProposalResponse is the response type for the Query/Proposal RPC method.
+message QueryProposalResponse {
+  // Proposal defines a proposal.
+  message Proposal {
+	// the unique identifier
+	uint64 id = 1;
+
+	// the address of the proposer
+	string proposer = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+	// the address of the agent in charge
+	string agent = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+	// the messages which has been executed on the submission
+	repeated google.protobuf.Any pre_actions = 4;
+
+	// the messages which will be executed after the actions included in Msg/Exec
+	repeated google.protobuf.Any post_actions = 5;
+  }
+
+  // the corresponding proposal
+  Proposal proposal = 1;
+}
+
+// QueryProposalsRequest is the request type for the Query/Proposals RPC method.
+message QueryProposalsRequest {
+  // optional pagination for the request
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryProposalsResponse is the response type for the Query/Proposals RPC method.
+message QueryProposalsResponse {
+  // Proposal defines a proposal.
+  message Proposal {
+	// the unique identifier
+	uint64 id = 1;
+
+	// the address of the proposer
+	string proposer = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+	// the address of the agent of the proposal
+	string agent = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+	// the messages which has been executed on the submission
+	repeated google.protobuf.Any pre_actions = 4;
+
+	// the messages which will be executed after the actions included in Msg/Exec
+	repeated google.protobuf.Any post_actions = 5;
+  }
+
+  // all the proposals
+  repeated Proposal proposals = 1;
+
+  // pagination in the response
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
