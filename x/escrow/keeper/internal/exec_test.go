@@ -6,6 +6,7 @@ import (
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 	"github.com/0tech/andromeda/x/escrow/testutil"
+	testv1alpha1 "github.com/0tech/andromeda/x/test/andromeda/test/v1alpha1"
 )
 
 func (s *KeeperTestSuite) TestExec() {
@@ -77,7 +78,37 @@ func (s *KeeperTestSuite) TestExec() {
 		{
 			"valid actions": {
 				Malleate: func(subject *exec) {
-					subject.actions = []*codectypes.Any{}
+					subject.actions = s.encodeMsgs([]sdk.Msg{
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.stranger),
+							Recipient: s.addressBytesToString(s.agentAny),
+							Asset:     "voucher",
+						},
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.agentAny),
+							Recipient: s.addressBytesToString(s.stranger),
+							Asset:     "dog",
+						},
+					})
+				},
+			},
+			"actions failing": {
+				Malleate: func(subject *exec) {
+					subject.actions = s.encodeMsgs([]sdk.Msg{
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.stranger),
+							Recipient: s.addressBytesToString(s.agentAny),
+							Asset:     "voucher",
+						},
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.agentAny),
+							Recipient: s.addressBytesToString(s.stranger),
+							Asset:     "whale", // agent has "dog"
+						},
+					})
+				},
+				Error: func() error {
+					return testv1alpha1.ErrAssetNotFound
 				},
 			},
 		},

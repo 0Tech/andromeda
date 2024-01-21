@@ -14,7 +14,8 @@ import (
 )
 
 func TestValidateGenesisAgents(t *testing.T) {
-	k, _, addressCodec, _ := setupEscrowKeeper(t)
+	cdc, _, k, _, _ := setupKeepers(t) //nolint:dogsled
+	addressCodec := cdc.InterfaceRegistry().SigningContext().AddressCodec()
 	addressBytesToString := func(address []byte) string {
 		addressStr, err := addressCodec.BytesToString(address)
 		assert.NoError(t, err)
@@ -22,7 +23,7 @@ func TestValidateGenesisAgents(t *testing.T) {
 	}
 
 	addresses := simtestutil.CreateIncrementalAccounts(4)
-	creatorStr := addressBytesToString(simtestutil.CreateRandomAccounts(1)[0])
+	creatorStr := addressBytesToString(createRandomAccounts(1)[0])
 
 	gs := k.DefaultGenesis()
 	tester := func(subject []*escrowv1alpha1.GenesisState_Agent) error {
@@ -216,7 +217,8 @@ func TestValidateGenesisAgents(t *testing.T) {
 }
 
 func TestValidateGenesisProposals(t *testing.T) {
-	k, _, addressCodec, _ := setupEscrowKeeper(t)
+	cdc, _, k, _, _ := setupKeepers(t) //nolint:dogsled
+	addressCodec := cdc.InterfaceRegistry().SigningContext().AddressCodec()
 	addressBytesToString := func(address []byte) string {
 		addressStr, err := addressCodec.BytesToString(address)
 		assert.NoError(t, err)
@@ -233,7 +235,7 @@ func TestValidateGenesisProposals(t *testing.T) {
 		&proposerStr,
 		&agentStr,
 	} {
-		*addrStr = addressBytesToString(simtestutil.CreateRandomAccounts(1)[0])
+		*addrStr = addressBytesToString(createRandomAccounts(1)[0])
 	}
 
 	gs := k.DefaultGenesis()
@@ -542,7 +544,7 @@ func TestValidateGenesisProposals(t *testing.T) {
 }
 
 func TestGenesisState(t *testing.T) {
-	k, _, _, _ := setupEscrowKeeper(t) //nolint:dogsled
+	_, _, k, _, _ := setupKeepers(t) //nolint:dogsled
 
 	tester := func(subject escrowv1alpha1.GenesisState) error {
 		return k.ValidateGenesis(&subject)

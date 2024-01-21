@@ -17,6 +17,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectestutil "github.com/cosmos/cosmos-sdk/codec/testutil"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
@@ -24,12 +25,15 @@ import (
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	"github.com/cosmos/gogoproto/proto"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 	"github.com/0tech/andromeda/x/escrow/keeper/expected"
 	keeper "github.com/0tech/andromeda/x/escrow/keeper/internal"
 	"github.com/0tech/andromeda/x/escrow/module"
 	escrowtestutil "github.com/0tech/andromeda/x/escrow/testutil"
+	testv1alpha1 "github.com/0tech/andromeda/x/test/andromeda/test/v1alpha1"
+	testkeeper "github.com/0tech/andromeda/x/test/keeper"
 )
 
 const notInBech32 = "addresslverygoodtestingaddress" // does not include the separator
@@ -46,6 +50,10 @@ func randomString(size int) string {
 	return string(res)
 }
 
+func createRandomAccounts(size int) []sdk.AccAddress {
+	return simtestutil.CreateRandomAccounts(size)
+}
+
 type KeeperTestSuite struct {
 	suite.Suite
 
@@ -53,7 +61,7 @@ type KeeperTestSuite struct {
 
 	addressCodec address.Codec
 
-	keeper keeper.Keeper
+	keeper *keeper.Keeper
 
 	queryServer escrowv1alpha1.QueryServer
 	msgServer   escrowv1alpha1.MsgServer
@@ -79,29 +87,78 @@ func (s *KeeperTestSuite) addressBytesToString(address sdk.AccAddress) string {
 	return addressStr
 }
 
+func (s *KeeperTestSuite) encodeMsgs(msgs []sdk.Msg) []*codectypes.Any {
+	encoded := make([]*codectypes.Any, len(msgs))
+	for i, msg := range msgs {
+		s.NotNil(msg)
+
+		bz, err := proto.Marshal(msg)
+		s.NoError(err)
+
+		encoded[i] = &codectypes.Any{
+			TypeUrl: sdk.MsgTypeURL(msg),
+			Value:   bz,
+		}
+	}
+
+	return encoded
+}
+
 func (s *KeeperTestSuite) SetupTest() {
 	var authKeeper expected.AuthKeeper
-	s.keeper, authKeeper, s.addressCodec, s.ctx = setupEscrowKeeper(s.T())
+	var testKeeper *testkeeper.Keeper
+	var cdc codec.Codec
+	cdc, s.ctx, s.keeper, authKeeper, testKeeper = setupKeepers(s.T())
+	s.addressCodec = cdc.InterfaceRegistry().SigningContext().AddressCodec()
 
-	s.queryServer = keeper.NewQueryServer(s.keeper)
-	s.msgServer = keeper.NewMsgServer(s.keeper)
+	s.queryServer = keeper.NewQueryServer(*s.keeper)
+	s.msgServer = keeper.NewMsgServer(*s.keeper)
 
 	err := s.keeper.InitGenesis(s.ctx, s.keeper.DefaultGenesis())
 	s.NoError(err)
 
 	// create accounts
-	addresses := []*sdk.AccAddress{
+	accounts := []*sdk.AccAddress{
 		&s.seller,
 		&s.buyer,
 		&s.stranger,
 	}
-	for i, address := range simtestutil.CreateRandomAccounts(len(addresses)) {
-		*addresses[i] = address
+	for i, account := range createRandomAccounts(len(accounts)) {
+		*accounts[i] = account
 
 		account := &authtypes.BaseAccount{
-			Address: s.addressBytesToString(address),
+			Address: s.addressBytesToString(account),
 		}
 		authKeeper.SetAccount(s.ctx, authKeeper.NewAccount(s.ctx, account))
+	}
+
+	// allocate assets
+	testMsgServer := testkeeper.NewMsgServer(*testKeeper)
+	for _, allocation := range []struct {
+		account sdk.AccAddress
+		assets  []string
+	}{
+		{
+			account: s.seller,
+			assets:  []string{"cat", "dog", "snake"},
+		},
+		{
+			account: s.buyer,
+			assets:  []string{"voucher"},
+		},
+		{
+			account: s.stranger,
+			assets:  []string{"voucher"},
+		},
+	} {
+		accountStr := s.addressBytesToString(allocation.account)
+		for _, asset := range allocation.assets {
+			_, err := testMsgServer.Create(s.ctx, &testv1alpha1.MsgCreate{
+				Creator: accountStr,
+				Asset:   asset,
+			})
+			s.NoError(err)
+		}
 	}
 
 	// seller creates agents
@@ -117,11 +174,46 @@ func (s *KeeperTestSuite) SetupTest() {
 	s.agentLast = s.agentIdle
 
 	// submit proposal for the buyer
-	s.proposalDedicated, err = s.keeper.SubmitProposal(s.ctx, s.seller, s.agentDedicated, nil, nil)
+	s.proposalDedicated, err = s.keeper.SubmitProposal(s.ctx, s.seller, s.agentDedicated,
+		s.encodeMsgs([]sdk.Msg{
+			&testv1alpha1.MsgSend{
+				Sender:    s.addressBytesToString(s.seller),
+				Recipient: s.addressBytesToString(s.agentDedicated),
+				Asset:     "cat",
+			},
+		}),
+		s.encodeMsgs([]sdk.Msg{
+			&testv1alpha1.MsgSend{
+				Sender:    s.addressBytesToString(s.agentDedicated),
+				Recipient: s.addressBytesToString(s.seller),
+				Asset:     "voucher",
+			},
+			&testv1alpha1.MsgSend{
+				Sender:    s.addressBytesToString(s.agentDedicated),
+				Recipient: s.addressBytesToString(s.buyer),
+				Asset:     "cat",
+			},
+		}),
+	)
 	s.NoError(err)
 
 	// submit proposal for anyone
-	s.proposalAny, err = s.keeper.SubmitProposal(s.ctx, s.seller, s.agentAny, nil, nil)
+	s.proposalAny, err = s.keeper.SubmitProposal(s.ctx, s.seller, s.agentAny,
+		s.encodeMsgs([]sdk.Msg{
+			&testv1alpha1.MsgSend{
+				Sender:    s.addressBytesToString(s.seller),
+				Recipient: s.addressBytesToString(s.agentAny),
+				Asset:     "dog",
+			},
+		}),
+		s.encodeMsgs([]sdk.Msg{
+			&testv1alpha1.MsgSend{
+				Sender:    s.addressBytesToString(s.agentAny),
+				Recipient: s.addressBytesToString(s.seller),
+				Asset:     "voucher",
+			},
+		}),
+	)
 	s.NoError(err)
 
 	// store the last proposal id
@@ -132,11 +224,12 @@ func TestKeeperTestSuite(t *testing.T) {
 	suite.Run(t, new(KeeperTestSuite))
 }
 
-func setupEscrowKeeper(t *testing.T) (
-	keeper.Keeper,
-	expected.AuthKeeper,
-	address.Codec,
+func setupKeepers(t *testing.T) (
+	codec.Codec,
 	context.Context,
+	*keeper.Keeper,
+	expected.AuthKeeper,
+	*testkeeper.Keeper,
 ) {
 	key := storetypes.NewKVStoreKey(escrowv1alpha1.ModuleName)
 	tkey := storetypes.NewTransientStoreKey("transient_test")
@@ -151,8 +244,6 @@ func setupEscrowKeeper(t *testing.T) (
 	encCfg.InterfaceRegistry = ir
 	encCfg.Codec = codec.NewProtoCodec(ir)
 
-	escrowv1alpha1.RegisterInterfaces(ir)
-
 	bapp := baseapp.NewBaseApp(
 		"escrow",
 		log.NewNopLogger(),
@@ -162,8 +253,16 @@ func setupEscrowKeeper(t *testing.T) (
 	bapp.SetInterfaceRegistry(ir)
 
 	ctrl := gomock.NewController(t)
+	authKeeper := setupAuthKeeper(t, ctrl, encCfg.Codec, key)
 
-	// mock auth keeper
+	escrowKeeper := setupEscrowKeeper(t, bapp, encCfg.Codec, key, authKeeper)
+	testKeeper := setupTestKeeper(t, bapp, encCfg.Codec, key) // register test keeper
+
+	return encCfg.Codec, testCtx.Ctx, escrowKeeper, authKeeper, testKeeper
+}
+
+// mock auth keeper
+func setupAuthKeeper(t *testing.T, ctrl *gomock.Controller, cdc codec.Codec, key *storetypes.KVStoreKey) expected.AuthKeeper {
 	authKeeper := escrowtestutil.NewMockAuthKeeper(ctrl)
 	authPrefix := []byte{0xff, 0x00}
 
@@ -204,7 +303,7 @@ func setupEscrowKeeper(t *testing.T) (
 	setAccount := func(ctx context.Context, account sdk.AccountI) {
 		store := runtime.NewKVStoreService(key).OpenKVStore(ctx)
 
-		bz, err := encCfg.Codec.Marshal(account)
+		bz, err := cdc.Marshal(account)
 		assert.NoError(t, err)
 
 		key := append(append([]byte{}, accountPrefix...), account.GetAddress()...)
@@ -225,16 +324,35 @@ func setupEscrowKeeper(t *testing.T) (
 		setAccount(ctx, account)
 	}).AnyTimes()
 
+	return authKeeper
+}
+
+func setupEscrowKeeper(t *testing.T, bapp *baseapp.BaseApp, cdc codec.Codec, key *storetypes.KVStoreKey, authKeeper expected.AuthKeeper) *keeper.Keeper {
 	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
 
-	k, err := keeper.NewKeeper(encCfg.Codec, runtime.NewKVStoreService(key), authority, bapp.MsgServiceRouter(), authKeeper)
+	escrowKeeper, err := keeper.NewKeeper(cdc, runtime.NewKVStoreService(key), authority, bapp.MsgServiceRouter(), authKeeper)
 	assert.NoError(t, err)
 
-	msgServer := keeper.NewMsgServer(*k)
-	queryServer := keeper.NewQueryServer(*k)
+	msgServer := keeper.NewMsgServer(*escrowKeeper)
+	queryServer := keeper.NewQueryServer(*escrowKeeper)
 
+	escrowv1alpha1.RegisterInterfaces(cdc.InterfaceRegistry())
 	escrowv1alpha1.RegisterMsgServer(bapp.MsgServiceRouter(), msgServer)
 	escrowv1alpha1.RegisterQueryServer(bapp.GRPCQueryRouter(), queryServer)
 
-	return *k, authKeeper, encCfg.InterfaceRegistry.SigningContext().AddressCodec(), testCtx.Ctx
+	return escrowKeeper
+}
+
+func setupTestKeeper(t *testing.T, bapp *baseapp.BaseApp, cdc codec.Codec, key *storetypes.KVStoreKey) *testkeeper.Keeper {
+	testKeeper, err := testkeeper.NewKeeper(cdc, runtime.NewKVStoreService(key))
+	assert.NoError(t, err)
+
+	msgServer := testkeeper.NewMsgServer(*testKeeper)
+	queryServer := testkeeper.NewQueryServer(*testKeeper)
+
+	testv1alpha1.RegisterInterfaces(cdc.InterfaceRegistry())
+	testv1alpha1.RegisterMsgServer(bapp.MsgServiceRouter(), msgServer)
+	testv1alpha1.RegisterQueryServer(bapp.GRPCQueryRouter(), queryServer)
+
+	return testKeeper
 }

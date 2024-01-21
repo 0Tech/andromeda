@@ -2,11 +2,11 @@ package internal_test
 
 import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 	"github.com/0tech/andromeda/x/escrow/testutil"
+	testv1alpha1 "github.com/0tech/andromeda/x/test/andromeda/test/v1alpha1"
 )
 
 func (s *KeeperTestSuite) TestSubmitProposal() {
@@ -62,7 +62,7 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 			},
 			"agent not found": {
 				Malleate: func(subject *submitProposal) {
-					subject.agent = simtestutil.CreateRandomAccounts(1)[0]
+					subject.agent = createRandomAccounts(1)[0]
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrAgentNotFound
@@ -72,14 +72,40 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 		{
 			"valid pre_actions": {
 				Malleate: func(subject *submitProposal) {
-					subject.preActions = []*codectypes.Any{}
+					subject.preActions = s.encodeMsgs([]sdk.Msg{
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.seller),
+							Recipient: s.addressBytesToString(s.agentIdle),
+							Asset:     "snake",
+						},
+					})
+				},
+			},
+			"pre_actions failing": {
+				Malleate: func(subject *submitProposal) {
+					subject.preActions = s.encodeMsgs([]sdk.Msg{
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.seller),
+							Recipient: s.addressBytesToString(s.agentIdle),
+							Asset:     "whale", // proposer does not have "whale"
+						},
+					})
+				},
+				Error: func() error {
+					return testv1alpha1.ErrAssetNotFound
 				},
 			},
 		},
 		{
 			"valid post_actions": {
 				Malleate: func(subject *submitProposal) {
-					subject.postActions = []*codectypes.Any{}
+					subject.postActions = s.encodeMsgs([]sdk.Msg{
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.agentIdle),
+							Recipient: s.addressBytesToString(s.seller),
+							Asset:     "voucher",
+						},
+					})
 				},
 			},
 		},

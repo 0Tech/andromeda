@@ -1,8 +1,6 @@
 package internal_test
 
 import (
-	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
-
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 	"github.com/0tech/andromeda/x/escrow/testutil"
 )
@@ -64,7 +62,7 @@ func (s *KeeperTestSuite) TestQueryAgent() {
 			},
 			"address not found": {
 				Malleate: func(subject *escrowv1alpha1.QueryAgentRequest) {
-					subject.Address = s.addressBytesToString(simtestutil.CreateRandomAccounts(1)[0])
+					subject.Address = s.addressBytesToString(createRandomAccounts(1)[0])
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrAgentNotFound

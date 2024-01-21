@@ -1,11 +1,11 @@
 package internal_test
 
 import (
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 	"github.com/0tech/andromeda/x/escrow/testutil"
+	testv1alpha1 "github.com/0tech/andromeda/x/test/andromeda/test/v1alpha1"
 )
 
 func (s *KeeperTestSuite) TestMsgCreateAgent() {
@@ -68,7 +68,7 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 		s.Require().NotNil(res)
 
 		events := ctx.EventManager().Events()
-		s.Require().Len(events, 1)
+		s.Require().NotEmpty(events)
 
 		eventExpected, err := sdk.TypedEventToEvent(&escrowv1alpha1.EventSubmitProposal{
 			Id:          s.proposalLast + 1,
@@ -78,7 +78,7 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 			PostActions: subject.PostActions,
 		})
 		s.Require().NoError(err)
-		s.Require().Equal(eventExpected, events[0])
+		s.Require().Equal(eventExpected, events[len(events)-1])
 
 		return nil
 	}
@@ -102,6 +102,14 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 					return escrowv1alpha1.ErrInvalidAddress
 				},
 			},
+			"proposer not actions signer": {
+				Malleate: func(subject *escrowv1alpha1.MsgSubmitProposal) {
+					subject.Proposer = s.addressBytesToString(createRandomAccounts(1)[0])
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrPermissionDenied
+				},
+			},
 		},
 		{
 			"nil agent": {
@@ -122,6 +130,14 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 					return escrowv1alpha1.ErrInvalidAddress
 				},
 			},
+			"agent not actions signer": {
+				Malleate: func(subject *escrowv1alpha1.MsgSubmitProposal) {
+					subject.Agent = s.addressBytesToString(createRandomAccounts(1)[0])
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrPermissionDenied
+				},
+			},
 		},
 		{
 			"nil pre_actions": {
@@ -131,7 +147,13 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 			},
 			"valid pre_actions": {
 				Malleate: func(subject *escrowv1alpha1.MsgSubmitProposal) {
-					subject.PreActions = []*codectypes.Any{}
+					subject.PreActions = s.encodeMsgs([]sdk.Msg{
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.seller),
+							Recipient: s.addressBytesToString(s.agentIdle),
+							Asset:     "snake",
+						},
+					})
 				},
 			},
 		},
@@ -143,7 +165,13 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 			},
 			"valid post_actions": {
 				Malleate: func(subject *escrowv1alpha1.MsgSubmitProposal) {
-					subject.PostActions = []*codectypes.Any{}
+					subject.PostActions = s.encodeMsgs([]sdk.Msg{
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.agentIdle),
+							Recipient: s.addressBytesToString(s.seller),
+							Asset:     "voucher",
+						},
+					})
 				},
 			},
 		},
@@ -162,7 +190,7 @@ func (s *KeeperTestSuite) TestMsgExec() {
 		s.Require().NotNil(res)
 
 		events := ctx.EventManager().Events()
-		s.Require().Len(events, 1)
+		s.Require().NotEmpty(events)
 
 		eventExpected, err := sdk.TypedEventToEvent(&escrowv1alpha1.EventExec{
 			Proposal: subject.Proposal,
@@ -170,10 +198,7 @@ func (s *KeeperTestSuite) TestMsgExec() {
 			Actions:  subject.Actions,
 		})
 		s.Require().NoError(err)
-
-		for _, compare := range []int{0, 1, 2} {
-			s.Require().Equal(eventExpected.Attributes[compare], events[0].Attributes[compare])
-		}
+		s.Require().Equal(eventExpected, events[len(events)-1])
 
 		return nil
 	}
@@ -217,6 +242,14 @@ func (s *KeeperTestSuite) TestMsgExec() {
 					return escrowv1alpha1.ErrInvalidAddress
 				},
 			},
+			"executor not actions signer": {
+				Malleate: func(subject *escrowv1alpha1.MsgExec) {
+					subject.Executor = s.addressBytesToString(createRandomAccounts(1)[0])
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrPermissionDenied
+				},
+			},
 		},
 		{
 			"nil agent": {
@@ -237,6 +270,14 @@ func (s *KeeperTestSuite) TestMsgExec() {
 					return escrowv1alpha1.ErrInvalidAddress
 				},
 			},
+			"agent not actions signer": {
+				Malleate: func(subject *escrowv1alpha1.MsgExec) {
+					subject.Agent = s.addressBytesToString(createRandomAccounts(1)[0])
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrPermissionDenied
+				},
+			},
 		},
 		{
 			"nil actions": {
@@ -246,7 +287,18 @@ func (s *KeeperTestSuite) TestMsgExec() {
 			},
 			"valid actions": {
 				Malleate: func(subject *escrowv1alpha1.MsgExec) {
-					subject.Actions = []*codectypes.Any{}
+					subject.Actions = s.encodeMsgs([]sdk.Msg{
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.stranger),
+							Recipient: s.addressBytesToString(s.agentAny),
+							Asset:     "voucher",
+						},
+						&testv1alpha1.MsgSend{
+							Sender:    s.addressBytesToString(s.agentAny),
+							Recipient: s.addressBytesToString(s.stranger),
+							Asset:     "dog",
+						},
+					})
 				},
 			},
 		},
