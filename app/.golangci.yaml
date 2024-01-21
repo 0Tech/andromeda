@@ -1,0 +1,25 @@
+linters:
+  enable:
+    - depguard
+    - dogsled
+    - exportloopref
+    - goconst
+    - gocritic
+    - gofumpt
+    - gosec
+    - misspell
+    - nakedret
+    - nolintlint
+    - revive
+    - stylecheck
+    - unconvert
+
+linters-settings:
+  gci:
+    custom-order: true
+    sections:
+      - standard
+      - default
+      - prefix(cosmossdk.io)
+      - prefix(github.com/cosmos/cosmos-sdk)
+      - prefix(github.com/0tech/andromeda)
