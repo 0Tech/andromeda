@@ -1,0 +1,6 @@
+syntax = "proto3";
+package andromeda.test.v1alpha1;
+
+// Asset defines an asset identified by its name.
+message Asset {
+}

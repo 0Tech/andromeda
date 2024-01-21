@@ -3,5 +3,6 @@ go 1.21
 use (
 	./cmd/and
 	./app
+	./x/test
 	./x/escrow
 )

@@ -1,0 +1,16 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: .
+    except:
+      - buf.build/googleapis/googleapis
+      - buf.build/cosmos/cosmos-sdk
+      - buf.build/cosmos/cosmos-proto
+plugins:
+  - name: gocosmos
+    out: ..
+    opt: plugins=grpc,Mcosmos/app/v1alpha1/module.proto=cosmossdk.io/api/cosmos/app/v1alpha1
+  - name: grpc-gateway
+    out: ..
+    opt: logtostderr=true,Mcosmos/app/v1alpha1/module.proto=cosmossdk.io/api/cosmos/app/v1alpha1
