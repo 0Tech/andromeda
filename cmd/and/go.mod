@@ -3,7 +3,7 @@ module github.com/0tech/andromeda/cmd/and
 go 1.21
 
 require (
-	cosmossdk.io/client/v2 v2.0.0-20231103103049-f73a17f75727
+	cosmossdk.io/client/v2 v2.0.0-beta.1
 	cosmossdk.io/core v0.11.0
 	cosmossdk.io/depinject v1.0.0-alpha.4
 	cosmossdk.io/log v1.3.0
@@ -195,4 +195,5 @@ require (
 replace (
 	github.com/0tech/andromeda/app => ../../app
 	github.com/0tech/andromeda/x/escrow => ../../x/escrow
+	github.com/0tech/andromeda/x/test => ../../x/test
 )
