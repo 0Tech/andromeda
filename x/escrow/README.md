@@ -2,7 +2,7 @@
 
 ## Abstract
 
-This modules provides means to execute messages whose signers come from
+This module provides means to execute messages whose signers come from
 different parties. Typical example would be a trade, by which two individual
 account can exchange assets. Without this module, they have to use a tx which
 include the messages that requires signatures from both of them. Or, they may
@@ -10,7 +10,7 @@ create a contract into x/wasm. The former requires a tool to safely exchange
 the half-signed transaction (which x/group tries to avoid), while the latter
 involves cumbersome preparation for certain tailer made contract code. The
 trade itself would be quite simple and obvious, hence this module tries to
-reduce such efforts on those tedious use cases.
+reduce such efforts on common use cases.
 
 
 ## Contents
@@ -44,34 +44,34 @@ Anyone can create agents as many as they want.
 
 ### Proposal
 
-There are two parties involved in a transaction. The first one, proposer, is
-who suggests a transaction by broadcasting Msg/SubmitProposal. The second one,
-executor, is who accepts the transaction, by broadcasting Msg/Exec.
+There are two parties involved in a transaction. The first one, proposer,
+suggests a transaction by broadcasting `Msg/SubmitProposal`. The second one,
+executor, accepts the transaction, by broadcasting `Msg/Exec`.
 
 A transaction consists of pre-actions, actions and post-actions. All three
-actions will be executed in sequence, and all the messages must be successful
+actions will be executed in sequence, and all the messages MUST be successful
 to complete the transaction.
 
 Pre-actions are steps for transferring the control on certain assets from the
-proposer to the agent, so determined by the proposer on Msg/SubmitProposal. To
-ensure the successful transfer at Msg/Exec, pre-actions are executed at the
-proposal submission.
+proposer to the agent, so determined by the proposer on `Msg/SubmitProposal`.
+To ensure the successful transfer at `Msg/Exec`, pre-actions are executed at
+the proposal submission.
 
 Post-actions are steps for transferring the control on certain assets from the
 agent to the proposer. Post-actions ensure the proposer gets the proper reward,
-so it is determined by the proposer on Msg/SubmitProposal.
+so it is determined by the proposer on `Msg/SubmitProposal`.
 
 Actions are steps for transferring the control on certain assets from the
-executor to agent and vice versa, so determined by the executor on Msg/Exec.
+executor to agent and vice versa, so determined by the executor on `Msg/Exec`.
 The messages included in actions would take assets on the agent (reserved by
 the proposer), and reserve the reward for the proposer into the agent. The
-executor MUST place the reward as stated in Msg/SubmitProposal or the
+executor must place the reward as stated in `Msg/SubmitProposal` or the
 post-actions would fail, resulting the failure of the transaction.
 
 #### Submitting Proposals
 
 A transaction begins with a certain proposer submitting a proposal. It is
-triggered by broadcasting Msg/SubmitProposal. The message has information of
+triggered by broadcasting `Msg/SubmitProposal`. The message has information of
 the proposer, the agent, the pre-actions and post-actions.
 An agent MUST be prepared by the proposer, in prior to the submission. The
 signers included in the pre-actions and post-actions MUST be either the
@@ -84,7 +84,7 @@ state.
 #### Executing Proposals
 
 A proposal would be executed by a certain executor who is interested in. It is
-triggered by broadcasting Msg/Exec. The message has information of the
+triggered by broadcasting `Msg/Exec`. The message has information of the
 executor, the agent and the actions. The agent MUST be indentical with that of
 the proposal. The signers included in the actions MUST be either the executor
 or the agent.
