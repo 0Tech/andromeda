@@ -2,9 +2,12 @@ package module
 
 import (
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
+	"cosmossdk.io/client/v2/autocli"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/api/andromeda/escrow/v1alpha1"
 )
+
+var _ autocli.HasAutoCLIConfig = (*AppModule)(nil)
 
 func (AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 	return &autocliv1.ModuleOptions{
@@ -15,6 +18,8 @@ func (AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "Params",
 					Short:     "queries the module params.",
 					Use:       "params",
+					Example: `$ and query escrow params
+params: {}`,
 				},
 				{
 					RpcMethod: "Agent",
@@ -25,10 +30,24 @@ func (AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 							Usage: "the address of an agent",
 						},
 					},
+					Example: `$ and query escrow agent --address cosmos1aaa...
+agent:
+  address: cosmos1aaa...
+  creator: cosmos1...`,
 				},
 				{
 					RpcMethod: "Agents",
 					Short:     "queries all the agents.",
+					Example: `$ and query escrow agents
+agents:
+- address: cosmos1...
+  creator: cosmos1...
+- address: cosmos1...
+  creator: cosmos1...
+- address: cosmos1...
+  creator: cosmos1...
+pagination:
+  total: "3"`,
 				},
 				{
 					RpcMethod: "Proposal",
@@ -39,10 +58,76 @@ func (AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 							Usage: "the identifier of a proposal",
 						},
 					},
+					Example: `$ and query escrow proposal --id 3
+proposal:
+  agent: cosmos1...
+  id: "3"
+  post_actions:
+  - type: cosmos-sdk/MsgSend
+    value:
+      amount:
+      - amount: "42"
+        denom: stake
+      from_address: cosmos1...
+      to_address: cosmos1...
+  pre_actions:
+  - type: /cosmos.nft.v1beta1.MsgSend
+    value:
+      class_id: ...
+      id: ...
+      receiver: cosmos1...
+      sender: cosmos1...
+  proposer: cosmos1...`,
 				},
 				{
 					RpcMethod: "Proposals",
 					Short:     "queries all the proposals.",
+					Example: `$ and query escrow proposals
+pagination:
+  total: "2"
+proposals:
+- agent: cosmos1...
+  id: "3"
+  post_actions:
+  - type: cosmos-sdk/MsgSend
+    value:
+      amount:
+      - amount: "42"
+        denom: stake
+      from_address: cosmos1...
+      to_address: cosmos1...
+  pre_actions:
+  - type: /cosmos.nft.v1beta1.MsgSend
+    value:
+      class_id: ...
+      id: ...
+      receiver: cosmos1...
+      sender: cosmos1...
+  proposer: cosmos1...
+- agent: cosmos1...
+  id: "4"
+  post_actions:
+  - type: cosmos-sdk/MsgSend
+    value:
+      amount:
+      - amount: "42"
+        denom: stake
+      from_address: cosmos1...
+      to_address: cosmos1...
+  - type: /cosmos.nft.v1beta1.MsgSend
+    value:
+      class_id: ...
+      id: ...
+      receiver: cosmos1...
+      sender: cosmos1...
+  pre_actions:
+  - type: /cosmos.nft.v1beta1.MsgSend
+    value:
+      class_id: ...
+      id: ...
+      receiver: cosmos1...
+      sender: cosmos1...
+  proposer: cosmos1...`,
 				},
 			},
 		},
@@ -68,6 +153,25 @@ Note:
 					RpcMethod: "CreateAgent",
 					Short:     "creates an escrow agent for a proposal.",
 					Use:       "create-agent --from [creator]",
+					Example: `$ and tx escrow create-agent --from cosmos1ccc...
+auth_info:
+  fee:
+    amount: []
+    gas_limit: "200000"
+    granter: ""
+    payer: ""
+  signer_infos: []
+  tip: null
+body:
+  extension_options: []
+  memo: ""
+  messages:
+  - '@type': /andromeda.escrow.v1alpha1.MsgCreateAgent
+    creator: cosmos1ccc...
+  non_critical_extension_options: []
+  timeout_height: "0"
+signatures: []
+confirm transaction before signing and broadcasting [y/N]:`,
 				},
 				{
 					RpcMethod: "SubmitProposal",
@@ -95,6 +199,49 @@ Note:
 							DefaultValue: "{}",
 						},
 					},
+					Example: `$ and tx escrow submit-proposal --from cosmos1ppp... --agent cosmos1aaa... \
+    --pre-actions '{"@type": "/cosmos.nft.v1beta1.MsgSend",
+                    "class_id": "cat",
+                    "id": "octocat",
+                    "sender": "cosmos1ppp...",
+                    "receiver": "cosmos1aaa..."}' \
+    --post-actions '{"@type": "/cosmos.bank.v1beta1.MsgSend",
+                     "from_address": "cosmos1aaa",
+                     "to_address": "cosmos1ppp...",
+                     "amount": [{"amount": "42", "denom": "stake"}]}'
+auth_info:
+  fee:
+    amount: []
+    gas_limit: "200000"
+    granter: ""
+    payer: ""
+  signer_infos: []
+  tip: null
+body:
+  extension_options: []
+  memo: ""
+  messages:
+  - '@type': /andromeda.escrow.v1alpha1.MsgSubmitProposal
+    agent: cosmos1aaa...
+    post_actions:
+    - '@type': /cosmos.bank.v1beta1.MsgSend
+      amount:
+      - amount: "42"
+        denom: stake
+      from_address: cosmos1aaa...
+      to_address: cosmos1ppp...
+    pre_actions:
+    - '@type': /cosmos.nft.v1beta1.MsgSend
+      value:
+        class_id: cat
+        id: octocat
+        receiver: cosmos1aaa...
+        sender: cosmos1ppp...
+      proposer: cosmos1ppp...
+  non_critical_extension_options: []
+  timeout_height: "0"
+signatures: []
+confirm transaction before signing and broadcasting [y/N]:`,
 				},
 				{
 					RpcMethod: "Exec",
@@ -117,6 +264,48 @@ Note:
 							DefaultValue: "{}",
 						},
 					},
+					Example: `$ and tx escrow exec --proposal 2 --from cosmos1eee... --agent cosmos1... \
+    --actions '{"@type": "/cosmos.nft.v1beta1.MsgSend",
+                "class_id": "cat",
+                "id": "octocat",
+                "sender": "cosmos1aaa...",
+                "receiver": "cosmos1eee..."}' \
+    --actions '{"@type": "/cosmos.bank.v1beta1.MsgSend",
+                "from_address": "cosmos1eee...",
+                "to_address": "cosmos1aaa...",
+                "amount": [{"amount": "42", "denom": "stake"}]}'
+auth_info:
+  fee:
+    amount: []
+    gas_limit: "200000"
+    granter: ""
+    payer: ""
+  signer_infos: []
+  tip: null
+body:
+  extension_options: []
+  memo: ""
+  messages:
+  - '@type': /andromeda.escrow.v1alpha1.MsgExec
+    actions:
+    - '@type': /cosmos.nft.v1beta1.MsgSend
+      class_id: cat
+      id: octocat
+      receiver: cosmos1eee...
+      sender: cosmos1aaa...
+    - '@type': /cosmos.bank.v1beta1.MsgSend
+      amount:
+      - amount: "42"
+        denom: stake
+      from_address: cosmos1eee...
+      to_address: cosmos1aaa...
+    agent: cosmos1aaa...
+    executor: cosmos1eee...
+    proposal: "2"
+  non_critical_extension_options: []
+  timeout_height: "0"
+signatures: []
+confirm transaction before signing and broadcasting [y/N]:`,
 				},
 			},
 		},
