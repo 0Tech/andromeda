@@ -39,11 +39,8 @@ message QueryParamsRequest {}
 
 // QueryParamsResponse is the response type for the Query/Params RPC method.
 message QueryParamsResponse {
-  // Params defines the parameters for the module.
-  message Params {}
-
-  // the parameters of the module
-  Params params = 1;
+  // the maximum length allowed for metadata
+  uint64 max_metadata_length = 1;
 }
 
 // QueryAgentRequest is the request type for the Query/Agent RPC method.
@@ -115,6 +112,9 @@ message QueryProposalResponse {
 
 	// the messages which will be executed after the actions included in Msg/Exec
 	repeated google.protobuf.Any post_actions = 5;
+
+	// any arbitrary metadata attached to the proposal
+	string metadata = 6;
   }
 
   // the corresponding proposal
@@ -145,6 +145,9 @@ message QueryProposalsResponse {
 
 	// the messages which will be executed after the actions included in Msg/Exec
 	repeated google.protobuf.Any post_actions = 5;
+
+	// any arbitrary metadata attached to the proposal
+	string metadata = 6;
   }
 
   // all the proposals

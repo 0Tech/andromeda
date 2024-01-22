@@ -194,6 +194,7 @@ func (s *KeeperTestSuite) SetupTest() {
 				Asset:     "cat",
 			},
 		}),
+		"sell a cat to buyer for a voucher",
 	)
 	s.NoError(err)
 
@@ -213,6 +214,7 @@ func (s *KeeperTestSuite) SetupTest() {
 				Asset:     "voucher",
 			},
 		}),
+		"sell a dog for a voucher",
 	)
 	s.NoError(err)
 

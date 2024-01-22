@@ -12,8 +12,7 @@ func (s *KeeperTestSuite) TestQueryParams() {
 			return err
 		}
 		s.Require().NotNil(res)
-
-		s.Require().NotNil(res.Params)
+		s.Require().NotZero(res.MaxMetadataLength)
 
 		return nil
 	}

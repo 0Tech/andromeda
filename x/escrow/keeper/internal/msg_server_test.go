@@ -8,6 +8,65 @@ import (
 	testv1alpha1 "github.com/0tech/andromeda/x/test/andromeda/test/v1alpha1"
 )
 
+func (s *KeeperTestSuite) TestMsgUpdateParams() {
+	tester := func(subject escrowv1alpha1.MsgUpdateParams) error {
+		ctx, _ := sdk.UnwrapSDKContext(s.ctx).CacheContext()
+		res, err := s.msgServer.UpdateParams(ctx, &subject)
+		if err != nil {
+			return err
+		}
+		s.Require().NotNil(res)
+
+		events := ctx.EventManager().Events()
+		s.Require().Len(events, 1)
+
+		eventExpected, err := sdk.TypedEventToEvent(&escrowv1alpha1.EventUpdateParams{
+			Authority:         subject.Authority,
+			MaxMetadataLength: subject.MaxMetadataLength,
+		})
+		s.Require().NoError(err)
+		s.Require().Equal(eventExpected, events[0])
+
+		return nil
+	}
+	cases := []map[string]testutil.Case[escrowv1alpha1.MsgUpdateParams]{
+		{
+			"nil authority": {
+				Error: func() error {
+					return escrowv1alpha1.ErrUnimplemented
+				},
+			},
+			"valid authority": {
+				Malleate: func(subject *escrowv1alpha1.MsgUpdateParams) {
+					subject.Authority = s.addressBytesToString(s.keeper.GetAuthority())
+				},
+			},
+			"invalid authority": {
+				Malleate: func(subject *escrowv1alpha1.MsgUpdateParams) {
+					subject.Authority = notInBech32
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrInvalidAddress
+				},
+			},
+		},
+		{
+			"nil max_metadata_length": {
+				Error: func() error {
+					return escrowv1alpha1.ErrUnimplemented
+				},
+			},
+			"valid max_metadata_length": {
+				Malleate: func(subject *escrowv1alpha1.MsgUpdateParams) {
+					subject.MaxMetadataLength = s.keeper.DefaultGenesis().Params.MaxMetadataLength
+				},
+			},
+		},
+	}
+
+	testutil.DoTest(s.T(), tester, cases)
+}
+
 func (s *KeeperTestSuite) TestMsgCreateAgent() {
 	tester := func(subject escrowv1alpha1.MsgCreateAgent) error {
 		ctx, _ := sdk.UnwrapSDKContext(s.ctx).CacheContext()
@@ -76,6 +135,7 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 			Agent:       subject.Agent,
 			PreActions:  subject.PreActions,
 			PostActions: subject.PostActions,
+			Metadata:    subject.Metadata,
 		})
 		s.Require().NoError(err)
 		s.Require().Equal(eventExpected, events[len(events)-1])
@@ -172,6 +232,18 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 							Asset:     "voucher",
 						},
 					})
+				},
+			},
+		},
+		{
+			"nil metadata": {
+				Error: func() error {
+					return escrowv1alpha1.ErrUnimplemented
+				},
+			},
+			"valid metadata": {
+				Malleate: func(subject *escrowv1alpha1.MsgSubmitProposal) {
+					subject.Metadata = "sell a snake for a voucher"
 				},
 			},
 		},

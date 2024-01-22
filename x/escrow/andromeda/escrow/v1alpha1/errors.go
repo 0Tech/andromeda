@@ -29,6 +29,7 @@ const (
 	errorCodeAgentNotFound
 	errorCodeProposalNotFound
 	errorCodePermissionDenied
+	errorCodeLargeMetadata
 )
 
 var (
@@ -36,4 +37,5 @@ var (
 	ErrAgentNotFound    = errors.RegisterWithGRPCCode(errorCodespace, errorCodeAgentNotFound, codes.NotFound, "agent not found")
 	ErrProposalNotFound = errors.RegisterWithGRPCCode(errorCodespace, errorCodeProposalNotFound, codes.NotFound, "proposal not found")
 	ErrPermissionDenied = errors.RegisterWithGRPCCode(errorCodespace, errorCodePermissionDenied, codes.PermissionDenied, "permission denied")
+	ErrLargeMetadata    = errors.RegisterWithGRPCCode(errorCodespace, errorCodeLargeMetadata, codes.ResourceExhausted, "large metadata")
 )

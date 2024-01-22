@@ -822,12 +822,14 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_GenesisState_Params protoreflect.MessageDescriptor
+	md_GenesisState_Params                     protoreflect.MessageDescriptor
+	fd_GenesisState_Params_max_metadata_length protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_andromeda_escrow_v1alpha1_genesis_proto_init()
 	md_GenesisState_Params = File_andromeda_escrow_v1alpha1_genesis_proto.Messages().ByName("GenesisState").Messages().ByName("Params")
+	fd_GenesisState_Params_max_metadata_length = md_GenesisState_Params.Fields().ByName("max_metadata_length")
 }
 
 var _ protoreflect.Message = (*fastReflection_GenesisState_Params)(nil)
@@ -895,6 +897,12 @@ func (x *fastReflection_GenesisState_Params) Interface() protoreflect.ProtoMessa
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_GenesisState_Params) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.MaxMetadataLength != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.MaxMetadataLength)
+		if !f(fd_GenesisState_Params_max_metadata_length, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -910,6 +918,8 @@ func (x *fastReflection_GenesisState_Params) Range(f func(protoreflect.FieldDesc
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_GenesisState_Params) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
+	case "andromeda.escrow.v1alpha1.GenesisState.Params.max_metadata_length":
+		return x.MaxMetadataLength != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Params"))
@@ -926,6 +936,8 @@ func (x *fastReflection_GenesisState_Params) Has(fd protoreflect.FieldDescriptor
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_GenesisState_Params) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
+	case "andromeda.escrow.v1alpha1.GenesisState.Params.max_metadata_length":
+		x.MaxMetadataLength = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Params"))
@@ -942,6 +954,9 @@ func (x *fastReflection_GenesisState_Params) Clear(fd protoreflect.FieldDescript
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_GenesisState_Params) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
+	case "andromeda.escrow.v1alpha1.GenesisState.Params.max_metadata_length":
+		value := x.MaxMetadataLength
+		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Params"))
@@ -962,6 +977,8 @@ func (x *fastReflection_GenesisState_Params) Get(descriptor protoreflect.FieldDe
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_GenesisState_Params) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
+	case "andromeda.escrow.v1alpha1.GenesisState.Params.max_metadata_length":
+		x.MaxMetadataLength = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Params"))
@@ -982,6 +999,8 @@ func (x *fastReflection_GenesisState_Params) Set(fd protoreflect.FieldDescriptor
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_GenesisState_Params) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "andromeda.escrow.v1alpha1.GenesisState.Params.max_metadata_length":
+		panic(fmt.Errorf("field max_metadata_length of message andromeda.escrow.v1alpha1.GenesisState.Params is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Params"))
@@ -995,6 +1014,8 @@ func (x *fastReflection_GenesisState_Params) Mutable(fd protoreflect.FieldDescri
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_GenesisState_Params) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "andromeda.escrow.v1alpha1.GenesisState.Params.max_metadata_length":
+		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Params"))
@@ -1064,6 +1085,9 @@ func (x *fastReflection_GenesisState_Params) ProtoMethods() *protoiface.Methods 
 		var n int
 		var l int
 		_ = l
+		if x.MaxMetadataLength != 0 {
+			n += 1 + runtime.Sov(uint64(x.MaxMetadataLength))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -1092,6 +1116,11 @@ func (x *fastReflection_GenesisState_Params) ProtoMethods() *protoiface.Methods 
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.MaxMetadataLength != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.MaxMetadataLength))
+			i--
+			dAtA[i] = 0x8
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -1142,6 +1171,25 @@ func (x *fastReflection_GenesisState_Params) ProtoMethods() *protoiface.Methods 
 				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: GenesisState_Params: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MaxMetadataLength", wireType)
+				}
+				x.MaxMetadataLength = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.MaxMetadataLength |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -1770,6 +1818,7 @@ var (
 	fd_GenesisState_Proposal_agent        protoreflect.FieldDescriptor
 	fd_GenesisState_Proposal_pre_actions  protoreflect.FieldDescriptor
 	fd_GenesisState_Proposal_post_actions protoreflect.FieldDescriptor
+	fd_GenesisState_Proposal_metadata     protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -1780,6 +1829,7 @@ func init() {
 	fd_GenesisState_Proposal_agent = md_GenesisState_Proposal.Fields().ByName("agent")
 	fd_GenesisState_Proposal_pre_actions = md_GenesisState_Proposal.Fields().ByName("pre_actions")
 	fd_GenesisState_Proposal_post_actions = md_GenesisState_Proposal.Fields().ByName("post_actions")
+	fd_GenesisState_Proposal_metadata = md_GenesisState_Proposal.Fields().ByName("metadata")
 }
 
 var _ protoreflect.Message = (*fastReflection_GenesisState_Proposal)(nil)
@@ -1877,6 +1927,12 @@ func (x *fastReflection_GenesisState_Proposal) Range(f func(protoreflect.FieldDe
 			return
 		}
 	}
+	if x.Metadata != "" {
+		value := protoreflect.ValueOfString(x.Metadata)
+		if !f(fd_GenesisState_Proposal_metadata, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -1902,6 +1958,8 @@ func (x *fastReflection_GenesisState_Proposal) Has(fd protoreflect.FieldDescript
 		return len(x.PreActions) != 0
 	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.post_actions":
 		return len(x.PostActions) != 0
+	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.metadata":
+		return x.Metadata != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Proposal"))
@@ -1928,6 +1986,8 @@ func (x *fastReflection_GenesisState_Proposal) Clear(fd protoreflect.FieldDescri
 		x.PreActions = nil
 	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.post_actions":
 		x.PostActions = nil
+	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.metadata":
+		x.Metadata = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Proposal"))
@@ -1965,6 +2025,9 @@ func (x *fastReflection_GenesisState_Proposal) Get(descriptor protoreflect.Field
 		}
 		listValue := &_GenesisState_Proposal_5_list{list: &x.PostActions}
 		return protoreflect.ValueOfList(listValue)
+	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.metadata":
+		value := x.Metadata
+		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Proposal"))
@@ -1999,6 +2062,8 @@ func (x *fastReflection_GenesisState_Proposal) Set(fd protoreflect.FieldDescript
 		lv := value.List()
 		clv := lv.(*_GenesisState_Proposal_5_list)
 		x.PostActions = *clv.list
+	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.metadata":
+		x.Metadata = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Proposal"))
@@ -2037,6 +2102,8 @@ func (x *fastReflection_GenesisState_Proposal) Mutable(fd protoreflect.FieldDesc
 		panic(fmt.Errorf("field proposer of message andromeda.escrow.v1alpha1.GenesisState.Proposal is not mutable"))
 	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.agent":
 		panic(fmt.Errorf("field agent of message andromeda.escrow.v1alpha1.GenesisState.Proposal is not mutable"))
+	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.metadata":
+		panic(fmt.Errorf("field metadata of message andromeda.escrow.v1alpha1.GenesisState.Proposal is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Proposal"))
@@ -2062,6 +2129,8 @@ func (x *fastReflection_GenesisState_Proposal) NewField(fd protoreflect.FieldDes
 	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.post_actions":
 		list := []*anypb.Any{}
 		return protoreflect.ValueOfList(&_GenesisState_Proposal_5_list{list: &list})
+	case "andromeda.escrow.v1alpha1.GenesisState.Proposal.metadata":
+		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: andromeda.escrow.v1alpha1.GenesisState.Proposal"))
@@ -2154,6 +2223,10 @@ func (x *fastReflection_GenesisState_Proposal) ProtoMethods() *protoiface.Method
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
+		l = len(x.Metadata)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -2182,6 +2255,13 @@ func (x *fastReflection_GenesisState_Proposal) ProtoMethods() *protoiface.Method
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.Metadata) > 0 {
+			i -= len(x.Metadata)
+			copy(dAtA[i:], x.Metadata)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Metadata)))
+			i--
+			dAtA[i] = 0x32
 		}
 		if len(x.PostActions) > 0 {
 			for iNdEx := len(x.PostActions) - 1; iNdEx >= 0; iNdEx-- {
@@ -2434,6 +2514,38 @@ func (x *fastReflection_GenesisState_Proposal) ProtoMethods() *protoiface.Method
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
+			case 6:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Metadata", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Metadata = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -2560,6 +2672,9 @@ type GenesisState_Params struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	// the maximum length allowed for metadata
+	MaxMetadataLength uint64 `protobuf:"varint,1,opt,name=max_metadata_length,json=maxMetadataLength,proto3" json:"max_metadata_length,omitempty"`
 }
 
 func (x *GenesisState_Params) Reset() {
@@ -2580,6 +2695,13 @@ func (*GenesisState_Params) ProtoMessage() {}
 // Deprecated: Use GenesisState_Params.ProtoReflect.Descriptor instead.
 func (*GenesisState_Params) Descriptor() ([]byte, []int) {
 	return file_andromeda_escrow_v1alpha1_genesis_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *GenesisState_Params) GetMaxMetadataLength() uint64 {
+	if x != nil {
+		return x.MaxMetadataLength
+	}
+	return 0
 }
 
 // Agent defines an account taking charge of a proposal.
@@ -2644,6 +2766,8 @@ type GenesisState_Proposal struct {
 	PreActions []*anypb.Any `protobuf:"bytes,4,rep,name=pre_actions,json=preActions,proto3" json:"pre_actions,omitempty"`
 	// the messages which will be executed after the actions included in Msg/Exec
 	PostActions []*anypb.Any `protobuf:"bytes,5,rep,name=post_actions,json=postActions,proto3" json:"post_actions,omitempty"`
+	// any arbitrary metadata attached to the proposal
+	Metadata string `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (x *GenesisState_Proposal) Reset() {
@@ -2701,6 +2825,13 @@ func (x *GenesisState_Proposal) GetPostActions() []*anypb.Any {
 	return nil
 }
 
+func (x *GenesisState_Proposal) GetMetadata() string {
+	if x != nil {
+		return x.Metadata
+	}
+	return ""
+}
+
 var File_andromeda_escrow_v1alpha1_genesis_proto protoreflect.FileDescriptor
 
 var file_andromeda_escrow_v1alpha1_genesis_proto_rawDesc = []byte{
@@ -2711,7 +2842,7 @@ var file_andromeda_escrow_v1alpha1_genesis_proto_rawDesc = []byte{
 	0x70, 0x68, 0x61, 0x31, 0x1a, 0x19, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x5f, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
 	0x19, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
-	0x2f, 0x61, 0x6e, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x9f, 0x05, 0x0a, 0x0c, 0x47,
+	0x2f, 0x61, 0x6e, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xeb, 0x05, 0x0a, 0x0c, 0x47,
 	0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x46, 0x0a, 0x06, 0x70,
 	0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x61, 0x6e,
 	0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x65, 0x73, 0x63, 0x72, 0x6f, 0x77, 0x2e, 0x76,
@@ -2730,15 +2861,18 @@ var file_andromeda_escrow_v1alpha1_genesis_proto_rawDesc = []byte{
 	0x0b, 0x32, 0x30, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x65, 0x73,
 	0x63, 0x72, 0x6f, 0x77, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x2e, 0x47, 0x65,
 	0x6e, 0x65, 0x73, 0x69, 0x73, 0x53, 0x74, 0x61, 0x74, 0x65, 0x2e, 0x50, 0x72, 0x6f, 0x70, 0x6f,
-	0x73, 0x61, 0x6c, 0x52, 0x09, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x73, 0x1a, 0x08,
-	0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x1a, 0x6f, 0x0a, 0x05, 0x41, 0x67, 0x65, 0x6e,
+	0x73, 0x61, 0x6c, 0x52, 0x09, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x73, 0x1a, 0x38,
+	0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x2e, 0x0a, 0x13, 0x6d, 0x61, 0x78, 0x5f,
+	0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x6c, 0x65, 0x6e, 0x67, 0x74, 0x68, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x11, 0x6d, 0x61, 0x78, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
+	0x74, 0x61, 0x4c, 0x65, 0x6e, 0x67, 0x74, 0x68, 0x1a, 0x6f, 0x0a, 0x05, 0x41, 0x67, 0x65, 0x6e,
 	0x74, 0x12, 0x32, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41,
 	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x61, 0x64,
 	0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x32, 0x0a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d,
 	0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
-	0x52, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x1a, 0xf0, 0x01, 0x0a, 0x08, 0x50, 0x72,
+	0x52, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x1a, 0x8c, 0x02, 0x0a, 0x08, 0x50, 0x72,
 	0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x34, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73,
 	0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f,
@@ -2753,22 +2887,24 @@ var file_andromeda_escrow_v1alpha1_genesis_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x73, 0x12, 0x37, 0x0a, 0x0c, 0x70, 0x6f, 0x73, 0x74, 0x5f, 0x61, 0x63, 0x74, 0x69,
 	0x6f, 0x6e, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
 	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x41, 0x6e, 0x79, 0x52,
-	0x0b, 0x70, 0x6f, 0x73, 0x74, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0xe1, 0x01, 0x0a,
-	0x1d, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x65,
-	0x73, 0x63, 0x72, 0x6f, 0x77, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x42, 0x0c,
-	0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2c,
-	0x61, 0x70, 0x69, 0x2f, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x65, 0x73,
-	0x63, 0x72, 0x6f, 0x77, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b, 0x65, 0x73,
-	0x63, 0x72, 0x6f, 0x77, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x41,
-	0x45, 0x58, 0xaa, 0x02, 0x19, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x45,
-	0x73, 0x63, 0x72, 0x6f, 0x77, 0x2e, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02,
-	0x19, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x45, 0x73, 0x63, 0x72, 0x6f,
-	0x77, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xe2, 0x02, 0x25, 0x41, 0x6e, 0x64,
+	0x0b, 0x70, 0x6f, 0x73, 0x74, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x1a, 0x0a, 0x08,
+	0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08,
+	0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x42, 0xe1, 0x01, 0x0a, 0x1d, 0x63, 0x6f, 0x6d,
+	0x2e, 0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x65, 0x73, 0x63, 0x72, 0x6f,
+	0x77, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x42, 0x0c, 0x47, 0x65, 0x6e, 0x65,
+	0x73, 0x69, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2c, 0x61, 0x70, 0x69, 0x2f,
+	0x61, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2f, 0x65, 0x73, 0x63, 0x72, 0x6f, 0x77,
+	0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x3b, 0x65, 0x73, 0x63, 0x72, 0x6f, 0x77,
+	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x41, 0x45, 0x58, 0xaa, 0x02,
+	0x19, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x2e, 0x45, 0x73, 0x63, 0x72, 0x6f,
+	0x77, 0x2e, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xca, 0x02, 0x19, 0x41, 0x6e, 0x64,
 	0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x5c, 0x45, 0x73, 0x63, 0x72, 0x6f, 0x77, 0x5c, 0x56, 0x31,
-	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0xea, 0x02, 0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x3a, 0x3a,
-	0x45, 0x73, 0x63, 0x72, 0x6f, 0x77, 0x3a, 0x3a, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0xe2, 0x02, 0x25, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65,
+	0x64, 0x61, 0x5c, 0x45, 0x73, 0x63, 0x72, 0x6f, 0x77, 0x5c, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68,
+	0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
+	0x1b, 0x41, 0x6e, 0x64, 0x72, 0x6f, 0x6d, 0x65, 0x64, 0x61, 0x3a, 0x3a, 0x45, 0x73, 0x63, 0x72,
+	0x6f, 0x77, 0x3a, 0x3a, 0x56, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (

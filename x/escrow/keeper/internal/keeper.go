@@ -1,8 +1,11 @@
 package internal
 
 import (
+	"context"
+
 	"cosmossdk.io/collections"
 	"cosmossdk.io/core/store"
+	errorsmod "cosmossdk.io/errors"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -88,6 +91,10 @@ func (k Keeper) addressStringToBytes(addr string) (sdk.AccAddress, error) {
 	return addrBytes, nil
 }
 
+func (k Keeper) GetAuthority() sdk.AccAddress {
+	return k.authority
+}
+
 func (k Keeper) validateAuthority(candidate sdk.AccAddress) error {
 	if !candidate.Equals(k.authority) {
 		return escrowv1alpha1.ErrPermissionDenied.Wrap("not authority")
@@ -96,3 +103,15 @@ func (k Keeper) validateAuthority(candidate sdk.AccAddress) error {
 	return nil
 }
 
+func (k Keeper) validateMetadata(ctx context.Context, metadata string) error {
+	params, err := k.GetParams(ctx)
+	if err != nil {
+		return err
+	}
+
+	if length := uint64(len(metadata)); length > params.MaxMetadataLength {
+		return errorsmod.Wrapf(escrowv1alpha1.ErrLargeMetadata.Wrapf("over limit of %d", params.MaxMetadataLength), "%d", length)
+	}
+
+	return nil
+}

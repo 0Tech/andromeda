@@ -6,6 +6,11 @@ import "google/protobuf/any.proto";
 
 // EventUpdateParams is emitted on Msg/UpdateParams.
 message EventUpdateParams {
+  // the address of the module authority
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the maximum length allowed for metadata
+  uint64 max_metadata_length = 2;
 }
 
 // EventCreateAgent is emitted on Msg/CreateAgent.
@@ -33,6 +38,9 @@ message EventSubmitProposal {
 
   // the messages which will be executed after the actions included in Msg/Exec
   repeated google.protobuf.Any post_actions = 5;
+
+  // any arbitrary metadata attached to the proposal
+  string metadata = 6;
 }
 
 // EventExec is emitted on Msg/Exec.

@@ -29,12 +29,9 @@ message MsgUpdateParams {
   // the address of the module authority
   string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // Params defines the parameters for the module.
-  message Params {}
-
-  // the parameters to update
-  // Note: All parameters must be supplied.
-  Params params = 2;
+  // the maximum length allowed for metadata
+  // Note: it must be greater than or equal to the current's.
+  uint64 max_metadata_length = 2;
 }
 
 // MsgUpdateParamsResponse is the Msg/UpdateParams response type.
@@ -72,6 +69,9 @@ message MsgSubmitProposal {
   // the messages which will be executed after the actions included in Msg/Exec
   // Note: the signer of each message must be either the proposer or the agent.
   repeated google.protobuf.Any post_actions = 4;
+
+  // any arbitrary metadata attached to the proposal
+  string metadata = 5;
 }
 
 // MsgSubmitProposalResponse is the Msg/SubmitProposal response type.

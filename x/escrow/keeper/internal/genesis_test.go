@@ -13,6 +13,32 @@ import (
 	"github.com/0tech/andromeda/x/escrow/testutil"
 )
 
+func TestValidateGenesisParams(t *testing.T) {
+	_, _, k, _, _ := setupKeepers(t) //nolint:dogsled
+
+	gs := k.DefaultGenesis()
+	tester := func(subject escrowv1alpha1.GenesisState_Params) error {
+		gs.Params = &subject
+		return k.ValidateGenesis(gs)
+	}
+	cases := []map[string]testutil.Case[escrowv1alpha1.GenesisState_Params]{
+		{
+			"nil max_metadata_length": {
+				Error: func() error {
+					return escrowv1alpha1.ErrUnimplemented
+				},
+			},
+			"valid max_metadata_length": {
+				Malleate: func(subject *escrowv1alpha1.GenesisState_Params) {
+					subject.MaxMetadataLength = k.DefaultGenesis().Params.MaxMetadataLength
+				},
+			},
+		},
+	}
+
+	testutil.DoTest(t, tester, cases)
+}
+
 func TestValidateGenesisAgents(t *testing.T) {
 	cdc, _, k, _, _ := setupKeepers(t) //nolint:dogsled
 	addressCodec := cdc.InterfaceRegistry().SigningContext().AddressCodec()
@@ -543,7 +569,7 @@ func TestValidateGenesisProposals(t *testing.T) {
 	testutil.DoTest(t, tester, cases)
 }
 
-func TestGenesisState(t *testing.T) {
+func TestValidateGenesis(t *testing.T) {
 	_, _, k, _, _ := setupKeepers(t) //nolint:dogsled
 
 	tester := func(subject escrowv1alpha1.GenesisState) error {

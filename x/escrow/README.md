@@ -202,7 +202,7 @@ Usage:
 Available Commands:
   agent       queries an agent.
   agents      queries all the agents.
-  params      queries the module params.
+  params      queries the module parameters.
   proposal    queries a proposal.
   proposals   queries all the proposals.
 ```
@@ -214,6 +214,14 @@ and query escrow params --help
 ```
 
 ```bash
+queries the module parameters.
+
+Usage:
+  and query escrow params [flags]
+
+Examples:
+$ and query escrow params
+max_metadata_length: "42"
 ```
 
 ##### agent
@@ -277,6 +285,7 @@ $ and query escrow proposal --id 3
 proposal:
   agent: cosmos1...
   id: "3"
+  metadata: very good deal
   post_actions:
   - type: cosmos-sdk/MsgSend
     value:
@@ -314,6 +323,7 @@ pagination:
 proposals:
 - agent: cosmos1...
   id: "3"
+  metadata: very good deal
   post_actions:
   - type: cosmos-sdk/MsgSend
     value:
@@ -332,6 +342,7 @@ proposals:
   proposer: cosmos1...
 - agent: cosmos1...
   id: "4"
+  metadata: limited time offer for you
   post_actions:
   - type: cosmos-sdk/MsgSend
     value:
@@ -374,6 +385,45 @@ Available Commands:
   exec            executes a proposal.
   submit-proposal submits a proposal.
   update-params   updates the module parameters.
+```
+
+##### update-params
+
+```bash
+and tx escrow update-params --help
+```
+
+```bash
+updates the module parameters.
+
+Note:
+  max-metadata-length:
+    it must be greater than or equal to the current's.
+
+Usage:
+  and tx escrow update-params --from [authority] --max-metadata-length [max-metadata-length] [flags]
+
+Examples:
+$ and tx escrow update-params --from cosmos1aaa... --max-metadata-length 42
+auth_info:
+  fee:
+    amount: []
+    gas_limit: "200000"
+    granter: ""
+    payer: ""
+  signer_infos: []
+  tip: null
+body:
+  extension_options: []
+  memo: ""
+  messages:
+  - '@type': /andromeda.escrow.v1alpha1.MsgUpdateParams
+    authority: cosmos1aaa...
+    max_metadata_length: "42"
+  non_critical_extension_options: []
+  timeout_height: "0"
+signatures: []
+confirm transaction before signing and broadcasting [y/N]:
 ```
 
 ##### create-agent
@@ -440,7 +490,8 @@ $ and tx escrow submit-proposal --from cosmos1ppp... --agent cosmos1aaa... \
     --post-actions '{"@type": "/cosmos.bank.v1beta1.MsgSend",
                      "from_address": "cosmos1aaa",
                      "to_address": "cosmos1ppp...",
-                     "amount": [{"amount": "42", "denom": "stake"}]}'
+                     "amount": [{"amount": "42", "denom": "stake"}]}' \
+    --metadata "sell octocat for 42stake"
 auth_info:
   fee:
     amount: []
@@ -455,6 +506,7 @@ body:
   messages:
   - '@type': /andromeda.escrow.v1alpha1.MsgSubmitProposal
     agent: cosmos1aaa...
+    metadata: sell octocat for 42stake
     post_actions:
     - '@type': /cosmos.bank.v1beta1.MsgSend
       amount:
@@ -570,7 +622,7 @@ Example Output:
 
 ```bash
 {
-  "params": {}
+  "maxMetadataLength": "42"
 }
 ```
 
@@ -682,7 +734,8 @@ Example Output:
         "fromAddress": "cosmos1...",
         "toAddress": "cosmos1..."
       }
-    ]
+    ],
+    "metadata": "very good deal"
   }
 }
 ```
@@ -731,7 +784,8 @@ Example Output:
           "fromAddress": "cosmos1...",
           "toAddress": "cosmos1..."
         }
-      ]
+      ],
+      "metadata": "very good deal"
     },
     {
       "id": "4",
@@ -765,7 +819,8 @@ Example Output:
           "sender": "cosmos1...",
           "receiver": "cosmos1..."
         }
-      ]
+      ],
+      "metadata": "limited time offer for you"
     },
   ],
   "pagination": {

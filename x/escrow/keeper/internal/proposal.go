@@ -12,7 +12,11 @@ import (
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 )
 
-func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddress, preActions, postActions []*codectypes.Any) (uint64, error) {
+func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddress, preActions, postActions []*codectypes.Any, metadata string) (uint64, error) {
+	if err := k.validateMetadata(ctx, metadata); err != nil {
+		return 0, err
+	}
+
 	if err := k.HasAgent(ctx, agent, proposer); err != nil {
 		return 0, err
 	}
@@ -26,6 +30,7 @@ func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddre
 		Agent:       agent,
 		PreActions:  preActions,
 		PostActions: postActions,
+		Metadata:    metadata,
 	}); err != nil {
 		return 0, err
 	}

@@ -23,7 +23,9 @@ func (k Keeper) DefaultGenesis() *escrowv1alpha1.GenesisState {
 }
 
 func DefaultGenesisParams() *escrowv1alpha1.GenesisState_Params {
-	return &escrowv1alpha1.GenesisState_Params{}
+	return &escrowv1alpha1.GenesisState_Params{
+		MaxMetadataLength: 255,
+	}
 }
 
 func (k Keeper) ValidateGenesis(gs *escrowv1alpha1.GenesisState) error {
@@ -63,6 +65,10 @@ func (k Keeper) ValidateGenesis(gs *escrowv1alpha1.GenesisState) error {
 }
 
 func (k Keeper) validateGenesisParams(params *escrowv1alpha1.GenesisState_Params) error {
+	if params.MaxMetadataLength == 0 {
+		return escrowv1alpha1.ErrUnimplemented.Wrap("nil max_metadata_length")
+	}
+
 	return nil
 }
 
@@ -193,7 +199,9 @@ func (k Keeper) InitGenesis(ctx context.Context, gs *escrowv1alpha1.GenesisState
 }
 
 func (k Keeper) initGenesisParams(ctx context.Context, params *escrowv1alpha1.GenesisState_Params) error {
-	if err := k.setParams(ctx, &escrowv1alpha1.Params{}); err != nil {
+	if err := k.setParams(ctx, &escrowv1alpha1.Params{
+		MaxMetadataLength: params.MaxMetadataLength,
+	}); err != nil {
 		return err
 	}
 
@@ -261,6 +269,7 @@ func (k Keeper) initGenesisProposal(ctx context.Context, proposal *escrowv1alpha
 		Agent:       agent,
 		PreActions:  proposal.PreActions,
 		PostActions: proposal.PostActions,
+		Metadata:    proposal.Metadata,
 	}); err != nil {
 		return err
 	}
@@ -304,7 +313,14 @@ func (k Keeper) ExportGenesis(ctx context.Context) (*escrowv1alpha1.GenesisState
 }
 
 func (k Keeper) exportGenesisParams(ctx context.Context) (*escrowv1alpha1.GenesisState_Params, error) {
-	return &escrowv1alpha1.GenesisState_Params{}, nil
+	params, err := k.GetParams(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &escrowv1alpha1.GenesisState_Params{
+		MaxMetadataLength: params.MaxMetadataLength,
+	}, nil
 }
 
 func (k Keeper) exportGenesisAgents(ctx context.Context) ([]*escrowv1alpha1.GenesisState_Agent, error) {
@@ -352,6 +368,7 @@ func (k Keeper) exportGenesisProposals(ctx context.Context) ([]*escrowv1alpha1.G
 			Agent:       agentStr,
 			PreActions:  proposal.PreActions,
 			PostActions: proposal.PostActions,
+			Metadata:    proposal.Metadata,
 		})
 
 		return nil

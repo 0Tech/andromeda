@@ -34,13 +34,13 @@ func (s queryServer) Params(ctx context.Context, req *escrowv1alpha1.QueryParams
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	_, err := s.keeper.GetParams(ctx)
+	params, err := s.keeper.GetParams(ctx)
 	if err != nil {
 		return nil, err
 	}
 
 	return &escrowv1alpha1.QueryParamsResponse{
-		Params: &escrowv1alpha1.QueryParamsResponse_Params{},
+		MaxMetadataLength: params.MaxMetadataLength,
 	}, nil
 }
 
@@ -141,6 +141,7 @@ func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProp
 			Agent:       agentStr,
 			PreActions:  proposal.PreActions,
 			PostActions: proposal.PostActions,
+			Metadata:    proposal.Metadata,
 		},
 	}, nil
 }
@@ -173,6 +174,7 @@ func (s queryServer) Proposals(ctx context.Context, req *escrowv1alpha1.QueryPro
 			Agent:       agentStr,
 			PreActions:  proposal.PreActions,
 			PostActions: proposal.PostActions,
+			Metadata:    proposal.Metadata,
 		}, nil
 	})
 	if err != nil {

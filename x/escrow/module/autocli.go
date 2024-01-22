@@ -16,10 +16,10 @@ func (AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
 				{
 					RpcMethod: "Params",
-					Short:     "queries the module params.",
+					Short:     "queries the module parameters.",
 					Use:       "params",
 					Example: `$ and query escrow params
-params: {}`,
+max_metadata_length: "42"`,
 				},
 				{
 					RpcMethod: "Agent",
@@ -62,6 +62,7 @@ pagination:
 proposal:
   agent: cosmos1...
   id: "3"
+  metadata: very good deal
   post_actions:
   - type: cosmos-sdk/MsgSend
     value:
@@ -88,6 +89,7 @@ pagination:
 proposals:
 - agent: cosmos1...
   id: "3"
+  metadata: very good deal
   post_actions:
   - type: cosmos-sdk/MsgSend
     value:
@@ -106,6 +108,7 @@ proposals:
   proposer: cosmos1...
 - agent: cosmos1...
   id: "4"
+  metadata: limited time offer for you
   post_actions:
   - type: cosmos-sdk/MsgSend
     value:
@@ -140,14 +143,34 @@ proposals:
 					Long: `updates the module parameters.
 
 Note:
-  params:
-    All parameters must be supplied.`,
-					Use: "update-params --from [authority] --params [params]",
+  max-metadata-length:
+    it must be greater than or equal to the current's.`,
+					Use: "update-params --from [authority] --max-metadata-length [max-metadata-length]",
 					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"params": {
-							Usage: "the parameters to update",
+						"max_metadata_length": {
+							Usage: "the maximum length allowed for metadata",
 						},
 					},
+					Example: `$ and tx escrow update-params --from cosmos1aaa... --max-metadata-length 42
+auth_info:
+  fee:
+    amount: []
+    gas_limit: "200000"
+    granter: ""
+    payer: ""
+  signer_infos: []
+  tip: null
+body:
+  extension_options: []
+  memo: ""
+  messages:
+  - '@type': /andromeda.escrow.v1alpha1.MsgUpdateParams
+    authority: cosmos1aaa...
+    max_metadata_length: "42"
+  non_critical_extension_options: []
+  timeout_height: "0"
+signatures: []
+confirm transaction before signing and broadcasting [y/N]:`,
 				},
 				{
 					RpcMethod: "CreateAgent",
@@ -185,7 +208,7 @@ Note:
     the signer of each message must be either the proposer or the agent.
   post-actions:
     the signer of each message must be either the proposer or the agent.`,
-					Use: "submit-proposal --from [proposer] --agent [agent] --pre-actions [pre-actions] --post-actions [post-actions]",
+					Use: "submit-proposal --from [proposer] --agent [agent] --pre-actions [pre-actions] --post-actions [post-actions] --metadata [metadata]",
 					FlagOptions: map[string]*autocliv1.FlagOptions{
 						"agent": {
 							Usage: "the address of the agent in charge",
@@ -198,6 +221,9 @@ Note:
 							Usage:        "the messages which will be executed after the actions included in Msg/Exec",
 							DefaultValue: "{}",
 						},
+						"metadata": {
+							Usage: "any arbitrary metadata attached to the proposal",
+						},
 					},
 					Example: `$ and tx escrow submit-proposal --from cosmos1ppp... --agent cosmos1aaa... \
     --pre-actions '{"@type": "/cosmos.nft.v1beta1.MsgSend",
@@ -208,7 +234,8 @@ Note:
     --post-actions '{"@type": "/cosmos.bank.v1beta1.MsgSend",
                      "from_address": "cosmos1aaa",
                      "to_address": "cosmos1ppp...",
-                     "amount": [{"amount": "42", "denom": "stake"}]}'
+                     "amount": [{"amount": "42", "denom": "stake"}]}' \
+    --metadata "sell octocat for 42stake"
 auth_info:
   fee:
     amount: []
@@ -223,6 +250,7 @@ body:
   messages:
   - '@type': /andromeda.escrow.v1alpha1.MsgSubmitProposal
     agent: cosmos1aaa...
+    metadata: sell octocat for 42stake
     post_actions:
     - '@type': /cosmos.bank.v1beta1.MsgSend
       amount:

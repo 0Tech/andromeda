@@ -15,6 +15,7 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 		agent       sdk.AccAddress
 		preActions  []*codectypes.Any
 		postActions []*codectypes.Any
+		metadata    string
 	}
 
 	tester := func(subject submitProposal) error {
@@ -22,9 +23,10 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 		s.NotNil(subject.agent)
 		s.NotNil(subject.preActions)
 		s.NotNil(subject.postActions)
+		s.NotEmpty(subject.metadata)
 
 		ctx, _ := sdk.UnwrapSDKContext(s.ctx).CacheContext()
-		id, err := s.keeper.SubmitProposal(ctx, subject.proposer, subject.agent, subject.preActions, subject.postActions)
+		id, err := s.keeper.SubmitProposal(ctx, subject.proposer, subject.agent, subject.preActions, subject.postActions, subject.metadata)
 		if err != nil {
 			return err
 		}
@@ -43,6 +45,7 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 		s.Require().Equal(subject.agent, sdk.AccAddress(proposalAfter.Agent))
 		s.Require().Equal(subject.preActions, proposalAfter.PreActions)
 		s.Require().Equal(subject.postActions, proposalAfter.PostActions)
+		s.Require().Equal(subject.metadata, proposalAfter.Metadata)
 
 		return nil
 	}
@@ -106,6 +109,21 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 							Asset:     "voucher",
 						},
 					})
+				},
+			},
+		},
+		{
+			"valid metadata": {
+				Malleate: func(subject *submitProposal) {
+					subject.metadata = "sell a snake for a voucher"
+				},
+			},
+			"large metadata": {
+				Malleate: func(subject *submitProposal) {
+					subject.metadata = string(make([]rune, s.keeper.DefaultGenesis().Params.MaxMetadataLength+1))
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrLargeMetadata
 				},
 			},
 		},

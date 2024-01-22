@@ -29,6 +29,10 @@ func (s msgServer) UpdateParams(ctx context.Context, req *escrowv1alpha1.MsgUpda
 		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil authority")
 	}
 
+	if req.MaxMetadataLength == 0 {
+		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil max_metadata_length")
+	}
+
 	authority, err := s.keeper.addressStringToBytes(req.Authority)
 	if err != nil {
 		return nil, errorsmod.Wrap(err, "authority")
@@ -38,11 +42,16 @@ func (s msgServer) UpdateParams(ctx context.Context, req *escrowv1alpha1.MsgUpda
 		return nil, err
 	}
 
-	if err := s.keeper.UpdateParams(ctx, &escrowv1alpha1.Params{}); err != nil {
+	if err := s.keeper.UpdateParams(ctx, &escrowv1alpha1.Params{
+		MaxMetadataLength: req.MaxMetadataLength,
+	}); err != nil {
 		return nil, err
 	}
 
-	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&escrowv1alpha1.EventUpdateParams{}); err != nil {
+	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&escrowv1alpha1.EventUpdateParams{
+		Authority:         req.Authority,
+		MaxMetadataLength: req.MaxMetadataLength,
+	}); err != nil {
 		return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
@@ -96,6 +105,10 @@ func (s msgServer) SubmitProposal(ctx context.Context, req *escrowv1alpha1.MsgSu
 		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil post_actions")
 	}
 
+	if req.Metadata == "" {
+		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil metadata")
+	}
+
 	proposer, err := s.keeper.addressStringToBytes(req.Proposer)
 	if err != nil {
 		return nil, errorsmod.Wrap(err, "proposer")
@@ -116,7 +129,7 @@ func (s msgServer) SubmitProposal(ctx context.Context, req *escrowv1alpha1.MsgSu
 		return nil, errorsmod.Wrap(err, "post_actions")
 	}
 
-	id, err := s.keeper.SubmitProposal(ctx, proposer, agent, req.PreActions, req.PostActions)
+	id, err := s.keeper.SubmitProposal(ctx, proposer, agent, req.PreActions, req.PostActions, req.Metadata)
 	if err != nil {
 		return nil, err
 	}
@@ -127,6 +140,7 @@ func (s msgServer) SubmitProposal(ctx context.Context, req *escrowv1alpha1.MsgSu
 		Agent:       req.Agent,
 		PreActions:  req.PreActions,
 		PostActions: req.PostActions,
+		Metadata:    req.Metadata,
 	}); err != nil {
 		return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
