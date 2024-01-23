@@ -34,6 +34,7 @@ type MsgCreate struct {
 	// the address of the creator
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	// the name of the asset to create
+	// Note: if creator already has the same asset, it will fail.
 	Asset string `protobuf:"bytes,2,opt,name=asset,proto3" json:"asset,omitempty"`
 }
 
@@ -126,6 +127,7 @@ type MsgSend struct {
 	// the address of the sender
 	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
 	// the address of the recipient
+	// Note: if the recipient already has the same asset, it will fail.
 	Recipient string `protobuf:"bytes,2,opt,name=recipient,proto3" json:"recipient,omitempty"`
 	// the asset to send
 	Asset string `protobuf:"bytes,3,opt,name=asset,proto3" json:"asset,omitempty"`

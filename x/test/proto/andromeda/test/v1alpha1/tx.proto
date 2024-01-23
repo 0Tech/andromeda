@@ -23,6 +23,7 @@ message MsgCreate {
   string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the name of the asset to create
+  // Note: if creator already has the same asset, it will fail.
   string asset = 2;
 }
 
@@ -37,6 +38,7 @@ message MsgSend {
   string sender = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the address of the recipient
+  // Note: if the recipient already has the same asset, it will fail.
   string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the asset to send
