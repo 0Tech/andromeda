@@ -144,7 +144,7 @@ func setupTestKeeper(t *testing.T) (
 	)
 	bapp.SetInterfaceRegistry(ir)
 
-	testKeeper, err := keeper.NewKeeper(encCfg.Codec, runtime.NewKVStoreService(key))
+	testKeeper, err := keeper.NewKeeper(encCfg.Codec, runtime.NewKVStoreService(key), nil)
 	assert.NoError(t, err)
 
 	msgServer := keeper.NewMsgServer(*testKeeper)

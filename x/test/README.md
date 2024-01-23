@@ -41,7 +41,9 @@ on the same account. Anyone can create assets by their own.
 
 ### Assets
 
-* Assets: `0xff | "andromeda/test/asset" | owner_address | asset_name -> ProtocolBuffer(Asset)`
+One can change the prefix through the argument of the keeper.
+
+* Assets: `0xff | owner_address | asset_name -> ProtocolBuffer(Asset)`
 
 ```protobuf reference
 https://github.com/0tech/andromeda/blob/main/x/test/proto/andromeda/test/v1alpha1/types.proto#L3-L5

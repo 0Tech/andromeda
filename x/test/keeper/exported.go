@@ -16,10 +16,12 @@ type Keeper struct {
 func NewKeeper(
 	cdc codec.Codec,
 	storeService store.KVStoreService,
+	prefix []byte,
 ) (*Keeper, error) {
 	impl, err := internal.NewKeeper(
 		cdc,
 		storeService,
+		prefix,
 	)
 	if err != nil {
 		return nil, err

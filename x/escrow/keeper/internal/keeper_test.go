@@ -346,7 +346,7 @@ func setupEscrowKeeper(t *testing.T, bapp *baseapp.BaseApp, cdc codec.Codec, key
 }
 
 func setupTestKeeper(t *testing.T, bapp *baseapp.BaseApp, cdc codec.Codec, key *storetypes.KVStoreKey) *testkeeper.Keeper {
-	testKeeper, err := testkeeper.NewKeeper(cdc, runtime.NewKVStoreService(key))
+	testKeeper, err := testkeeper.NewKeeper(cdc, runtime.NewKVStoreService(key), nil)
 	assert.NoError(t, err)
 
 	msgServer := testkeeper.NewMsgServer(*testKeeper)

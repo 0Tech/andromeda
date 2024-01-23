@@ -21,11 +21,17 @@ type Keeper struct {
 func NewKeeper(
 	cdc codec.Codec,
 	storeService store.KVStoreService,
+	prefix []byte,
 ) (*Keeper, error) {
 	sb := collections.NewSchemaBuilder(storeService)
+
+	if len(prefix) == 0 {
+		prefix = assetsKeyPrefix
+	}
+
 	k := &Keeper{
 		cdc: cdc,
-		assets: collections.NewMap(sb, assetsKeyPrefix, "assets",
+		assets: collections.NewMap(sb, prefix, "assets",
 			collections.PairKeyCodec(sdk.AccAddressKey, collections.StringKey),
 			codec.CollValue[testv1alpha1.Asset](cdc),
 		),

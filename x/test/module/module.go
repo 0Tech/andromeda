@@ -126,7 +126,7 @@ type TestOutputs struct {
 }
 
 func ProvideModule(in TestInputs) TestOutputs {
-	k, err := keeper.NewKeeper(in.Cdc, in.StoreService)
+	k, err := keeper.NewKeeper(in.Cdc, in.StoreService, nil)
 	if err != nil {
 		panic(err)
 	}
