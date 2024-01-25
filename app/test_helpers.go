@@ -94,7 +94,7 @@ func NewAppWithCustomOptions(t *testing.T, isCheckTx bool, options SetupOptions)
 }
 
 // Setup initializes a new App. A Nop logger is set in App.
-func Setup(t *testing.T, isCheckTx bool) *App {
+func Setup(t *testing.T, _ bool) *App {
 	t.Helper()
 
 	privVal := mock.NewPV()
