@@ -3,7 +3,7 @@ package module
 import (
 	"context"
 
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"
@@ -35,7 +35,7 @@ func (AppModuleBasic) Name() string {
 	return testv1alpha1.ModuleName
 }
 
-func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
+func (AppModuleBasic) RegisterLegacyAminoCodec(_ *codec.LegacyAmino) {
 	// testv1alpha1.RegisterLegacyAminoCodec(cdc)
 }
 
@@ -44,7 +44,7 @@ func (AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) 
 }
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the module.
-func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
+func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *gwruntime.ServeMux) {
 	if err := testv1alpha1.RegisterQueryHandlerClient(context.Background(), mux, testv1alpha1.NewQueryClient(clientCtx)); err != nil {
 		panic(err)
 	}
@@ -64,7 +64,7 @@ type AppModule struct {
 }
 
 // NewAppModule creates a new AppModule object.
-func NewAppModule(cdc codec.Codec, keeper keeper.Keeper) AppModule {
+func NewAppModule(keeper keeper.Keeper) AppModule {
 	return AppModule{
 		keeper: keeper,
 	}
@@ -131,7 +131,7 @@ func ProvideModule(in TestInputs) TestOutputs {
 		panic(err)
 	}
 
-	m := NewAppModule(in.Cdc, *k)
+	m := NewAppModule(*k)
 
 	return TestOutputs{Keeper: *k, Module: m}
 }

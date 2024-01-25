@@ -12,11 +12,7 @@ import (
 )
 
 func (k Keeper) Create(ctx context.Context, creator sdk.AccAddress, asset string) error {
-	if err := k.PushAsset(ctx, creator, asset); err != nil {
-		return err
-	}
-
-	return nil
+	return k.PushAsset(ctx, creator, asset)
 }
 
 func (k Keeper) Send(ctx context.Context, sender, recipient sdk.AccAddress, asset string) error {
@@ -24,11 +20,7 @@ func (k Keeper) Send(ctx context.Context, sender, recipient sdk.AccAddress, asse
 		return err
 	}
 
-	if err := k.PushAsset(ctx, recipient, asset); err != nil {
-		return err
-	}
-
-	return nil
+	return k.PushAsset(ctx, recipient, asset)
 }
 
 func (k Keeper) PushAsset(ctx context.Context, address sdk.AccAddress, asset string) error {
@@ -41,11 +33,7 @@ func (k Keeper) PushAsset(ctx context.Context, address sdk.AccAddress, asset str
 		return errorsmod.Wrap(testv1alpha1.ErrAssetAlreadyExists.Wrap(asset), addrStr)
 	}
 
-	if err := k.setAsset(ctx, address, asset); err != nil {
-		return err
-	}
-
-	return nil
+	return k.setAsset(ctx, address, asset)
 }
 
 func (k Keeper) PopAsset(ctx context.Context, address sdk.AccAddress, asset string) error {
@@ -53,11 +41,7 @@ func (k Keeper) PopAsset(ctx context.Context, address sdk.AccAddress, asset stri
 		return err
 	}
 
-	if err := k.removeAsset(ctx, address, asset); err != nil {
-		return err
-	}
-
-	return nil
+	return k.removeAsset(ctx, address, asset)
 }
 
 func (k Keeper) HasAsset(ctx context.Context, address sdk.AccAddress, asset string) error {
