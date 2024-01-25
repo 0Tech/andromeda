@@ -11,7 +11,7 @@ import (
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 )
 
-func (k Keeper) Exec(ctx context.Context, id uint64, executor, agent sdk.AccAddress, actions []*codectypes.Any) error {
+func (k Keeper) Exec(ctx context.Context, id uint64, _, agent sdk.AccAddress, actions []*codectypes.Any) error {
 	_, proposal, err := k.GetProposal(ctx, id)
 	if err != nil {
 		return err

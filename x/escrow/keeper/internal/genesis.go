@@ -199,13 +199,9 @@ func (k Keeper) InitGenesis(ctx context.Context, gs *escrowv1alpha1.GenesisState
 }
 
 func (k Keeper) initGenesisParams(ctx context.Context, params *escrowv1alpha1.GenesisState_Params) error {
-	if err := k.setParams(ctx, &escrowv1alpha1.Params{
+	return k.setParams(ctx, &escrowv1alpha1.Params{
 		MaxMetadataLength: params.MaxMetadataLength,
-	}); err != nil {
-		return err
-	}
-
-	return nil
+	})
 }
 
 func (k Keeper) initGenesisAgents(ctx context.Context, agents []*escrowv1alpha1.GenesisState_Agent) error {
@@ -233,11 +229,7 @@ func (k Keeper) initGenesisAgent(ctx context.Context, agent *escrowv1alpha1.Gene
 		return errorsmod.Wrap(err, "creator")
 	}
 
-	if err := k.setAgent(ctx, address, creator, &escrowv1alpha1.Agent{}); err != nil {
-		return err
-	}
-
-	return nil
+	return k.setAgent(ctx, address, creator, &escrowv1alpha1.Agent{})
 }
 
 func (k Keeper) initGenesisProposals(ctx context.Context, proposals []*escrowv1alpha1.GenesisState_Proposal) error {
@@ -265,16 +257,12 @@ func (k Keeper) initGenesisProposal(ctx context.Context, proposal *escrowv1alpha
 		return errorsmod.Wrap(err, "agent")
 	}
 
-	if err := k.setProposal(ctx, proposal.Id, proposer, &escrowv1alpha1.Proposal{
+	return k.setProposal(ctx, proposal.Id, proposer, &escrowv1alpha1.Proposal{
 		Agent:       agent,
 		PreActions:  proposal.PreActions,
 		PostActions: proposal.PostActions,
 		Metadata:    proposal.Metadata,
-	}); err != nil {
-		return err
-	}
-
-	return nil
+	})
 }
 
 func (k Keeper) ExportGenesis(ctx context.Context) (*escrowv1alpha1.GenesisState, error) {
