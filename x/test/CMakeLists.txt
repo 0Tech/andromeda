@@ -11,13 +11,13 @@ add_dependencies(tidy
   tidy_x-test
 )
 
-add_custom_target(lint_x-test
+add_custom_target(lint_fix_x-test
   COMMAND golangci-lint run --fix
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   VERBATIM
 )
-add_dependencies(lint
-  lint_x-test
+add_dependencies(lint_fix
+  lint_fix_x-test
 )
 
 add_custom_target(build_x-test
@@ -29,9 +29,18 @@ add_dependencies(build
   build_x-test
 )
 
+add_custom_target(lint_x-test
+  COMMAND golangci-lint run
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  VERBATIM
+)
+add_dependencies(lint
+  lint_x-test
+)
+
 add_test(
   NAME x-test
-  COMMAND go test ./...
+  COMMAND go test -coverprofile ${CMAKE_CURRENT_BINARY_DIR}/cover.out ./...
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 

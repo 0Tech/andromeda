@@ -11,13 +11,13 @@ add_dependencies(tidy
   tidy_app
 )
 
-add_custom_target(lint_app
+add_custom_target(lint_fix_app
   COMMAND golangci-lint run --fix
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   VERBATIM
 )
-add_dependencies(lint
-  lint_app
+add_dependencies(lint_fix
+  lint_fix_app
 )
 
 add_custom_target(build_app
@@ -27,6 +27,15 @@ add_custom_target(build_app
 )
 add_dependencies(build
   build_app
+)
+
+add_custom_target(lint_app
+  COMMAND golangci-lint run
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  VERBATIM
+)
+add_dependencies(lint
+  lint_app
 )
 
 add_test(

@@ -10,8 +10,9 @@ enable_testing()
 
 # go
 add_custom_target(tidy)
-add_custom_target(lint)
+add_custom_target(lint_fix)
 add_custom_target(build ALL)
+add_custom_target(lint)
 
 # buf
 add_custom_target(buf_build)

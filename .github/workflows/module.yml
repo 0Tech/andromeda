@@ -1,0 +1,79 @@
+name: Check Module
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+    secrets:
+      sonar-token:
+        required: true
+env:
+  id: x-${{ inputs.name }}
+  path: x/${{ inputs.name }}
+  go-version: '1.21'
+  go-lint-version: '1.54'
+  buf-version: '1.29.0'
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
+      with:
+        go-version: ${{ env.go-version }}
+    - name: Install linter
+      run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v${{ env.go-lint-version }}
+    - name: Configure
+      run: cmake -S . -B build
+    - name: Lint
+      run: cmake --build build --target lint_${{ env.id }}
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
+      with:
+        go-version: ${{ env.go-version }}
+    - name: Configure
+      run: cmake -S . -B build
+    - name: Build
+      run: cmake --build build --target build_${{ env.id }}
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    - uses: actions/setup-go@v5
+      with:
+        go-version: ${{ env.go-version }}
+    - name: Configure
+      run: cmake -S . -B build
+    - name: Test
+      run: |
+        VERBOSE=1 ctest --test-dir build --output-on-failure --stop-on-failure -R ${{ env.id }}
+        mv build/${{ env.path }}/cover.out ${{ env.path }}/
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.sonar-token }}
+      with:
+        projectBaseDir: ${{ env.path }}/
+  buf-lint:
+    name: buf lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: bufbuild/buf-setup-action@v1
+      with:
+        version: ${{ env.buf-version }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Configure
+      run: cmake -S . -B build
+    - name: Lint
+      run: cmake --build build --target buf_lint_${{ env.id }}
