@@ -7,20 +7,13 @@ import (
 
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 
-	"cosmossdk.io/core/appmodule"
-	"cosmossdk.io/core/store"
-	"cosmossdk.io/depinject"
-
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
-	modulev1alpha1 "github.com/0tech/andromeda/x/escrow/api/andromeda/escrow/module/v1alpha1"
 	"github.com/0tech/andromeda/x/escrow/keeper"
 )
 
@@ -58,8 +51,6 @@ func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *g
 // ----------------------------------------------------------------------------
 // AppModule
 // ----------------------------------------------------------------------------
-
-var _ module.AppModule = (*AppModule)(nil)
 
 // AppModule implements an application module for the module.
 type AppModule struct {
@@ -148,62 +139,3 @@ func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.Raw
 var _ module.HasConsensusVersion = (*AppModule)(nil)
 
 func (AppModule) ConsensusVersion() uint64 { return 1 }
-
-// ____________________________________________________________________________
-
-var _ appmodule.AppModule = (*AppModule)(nil)
-
-func (AppModule) IsOnePerModuleType() {}
-func (AppModule) IsAppModule()        {}
-
-// ----------------------------------------------------------------------------
-// App Wiring Setup
-// ----------------------------------------------------------------------------
-
-func init() {
-	appmodule.Register(&modulev1alpha1.Module{},
-		appmodule.Provide(ProvideModule),
-	)
-}
-
-type EscrowInputs struct {
-	depinject.In
-
-	StoreService store.KVStoreService
-	Cdc          codec.Codec
-	Config       *modulev1alpha1.Module
-
-	Router     keeper.MessageRouter
-	AuthKeeper keeper.AuthKeeper
-}
-
-type EscrowOutputs struct {
-	depinject.Out
-
-	Keeper keeper.Keeper
-	Module appmodule.AppModule
-}
-
-func ProvideModule(in EscrowInputs) EscrowOutputs {
-	addressCodec := in.Cdc.InterfaceRegistry().SigningContext().AddressCodec()
-
-	// default to governance authority if not provided
-	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
-	if in.Config.Authority != "" {
-		bz, err := addressCodec.StringToBytes(in.Config.Authority)
-		if err != nil {
-			authority = authtypes.NewModuleAddress(in.Config.Authority)
-		} else {
-			authority = bz
-		}
-	}
-
-	k, err := keeper.NewKeeper(in.Cdc, in.StoreService, authority, in.Router, in.AuthKeeper)
-	if err != nil {
-		panic(err)
-	}
-
-	m := NewAppModule(*k)
-
-	return EscrowOutputs{Keeper: *k, Module: m}
-}
