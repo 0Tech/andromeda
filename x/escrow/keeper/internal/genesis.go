@@ -163,6 +163,10 @@ func (k Keeper) validateGenesisProposal(proposal *escrowv1alpha1.GenesisState_Pr
 		return escrowv1alpha1.ErrUnimplemented.Wrap("nil post_actions")
 	}
 
+	if proposal.Metadata == "" {
+		return escrowv1alpha1.ErrUnimplemented.Wrap("nil metadata")
+	}
+
 	if _, err := k.addressStringToBytes(proposal.Proposer); err != nil {
 		return errorsmod.Wrap(err, "proposer")
 	}

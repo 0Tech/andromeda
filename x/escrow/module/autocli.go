@@ -214,12 +214,10 @@ Note:
 							Usage: "the address of the agent in charge",
 						},
 						"pre_actions": {
-							Usage:        "the messages which will be executed on the submission",
-							DefaultValue: "{}",
+							Usage: "the messages which will be executed on the submission",
 						},
 						"post_actions": {
-							Usage:        "the messages which will be executed after the actions included in Msg/Exec",
-							DefaultValue: "{}",
+							Usage: "the messages which will be executed after the actions included in Msg/Exec",
 						},
 						"metadata": {
 							Usage: "any arbitrary metadata attached to the proposal",
@@ -288,8 +286,7 @@ Note:
 							Usage: "the address of the agent in charge",
 						},
 						"actions": {
-							Usage:        "the messages which will be executed on the execution",
-							DefaultValue: "{}",
+							Usage: "the messages which will be executed on the execution",
 						},
 					},
 					Example: `$ and tx escrow exec --proposal 2 --from cosmos1eee... --agent cosmos1... \

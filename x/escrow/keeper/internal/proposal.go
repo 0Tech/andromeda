@@ -174,6 +174,7 @@ func (k Keeper) iterateProposals(ctx context.Context, fn func(id uint64, propose
 		proposer := key.K1()
 		id := key.K2()
 		proposal := value
+		k.fixActions(&proposal)
 
 		if err := fn(id, proposer, proposal); err != nil {
 			return err
