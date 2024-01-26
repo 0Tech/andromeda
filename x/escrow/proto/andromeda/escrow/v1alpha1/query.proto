@@ -15,7 +15,7 @@ service Query {
 
   // Agent queries an agent.
   rpc Agent(QueryAgentRequest) returns (QueryAgentResponse) {
-    option (google.api.http).get = "/andromeda/escrow/v1alpha1/agents/{address}";
+    option (google.api.http).get = "/andromeda/escrow/v1alpha1/agents/{agent}";
   }
 
   // Agents queries all the agents.
@@ -25,7 +25,7 @@ service Query {
 
   // Proposal queries a proposal.
   rpc Proposal(QueryProposalRequest) returns (QueryProposalResponse) {
-    option (google.api.http).get = "/andromeda/escrow/v1alpha1/proposals/{id}";
+    option (google.api.http).get = "/andromeda/escrow/v1alpha1/proposals/{proposal}";
   }
 
   // Proposals queries all the proposals.
@@ -46,7 +46,7 @@ message QueryParamsResponse {
 // QueryAgentRequest is the request type for the Query/Agent RPC method.
 message QueryAgentRequest {
   // the address of an agent
-  string address = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string agent = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }
 
 // QueryAgentResponse is the response type for the Query/Agent RPC method.
@@ -91,7 +91,7 @@ message QueryAgentsResponse {
 // QueryProposalRequest is the request type for the Query/Proposal RPC method.
 message QueryProposalRequest {
   // the identifier of a proposal
-  uint64 id = 1;
+  uint64 proposal = 1;
 }
 
 // QueryProposalResponse is the response type for the Query/Proposal RPC method.

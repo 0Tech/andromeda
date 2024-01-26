@@ -135,7 +135,7 @@ func (s msgServer) SubmitProposal(ctx context.Context, req *escrowv1alpha1.MsgSu
 	}
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&escrowv1alpha1.EventSubmitProposal{
-		Id:          id,
+		Proposal:    id,
 		Proposer:    req.Proposer,
 		Agent:       req.Agent,
 		PreActions:  req.PreActions,
@@ -145,12 +145,12 @@ func (s msgServer) SubmitProposal(ctx context.Context, req *escrowv1alpha1.MsgSu
 		return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
-	return &escrowv1alpha1.MsgSubmitProposalResponse{Id: id}, nil
+	return &escrowv1alpha1.MsgSubmitProposalResponse{Proposal: id}, nil
 }
 
 func (s msgServer) Exec(ctx context.Context, req *escrowv1alpha1.MsgExec) (*escrowv1alpha1.MsgExecResponse, error) {
 	if req.Proposal == 0 {
-		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil id")
+		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil proposal")
 	}
 
 	if req.Executor == "" {

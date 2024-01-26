@@ -34,34 +34,34 @@ func (s *KeeperTestSuite) TestQueryAgent() {
 		s.Require().NotNil(res)
 
 		s.Require().NotNil(res.Agent)
-		s.Require().Equal(subject.Address, res.Agent.Address)
+		s.Require().Equal(subject.Agent, res.Agent.Address)
 		s.Require().NotNil(res.Agent.Creator)
 
 		return nil
 	}
 	cases := []map[string]testutil.Case[escrowv1alpha1.QueryAgentRequest]{
 		{
-			"nil address": {
+			"nil agent": {
 				Error: func() error {
 					return escrowv1alpha1.ErrUnimplemented
 				},
 			},
-			"valid address": {
+			"valid agent": {
 				Malleate: func(subject *escrowv1alpha1.QueryAgentRequest) {
-					subject.Address = s.addressBytesToString(s.agentIdle)
+					subject.Agent = s.addressBytesToString(s.agentIdle)
 				},
 			},
-			"invalid address": {
+			"invalid agent": {
 				Malleate: func(subject *escrowv1alpha1.QueryAgentRequest) {
-					subject.Address = notInBech32
+					subject.Agent = notInBech32
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrInvalidAddress
 				},
 			},
-			"address not found": {
+			"agent not found": {
 				Malleate: func(subject *escrowv1alpha1.QueryAgentRequest) {
-					subject.Address = s.addressBytesToString(createRandomAccounts(1)[0])
+					subject.Agent = s.addressBytesToString(createRandomAccounts(1)[0])
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrAgentNotFound
@@ -109,7 +109,7 @@ func (s *KeeperTestSuite) TestQueryProposal() {
 		s.Require().NotNil(res)
 
 		s.Require().NotNil(res.Proposal)
-		s.Require().Equal(subject.Id, res.Proposal.Id)
+		s.Require().Equal(subject.Proposal, res.Proposal.Id)
 		s.Require().NotNil(res.Proposal.Proposer)
 		s.Require().NotNil(res.Proposal.Agent)
 		s.Require().NotNil(res.Proposal.PreActions)
@@ -119,19 +119,19 @@ func (s *KeeperTestSuite) TestQueryProposal() {
 	}
 	cases := []map[string]testutil.Case[escrowv1alpha1.QueryProposalRequest]{
 		{
-			"nil id": {
+			"nil proposal": {
 				Error: func() error {
 					return escrowv1alpha1.ErrUnimplemented
 				},
 			},
-			"valid id": {
+			"valid proposal": {
 				Malleate: func(subject *escrowv1alpha1.QueryProposalRequest) {
-					subject.Id = s.proposalLast
+					subject.Proposal = s.proposalLast
 				},
 			},
-			"id not found": {
+			"proposal not found": {
 				Malleate: func(subject *escrowv1alpha1.QueryProposalRequest) {
-					subject.Id = s.proposalLast + 1
+					subject.Proposal = s.proposalLast + 1
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrProposalNotFound

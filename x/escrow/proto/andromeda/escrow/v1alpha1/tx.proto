@@ -77,7 +77,7 @@ message MsgSubmitProposal {
 // MsgSubmitProposalResponse is the Msg/SubmitProposal response type.
 message MsgSubmitProposalResponse {
   // the identifier of the submitted proposal
-  uint64 id = 1;
+  uint64 proposal = 1;
 }
 
 // MsgExec is the Msg/Exec request type.

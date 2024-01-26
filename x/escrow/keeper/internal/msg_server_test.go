@@ -130,7 +130,7 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 		s.Require().NotEmpty(events)
 
 		eventExpected, err := sdk.TypedEventToEvent(&escrowv1alpha1.EventSubmitProposal{
-			Id:          s.proposalLast + 1,
+			Proposal:    s.proposalLast + 1,
 			Proposer:    subject.Proposer,
 			Agent:       subject.Agent,
 			PreActions:  subject.PreActions,

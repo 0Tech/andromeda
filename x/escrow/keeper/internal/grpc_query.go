@@ -49,16 +49,16 @@ func (s queryServer) Agent(ctx context.Context, req *escrowv1alpha1.QueryAgentRe
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	if req.Address == "" {
-		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil address")
+	if req.Agent == "" {
+		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil agent")
 	}
 
-	address, err := s.keeper.addressStringToBytes(req.Address)
+	agent, err := s.keeper.addressStringToBytes(req.Agent)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "address")
+		return nil, errorsmod.Wrap(err, "agent")
 	}
 
-	creator, _, err := s.keeper.GetAgent(ctx, address)
+	creator, _, err := s.keeper.GetAgent(ctx, agent)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (s queryServer) Agent(ctx context.Context, req *escrowv1alpha1.QueryAgentRe
 
 	return &escrowv1alpha1.QueryAgentResponse{
 		Agent: &escrowv1alpha1.QueryAgentResponse_Agent{
-			Address: req.Address,
+			Address: req.Agent,
 			Creator: creatorStr,
 		},
 	}, nil
@@ -115,11 +115,11 @@ func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProp
 		return nil, status.Errorf(codes.InvalidArgument, "empty request")
 	}
 
-	if req.Id == 0 {
-		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil id")
+	if req.Proposal == 0 {
+		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil proposal")
 	}
 
-	proposer, proposal, err := s.keeper.GetProposal(ctx, req.Id)
+	proposer, proposal, err := s.keeper.GetProposal(ctx, req.Proposal)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +136,7 @@ func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProp
 
 	return &escrowv1alpha1.QueryProposalResponse{
 		Proposal: &escrowv1alpha1.QueryProposalResponse_Proposal{
-			Id:          req.Id,
+			Id:          req.Proposal,
 			Proposer:    proposerStr,
 			Agent:       agentStr,
 			PreActions:  proposal.PreActions,
