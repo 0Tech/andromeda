@@ -154,19 +154,19 @@ func (k Keeper) fixActions(proposal *escrowv1alpha1.Proposal) {
 }
 
 func (k Keeper) iterateProposals(ctx context.Context, fn func(id uint64, proposer sdk.AccAddress, proposal escrowv1alpha1.Proposal) error) error {
-	iter, err := k.proposals.Indexes.id.Iterate(ctx, nil)
+	iter, err := k.proposals.Iterate(ctx, nil)
 	if err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 	defer iter.Close()
 
 	for ; iter.Valid(); iter.Next() {
-		key, err := iter.PrimaryKey()
+		key, err := iter.Key()
 		if err != nil {
 			return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
-		value, err := k.proposals.Get(ctx, key)
+		value, err := iter.Value()
 		if err != nil {
 			return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}

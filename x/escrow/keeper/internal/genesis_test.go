@@ -50,7 +50,7 @@ func TestValidateGenesisAgents(t *testing.T) {
 		return addressStr
 	}
 
-	addresses := simtestutil.CreateIncrementalAccounts(4)
+	addresses := simtestutil.CreateIncrementalAccounts(2)
 	creatorStr := addressBytesToString(createRandomAccounts(1)[0])
 
 	tester := func(subject []*escrowv1alpha1.GenesisState_Agent) error {
@@ -67,9 +67,8 @@ func TestValidateGenesisAgents(t *testing.T) {
 			},
 		},
 	}
-	for i := 0; i < len(addresses)/2; i++ {
-		addressStr := addressBytesToString(addresses[i*2+1])
-		descendingAddressStr := addressBytesToString(addresses[i*2])
+	for _, address := range addresses {
+		addressStr := addressBytesToString(address)
 
 		added := false
 		cases = append(cases, []map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Agent]{
@@ -206,52 +205,6 @@ func TestValidateGenesisAgents(t *testing.T) {
 				},
 			},
 		}...)
-
-		addedDescending := false
-		cases = append(cases, []map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Agent]{
-			{
-				"[no descending agent": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Agent) {
-						addedDescending = false
-					},
-				},
-				"[descending agent": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Agent) {
-						if !added {
-							return
-						}
-						addedDescending = true
-						*subject = append(*subject, &escrowv1alpha1.GenesisState_Agent{})
-					},
-					Error: func() error {
-						if addedDescending {
-							return sdkerrors.ErrInvalidRequest
-						}
-						return nil
-					},
-				},
-			},
-			{
-				"valid address": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Agent) {
-						if !addedDescending {
-							return
-						}
-						(*subject)[len(*subject)-1].Address = descendingAddressStr
-					},
-				},
-			},
-			{
-				"valid creator]": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Agent) {
-						if !addedDescending {
-							return
-						}
-						(*subject)[len(*subject)-1].Creator = creatorStr
-					},
-				},
-			},
-		}...)
 	}
 
 	testutil.DoTest(t, tester, cases)
@@ -266,7 +219,7 @@ func TestValidateGenesisProposals(t *testing.T) {
 		return addressStr
 	}
 
-	ids := make([]uint64, 4)
+	ids := make([]uint64, 2)
 	for i := range ids {
 		ids[i] = uint64(i) + 1
 	}
@@ -293,9 +246,8 @@ func TestValidateGenesisProposals(t *testing.T) {
 			},
 		},
 	}
-	for i := 0; i < len(ids)/2; i++ {
-		id := ids[i*2+1]
-		descendingID := ids[i*2]
+	for _, id := range ids {
+		id := id
 
 		added := false
 		cases = append(cases, []map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Proposal]{
@@ -537,92 +489,6 @@ func TestValidateGenesisProposals(t *testing.T) {
 				"valid metadata]": {
 					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
 						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject)-1].Metadata = randomString(int(k.DefaultGenesis().Params.MaxMetadataLength) - 1)
-					},
-				},
-			},
-		}...)
-
-		addedDescending := false
-		cases = append(cases, []map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Proposal]{
-			{
-				"[no descending proposal": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						addedDescending = false
-					},
-				},
-				"[descending proposal": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !added {
-							return
-						}
-						addedDescending = true
-						*subject = append(*subject, &escrowv1alpha1.GenesisState_Proposal{})
-					},
-					Error: func() error {
-						if addedDescending {
-							return sdkerrors.ErrInvalidRequest
-						}
-						return nil
-					},
-				},
-			},
-			{
-				"valid id": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDescending {
-							return
-						}
-						(*subject)[len(*subject)-1].Id = descendingID
-					},
-				},
-			},
-			{
-				"valid proposer": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDescending {
-							return
-						}
-						(*subject)[len(*subject)-1].Proposer = proposerStr
-					},
-				},
-			},
-			{
-				"valid agent": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDescending {
-							return
-						}
-						(*subject)[len(*subject)-1].Agent = agentStr
-					},
-				},
-			},
-			{
-				"valid pre_actions": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDescending {
-							return
-						}
-						(*subject)[len(*subject)-1].PreActions = []*codectypes.Any{}
-					},
-				},
-			},
-			{
-				"valid post_actions": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDescending {
-							return
-						}
-						(*subject)[len(*subject)-1].PostActions = []*codectypes.Any{}
-					},
-				},
-			},
-			{
-				"valid metadata]": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDescending {
 							return
 						}
 						(*subject)[len(*subject)-1].Metadata = randomString(int(k.DefaultGenesis().Params.MaxMetadataLength) - 1)

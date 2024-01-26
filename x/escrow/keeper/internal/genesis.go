@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"bytes"
 	"context"
 
 	errorsmod "cosmossdk.io/errors"
@@ -73,7 +72,7 @@ func (k Keeper) validateGenesisParams(params *escrowv1alpha1.GenesisState_Params
 }
 
 func (k Keeper) validateGenesisAgents(agents []*escrowv1alpha1.GenesisState_Agent) error {
-	seenAddress := sdk.AccAddress{}
+	seen := map[string]bool{}
 	for i, agent := range agents {
 		addIndex := func(err error) error {
 			return errorsmod.Wrapf(err, "index %d", i)
@@ -83,43 +82,41 @@ func (k Keeper) validateGenesisAgents(agents []*escrowv1alpha1.GenesisState_Agen
 			return addIndex(escrowv1alpha1.ErrUnimplemented.Wrap("nil agent"))
 		}
 
-		address, err := k.validateGenesisAgent(agent)
-		if err != nil {
+		if err := k.validateGenesisAgent(agent); err != nil {
 			return addIndex(err)
 		}
 
-		if !(bytes.Compare(address, seenAddress) > 0) {
-			return addIndex(sdkerrors.ErrInvalidRequest.Wrap("unsorted agent"))
+		if seen[agent.Address] {
+			return addIndex(sdkerrors.ErrInvalidRequest.Wrap("duplicate agent"))
 		}
-		seenAddress = address
+		seen[agent.Address] = true
 	}
 
 	return nil
 }
 
-func (k Keeper) validateGenesisAgent(agent *escrowv1alpha1.GenesisState_Agent) (sdk.AccAddress, error) {
+func (k Keeper) validateGenesisAgent(agent *escrowv1alpha1.GenesisState_Agent) error {
 	if agent.Address == "" {
-		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil address")
+		return escrowv1alpha1.ErrUnimplemented.Wrap("nil address")
 	}
 
 	if agent.Creator == "" {
-		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil creator")
+		return escrowv1alpha1.ErrUnimplemented.Wrap("nil creator")
 	}
 
-	address, err := k.addressStringToBytes(agent.Address)
-	if err != nil {
-		return nil, errorsmod.Wrap(err, "address")
+	if _, err := k.addressStringToBytes(agent.Address); err != nil {
+		return errorsmod.Wrap(err, "address")
 	}
 
 	if _, err := k.addressStringToBytes(agent.Creator); err != nil {
-		return nil, errorsmod.Wrap(err, "creator")
+		return errorsmod.Wrap(err, "creator")
 	}
 
-	return address, nil
+	return nil
 }
 
 func (k Keeper) validateGenesisProposals(proposals []*escrowv1alpha1.GenesisState_Proposal) error {
-	seenID := uint64(0)
+	seen := map[uint64]bool{}
 	for i, proposal := range proposals {
 		addIndex := func(err error) error {
 			return errorsmod.Wrapf(err, "index %d", i)
@@ -133,10 +130,10 @@ func (k Keeper) validateGenesisProposals(proposals []*escrowv1alpha1.GenesisStat
 			return addIndex(err)
 		}
 
-		if !(proposal.Id > seenID) {
-			return addIndex(sdkerrors.ErrInvalidRequest.Wrap("unsorted proposal"))
+		if seen[proposal.Id] {
+			return addIndex(sdkerrors.ErrInvalidRequest.Wrap("duplicate proposal"))
 		}
-		seenID = proposal.Id
+		seen[proposal.Id] = true
 	}
 
 	return nil

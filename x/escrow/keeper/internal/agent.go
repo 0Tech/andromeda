@@ -126,19 +126,19 @@ func (k Keeper) removeAgent(ctx context.Context, address sdk.AccAddress) error {
 }
 
 func (k Keeper) iterateAgents(ctx context.Context, fn func(address, creator sdk.AccAddress, agent escrowv1alpha1.Agent) error) error {
-	iter, err := k.agents.Indexes.address.Iterate(ctx, nil)
+	iter, err := k.agents.Iterate(ctx, nil)
 	if err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 	defer iter.Close()
 
 	for ; iter.Valid(); iter.Next() {
-		key, err := iter.PrimaryKey()
+		key, err := iter.Key()
 		if err != nil {
 			return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
-		value, err := k.agents.Get(ctx, key)
+		value, err := iter.Value()
 		if err != nil {
 			return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
