@@ -30,6 +30,7 @@ func (AppModuleBasic) Name() string {
 }
 
 func (AppModuleBasic) RegisterLegacyAminoCodec(_ *codec.LegacyAmino) {
+	// Amino deprecated.
 }
 
 func (AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {

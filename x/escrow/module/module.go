@@ -34,7 +34,7 @@ func (AppModuleBasic) Name() string {
 }
 
 func (AppModuleBasic) RegisterLegacyAminoCodec(_ *codec.LegacyAmino) {
-	// escrowv1alpha1.RegisterLegacyAminoCodec(cdc)
+	// Amino deprecated.
 }
 
 func (AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {
@@ -90,7 +90,7 @@ func (am AppModule) ValidateGenesis(cdc codec.JSONCodec, _ client.TxEncodingConf
 var _ module.HasInvariants = (*AppModule)(nil)
 
 func (am AppModule) RegisterInvariants(_ sdk.InvariantRegistry) {
-	// TODO(@0Tech): add invariants
+	// No invariants.
 }
 
 // ____________________________________________________________________________

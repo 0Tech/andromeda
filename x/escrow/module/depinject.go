@@ -15,8 +15,13 @@ import (
 
 var _ appmodule.AppModule = (*AppModule)(nil)
 
-func (AppModule) IsOnePerModuleType() {}
-func (AppModule) IsAppModule()        {}
+func (AppModule) IsOnePerModuleType() {
+	// IsOnePerModuleType is a marker function just indicates that this is a one-per-module type.
+}
+
+func (AppModule) IsAppModule() {
+	// IsAppModule is a dummy method to tag a struct as implementing an AppModule.
+}
 
 func init() {
 	appmodule.Register(&modulev1alpha1.Module{},
