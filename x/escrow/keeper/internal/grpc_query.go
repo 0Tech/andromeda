@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"cosmossdk.io/collections"
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
@@ -54,7 +54,7 @@ func (s queryServer) Agent(ctx context.Context, req *escrowv1alpha1.QueryAgentRe
 
 	agent, err := s.keeper.addressStringToBytes(req.Agent)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "agent")
+		return nil, errors.Wrap(err, "agent")
 	}
 
 	creator, _, err := s.keeper.GetAgent(ctx, agent)
@@ -64,7 +64,7 @@ func (s queryServer) Agent(ctx context.Context, req *escrowv1alpha1.QueryAgentRe
 
 	creatorStr, err := s.keeper.addressBytesToString(creator)
 	if err != nil {
-		return nil, errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
+		return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
 	}
 
 	return &escrowv1alpha1.QueryAgentResponse{
@@ -86,12 +86,12 @@ func (s queryServer) Agents(ctx context.Context, req *escrowv1alpha1.QueryAgents
 
 		addressStr, err := s.keeper.addressBytesToString(address)
 		if err != nil {
-			return nil, errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "address")
+			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "address")
 		}
 
 		creatorStr, err := s.keeper.addressBytesToString(creator)
 		if err != nil {
-			return nil, errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
+			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
 		}
 
 		return &escrowv1alpha1.QueryAgentsResponse_Agent{
@@ -125,12 +125,12 @@ func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProp
 
 	proposerStr, err := s.keeper.addressBytesToString(proposer)
 	if err != nil {
-		return nil, errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
+		return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 	}
 
 	agentStr, err := s.keeper.addressBytesToString(proposal.Agent)
 	if err != nil {
-		return nil, errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
+		return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
 	}
 
 	return &escrowv1alpha1.QueryProposalResponse{
@@ -157,12 +157,12 @@ func (s queryServer) Proposals(ctx context.Context, req *escrowv1alpha1.QueryPro
 
 		proposerStr, err := s.keeper.addressBytesToString(proposer)
 		if err != nil {
-			return nil, errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
+			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 		}
 
 		agentStr, err := s.keeper.addressBytesToString(value.Agent)
 		if err != nil {
-			return nil, errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
+			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
 		}
 
 		s.keeper.fixActions(&proposal)

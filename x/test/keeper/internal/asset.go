@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"cosmossdk.io/collections"
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -25,8 +25,8 @@ func (k Keeper) Send(ctx context.Context, sender, recipient sdk.AccAddress, asse
 
 func (k Keeper) PushAsset(ctx context.Context, address sdk.AccAddress, asset string) error {
 	err := k.HasAsset(ctx, address, asset)
-	if !errorsmod.IsOf(err, testv1alpha1.ErrAssetNotFound) {
-		if errorsmod.IsOf(err, testv1alpha1.ErrInvariantBroken) {
+	if !errors.IsOf(err, testv1alpha1.ErrAssetNotFound) {
+		if errors.IsOf(err, testv1alpha1.ErrInvariantBroken) {
 			return err
 		}
 
@@ -35,7 +35,7 @@ func (k Keeper) PushAsset(ctx context.Context, address sdk.AccAddress, asset str
 			return err
 		}
 
-		return errorsmod.Wrap(testv1alpha1.ErrAssetAlreadyExists.Wrap(asset), addrStr)
+		return errors.Wrap(testv1alpha1.ErrAssetAlreadyExists.Wrap(asset), addrStr)
 	}
 
 	return k.setAsset(ctx, address, asset)
@@ -61,7 +61,7 @@ func (k Keeper) HasAsset(ctx context.Context, address sdk.AccAddress, asset stri
 			return err
 		}
 
-		return errorsmod.Wrap(testv1alpha1.ErrAssetNotFound.Wrap(asset), addrStr)
+		return errors.Wrap(testv1alpha1.ErrAssetNotFound.Wrap(asset), addrStr)
 	}
 
 	return nil

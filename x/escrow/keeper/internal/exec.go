@@ -3,7 +3,7 @@ package internal
 import (
 	"context"
 
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -35,7 +35,7 @@ func (k Keeper) Exec(ctx context.Context, id uint64, _, agent sdk.AccAddress, ac
 		},
 	} {
 		if err := k.executeActions(ctx, phase.actions); err != nil {
-			return errorsmod.Wrap(err, phase.name)
+			return errors.Wrap(err, phase.name)
 		}
 	}
 

@@ -3,7 +3,7 @@ package internal
 import (
 	"context"
 
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -35,7 +35,7 @@ func (s msgServer) UpdateParams(ctx context.Context, req *escrowv1alpha1.MsgUpda
 
 	authority, err := s.keeper.addressStringToBytes(req.Authority)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "authority")
+		return nil, errors.Wrap(err, "authority")
 	}
 
 	if err := s.keeper.validateAuthority(authority); err != nil {
@@ -65,7 +65,7 @@ func (s msgServer) CreateAgent(ctx context.Context, req *escrowv1alpha1.MsgCreat
 
 	creator, err := s.keeper.addressStringToBytes(req.Creator)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "creator")
+		return nil, errors.Wrap(err, "creator")
 	}
 
 	agent, err := s.keeper.CreateAgent(ctx, creator)
@@ -75,7 +75,7 @@ func (s msgServer) CreateAgent(ctx context.Context, req *escrowv1alpha1.MsgCreat
 
 	agentStr, err := s.keeper.addressBytesToString(agent)
 	if err != nil {
-		return nil, errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
+		return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
 	}
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&escrowv1alpha1.EventCreateAgent{
@@ -111,22 +111,22 @@ func (s msgServer) SubmitProposal(ctx context.Context, req *escrowv1alpha1.MsgSu
 
 	proposer, err := s.keeper.addressStringToBytes(req.Proposer)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "proposer")
+		return nil, errors.Wrap(err, "proposer")
 	}
 
 	agent, err := s.keeper.addressStringToBytes(req.Agent)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "agent")
+		return nil, errors.Wrap(err, "agent")
 	}
 
 	signers := []sdk.AccAddress{proposer, agent}
 
 	if err := s.keeper.validateActions(req.PreActions, signers); err != nil {
-		return nil, errorsmod.Wrap(err, "pre_actions")
+		return nil, errors.Wrap(err, "pre_actions")
 	}
 
 	if err := s.keeper.validateActions(req.PostActions, signers); err != nil {
-		return nil, errorsmod.Wrap(err, "post_actions")
+		return nil, errors.Wrap(err, "post_actions")
 	}
 
 	id, err := s.keeper.SubmitProposal(ctx, proposer, agent, req.PreActions, req.PostActions, req.Metadata)
@@ -167,18 +167,18 @@ func (s msgServer) Exec(ctx context.Context, req *escrowv1alpha1.MsgExec) (*escr
 
 	executor, err := s.keeper.addressStringToBytes(req.Executor)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "executor")
+		return nil, errors.Wrap(err, "executor")
 	}
 
 	agent, err := s.keeper.addressStringToBytes(req.Agent)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "agent")
+		return nil, errors.Wrap(err, "agent")
 	}
 
 	signers := []sdk.AccAddress{executor, agent}
 
 	if err := s.keeper.validateActions(req.Actions, signers); err != nil {
-		return nil, errorsmod.Wrap(err, "actions")
+		return nil, errors.Wrap(err, "actions")
 	}
 
 	if err := s.keeper.Exec(ctx, req.Proposal, executor, agent, req.Actions); err != nil {

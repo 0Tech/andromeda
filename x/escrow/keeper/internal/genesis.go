@@ -3,7 +3,7 @@ package internal
 import (
 	"context"
 
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -48,15 +48,15 @@ func (k Keeper) ValidateGenesis(gs *escrowv1alpha1.GenesisState) error {
 	}
 
 	if err := k.validateGenesisParams(gs.Params); err != nil {
-		return errorsmod.Wrap(err, "params")
+		return errors.Wrap(err, "params")
 	}
 
 	if err := k.validateGenesisAgents(gs.Agents); err != nil {
-		return errorsmod.Wrap(err, "agents")
+		return errors.Wrap(err, "agents")
 	}
 
 	if err := k.validateGenesisProposals(gs.Proposals); err != nil {
-		return errorsmod.Wrap(err, "proposals")
+		return errors.Wrap(err, "proposals")
 	}
 
 	return nil
@@ -100,11 +100,11 @@ func (k Keeper) validateGenesisAgent(agent *escrowv1alpha1.GenesisState_Agent) e
 	}
 
 	if _, err := k.addressStringToBytes(agent.Address); err != nil {
-		return errorsmod.Wrap(err, "address")
+		return errors.Wrap(err, "address")
 	}
 
 	if _, err := k.addressStringToBytes(agent.Creator); err != nil {
-		return errorsmod.Wrap(err, "creator")
+		return errors.Wrap(err, "creator")
 	}
 
 	return nil
@@ -156,11 +156,11 @@ func (k Keeper) validateGenesisProposal(proposal *escrowv1alpha1.GenesisState_Pr
 	}
 
 	if _, err := k.addressStringToBytes(proposal.Proposer); err != nil {
-		return errorsmod.Wrap(err, "proposer")
+		return errors.Wrap(err, "proposer")
 	}
 
 	if _, err := k.addressStringToBytes(proposal.Agent); err != nil {
-		return errorsmod.Wrap(err, "agent")
+		return errors.Wrap(err, "agent")
 	}
 
 	return nil
@@ -168,23 +168,23 @@ func (k Keeper) validateGenesisProposal(proposal *escrowv1alpha1.GenesisState_Pr
 
 func (k Keeper) InitGenesis(ctx context.Context, gs *escrowv1alpha1.GenesisState) error {
 	if err := k.initGenesisParams(ctx, gs.Params); err != nil {
-		return errorsmod.Wrap(err, "params")
+		return errors.Wrap(err, "params")
 	}
 
 	if err := k.nextAgent.Set(ctx, gs.NextAgent); err != nil {
-		return errorsmod.Wrap(err, "next_agent")
+		return errors.Wrap(err, "next_agent")
 	}
 
 	if err := k.initGenesisAgents(ctx, gs.Agents); err != nil {
-		return errorsmod.Wrap(err, "agents")
+		return errors.Wrap(err, "agents")
 	}
 
 	if err := k.nextProposal.Set(ctx, gs.NextProposal); err != nil {
-		return errorsmod.Wrap(err, "next_proposal")
+		return errors.Wrap(err, "next_proposal")
 	}
 
 	if err := k.initGenesisProposals(ctx, gs.Proposals); err != nil {
-		return errorsmod.Wrap(err, "proposals")
+		return errors.Wrap(err, "proposals")
 	}
 
 	return nil
@@ -209,12 +209,12 @@ func (k Keeper) initGenesisAgents(ctx context.Context, agents []*escrowv1alpha1.
 func (k Keeper) initGenesisAgent(ctx context.Context, agent *escrowv1alpha1.GenesisState_Agent) error {
 	address, err := k.addressStringToBytes(agent.Address)
 	if err != nil {
-		return errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "address")
+		return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "address")
 	}
 
 	creator, err := k.addressStringToBytes(agent.Creator)
 	if err != nil {
-		return errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
+		return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
 	}
 
 	return k.setAgent(ctx, address, creator, &escrowv1alpha1.Agent{})
@@ -233,12 +233,12 @@ func (k Keeper) initGenesisProposals(ctx context.Context, proposals []*escrowv1a
 func (k Keeper) initGenesisProposal(ctx context.Context, proposal *escrowv1alpha1.GenesisState_Proposal) error {
 	proposer, err := k.addressStringToBytes(proposal.Proposer)
 	if err != nil {
-		return errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
+		return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 	}
 
 	agent, err := k.addressStringToBytes(proposal.Agent)
 	if err != nil {
-		return errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
+		return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
 	}
 
 	return k.setProposal(ctx, proposal.Id, proposer, &escrowv1alpha1.Proposal{
@@ -252,27 +252,27 @@ func (k Keeper) initGenesisProposal(ctx context.Context, proposal *escrowv1alpha
 func (k Keeper) ExportGenesis(ctx context.Context) (*escrowv1alpha1.GenesisState, error) {
 	params, err := k.exportGenesisParams(ctx)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "params")
+		return nil, errors.Wrap(err, "params")
 	}
 
 	nextAgent, err := k.nextAgent.Peek(ctx)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "next_agent")
+		return nil, errors.Wrap(err, "next_agent")
 	}
 
 	agents, err := k.exportGenesisAgents(ctx)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "agents")
+		return nil, errors.Wrap(err, "agents")
 	}
 
 	nextProposal, err := k.nextProposal.Peek(ctx)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "next_proposal")
+		return nil, errors.Wrap(err, "next_proposal")
 	}
 
 	proposals, err := k.exportGenesisProposals(ctx)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "proposals")
+		return nil, errors.Wrap(err, "proposals")
 	}
 
 	return &escrowv1alpha1.GenesisState{
@@ -300,12 +300,12 @@ func (k Keeper) exportGenesisAgents(ctx context.Context) ([]*escrowv1alpha1.Gene
 	if err := k.iterateAgents(ctx, func(address, creator sdk.AccAddress, agent escrowv1alpha1.Agent) error {
 		addressStr, err := k.addressBytesToString(address)
 		if err != nil {
-			return errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "address")
+			return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "address")
 		}
 
 		creatorStr, err := k.addressBytesToString(creator)
 		if err != nil {
-			return errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
+			return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
 		}
 
 		agents = append(agents, &escrowv1alpha1.GenesisState_Agent{
@@ -326,12 +326,12 @@ func (k Keeper) exportGenesisProposals(ctx context.Context) ([]*escrowv1alpha1.G
 	if err := k.iterateProposals(ctx, func(id uint64, proposer sdk.AccAddress, proposal escrowv1alpha1.Proposal) error {
 		proposerStr, err := k.addressBytesToString(proposer)
 		if err != nil {
-			return errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
+			return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 		}
 
 		agentStr, err := k.addressBytesToString(proposal.Agent)
 		if err != nil {
-			return errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
+			return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
 		}
 
 		proposals = append(proposals, &escrowv1alpha1.GenesisState_Proposal{

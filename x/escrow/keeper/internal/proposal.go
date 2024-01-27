@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"cosmossdk.io/collections"
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -45,7 +45,7 @@ func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddre
 		},
 	} {
 		if err := k.executeActions(ctx, phase.actions); err != nil {
-			return 0, errorsmod.Wrap(err, phase.name)
+			return 0, errors.Wrap(err, phase.name)
 		}
 	}
 
@@ -64,7 +64,7 @@ func (k Keeper) validateActions(actions []*codectypes.Any, signers []sdk.AccAddr
 
 	for i, action := range actions {
 		addIndex := func(err error) error {
-			return errorsmod.Wrapf(err, "index %d", i)
+			return errors.Wrapf(err, "index %d", i)
 		}
 
 		msg, err := k.anyToMsg(*action)
@@ -83,7 +83,7 @@ func (k Keeper) validateActions(actions []*codectypes.Any, signers []sdk.AccAddr
 				if err != nil {
 					return addIndex(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()))
 				}
-				return addIndex(errorsmod.Wrap(escrowv1alpha1.ErrPermissionDenied.Wrap("wrong signer"), signerStr))
+				return addIndex(errors.Wrap(escrowv1alpha1.ErrPermissionDenied.Wrap("wrong signer"), signerStr))
 			}
 		}
 	}
@@ -94,7 +94,7 @@ func (k Keeper) validateActions(actions []*codectypes.Any, signers []sdk.AccAddr
 func (k Keeper) getProposalKey(ctx context.Context, id uint64) (*collections.Pair[sdk.AccAddress, uint64], error) {
 	key, err := k.proposals.Indexes.id.MatchExact(ctx, id)
 	if err != nil {
-		if !errorsmod.IsOf(err, collections.ErrNotFound) {
+		if !errors.IsOf(err, collections.ErrNotFound) {
 			return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 

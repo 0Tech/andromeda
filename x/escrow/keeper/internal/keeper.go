@@ -5,7 +5,7 @@ import (
 
 	"cosmossdk.io/collections"
 	"cosmossdk.io/core/store"
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -110,12 +110,12 @@ func (k Keeper) validateMetadata(ctx context.Context, metadata string) error {
 	}
 
 	if length := uint64(len(metadata)); length > params.MaxMetadataLength {
-		return errorsmod.Wrapf(escrowv1alpha1.ErrLargeMetadata.Wrapf("over limit of %d", params.MaxMetadataLength), "%d", length)
+		return errors.Wrapf(escrowv1alpha1.ErrLargeMetadata.Wrapf("over limit of %d", params.MaxMetadataLength), "%d", length)
 	}
 
 	return nil
 }
 
 func indexedError(err error, index int) error {
-	return errorsmod.Wrapf(err, "index %d", index)
+	return errors.Wrapf(err, "index %d", index)
 }

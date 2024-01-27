@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"cosmossdk.io/collections"
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
@@ -43,7 +43,7 @@ func (s queryServer) Asset(ctx context.Context, req *testv1alpha1.QueryAssetRequ
 
 	account, err := s.keeper.addressStringToBytes(req.Account)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "account")
+		return nil, errors.Wrap(err, "account")
 	}
 
 	if err := s.keeper.HasAsset(ctx, account, req.Asset); err != nil {
@@ -68,7 +68,7 @@ func (s queryServer) Assets(ctx context.Context, req *testv1alpha1.QueryAssetsRe
 
 	account, err := s.keeper.addressStringToBytes(req.Account)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "account")
+		return nil, errors.Wrap(err, "account")
 	}
 
 	assets, pageRes, err := query.CollectionPaginate(ctx, s.keeper.assets, req.Pagination, func(key collections.Pair[sdk.AccAddress, string], _ testv1alpha1.Asset) (*testv1alpha1.QueryAssetsResponse_Asset, error) {

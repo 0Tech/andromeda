@@ -3,7 +3,7 @@ package internal
 import (
 	"context"
 
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -35,7 +35,7 @@ func (s msgServer) Create(ctx context.Context, req *testv1alpha1.MsgCreate) (*te
 
 	creator, err := s.keeper.addressStringToBytes(req.Creator)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "creator")
+		return nil, errors.Wrap(err, "creator")
 	}
 
 	if err := s.keeper.Create(ctx, creator, req.Asset); err != nil {
@@ -67,12 +67,12 @@ func (s msgServer) Send(ctx context.Context, req *testv1alpha1.MsgSend) (*testv1
 
 	sender, err := s.keeper.addressStringToBytes(req.Sender)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "sender")
+		return nil, errors.Wrap(err, "sender")
 	}
 
 	recipient, err := s.keeper.addressStringToBytes(req.Recipient)
 	if err != nil {
-		return nil, errorsmod.Wrap(err, "recipient")
+		return nil, errors.Wrap(err, "recipient")
 	}
 
 	if err := s.keeper.Send(ctx, sender, recipient, req.Asset); err != nil {

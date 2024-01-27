@@ -5,7 +5,7 @@ import (
 	"encoding/binary"
 
 	"cosmossdk.io/collections"
-	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -43,7 +43,7 @@ func (k Keeper) CreateAgent(ctx context.Context, creator sdk.AccAddress) (sdk.Ac
 		}
 
 		if err := bac.SetPubKey(ac); err != nil {
-			return nil, errorsmod.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "failed to set a pubkey")
+			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "failed to set a pubkey")
 		}
 
 		acc := k.authKeeper.NewAccount(ctx, bac)
@@ -60,7 +60,7 @@ func (k Keeper) CreateAgent(ctx context.Context, creator sdk.AccAddress) (sdk.Ac
 func (k Keeper) getAgentKey(ctx context.Context, address sdk.AccAddress) (*collections.Pair[sdk.AccAddress, sdk.AccAddress], error) {
 	key, err := k.agents.Indexes.address.MatchExact(ctx, address)
 	if err != nil {
-		if !errorsmod.IsOf(err, collections.ErrNotFound) {
+		if !errors.IsOf(err, collections.ErrNotFound) {
 			return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
