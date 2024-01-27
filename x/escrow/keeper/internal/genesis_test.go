@@ -9,7 +9,6 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 	"github.com/0tech/andromeda/x/escrow/testutil"
@@ -178,7 +177,7 @@ func TestValidateGenesisAgents(t *testing.T) {
 					},
 					Error: func() error {
 						if addedDuplicate {
-							return sdkerrors.ErrInvalidRequest
+							return escrowv1alpha1.ErrDuplicateEntry
 						}
 						return nil
 					},
@@ -429,7 +428,7 @@ func TestValidateGenesisProposals(t *testing.T) {
 					},
 					Error: func() error {
 						if addedDuplicate {
-							return sdkerrors.ErrInvalidRequest
+							return escrowv1alpha1.ErrDuplicateEntry
 						}
 						return nil
 					},

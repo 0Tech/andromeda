@@ -6,7 +6,6 @@ import (
 	errorsmod "cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 )
@@ -87,7 +86,7 @@ func (k Keeper) validateGenesisAgents(agents []*escrowv1alpha1.GenesisState_Agen
 		}
 
 		if seen[agent.Address] {
-			return addIndex(sdkerrors.ErrInvalidRequest.Wrap("duplicate agent"))
+			return addIndex(escrowv1alpha1.ErrDuplicateEntry)
 		}
 		seen[agent.Address] = true
 	}
@@ -131,7 +130,7 @@ func (k Keeper) validateGenesisProposals(proposals []*escrowv1alpha1.GenesisStat
 		}
 
 		if seen[proposal.Id] {
-			return addIndex(sdkerrors.ErrInvalidRequest.Wrap("duplicate proposal"))
+			return addIndex(escrowv1alpha1.ErrDuplicateEntry)
 		}
 		seen[proposal.Id] = true
 	}
