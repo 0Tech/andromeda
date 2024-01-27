@@ -24,7 +24,12 @@ func (k Keeper) Send(ctx context.Context, sender, recipient sdk.AccAddress, asse
 }
 
 func (k Keeper) PushAsset(ctx context.Context, address sdk.AccAddress, asset string) error {
-	if err := k.HasAsset(ctx, address, asset); err == nil {
+	err := k.HasAsset(ctx, address, asset)
+	if !errorsmod.IsOf(err, testv1alpha1.ErrAssetNotFound) {
+		if errorsmod.IsOf(err, testv1alpha1.ErrInvariantBroken) {
+			return err
+		}
+
 		addrStr, err := k.addressBytesToString(address)
 		if err != nil {
 			return err

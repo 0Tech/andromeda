@@ -27,6 +27,7 @@ func (k Keeper) CreateAgent(ctx context.Context, creator sdk.AccAddress) (sdk.Ac
 		if err != nil {
 			return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
+
 		address := sdk.AccAddress(ac.Address())
 		if k.authKeeper.HasAccount(ctx, address) {
 			// collision found. retry.
@@ -49,7 +50,6 @@ func (k Keeper) CreateAgent(ctx context.Context, creator sdk.AccAddress) (sdk.Ac
 		k.authKeeper.SetAccount(ctx, acc)
 
 		if err := k.setAgent(ctx, address, creator, &escrowv1alpha1.Agent{}); err != nil {
-			// TODO: invariant broken
 			return nil, err
 		}
 
@@ -112,13 +112,8 @@ func (k Keeper) setAgent(ctx context.Context, address, creator sdk.AccAddress, a
 	return nil
 }
 
-func (k Keeper) removeAgent(ctx context.Context, address sdk.AccAddress) error {
-	key, err := k.getAgentKey(ctx, address)
-	if err != nil {
-		return err
-	}
-
-	if err := k.agents.Remove(ctx, *key); err != nil {
+func (k Keeper) removeAgent(ctx context.Context, address, creator sdk.AccAddress) error {
+	if err := k.agents.Remove(ctx, collections.Join(creator, address)); err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 

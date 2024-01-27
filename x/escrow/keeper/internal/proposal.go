@@ -49,7 +49,7 @@ func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddre
 		}
 	}
 
-	if err := k.removeAgent(ctx, agent); err != nil {
+	if err := k.removeAgent(ctx, agent, proposer); err != nil {
 		return 0, err
 	}
 
@@ -130,13 +130,8 @@ func (k Keeper) setProposal(ctx context.Context, id uint64, proposer sdk.AccAddr
 	return nil
 }
 
-func (k Keeper) removeProposal(ctx context.Context, id uint64) error {
-	key, err := k.getProposalKey(ctx, id)
-	if err != nil {
-		return err
-	}
-
-	if err := k.proposals.Remove(ctx, *key); err != nil {
+func (k Keeper) removeProposal(ctx context.Context, id uint64, proposer sdk.AccAddress) error {
+	if err := k.proposals.Remove(ctx, collections.Join(proposer, id)); err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 

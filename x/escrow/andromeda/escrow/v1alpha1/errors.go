@@ -14,11 +14,13 @@ const (
 
 	errorCodeUnimplemented
 	errorCodeInvalidAddress
+	errorCodeInvalidMessage
 )
 
 var (
 	ErrUnimplemented  = errors.RegisterWithGRPCCode(errorCodespace, errorCodeUnimplemented, codes.Unimplemented, "unimplemented request")
 	ErrInvalidAddress = errors.RegisterWithGRPCCode(errorCodespace, errorCodeInvalidAddress, codes.InvalidArgument, "invalid address")
+	ErrInvalidMessage = errors.RegisterWithGRPCCode(errorCodespace, errorCodeInvalidMessage, codes.InvalidArgument, "invalid message")
 )
 
 // stateful errors

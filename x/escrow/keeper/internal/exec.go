@@ -12,7 +12,7 @@ import (
 )
 
 func (k Keeper) Exec(ctx context.Context, id uint64, _, agent sdk.AccAddress, actions []*codectypes.Any) error {
-	_, proposal, err := k.GetProposal(ctx, id)
+	proposer, proposal, err := k.GetProposal(ctx, id)
 	if err != nil {
 		return err
 	}
@@ -39,12 +39,7 @@ func (k Keeper) Exec(ctx context.Context, id uint64, _, agent sdk.AccAddress, ac
 		}
 	}
 
-	if err := k.removeProposal(ctx, id); err != nil {
-		// TODO: invariant broken error handler
-		return err
-	}
-
-	return nil
+	return k.removeProposal(ctx, id, proposer)
 }
 
 func (k Keeper) executeActions(ctx context.Context, actions []*codectypes.Any) error {
@@ -62,7 +57,7 @@ func (k Keeper) executeActions(ctx context.Context, actions []*codectypes.Any) e
 
 		handler := k.router.Handler(msg)
 		if handler == nil {
-			panic("TODO: error")
+			return addIndex(escrowv1alpha1.ErrInvalidMessage.Wrap("handler not found"))
 		}
 
 		result, err := handler(sdkCtx, msg)
@@ -79,8 +74,7 @@ func (k Keeper) executeActions(ctx context.Context, actions []*codectypes.Any) e
 func (k Keeper) anyToMsg(any codectypes.Any) (sdk.Msg, error) {
 	var msg sdk.Msg
 	if err := k.cdc.UnpackAny(&any, &msg); err != nil {
-		// TODO: define error
-		return nil, err
+		return nil, escrowv1alpha1.ErrInvalidMessage.Wrap(err.Error())
 	}
 
 	return msg, nil
