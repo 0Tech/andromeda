@@ -3,22 +3,11 @@ package internal
 import (
 	"context"
 
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 )
 
 func (k Keeper) UpdateParams(ctx context.Context, newParams *escrowv1alpha1.Params) error {
-	oldParams, err := k.GetParams(ctx)
-	if err != nil {
-		return err
-	}
-
-	if newParams.MaxMetadataLength < oldParams.MaxMetadataLength {
-		// TODO: define error
-		return sdkerrors.ErrInvalidRequest.Wrap("cannot lower max_metadata_length")
-	}
-
+	// no transition rules yet.
 	return k.setParams(ctx, newParams)
 }
 

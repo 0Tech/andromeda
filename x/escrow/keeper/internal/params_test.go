@@ -2,7 +2,6 @@ package internal_test
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 	"github.com/0tech/andromeda/x/escrow/testutil"
@@ -46,14 +45,6 @@ func (s *KeeperTestSuite) TestUpdateParams() {
 			"valid max_metadata_length": {
 				Malleate: func(subject *updateParams) {
 					subject.newParams.MaxMetadataLength = s.keeper.DefaultGenesis().Params.MaxMetadataLength
-				},
-			},
-			"max_metadata_length is lesser than the current's": {
-				Malleate: func(subject *updateParams) {
-					subject.newParams.MaxMetadataLength = s.keeper.DefaultGenesis().Params.MaxMetadataLength - 1
-				},
-				Error: func() error {
-					return sdkerrors.ErrInvalidRequest
 				},
 			},
 		},
