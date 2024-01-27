@@ -159,51 +159,27 @@ func TestValidateGenesisAgents(t *testing.T) {
 			},
 		}...)
 
-		addedDuplicate := false
-		cases = append(cases, []map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Agent]{
-			{
-				"[no duplicate agent": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Agent) {
-						addedDuplicate = false
-					},
+		// add duplicate proposal.
+		cases = append(cases, map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Agent]{
+			"no duplicate agent": {},
+			"duplicate agent": {
+				Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Agent) {
+					if !added {
+						return
+					}
+					*subject = append(*subject, &escrowv1alpha1.GenesisState_Agent{
+						Address: addressStr,
+						Creator: creatorStr,
+					})
 				},
-				"[duplicate agent": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Agent) {
-						if !added {
-							return
-						}
-						addedDuplicate = true
-						*subject = append(*subject, &escrowv1alpha1.GenesisState_Agent{})
-					},
-					Error: func() error {
-						if addedDuplicate {
-							return escrowv1alpha1.ErrDuplicateEntry
-						}
+				Error: func() error {
+					if !added {
 						return nil
-					},
+					}
+					return escrowv1alpha1.ErrDuplicateEntry
 				},
 			},
-			{
-				"valid address": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Agent) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject)-1].Address = addressStr
-					},
-				},
-			},
-			{
-				"valid creator]": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Agent) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject)-1].Creator = creatorStr
-					},
-				},
-			},
-		}...)
+		})
 	}
 
 	testutil.DoTest(t, tester, cases)
@@ -410,91 +386,31 @@ func TestValidateGenesisProposals(t *testing.T) {
 			},
 		}...)
 
-		addedDuplicate := false
-		cases = append(cases, []map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Proposal]{
-			{
-				"[no duplicate proposal": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						addedDuplicate = false
-					},
+		// add duplicate proposal.
+		cases = append(cases, map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Proposal]{
+			"no duplicate proposal": {},
+			"duplicate proposal": {
+				Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
+					if !added {
+						return
+					}
+					*subject = append(*subject, &escrowv1alpha1.GenesisState_Proposal{
+						Id:          id,
+						Proposer:    proposerStr,
+						Agent:       agentStr,
+						PreActions:  []*codectypes.Any{},
+						PostActions: []*codectypes.Any{},
+						Metadata:    randomString(int(k.DefaultGenesis().Params.MaxMetadataLength) - 1),
+					})
 				},
-				"[duplicate proposal": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !added {
-							return
-						}
-						addedDuplicate = true
-						*subject = append(*subject, &escrowv1alpha1.GenesisState_Proposal{})
-					},
-					Error: func() error {
-						if addedDuplicate {
-							return escrowv1alpha1.ErrDuplicateEntry
-						}
+				Error: func() error {
+					if !added {
 						return nil
-					},
+					}
+					return escrowv1alpha1.ErrDuplicateEntry
 				},
 			},
-			{
-				"valid id": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject)-1].Id = id
-					},
-				},
-			},
-			{
-				"valid proposer": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject)-1].Proposer = proposerStr
-					},
-				},
-			},
-			{
-				"valid agent": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject)-1].Agent = agentStr
-					},
-				},
-			},
-			{
-				"valid pre_actions": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject)-1].PreActions = []*codectypes.Any{}
-					},
-				},
-			},
-			{
-				"valid post_actions": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject)-1].PostActions = []*codectypes.Any{}
-					},
-				},
-			},
-			{
-				"valid metadata]": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !addedDuplicate {
-							return
-						}
-						(*subject)[len(*subject)-1].Metadata = randomString(int(k.DefaultGenesis().Params.MaxMetadataLength) - 1)
-					},
-				},
-			},
-		}...)
+		})
 	}
 
 	testutil.DoTest(t, tester, cases)
