@@ -3,9 +3,6 @@ package internal
 import (
 	"context"
 
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
 
@@ -29,9 +26,11 @@ func NewQueryServer(keeper Keeper) testv1alpha1.QueryServer {
 	}
 }
 
+var errNilRequest = testv1alpha1.ErrUnimplemented.Wrap("nil request")
+
 func (s queryServer) Asset(ctx context.Context, req *testv1alpha1.QueryAssetRequest) (*testv1alpha1.QueryAssetResponse, error) {
 	if req == nil {
-		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+		return nil, errNilRequest
 	}
 
 	if req.Account == "" {
@@ -60,7 +59,7 @@ func (s queryServer) Asset(ctx context.Context, req *testv1alpha1.QueryAssetRequ
 
 func (s queryServer) Assets(ctx context.Context, req *testv1alpha1.QueryAssetsRequest) (*testv1alpha1.QueryAssetsResponse, error) {
 	if req == nil {
-		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+		return nil, errNilRequest
 	}
 
 	if req.Account == "" {

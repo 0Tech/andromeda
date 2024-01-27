@@ -115,3 +115,7 @@ func (k Keeper) validateMetadata(ctx context.Context, metadata string) error {
 
 	return nil
 }
+
+func indexedError(err error, index int) error {
+	return errorsmod.Wrapf(err, "index %d", index)
+}

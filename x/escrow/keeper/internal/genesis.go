@@ -73,20 +73,16 @@ func (k Keeper) validateGenesisParams(params *escrowv1alpha1.GenesisState_Params
 func (k Keeper) validateGenesisAgents(agents []*escrowv1alpha1.GenesisState_Agent) error {
 	seen := map[string]bool{}
 	for i, agent := range agents {
-		addIndex := func(err error) error {
-			return errorsmod.Wrapf(err, "index %d", i)
-		}
-
 		if agent == nil {
-			return addIndex(escrowv1alpha1.ErrUnimplemented.Wrap("nil agent"))
+			return indexedError(escrowv1alpha1.ErrUnimplemented.Wrap("nil agent"), i)
 		}
 
 		if err := k.validateGenesisAgent(agent); err != nil {
-			return addIndex(err)
+			return indexedError(err, i)
 		}
 
 		if seen[agent.Address] {
-			return addIndex(escrowv1alpha1.ErrDuplicateEntry)
+			return indexedError(escrowv1alpha1.ErrDuplicateEntry, i)
 		}
 		seen[agent.Address] = true
 	}
@@ -117,20 +113,16 @@ func (k Keeper) validateGenesisAgent(agent *escrowv1alpha1.GenesisState_Agent) e
 func (k Keeper) validateGenesisProposals(proposals []*escrowv1alpha1.GenesisState_Proposal) error {
 	seen := map[uint64]bool{}
 	for i, proposal := range proposals {
-		addIndex := func(err error) error {
-			return errorsmod.Wrapf(err, "index %d", i)
-		}
-
 		if proposal == nil {
-			return addIndex(escrowv1alpha1.ErrUnimplemented.Wrap("nil proposal"))
+			return indexedError(escrowv1alpha1.ErrUnimplemented.Wrap("nil proposal"), i)
 		}
 
 		if err := k.validateGenesisProposal(proposal); err != nil {
-			return addIndex(err)
+			return indexedError(err, i)
 		}
 
 		if seen[proposal.Id] {
-			return addIndex(escrowv1alpha1.ErrDuplicateEntry)
+			return indexedError(escrowv1alpha1.ErrDuplicateEntry, i)
 		}
 		seen[proposal.Id] = true
 	}
@@ -206,12 +198,8 @@ func (k Keeper) initGenesisParams(ctx context.Context, params *escrowv1alpha1.Ge
 
 func (k Keeper) initGenesisAgents(ctx context.Context, agents []*escrowv1alpha1.GenesisState_Agent) error {
 	for i, agent := range agents {
-		addIndex := func(err error) error {
-			return errorsmod.Wrapf(err, "index %d", i)
-		}
-
 		if err := k.initGenesisAgent(ctx, agent); err != nil {
-			return addIndex(err)
+			return indexedError(err, i)
 		}
 	}
 
@@ -234,12 +222,8 @@ func (k Keeper) initGenesisAgent(ctx context.Context, agent *escrowv1alpha1.Gene
 
 func (k Keeper) initGenesisProposals(ctx context.Context, proposals []*escrowv1alpha1.GenesisState_Proposal) error {
 	for i, proposal := range proposals {
-		addIndex := func(err error) error {
-			return errorsmod.Wrapf(err, "index %d", i)
-		}
-
 		if err := k.initGenesisProposal(ctx, proposal); err != nil {
-			return addIndex(err)
+			return indexedError(err, i)
 		}
 	}
 

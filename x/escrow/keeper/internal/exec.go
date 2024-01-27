@@ -46,23 +46,19 @@ func (k Keeper) executeActions(ctx context.Context, actions []*codectypes.Any) e
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 
 	for i, action := range actions {
-		addIndex := func(err error) error {
-			return errorsmod.Wrapf(err, "index %d", i)
-		}
-
 		msg, err := k.anyToMsg(*action)
 		if err != nil {
-			return addIndex(err)
+			return indexedError(err, i)
 		}
 
 		handler := k.router.Handler(msg)
 		if handler == nil {
-			return addIndex(escrowv1alpha1.ErrInvalidMessage.Wrap("handler not found"))
+			return indexedError(escrowv1alpha1.ErrInvalidMessage.Wrap("handler not found"), i)
 		}
 
 		result, err := handler(sdkCtx, msg)
 		if err != nil {
-			return addIndex(err)
+			return indexedError(err, i)
 		}
 
 		sdkCtx.EventManager().EmitEvents(result.GetEvents())

@@ -3,9 +3,6 @@ package internal
 import (
 	"context"
 
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
 
@@ -29,9 +26,11 @@ func NewQueryServer(keeper Keeper) escrowv1alpha1.QueryServer {
 	}
 }
 
+var errNilRequest = escrowv1alpha1.ErrUnimplemented.Wrap("nil request")
+
 func (s queryServer) Params(ctx context.Context, req *escrowv1alpha1.QueryParamsRequest) (*escrowv1alpha1.QueryParamsResponse, error) {
 	if req == nil {
-		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+		return nil, errNilRequest
 	}
 
 	params, err := s.keeper.GetParams(ctx)
@@ -46,7 +45,7 @@ func (s queryServer) Params(ctx context.Context, req *escrowv1alpha1.QueryParams
 
 func (s queryServer) Agent(ctx context.Context, req *escrowv1alpha1.QueryAgentRequest) (*escrowv1alpha1.QueryAgentResponse, error) {
 	if req == nil {
-		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+		return nil, errNilRequest
 	}
 
 	if req.Agent == "" {
@@ -78,7 +77,7 @@ func (s queryServer) Agent(ctx context.Context, req *escrowv1alpha1.QueryAgentRe
 
 func (s queryServer) Agents(ctx context.Context, req *escrowv1alpha1.QueryAgentsRequest) (*escrowv1alpha1.QueryAgentsResponse, error) {
 	if req == nil {
-		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+		return nil, errNilRequest
 	}
 
 	agents, pageRes, err := query.CollectionPaginate(ctx, s.keeper.agents, req.Pagination, func(key collections.Pair[sdk.AccAddress, sdk.AccAddress], _ escrowv1alpha1.Agent) (*escrowv1alpha1.QueryAgentsResponse_Agent, error) {
@@ -112,7 +111,7 @@ func (s queryServer) Agents(ctx context.Context, req *escrowv1alpha1.QueryAgents
 
 func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProposalRequest) (*escrowv1alpha1.QueryProposalResponse, error) {
 	if req == nil {
-		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+		return nil, errNilRequest
 	}
 
 	if req.Proposal == 0 {
@@ -148,7 +147,7 @@ func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProp
 
 func (s queryServer) Proposals(ctx context.Context, req *escrowv1alpha1.QueryProposalsRequest) (*escrowv1alpha1.QueryProposalsResponse, error) {
 	if req == nil {
-		return nil, status.Errorf(codes.InvalidArgument, "empty request")
+		return nil, errNilRequest
 	}
 
 	proposals, pageRes, err := query.CollectionPaginate(ctx, s.keeper.proposals, req.Pagination, func(key collections.Pair[sdk.AccAddress, uint64], value escrowv1alpha1.Proposal) (*escrowv1alpha1.QueryProposalsResponse_Proposal, error) {
