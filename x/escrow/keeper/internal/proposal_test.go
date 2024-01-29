@@ -26,21 +26,19 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 		s.NotEmpty(subject.metadata)
 
 		ctx, _ := sdk.UnwrapSDKContext(s.ctx).CacheContext()
-		id, err := s.keeper.SubmitProposal(ctx, subject.proposer, subject.agent, subject.preActions, subject.postActions, subject.metadata)
+		err := s.keeper.SubmitProposal(ctx, subject.proposer, subject.agent, subject.preActions, subject.postActions, subject.metadata)
 		if err != nil {
 			return err
 		}
-		s.NotZero(id)
 
-		proposalBefore, err := s.keeper.GetProposal(s.ctx, id)
+		proposalBefore, err := s.keeper.GetProposal(s.ctx, subject.agent)
 		s.Assert().Error(err)
 		s.Assert().Nil(proposalBefore)
 
-		proposalAfter, err := s.keeper.GetProposal(ctx, id)
+		proposalAfter, err := s.keeper.GetProposal(ctx, subject.agent)
 		s.Require().NoError(err)
 		s.Require().NotNil(proposalAfter)
 		s.Require().Equal(subject.proposer, sdk.AccAddress(proposalAfter.Proposer))
-		s.Require().Equal(subject.agent, sdk.AccAddress(proposalAfter.Agent))
 		s.Require().Equal(subject.preActions, proposalAfter.PreActions)
 		s.Require().Equal(subject.postActions, proposalAfter.PostActions)
 		s.Require().Equal(subject.metadata, proposalAfter.Metadata)
@@ -52,6 +50,14 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 			"proposer already exists": {
 				Malleate: func(subject *submitProposal) {
 					subject.proposer = s.seller
+				},
+			},
+			"proposer differs from creator": {
+				Malleate: func(subject *submitProposal) {
+					subject.proposer = s.stranger
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrPermissionDenied
 				},
 			},
 		},

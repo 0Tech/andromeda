@@ -18,38 +18,35 @@ message EventCreateAgent {
   // the address of the created agent
   string agent = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the address of the creator
+  // the address of the account created the agent
   string creator = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 }
 
 // EventSubmitProposal is emitted on Msg/SubmitProposal.
 message EventSubmitProposal {
-  // the identifier of the proposal
-  uint64 proposal = 1;
-
   // the address of the proposer
-  string proposer = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string proposer = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the address of the agent in charge
-  string agent = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string agent = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the messages which has been executed on the submission
-  repeated google.protobuf.Any pre_actions = 4;
+  repeated google.protobuf.Any pre_actions = 3;
 
   // the messages which will be executed after the actions included in Msg/Exec
-  repeated google.protobuf.Any post_actions = 5;
+  repeated google.protobuf.Any post_actions = 4;
 
   // any arbitrary metadata attached to the proposal
-  string metadata = 6;
+  string metadata = 5;
 }
 
 // EventExec is emitted on Msg/Exec.
 message EventExec {
-  // the identifier of the proposal
-  uint64 proposal = 1;
-
   // the address of the account executed the proposal
-  string executor = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string executor = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the address of the agent in charge
+  string agent = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the messages executed on the execution
   repeated google.protobuf.Any actions = 3;

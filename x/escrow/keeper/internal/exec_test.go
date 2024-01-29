@@ -11,48 +11,31 @@ import (
 
 func (s *KeeperTestSuite) TestExec() {
 	type exec struct {
-		id       uint64
 		executor sdk.AccAddress
 		agent    sdk.AccAddress
 		actions  []*codectypes.Any
 	}
 
 	tester := func(subject exec) error {
-		s.NotZero(subject.id)
 		s.NotNil(subject.executor)
 		s.NotNil(subject.agent)
 		s.NotNil(subject.actions)
 
 		ctx, _ := sdk.UnwrapSDKContext(s.ctx).CacheContext()
-		err := s.keeper.Exec(ctx, subject.id, subject.executor, subject.agent, subject.actions)
+		err := s.keeper.Exec(ctx, subject.executor, subject.agent, subject.actions)
 		if err != nil {
 			return err
 		}
 
-		_, err = s.keeper.GetProposal(s.ctx, subject.id)
+		_, err = s.keeper.GetProposal(s.ctx, subject.agent)
 		s.Assert().NoError(err)
 
-		_, err = s.keeper.GetProposal(ctx, subject.id)
+		_, err = s.keeper.GetProposal(ctx, subject.agent)
 		s.Require().Error(err)
 
 		return nil
 	}
 	cases := []map[string]testutil.Case[exec]{
-		{
-			"id already exists": {
-				Malleate: func(subject *exec) {
-					subject.id = s.proposalAny
-				},
-			},
-			"id not found": {
-				Malleate: func(subject *exec) {
-					subject.id = s.proposalLast + 1
-				},
-				Error: func() error {
-					return escrowv1alpha1.ErrProposalNotFound
-				},
-			},
-		},
 		{
 			"executor already exists": {
 				Malleate: func(subject *exec) {
@@ -66,12 +49,12 @@ func (s *KeeperTestSuite) TestExec() {
 					subject.agent = s.agentAny
 				},
 			},
-			"agent differs from the proposal's": {
+			"proposal not found": {
 				Malleate: func(subject *exec) {
 					subject.agent = s.agentIdle
 				},
 				Error: func() error {
-					return escrowv1alpha1.ErrPermissionDenied
+					return escrowv1alpha1.ErrProposalNotFound
 				},
 			},
 		},

@@ -11,14 +11,10 @@ import (
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 )
 
-func (k Keeper) Exec(ctx context.Context, id uint64, _, agent sdk.AccAddress, actions []*codectypes.Any) error {
-	proposal, err := k.GetProposal(ctx, id)
+func (k Keeper) Exec(ctx context.Context, _, agent sdk.AccAddress, actions []*codectypes.Any) error {
+	proposal, err := k.GetProposal(ctx, agent)
 	if err != nil {
 		return err
-	}
-
-	if !agent.Equals(sdk.AccAddress(proposal.Agent)) {
-		return escrowv1alpha1.ErrPermissionDenied.Wrap("agent differs from proposal's")
 	}
 
 	for _, phase := range []struct {
@@ -39,7 +35,7 @@ func (k Keeper) Exec(ctx context.Context, id uint64, _, agent sdk.AccAddress, ac
 		}
 	}
 
-	return k.removeProposal(ctx, id)
+	return k.removeProposal(ctx, agent)
 }
 
 func (k Keeper) executeActions(ctx context.Context, actions []*codectypes.Any) error {

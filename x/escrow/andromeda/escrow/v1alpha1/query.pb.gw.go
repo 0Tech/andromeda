@@ -152,15 +152,15 @@ func request_Query_Proposal_0(ctx context.Context, marshaler runtime.Marshaler, 
 		_   = err
 	)
 
-	val, ok = pathParams["proposal"]
+	val, ok = pathParams["agent"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "proposal")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "agent")
 	}
 
-	protoReq.Proposal, err = runtime.Uint64(val)
+	protoReq.Agent, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "proposal", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "agent", err)
 	}
 
 	msg, err := client.Proposal(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -179,15 +179,15 @@ func local_request_Query_Proposal_0(ctx context.Context, marshaler runtime.Marsh
 		_   = err
 	)
 
-	val, ok = pathParams["proposal"]
+	val, ok = pathParams["agent"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "proposal")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "agent")
 	}
 
-	protoReq.Proposal, err = runtime.Uint64(val)
+	protoReq.Agent, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "proposal", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "agent", err)
 	}
 
 	msg, err := server.Proposal(ctx, &protoReq)
@@ -503,7 +503,7 @@ var (
 
 	pattern_Query_Agents_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"andromeda", "escrow", "v1alpha1", "agents"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_Proposal_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"andromeda", "escrow", "v1alpha1", "proposals", "proposal"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_Proposal_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"andromeda", "escrow", "v1alpha1", "agents", "agent", "proposal"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_Query_Proposals_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"andromeda", "escrow", "v1alpha1", "proposals"}, "", runtime.AssumeColonVerbOpt(true)))
 )

@@ -25,7 +25,7 @@ service Query {
 
   // Proposal queries a proposal.
   rpc Proposal(QueryProposalRequest) returns (QueryProposalResponse) {
-    option (google.api.http).get = "/andromeda/escrow/v1alpha1/proposals/{proposal}";
+    option (google.api.http).get = "/andromeda/escrow/v1alpha1/agents/{agent}/proposal";
   }
 
   // Proposals queries all the proposals.
@@ -90,31 +90,28 @@ message QueryAgentsResponse {
 
 // QueryProposalRequest is the request type for the Query/Proposal RPC method.
 message QueryProposalRequest {
-  // the identifier of a proposal
-  uint64 proposal = 1;
+  // the address of an agent in charge
+  string agent = 1;
 }
 
 // QueryProposalResponse is the response type for the Query/Proposal RPC method.
 message QueryProposalResponse {
   // Proposal defines a proposal.
   message Proposal {
-	// the unique identifier
-	uint64 id = 1;
+	// the address of the agent in charge
+	string agent = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
 	// the address of the proposer
 	string proposer = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-	// the address of the agent in charge
-	string agent = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-
 	// the messages which has been executed on the submission
-	repeated google.protobuf.Any pre_actions = 4;
+	repeated google.protobuf.Any pre_actions = 3;
 
 	// the messages which will be executed after the actions included in Msg/Exec
-	repeated google.protobuf.Any post_actions = 5;
+	repeated google.protobuf.Any post_actions = 4;
 
 	// any arbitrary metadata attached to the proposal
-	string metadata = 6;
+	string metadata = 5;
   }
 
   // the corresponding proposal
@@ -131,23 +128,20 @@ message QueryProposalsRequest {
 message QueryProposalsResponse {
   // Proposal defines a proposal.
   message Proposal {
-	// the unique identifier
-	uint64 id = 1;
+	// the address of the agent in charge
+	string agent = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
 	// the address of the proposer
 	string proposer = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-	// the address of the agent of the proposal
-	string agent = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-
 	// the messages which has been executed on the submission
-	repeated google.protobuf.Any pre_actions = 4;
+	repeated google.protobuf.Any pre_actions = 3;
 
 	// the messages which will be executed after the actions included in Msg/Exec
-	repeated google.protobuf.Any post_actions = 5;
+	repeated google.protobuf.Any post_actions = 4;
 
 	// any arbitrary metadata attached to the proposal
-	string metadata = 6;
+	string metadata = 5;
   }
 
   // all the proposals

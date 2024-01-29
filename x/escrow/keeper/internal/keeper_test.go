@@ -73,11 +73,6 @@ type KeeperTestSuite struct {
 	agentDedicated sdk.AccAddress
 	agentAny       sdk.AccAddress
 	agentIdle      sdk.AccAddress
-	agentLast      sdk.AccAddress
-
-	proposalDedicated uint64
-	proposalAny       uint64
-	proposalLast      uint64
 }
 
 func (s *KeeperTestSuite) addressBytesToString(address sdk.AccAddress) string {
@@ -171,10 +166,9 @@ func (s *KeeperTestSuite) SetupTest() {
 		*agent, err = s.keeper.CreateAgent(s.ctx, s.seller)
 		s.NoError(err)
 	}
-	s.agentLast = s.agentIdle
 
 	// submit proposal for the buyer
-	s.proposalDedicated, err = s.keeper.SubmitProposal(s.ctx, s.seller, s.agentDedicated,
+	err = s.keeper.SubmitProposal(s.ctx, s.seller, s.agentDedicated,
 		s.encodeMsgs([]sdk.Msg{
 			&testv1alpha1.MsgSend{
 				Sender:    s.addressBytesToString(s.seller),
@@ -199,7 +193,7 @@ func (s *KeeperTestSuite) SetupTest() {
 	s.NoError(err)
 
 	// submit proposal for anyone
-	s.proposalAny, err = s.keeper.SubmitProposal(s.ctx, s.seller, s.agentAny,
+	err = s.keeper.SubmitProposal(s.ctx, s.seller, s.agentAny,
 		s.encodeMsgs([]sdk.Msg{
 			&testv1alpha1.MsgSend{
 				Sender:    s.addressBytesToString(s.seller),
@@ -217,9 +211,6 @@ func (s *KeeperTestSuite) SetupTest() {
 		"sell a dog for a voucher",
 	)
 	s.NoError(err)
-
-	// store the last proposal id
-	s.proposalLast = s.proposalAny
 }
 
 func TestKeeperTestSuite(t *testing.T) {

@@ -12,33 +12,27 @@ import (
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 )
 
-func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddress, preActions, postActions []*codectypes.Any, metadata string) (uint64, error) {
+func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddress, preActions, postActions []*codectypes.Any, metadata string) error {
 	if err := k.validateMetadata(ctx, metadata); err != nil {
-		return 0, err
+		return err
 	}
 
 	agentInfo, err := k.GetAgent(ctx, agent)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
 	if !proposer.Equals(sdk.AccAddress(agentInfo.Creator)) {
-		return 0, escrowv1alpha1.ErrPermissionDenied.Wrap("proposer differs from creator")
+		return escrowv1alpha1.ErrPermissionDenied.Wrap("proposer differs from creator")
 	}
 
-	id, err := k.nextProposal.Next(ctx)
-	if err != nil {
-		return 0, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
-	}
-
-	if err := k.setProposal(ctx, id, &escrowv1alpha1.Proposal{
+	if err := k.setProposal(ctx, agent, &escrowv1alpha1.Proposal{
 		Proposer:    proposer,
-		Agent:       agent,
 		PreActions:  preActions,
 		PostActions: postActions,
 		Metadata:    metadata,
 	}); err != nil {
-		return 0, err
+		return err
 	}
 
 	for _, phase := range []struct {
@@ -51,15 +45,11 @@ func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddre
 		},
 	} {
 		if err := k.executeActions(ctx, phase.actions); err != nil {
-			return 0, errors.Wrap(err, phase.name)
+			return errors.Wrap(err, phase.name)
 		}
 	}
 
-	if err := k.removeAgent(ctx, agent); err != nil {
-		return 0, err
-	}
-
-	return id, nil
+	return k.removeAgent(ctx, agent)
 }
 
 func (k Keeper) validateActions(actions []*codectypes.Any, signers []sdk.AccAddress) error {
@@ -97,8 +87,8 @@ func (k Keeper) validateActions(actions []*codectypes.Any, signers []sdk.AccAddr
 	return nil
 }
 
-func (k Keeper) GetProposal(ctx context.Context, id uint64) (*escrowv1alpha1.Proposal, error) {
-	proposal, err := k.proposals.Get(ctx, id)
+func (k Keeper) GetProposal(ctx context.Context, agent sdk.AccAddress) (*escrowv1alpha1.Proposal, error) {
+	proposal, err := k.proposals.Get(ctx, agent)
 	if err != nil {
 		if !errors.IsOf(err, collections.ErrNotFound) {
 			return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
@@ -111,16 +101,16 @@ func (k Keeper) GetProposal(ctx context.Context, id uint64) (*escrowv1alpha1.Pro
 	return &proposal, nil
 }
 
-func (k Keeper) setProposal(ctx context.Context, id uint64, proposal *escrowv1alpha1.Proposal) error {
-	if err := k.proposals.Set(ctx, id, *proposal); err != nil {
+func (k Keeper) setProposal(ctx context.Context, agent sdk.AccAddress, proposal *escrowv1alpha1.Proposal) error {
+	if err := k.proposals.Set(ctx, agent, *proposal); err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return nil
 }
 
-func (k Keeper) removeProposal(ctx context.Context, id uint64) error {
-	if err := k.proposals.Remove(ctx, id); err != nil {
+func (k Keeper) removeProposal(ctx context.Context, agent sdk.AccAddress) error {
+	if err := k.proposals.Remove(ctx, agent); err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
@@ -137,7 +127,7 @@ func (k Keeper) fixActions(proposal *escrowv1alpha1.Proposal) {
 	}
 }
 
-func (k Keeper) iterateProposals(ctx context.Context, fn func(id uint64, proposal escrowv1alpha1.Proposal) error) error {
+func (k Keeper) iterateProposals(ctx context.Context, fn func(agent sdk.AccAddress, proposal escrowv1alpha1.Proposal) error) error {
 	iter, err := k.proposals.Iterate(ctx, nil)
 	if err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
@@ -155,11 +145,11 @@ func (k Keeper) iterateProposals(ctx context.Context, fn func(id uint64, proposa
 			return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
-		id := key
+		agent := key
 		proposal := value
 		k.fixActions(&proposal)
 
-		if err := fn(id, proposal); err != nil {
+		if err := fn(agent, proposal); err != nil {
 			return err
 		}
 	}

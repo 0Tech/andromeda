@@ -109,29 +109,29 @@ func (s *KeeperTestSuite) TestQueryProposal() {
 		s.Require().NotNil(res)
 
 		s.Require().NotNil(res.Proposal)
-		s.Require().Equal(subject.Proposal, res.Proposal.Id)
+		s.Require().Equal(subject.Agent, res.Proposal.Agent)
 		s.Require().NotNil(res.Proposal.Proposer)
-		s.Require().NotNil(res.Proposal.Agent)
 		s.Require().NotNil(res.Proposal.PreActions)
 		s.Require().NotNil(res.Proposal.PostActions)
+		s.Require().NotEmpty(res.Proposal.Metadata)
 
 		return nil
 	}
 	cases := []map[string]testutil.Case[escrowv1alpha1.QueryProposalRequest]{
 		{
-			"nil proposal": {
+			"nil agent": {
 				Error: func() error {
 					return escrowv1alpha1.ErrUnimplemented
 				},
 			},
-			"valid proposal": {
+			"valid agent": {
 				Malleate: func(subject *escrowv1alpha1.QueryProposalRequest) {
-					subject.Proposal = s.proposalLast
+					subject.Agent = s.addressBytesToString(s.agentAny)
 				},
 			},
 			"proposal not found": {
 				Malleate: func(subject *escrowv1alpha1.QueryProposalRequest) {
-					subject.Proposal = s.proposalLast + 1
+					subject.Agent = s.addressBytesToString(s.agentIdle)
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrProposalNotFound
@@ -155,11 +155,11 @@ func (s *KeeperTestSuite) TestQueryProposals() {
 		for i, proposal := range res.Proposals {
 			s.Require().NotNil(proposal, i)
 
-			s.Require().NotZero(proposal.Id, i)
-			s.Require().NotNil(proposal.Proposer, i)
 			s.Require().NotNil(proposal.Agent, i)
+			s.Require().NotNil(proposal.Proposer, i)
 			s.Require().NotNil(proposal.PreActions, i)
 			s.Require().NotNil(proposal.PostActions, i)
+			s.Require().NotEmpty(proposal.Metadata, i)
 		}
 		return nil
 	}

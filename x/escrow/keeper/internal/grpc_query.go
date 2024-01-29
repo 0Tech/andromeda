@@ -113,11 +113,16 @@ func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProp
 		return nil, errNilRequest
 	}
 
-	if req.Proposal == 0 {
-		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil proposal")
+	if req.Agent == "" {
+		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil agent")
 	}
 
-	proposal, err := s.keeper.GetProposal(ctx, req.Proposal)
+	agent, err := s.keeper.addressStringToBytes(req.Agent)
+	if err != nil {
+		return nil, errors.Wrap(err, "agent")
+	}
+
+	proposal, err := s.keeper.GetProposal(ctx, agent)
 	if err != nil {
 		return nil, err
 	}
@@ -127,16 +132,10 @@ func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProp
 		return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 	}
 
-	agentStr, err := s.keeper.addressBytesToString(proposal.Agent)
-	if err != nil {
-		return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
-	}
-
 	return &escrowv1alpha1.QueryProposalResponse{
 		Proposal: &escrowv1alpha1.QueryProposalResponse_Proposal{
-			Id:          req.Proposal,
+			Agent:       req.Agent,
 			Proposer:    proposerStr,
-			Agent:       agentStr,
 			PreActions:  proposal.PreActions,
 			PostActions: proposal.PostActions,
 			Metadata:    proposal.Metadata,
@@ -149,26 +148,25 @@ func (s queryServer) Proposals(ctx context.Context, req *escrowv1alpha1.QueryPro
 		return nil, errNilRequest
 	}
 
-	proposals, pageRes, err := query.CollectionPaginate(ctx, s.keeper.proposals, req.Pagination, func(key uint64, value escrowv1alpha1.Proposal) (*escrowv1alpha1.QueryProposalsResponse_Proposal, error) {
-		id := key
+	proposals, pageRes, err := query.CollectionPaginate(ctx, s.keeper.proposals, req.Pagination, func(key sdk.AccAddress, value escrowv1alpha1.Proposal) (*escrowv1alpha1.QueryProposalsResponse_Proposal, error) {
+		agent := key
 		proposal := value
+
+		agentStr, err := s.keeper.addressBytesToString(agent)
+		if err != nil {
+			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
+		}
 
 		proposerStr, err := s.keeper.addressBytesToString(proposal.Proposer)
 		if err != nil {
 			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 		}
 
-		agentStr, err := s.keeper.addressBytesToString(proposal.Agent)
-		if err != nil {
-			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
-		}
-
 		s.keeper.fixActions(&proposal)
 
 		return &escrowv1alpha1.QueryProposalsResponse_Proposal{
-			Id:          id,
-			Proposer:    proposerStr,
 			Agent:       agentStr,
+			Proposer:    proposerStr,
 			PreActions:  proposal.PreActions,
 			PostActions: proposal.PostActions,
 			Metadata:    proposal.Metadata,

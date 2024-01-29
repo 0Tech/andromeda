@@ -194,18 +194,8 @@ func TestValidateGenesisProposals(t *testing.T) {
 		return addressStr
 	}
 
-	ids := make([]uint64, 2)
-	for i := range ids {
-		ids[i] = uint64(i) + 1
-	}
-
-	var proposerStr, agentStr string
-	for _, addrStr := range []*string{
-		&proposerStr,
-		&agentStr,
-	} {
-		*addrStr = addressBytesToString(createRandomAccounts(1)[0])
-	}
+	agents := createRandomAccounts(2)
+	proposerStr := addressBytesToString(createRandomAccounts(1)[0])
 
 	tester := func(subject []*escrowv1alpha1.GenesisState_Proposal) error {
 		gs := k.DefaultGenesis()
@@ -221,8 +211,8 @@ func TestValidateGenesisProposals(t *testing.T) {
 			},
 		},
 	}
-	for _, id := range ids {
-		id := id
+	for _, agent := range agents {
+		agentStr := addressBytesToString(agent)
 
 		added := false
 		cases = append(cases, []map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Proposal]{
@@ -249,7 +239,7 @@ func TestValidateGenesisProposals(t *testing.T) {
 				},
 			},
 			{
-				"nil id": {
+				"nil agent": {
 					Error: func() error {
 						if !added {
 							return nil
@@ -257,12 +247,26 @@ func TestValidateGenesisProposals(t *testing.T) {
 						return escrowv1alpha1.ErrUnimplemented
 					},
 				},
-				"valid id": {
+				"valid agent": {
 					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
 						if !added {
 							return
 						}
-						(*subject)[len(*subject)-1].Id = id
+						(*subject)[len(*subject)-1].Agent = agentStr
+					},
+				},
+				"invalid agent": {
+					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
+						if !added {
+							return
+						}
+						(*subject)[len(*subject)-1].Agent = notInBech32
+					},
+					Error: func() error {
+						if !added {
+							return nil
+						}
+						return escrowv1alpha1.ErrInvalidAddress
 					},
 				},
 			},
@@ -289,38 +293,6 @@ func TestValidateGenesisProposals(t *testing.T) {
 							return
 						}
 						(*subject)[len(*subject)-1].Proposer = notInBech32
-					},
-					Error: func() error {
-						if !added {
-							return nil
-						}
-						return escrowv1alpha1.ErrInvalidAddress
-					},
-				},
-			},
-			{
-				"nil agent": {
-					Error: func() error {
-						if !added {
-							return nil
-						}
-						return escrowv1alpha1.ErrUnimplemented
-					},
-				},
-				"valid agent": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !added {
-							return
-						}
-						(*subject)[len(*subject)-1].Agent = agentStr
-					},
-				},
-				"invalid agent": {
-					Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
-						if !added {
-							return
-						}
-						(*subject)[len(*subject)-1].Agent = notInBech32
 					},
 					Error: func() error {
 						if !added {
@@ -395,9 +367,8 @@ func TestValidateGenesisProposals(t *testing.T) {
 						return
 					}
 					*subject = append(*subject, &escrowv1alpha1.GenesisState_Proposal{
-						Id:          id,
-						Proposer:    proposerStr,
 						Agent:       agentStr,
+						Proposer:    proposerStr,
 						PreActions:  []*codectypes.Any{},
 						PostActions: []*codectypes.Any{},
 						Metadata:    randomString(int(k.DefaultGenesis().Params.MaxMetadataLength) - 1),
@@ -456,18 +427,6 @@ func TestValidateGenesis(t *testing.T) {
 			"valid agents": {
 				Malleate: func(subject *escrowv1alpha1.GenesisState) {
 					subject.Agents = k.DefaultGenesis().Agents
-				},
-			},
-		},
-		{
-			"nil next_proposal": {
-				Error: func() error {
-					return escrowv1alpha1.ErrUnimplemented
-				},
-			},
-			"valid next_proposal": {
-				Malleate: func(subject *escrowv1alpha1.GenesisState) {
-					subject.NextProposal = k.DefaultGenesis().NextProposal
 				},
 			},
 		},
@@ -616,19 +575,14 @@ func TestInitExportGenesisProposals(t *testing.T) {
 		assert.NoError(t, err)
 		return addressStr
 	}
-
-	ids := make([]uint64, 4)
-	for i := range ids {
-		ids[i] = uint64(i) + 1
+	addressStringToBytes := func(address string) sdk.AccAddress {
+		addressBytes, err := addressCodec.StringToBytes(address)
+		assert.NoError(t, err)
+		return addressBytes
 	}
 
-	var proposerStr, agentStr string
-	for _, addrStr := range []*string{
-		&proposerStr,
-		&agentStr,
-	} {
-		*addrStr = addressBytesToString(createRandomAccounts(1)[0])
-	}
+	agents := simtestutil.CreateIncrementalAccounts(4)
+	proposerStr := addressBytesToString(createRandomAccounts(1)[0])
 
 	tester := func(subject []*escrowv1alpha1.GenesisState_Proposal) error {
 		gsInput := k.DefaultGenesis()
@@ -642,15 +596,16 @@ func TestInitExportGenesisProposals(t *testing.T) {
 		}
 
 		for i, proposal := range subject {
-			proposalBefore, err := k.GetProposal(ctxBefore, proposal.Id)
+			agent := addressStringToBytes(proposal.Agent)
+
+			proposalBefore, err := k.GetProposal(ctxBefore, agent)
 			assert.Error(t, err, i)
 			assert.Nil(t, proposalBefore, i)
 
-			proposalAfter, err := k.GetProposal(ctxAfter, proposal.Id)
+			proposalAfter, err := k.GetProposal(ctxAfter, agent)
 			assert.NoError(t, err, i)
 			assert.NotNil(t, proposalAfter, i)
 			assert.Equal(t, proposal.Proposer, addressBytesToString(proposalAfter.Proposer), i)
-			assert.Equal(t, proposal.Agent, addressBytesToString(proposalAfter.Agent), i)
 			assert.Equal(t, proposal.PreActions, proposalAfter.PreActions, i)
 			assert.Equal(t, proposal.PostActions, proposalAfter.PostActions, i)
 			assert.Equal(t, proposal.Metadata, proposalAfter.Metadata, i)
@@ -672,17 +627,16 @@ func TestInitExportGenesisProposals(t *testing.T) {
 			},
 		},
 	}
-	for i, id := range ids {
-		id := id
+	for i, agent := range agents {
+		agentStr := addressBytesToString(agent)
 
 		cases = append(cases, map[string]testutil.Case[[]*escrowv1alpha1.GenesisState_Proposal]{
 			"": {},
 			fmt.Sprintf("proposal %d", i): {
 				Malleate: func(subject *[]*escrowv1alpha1.GenesisState_Proposal) {
 					*subject = append(*subject, &escrowv1alpha1.GenesisState_Proposal{
-						Id:          id,
-						Proposer:    proposerStr,
 						Agent:       agentStr,
+						Proposer:    proposerStr,
 						PreActions:  []*codectypes.Any{},
 						PostActions: []*codectypes.Any{},
 						Metadata:    "metadata",
@@ -733,13 +687,6 @@ func TestInitExportGenesis(t *testing.T) {
 			"valid agents": {
 				Malleate: func(subject *escrowv1alpha1.GenesisState) {
 					subject.Agents = k.DefaultGenesis().Agents
-				},
-			},
-		},
-		{
-			"valid next_proposal": {
-				Malleate: func(subject *escrowv1alpha1.GenesisState) {
-					subject.NextProposal = k.DefaultGenesis().NextProposal
 				},
 			},
 		},

@@ -129,13 +129,11 @@ func (s msgServer) SubmitProposal(ctx context.Context, req *escrowv1alpha1.MsgSu
 		return nil, errors.Wrap(err, "post_actions")
 	}
 
-	id, err := s.keeper.SubmitProposal(ctx, proposer, agent, req.PreActions, req.PostActions, req.Metadata)
-	if err != nil {
+	if err := s.keeper.SubmitProposal(ctx, proposer, agent, req.PreActions, req.PostActions, req.Metadata); err != nil {
 		return nil, err
 	}
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&escrowv1alpha1.EventSubmitProposal{
-		Proposal:    id,
 		Proposer:    req.Proposer,
 		Agent:       req.Agent,
 		PreActions:  req.PreActions,
@@ -145,14 +143,10 @@ func (s msgServer) SubmitProposal(ctx context.Context, req *escrowv1alpha1.MsgSu
 		return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
-	return &escrowv1alpha1.MsgSubmitProposalResponse{Proposal: id}, nil
+	return &escrowv1alpha1.MsgSubmitProposalResponse{}, nil
 }
 
 func (s msgServer) Exec(ctx context.Context, req *escrowv1alpha1.MsgExec) (*escrowv1alpha1.MsgExecResponse, error) {
-	if req.Proposal == 0 {
-		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil proposal")
-	}
-
 	if req.Executor == "" {
 		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil executor")
 	}
@@ -181,13 +175,13 @@ func (s msgServer) Exec(ctx context.Context, req *escrowv1alpha1.MsgExec) (*escr
 		return nil, errors.Wrap(err, "actions")
 	}
 
-	if err := s.keeper.Exec(ctx, req.Proposal, executor, agent, req.Actions); err != nil {
+	if err := s.keeper.Exec(ctx, executor, agent, req.Actions); err != nil {
 		return nil, err
 	}
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&escrowv1alpha1.EventExec{
-		Proposal: req.Proposal,
 		Executor: req.Executor,
+		Agent:    req.Agent,
 		Actions:  req.Actions,
 	}); err != nil {
 		return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())

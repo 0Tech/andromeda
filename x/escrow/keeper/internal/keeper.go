@@ -29,8 +29,7 @@ type Keeper struct {
 	nextAgent collections.Sequence
 	agents    *collections.IndexedMap[sdk.AccAddress, escrowv1alpha1.Agent, agentsIndexes]
 
-	nextProposal collections.Sequence
-	proposals    *collections.IndexedMap[uint64, escrowv1alpha1.Proposal, proposalsIndexes]
+	proposals *collections.IndexedMap[sdk.AccAddress, escrowv1alpha1.Proposal, proposalsIndexes]
 }
 
 func NewKeeper(
@@ -54,9 +53,8 @@ func NewKeeper(
 			codec.CollValue[escrowv1alpha1.Agent](cdc),
 			newAgentsIndexes(sb),
 		),
-		nextProposal: collections.NewSequence(sb, proposalsSeqKey, "next_proposal"),
 		proposals: collections.NewIndexedMap(sb, proposalsKeyPrefix, "proposals",
-			collections.Uint64Key,
+			sdk.AccAddressKey,
 			codec.CollValue[escrowv1alpha1.Proposal](cdc),
 			newProposalsIndexes(sb),
 		),

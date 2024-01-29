@@ -130,7 +130,6 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 		s.Require().NotEmpty(events)
 
 		eventExpected, err := sdk.TypedEventToEvent(&escrowv1alpha1.EventSubmitProposal{
-			Proposal:    s.proposalLast + 1,
 			Proposer:    subject.Proposer,
 			Agent:       subject.Agent,
 			PreActions:  subject.PreActions,
@@ -265,8 +264,8 @@ func (s *KeeperTestSuite) TestMsgExec() {
 		s.Require().NotEmpty(events)
 
 		eventExpected, err := sdk.TypedEventToEvent(&escrowv1alpha1.EventExec{
-			Proposal: subject.Proposal,
 			Executor: subject.Executor,
+			Agent:    subject.Agent,
 			Actions:  subject.Actions,
 		})
 		s.Require().NoError(err)
@@ -275,26 +274,6 @@ func (s *KeeperTestSuite) TestMsgExec() {
 		return nil
 	}
 	cases := []map[string]testutil.Case[escrowv1alpha1.MsgExec]{
-		{
-			"nil proposal": {
-				Error: func() error {
-					return escrowv1alpha1.ErrUnimplemented
-				},
-			},
-			"valid proposal": {
-				Malleate: func(subject *escrowv1alpha1.MsgExec) {
-					subject.Proposal = s.proposalAny
-				},
-			},
-			"proposal not found": {
-				Malleate: func(subject *escrowv1alpha1.MsgExec) {
-					subject.Proposal = s.proposalLast + 1
-				},
-				Error: func() error {
-					return escrowv1alpha1.ErrProposalNotFound
-				},
-			},
-		},
 		{
 			"nil executor": {
 				Error: func() error {

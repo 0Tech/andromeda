@@ -76,26 +76,21 @@ message MsgSubmitProposal {
 
 // MsgSubmitProposalResponse is the Msg/SubmitProposal response type.
 message MsgSubmitProposalResponse {
-  // the identifier of the submitted proposal
-  uint64 proposal = 1;
 }
 
 // MsgExec is the Msg/Exec request type.
 message MsgExec {
   option (cosmos.msg.v1.signer) = "executor";
 
-  // the identifier of the proposal
-  uint64 proposal = 1;
-
   // the address of the account executing the proposal
-  string executor = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string executor = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the address of the agent in charge
-  string agent = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string agent = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the messages which will be executed on the execution
   // Note: the signer of each message must be either the executor or the agent.
-  repeated google.protobuf.Any actions = 4;
+  repeated google.protobuf.Any actions = 3;
 }
 
 // MsgExecResponse is the Msg/Exec response type.
