@@ -243,7 +243,8 @@ func (k Keeper) initGenesisProposal(ctx context.Context, proposal *escrowv1alpha
 		return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
 	}
 
-	return k.setProposal(ctx, proposal.Id, proposer, &escrowv1alpha1.Proposal{
+	return k.setProposal(ctx, proposal.Id, &escrowv1alpha1.Proposal{
+		Proposer:    proposer,
 		Agent:       agent,
 		PreActions:  proposal.PreActions,
 		PostActions: proposal.PostActions,
@@ -325,8 +326,8 @@ func (k Keeper) exportGenesisAgents(ctx context.Context) ([]*escrowv1alpha1.Gene
 
 func (k Keeper) exportGenesisProposals(ctx context.Context) ([]*escrowv1alpha1.GenesisState_Proposal, error) {
 	proposals := []*escrowv1alpha1.GenesisState_Proposal{}
-	if err := k.iterateProposals(ctx, func(id uint64, proposer sdk.AccAddress, proposal escrowv1alpha1.Proposal) error {
-		proposerStr, err := k.addressBytesToString(proposer)
+	if err := k.iterateProposals(ctx, func(id uint64, proposal escrowv1alpha1.Proposal) error {
+		proposerStr, err := k.addressBytesToString(proposal.Proposer)
 		if err != nil {
 			return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 		}

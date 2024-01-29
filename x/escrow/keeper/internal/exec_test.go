@@ -29,10 +29,10 @@ func (s *KeeperTestSuite) TestExec() {
 			return err
 		}
 
-		_, _, err = s.keeper.GetProposal(s.ctx, subject.id)
+		_, err = s.keeper.GetProposal(s.ctx, subject.id)
 		s.Assert().NoError(err)
 
-		_, _, err = s.keeper.GetProposal(ctx, subject.id)
+		_, err = s.keeper.GetProposal(ctx, subject.id)
 		s.Require().Error(err)
 
 		return nil

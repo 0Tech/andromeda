@@ -642,16 +642,14 @@ func TestInitExportGenesisProposals(t *testing.T) {
 		}
 
 		for i, proposal := range subject {
-			proposerBefore, proposalBefore, err := k.GetProposal(ctxBefore, proposal.Id)
+			proposalBefore, err := k.GetProposal(ctxBefore, proposal.Id)
 			assert.Error(t, err, i)
-			assert.Nil(t, proposerBefore, i)
 			assert.Nil(t, proposalBefore, i)
 
-			proposerAfter, proposalAfter, err := k.GetProposal(ctxAfter, proposal.Id)
+			proposalAfter, err := k.GetProposal(ctxAfter, proposal.Id)
 			assert.NoError(t, err, i)
-			assert.NotNil(t, proposerAfter, i)
 			assert.NotNil(t, proposalAfter, i)
-			assert.Equal(t, proposal.Proposer, addressBytesToString(proposerAfter), i)
+			assert.Equal(t, proposal.Proposer, addressBytesToString(proposalAfter.Proposer), i)
 			assert.Equal(t, proposal.Agent, addressBytesToString(proposalAfter.Agent), i)
 			assert.Equal(t, proposal.PreActions, proposalAfter.PreActions, i)
 			assert.Equal(t, proposal.PostActions, proposalAfter.PostActions, i)

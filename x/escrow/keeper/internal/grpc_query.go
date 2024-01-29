@@ -3,7 +3,6 @@ package internal
 import (
 	"context"
 
-	"cosmossdk.io/collections"
 	"cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -118,12 +117,12 @@ func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProp
 		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil proposal")
 	}
 
-	proposer, proposal, err := s.keeper.GetProposal(ctx, req.Proposal)
+	proposal, err := s.keeper.GetProposal(ctx, req.Proposal)
 	if err != nil {
 		return nil, err
 	}
 
-	proposerStr, err := s.keeper.addressBytesToString(proposer)
+	proposerStr, err := s.keeper.addressBytesToString(proposal.Proposer)
 	if err != nil {
 		return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 	}
@@ -150,17 +149,16 @@ func (s queryServer) Proposals(ctx context.Context, req *escrowv1alpha1.QueryPro
 		return nil, errNilRequest
 	}
 
-	proposals, pageRes, err := query.CollectionPaginate(ctx, s.keeper.proposals, req.Pagination, func(key collections.Pair[sdk.AccAddress, uint64], value escrowv1alpha1.Proposal) (*escrowv1alpha1.QueryProposalsResponse_Proposal, error) {
-		proposer := key.K1()
-		id := key.K2()
+	proposals, pageRes, err := query.CollectionPaginate(ctx, s.keeper.proposals, req.Pagination, func(key uint64, value escrowv1alpha1.Proposal) (*escrowv1alpha1.QueryProposalsResponse_Proposal, error) {
+		id := key
 		proposal := value
 
-		proposerStr, err := s.keeper.addressBytesToString(proposer)
+		proposerStr, err := s.keeper.addressBytesToString(proposal.Proposer)
 		if err != nil {
 			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 		}
 
-		agentStr, err := s.keeper.addressBytesToString(value.Agent)
+		agentStr, err := s.keeper.addressBytesToString(proposal.Agent)
 		if err != nil {
 			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
 		}

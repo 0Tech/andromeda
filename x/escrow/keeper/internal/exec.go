@@ -12,13 +12,13 @@ import (
 )
 
 func (k Keeper) Exec(ctx context.Context, id uint64, _, agent sdk.AccAddress, actions []*codectypes.Any) error {
-	proposer, proposal, err := k.GetProposal(ctx, id)
+	proposal, err := k.GetProposal(ctx, id)
 	if err != nil {
 		return err
 	}
 
 	if !agent.Equals(sdk.AccAddress(proposal.Agent)) {
-		return escrowv1alpha1.ErrPermissionDenied.Wrap("agent differs")
+		return escrowv1alpha1.ErrPermissionDenied.Wrap("agent differs from proposal's")
 	}
 
 	for _, phase := range []struct {
@@ -39,7 +39,7 @@ func (k Keeper) Exec(ctx context.Context, id uint64, _, agent sdk.AccAddress, ac
 		}
 	}
 
-	return k.removeProposal(ctx, id, proposer)
+	return k.removeProposal(ctx, id)
 }
 
 func (k Keeper) executeActions(ctx context.Context, actions []*codectypes.Any) error {

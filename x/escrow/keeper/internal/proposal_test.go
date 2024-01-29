@@ -32,16 +32,14 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 		}
 		s.NotZero(id)
 
-		proposerBefore, proposalBefore, err := s.keeper.GetProposal(s.ctx, id)
+		proposalBefore, err := s.keeper.GetProposal(s.ctx, id)
 		s.Assert().Error(err)
-		s.Assert().Nil(proposerBefore)
 		s.Assert().Nil(proposalBefore)
 
-		proposerAfter, proposalAfter, err := s.keeper.GetProposal(ctx, id)
+		proposalAfter, err := s.keeper.GetProposal(ctx, id)
 		s.Require().NoError(err)
-		s.Require().NotNil(proposerAfter)
 		s.Require().NotNil(proposalAfter)
-		s.Require().Equal(subject.proposer, proposerAfter)
+		s.Require().Equal(subject.proposer, sdk.AccAddress(proposalAfter.Proposer))
 		s.Require().Equal(subject.agent, sdk.AccAddress(proposalAfter.Agent))
 		s.Require().Equal(subject.preActions, proposalAfter.PreActions)
 		s.Require().Equal(subject.postActions, proposalAfter.PostActions)

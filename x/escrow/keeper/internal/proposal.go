@@ -31,7 +31,8 @@ func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddre
 		return 0, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
-	if err := k.setProposal(ctx, id, proposer, &escrowv1alpha1.Proposal{
+	if err := k.setProposal(ctx, id, &escrowv1alpha1.Proposal{
+		Proposer:    proposer,
 		Agent:       agent,
 		PreActions:  preActions,
 		PostActions: postActions,
@@ -96,8 +97,8 @@ func (k Keeper) validateActions(actions []*codectypes.Any, signers []sdk.AccAddr
 	return nil
 }
 
-func (k Keeper) getProposalKey(ctx context.Context, id uint64) (*collections.Pair[sdk.AccAddress, uint64], error) {
-	key, err := k.proposals.Indexes.id.MatchExact(ctx, id)
+func (k Keeper) GetProposal(ctx context.Context, id uint64) (*escrowv1alpha1.Proposal, error) {
+	proposal, err := k.proposals.Get(ctx, id)
 	if err != nil {
 		if !errors.IsOf(err, collections.ErrNotFound) {
 			return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
@@ -105,38 +106,21 @@ func (k Keeper) getProposalKey(ctx context.Context, id uint64) (*collections.Pai
 
 		return nil, escrowv1alpha1.ErrProposalNotFound.Wrap(err.Error())
 	}
-
-	return &key, nil
-}
-
-func (k Keeper) GetProposal(ctx context.Context, id uint64) (sdk.AccAddress, *escrowv1alpha1.Proposal, error) {
-	key, err := k.getProposalKey(ctx, id)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	proposer := key.K1()
-
-	proposal, err := k.proposals.Get(ctx, *key)
-	if err != nil {
-		return nil, nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
-	}
-
 	k.fixActions(&proposal)
 
-	return proposer, &proposal, nil
+	return &proposal, nil
 }
 
-func (k Keeper) setProposal(ctx context.Context, id uint64, proposer sdk.AccAddress, proposal *escrowv1alpha1.Proposal) error {
-	if err := k.proposals.Set(ctx, collections.Join(proposer, id), *proposal); err != nil {
+func (k Keeper) setProposal(ctx context.Context, id uint64, proposal *escrowv1alpha1.Proposal) error {
+	if err := k.proposals.Set(ctx, id, *proposal); err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return nil
 }
 
-func (k Keeper) removeProposal(ctx context.Context, id uint64, proposer sdk.AccAddress) error {
-	if err := k.proposals.Remove(ctx, collections.Join(proposer, id)); err != nil {
+func (k Keeper) removeProposal(ctx context.Context, id uint64) error {
+	if err := k.proposals.Remove(ctx, id); err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
@@ -153,7 +137,7 @@ func (k Keeper) fixActions(proposal *escrowv1alpha1.Proposal) {
 	}
 }
 
-func (k Keeper) iterateProposals(ctx context.Context, fn func(id uint64, proposer sdk.AccAddress, proposal escrowv1alpha1.Proposal) error) error {
+func (k Keeper) iterateProposals(ctx context.Context, fn func(id uint64, proposal escrowv1alpha1.Proposal) error) error {
 	iter, err := k.proposals.Iterate(ctx, nil)
 	if err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
@@ -171,12 +155,11 @@ func (k Keeper) iterateProposals(ctx context.Context, fn func(id uint64, propose
 			return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
-		proposer := key.K1()
-		id := key.K2()
+		id := key
 		proposal := value
 		k.fixActions(&proposal)
 
-		if err := fn(id, proposer, proposal); err != nil {
+		if err := fn(id, proposal); err != nil {
 			return err
 		}
 	}
