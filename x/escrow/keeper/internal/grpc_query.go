@@ -3,6 +3,7 @@ package internal
 import (
 	"context"
 
+	"cosmossdk.io/collections"
 	"cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -71,6 +72,43 @@ func (s queryServer) Agent(ctx context.Context, req *escrowv1alpha1.QueryAgentRe
 			Address: req.Agent,
 			Creator: creatorStr,
 		},
+	}, nil
+}
+
+func (s queryServer) AgentsByCreator(ctx context.Context, req *escrowv1alpha1.QueryAgentsByCreatorRequest) (*escrowv1alpha1.QueryAgentsByCreatorResponse, error) {
+	if req == nil {
+		return nil, errNilRequest
+	}
+
+	if req.Creator == "" {
+		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil creator")
+	}
+
+	creator, err := s.keeper.addressStringToBytes(req.Creator)
+	if err != nil {
+		return nil, errors.Wrap(err, "creator")
+	}
+
+	agents, pageRes, err := query.CollectionPaginate(ctx, s.keeper.agents.Indexes.creator, req.Pagination, func(key collections.Pair[sdk.AccAddress, sdk.AccAddress], _ collections.NoValue) (*escrowv1alpha1.QueryAgentsByCreatorResponse_Agent, error) {
+		address := key.K2()
+
+		addressStr, err := s.keeper.addressBytesToString(address)
+		if err != nil {
+			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "address")
+		}
+
+		return &escrowv1alpha1.QueryAgentsByCreatorResponse_Agent{
+			Address: addressStr,
+			Creator: req.Creator,
+		}, nil
+	}, query.WithCollectionPaginationPairPrefix[sdk.AccAddress, sdk.AccAddress](creator))
+	if err != nil {
+		return nil, err
+	}
+
+	return &escrowv1alpha1.QueryAgentsByCreatorResponse{
+		Agents:     agents,
+		Pagination: pageRes,
 	}, nil
 }
 
@@ -143,6 +181,51 @@ func (s queryServer) Proposal(ctx context.Context, req *escrowv1alpha1.QueryProp
 	}, nil
 }
 
+func (s queryServer) ProposalsByProposer(ctx context.Context, req *escrowv1alpha1.QueryProposalsByProposerRequest) (*escrowv1alpha1.QueryProposalsByProposerResponse, error) {
+	if req == nil {
+		return nil, errNilRequest
+	}
+
+	if req.Proposer == "" {
+		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil proposer")
+	}
+
+	proposer, err := s.keeper.addressStringToBytes(req.Proposer)
+	if err != nil {
+		return nil, errors.Wrap(err, "proposer")
+	}
+
+	proposals, pageRes, err := query.CollectionPaginate(ctx, s.keeper.proposals.Indexes.proposer, req.Pagination, func(key collections.Pair[sdk.AccAddress, sdk.AccAddress], _ collections.NoValue) (*escrowv1alpha1.QueryProposalsByProposerResponse_Proposal, error) {
+		agent := key.K2()
+		proposal, err := s.keeper.proposals.Get(ctx, agent)
+		if err != nil {
+			return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
+		}
+		s.keeper.fixActions(&proposal)
+
+		agentStr, err := s.keeper.addressBytesToString(agent)
+		if err != nil {
+			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "agent")
+		}
+
+		return &escrowv1alpha1.QueryProposalsByProposerResponse_Proposal{
+			Agent:       agentStr,
+			Proposer:    req.Proposer,
+			PreActions:  proposal.PreActions,
+			PostActions: proposal.PostActions,
+			Metadata:    proposal.Metadata,
+		}, nil
+	}, query.WithCollectionPaginationPairPrefix[sdk.AccAddress, sdk.AccAddress](proposer))
+	if err != nil {
+		return nil, err
+	}
+
+	return &escrowv1alpha1.QueryProposalsByProposerResponse{
+		Proposals:  proposals,
+		Pagination: pageRes,
+	}, nil
+}
+
 func (s queryServer) Proposals(ctx context.Context, req *escrowv1alpha1.QueryProposalsRequest) (*escrowv1alpha1.QueryProposalsResponse, error) {
 	if req == nil {
 		return nil, errNilRequest
@@ -151,6 +234,7 @@ func (s queryServer) Proposals(ctx context.Context, req *escrowv1alpha1.QueryPro
 	proposals, pageRes, err := query.CollectionPaginate(ctx, s.keeper.proposals, req.Pagination, func(key sdk.AccAddress, value escrowv1alpha1.Proposal) (*escrowv1alpha1.QueryProposalsResponse_Proposal, error) {
 		agent := key
 		proposal := value
+		s.keeper.fixActions(&proposal)
 
 		agentStr, err := s.keeper.addressBytesToString(agent)
 		if err != nil {
@@ -161,8 +245,6 @@ func (s queryServer) Proposals(ctx context.Context, req *escrowv1alpha1.QueryPro
 		if err != nil {
 			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "proposer")
 		}
-
-		s.keeper.fixActions(&proposal)
 
 		return &escrowv1alpha1.QueryProposalsResponse_Proposal{
 			Agent:       agentStr,

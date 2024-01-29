@@ -100,6 +100,50 @@ func (s *KeeperTestSuite) TestQueryAgents() {
 	testutil.DoTest(s.T(), tester, cases)
 }
 
+func (s *KeeperTestSuite) TestQueryAgentsByCreator() {
+	tester := func(subject escrowv1alpha1.QueryAgentsByCreatorRequest) error {
+		res, err := s.queryServer.AgentsByCreator(s.ctx, &subject)
+		if err != nil {
+			return err
+		}
+		s.Require().NotNil(res)
+
+		s.Require().Len(res.Agents, 1)
+		for i, agent := range res.Agents {
+			s.Require().NotNil(agent, i)
+
+			s.Require().NotNil(agent.Address, i)
+			s.Require().Equal(subject.Creator, agent.Creator, i)
+		}
+
+		return nil
+	}
+	cases := []map[string]testutil.Case[escrowv1alpha1.QueryAgentsByCreatorRequest]{
+		{
+			"nil creator": {
+				Error: func() error {
+					return escrowv1alpha1.ErrUnimplemented
+				},
+			},
+			"valid creator": {
+				Malleate: func(subject *escrowv1alpha1.QueryAgentsByCreatorRequest) {
+					subject.Creator = s.addressBytesToString(s.seller)
+				},
+			},
+			"invalid creator": {
+				Malleate: func(subject *escrowv1alpha1.QueryAgentsByCreatorRequest) {
+					subject.Creator = notInBech32
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrInvalidAddress
+				},
+			},
+		},
+	}
+
+	testutil.DoTest(s.T(), tester, cases)
+}
+
 func (s *KeeperTestSuite) TestQueryProposal() {
 	tester := func(subject escrowv1alpha1.QueryProposalRequest) error {
 		res, err := s.queryServer.Proposal(s.ctx, &subject)
@@ -129,12 +173,66 @@ func (s *KeeperTestSuite) TestQueryProposal() {
 					subject.Agent = s.addressBytesToString(s.agentAny)
 				},
 			},
+			"invalid agent": {
+				Malleate: func(subject *escrowv1alpha1.QueryProposalRequest) {
+					subject.Agent = notInBech32
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrInvalidAddress
+				},
+			},
 			"proposal not found": {
 				Malleate: func(subject *escrowv1alpha1.QueryProposalRequest) {
 					subject.Agent = s.addressBytesToString(s.agentIdle)
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrProposalNotFound
+				},
+			},
+		},
+	}
+
+	testutil.DoTest(s.T(), tester, cases)
+}
+
+func (s *KeeperTestSuite) TestQueryProposalsByProposer() {
+	tester := func(subject escrowv1alpha1.QueryProposalsByProposerRequest) error {
+		res, err := s.queryServer.ProposalsByProposer(s.ctx, &subject)
+		if err != nil {
+			return err
+		}
+		s.Require().NotNil(res)
+
+		s.Require().Len(res.Proposals, 2)
+		for i, proposal := range res.Proposals {
+			s.Require().NotNil(proposal, i)
+
+			s.Require().NotNil(proposal.Agent, i)
+			s.Require().Equal(subject.Proposer, proposal.Proposer, i)
+			s.Require().NotNil(proposal.PreActions, i)
+			s.Require().NotNil(proposal.PostActions, i)
+			s.Require().NotEmpty(proposal.Metadata, i)
+		}
+		return nil
+	}
+	cases := []map[string]testutil.Case[escrowv1alpha1.QueryProposalsByProposerRequest]{
+		{
+			"nil proposer": {
+				Error: func() error {
+					return escrowv1alpha1.ErrUnimplemented
+				},
+			},
+			"valid proposer": {
+				Malleate: func(subject *escrowv1alpha1.QueryProposalsByProposerRequest) {
+					subject.Proposer = s.addressBytesToString(s.seller)
+				},
+			},
+			"invalid proposer": {
+				Malleate: func(subject *escrowv1alpha1.QueryProposalsByProposerRequest) {
+					subject.Proposer = notInBech32
+				},
+				Error: func() error {
+					return escrowv1alpha1.ErrInvalidAddress
 				},
 			},
 		},

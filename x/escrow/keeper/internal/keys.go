@@ -2,11 +2,11 @@ package internal
 
 import (
 	"cosmossdk.io/collections"
-	"cosmossdk.io/collections/indexes"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
+	"github.com/0tech/andromeda/x/escrow/ported/indexes"
 )
 
 var (

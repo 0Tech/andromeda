@@ -19,11 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName    = "/andromeda.escrow.v1alpha1.Query/Params"
-	Query_Agent_FullMethodName     = "/andromeda.escrow.v1alpha1.Query/Agent"
-	Query_Agents_FullMethodName    = "/andromeda.escrow.v1alpha1.Query/Agents"
-	Query_Proposal_FullMethodName  = "/andromeda.escrow.v1alpha1.Query/Proposal"
-	Query_Proposals_FullMethodName = "/andromeda.escrow.v1alpha1.Query/Proposals"
+	Query_Params_FullMethodName              = "/andromeda.escrow.v1alpha1.Query/Params"
+	Query_Agent_FullMethodName               = "/andromeda.escrow.v1alpha1.Query/Agent"
+	Query_AgentsByCreator_FullMethodName     = "/andromeda.escrow.v1alpha1.Query/AgentsByCreator"
+	Query_Agents_FullMethodName              = "/andromeda.escrow.v1alpha1.Query/Agents"
+	Query_Proposal_FullMethodName            = "/andromeda.escrow.v1alpha1.Query/Proposal"
+	Query_ProposalsByProposer_FullMethodName = "/andromeda.escrow.v1alpha1.Query/ProposalsByProposer"
+	Query_Proposals_FullMethodName           = "/andromeda.escrow.v1alpha1.Query/Proposals"
 )
 
 // QueryClient is the client API for Query service.
@@ -34,10 +36,14 @@ type QueryClient interface {
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	// Agent queries an agent.
 	Agent(ctx context.Context, in *QueryAgentRequest, opts ...grpc.CallOption) (*QueryAgentResponse, error)
+	// AgentsByCreator queries all the agents by its creator.
+	AgentsByCreator(ctx context.Context, in *QueryAgentsByCreatorRequest, opts ...grpc.CallOption) (*QueryAgentsByCreatorResponse, error)
 	// Agents queries all the agents.
 	Agents(ctx context.Context, in *QueryAgentsRequest, opts ...grpc.CallOption) (*QueryAgentsResponse, error)
 	// Proposal queries a proposal.
 	Proposal(ctx context.Context, in *QueryProposalRequest, opts ...grpc.CallOption) (*QueryProposalResponse, error)
+	// ProposalsByProposer queries all the proposals by its proposer.
+	ProposalsByProposer(ctx context.Context, in *QueryProposalsByProposerRequest, opts ...grpc.CallOption) (*QueryProposalsByProposerResponse, error)
 	// Proposals queries all the proposals.
 	Proposals(ctx context.Context, in *QueryProposalsRequest, opts ...grpc.CallOption) (*QueryProposalsResponse, error)
 }
@@ -68,6 +74,15 @@ func (c *queryClient) Agent(ctx context.Context, in *QueryAgentRequest, opts ...
 	return out, nil
 }
 
+func (c *queryClient) AgentsByCreator(ctx context.Context, in *QueryAgentsByCreatorRequest, opts ...grpc.CallOption) (*QueryAgentsByCreatorResponse, error) {
+	out := new(QueryAgentsByCreatorResponse)
+	err := c.cc.Invoke(ctx, Query_AgentsByCreator_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *queryClient) Agents(ctx context.Context, in *QueryAgentsRequest, opts ...grpc.CallOption) (*QueryAgentsResponse, error) {
 	out := new(QueryAgentsResponse)
 	err := c.cc.Invoke(ctx, Query_Agents_FullMethodName, in, out, opts...)
@@ -80,6 +95,15 @@ func (c *queryClient) Agents(ctx context.Context, in *QueryAgentsRequest, opts .
 func (c *queryClient) Proposal(ctx context.Context, in *QueryProposalRequest, opts ...grpc.CallOption) (*QueryProposalResponse, error) {
 	out := new(QueryProposalResponse)
 	err := c.cc.Invoke(ctx, Query_Proposal_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ProposalsByProposer(ctx context.Context, in *QueryProposalsByProposerRequest, opts ...grpc.CallOption) (*QueryProposalsByProposerResponse, error) {
+	out := new(QueryProposalsByProposerResponse)
+	err := c.cc.Invoke(ctx, Query_ProposalsByProposer_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -103,10 +127,14 @@ type QueryServer interface {
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	// Agent queries an agent.
 	Agent(context.Context, *QueryAgentRequest) (*QueryAgentResponse, error)
+	// AgentsByCreator queries all the agents by its creator.
+	AgentsByCreator(context.Context, *QueryAgentsByCreatorRequest) (*QueryAgentsByCreatorResponse, error)
 	// Agents queries all the agents.
 	Agents(context.Context, *QueryAgentsRequest) (*QueryAgentsResponse, error)
 	// Proposal queries a proposal.
 	Proposal(context.Context, *QueryProposalRequest) (*QueryProposalResponse, error)
+	// ProposalsByProposer queries all the proposals by its proposer.
+	ProposalsByProposer(context.Context, *QueryProposalsByProposerRequest) (*QueryProposalsByProposerResponse, error)
 	// Proposals queries all the proposals.
 	Proposals(context.Context, *QueryProposalsRequest) (*QueryProposalsResponse, error)
 	mustEmbedUnimplementedQueryServer()
@@ -122,11 +150,17 @@ func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*Q
 func (UnimplementedQueryServer) Agent(context.Context, *QueryAgentRequest) (*QueryAgentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Agent not implemented")
 }
+func (UnimplementedQueryServer) AgentsByCreator(context.Context, *QueryAgentsByCreatorRequest) (*QueryAgentsByCreatorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AgentsByCreator not implemented")
+}
 func (UnimplementedQueryServer) Agents(context.Context, *QueryAgentsRequest) (*QueryAgentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Agents not implemented")
 }
 func (UnimplementedQueryServer) Proposal(context.Context, *QueryProposalRequest) (*QueryProposalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Proposal not implemented")
+}
+func (UnimplementedQueryServer) ProposalsByProposer(context.Context, *QueryProposalsByProposerRequest) (*QueryProposalsByProposerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProposalsByProposer not implemented")
 }
 func (UnimplementedQueryServer) Proposals(context.Context, *QueryProposalsRequest) (*QueryProposalsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Proposals not implemented")
@@ -180,6 +214,24 @@ func _Query_Agent_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_AgentsByCreator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAgentsByCreatorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).AgentsByCreator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_AgentsByCreator_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).AgentsByCreator(ctx, req.(*QueryAgentsByCreatorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Query_Agents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryAgentsRequest)
 	if err := dec(in); err != nil {
@@ -212,6 +264,24 @@ func _Query_Proposal_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).Proposal(ctx, req.(*QueryProposalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ProposalsByProposer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryProposalsByProposerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ProposalsByProposer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ProposalsByProposer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ProposalsByProposer(ctx, req.(*QueryProposalsByProposerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -250,12 +320,20 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Query_Agent_Handler,
 		},
 		{
+			MethodName: "AgentsByCreator",
+			Handler:    _Query_AgentsByCreator_Handler,
+		},
+		{
 			MethodName: "Agents",
 			Handler:    _Query_Agents_Handler,
 		},
 		{
 			MethodName: "Proposal",
 			Handler:    _Query_Proposal_Handler,
+		},
+		{
+			MethodName: "ProposalsByProposer",
+			Handler:    _Query_ProposalsByProposer_Handler,
 		},
 		{
 			MethodName: "Proposals",
