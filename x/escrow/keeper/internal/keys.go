@@ -14,7 +14,7 @@ var (
 
 	agentsSeqKey           = collections.NewPrefix(0x10)
 	agentsKeyPrefix        = collections.NewPrefix(0x11)
-	agentsKeyAddressPrefix = collections.NewPrefix(0x12)
+	agentsKeyCreatorPrefix = collections.NewPrefix(0x12)
 
 	proposalsSeqKey      = collections.NewPrefix(0x20)
 	proposalsKeyPrefix   = collections.NewPrefix(0x21)
@@ -23,25 +23,25 @@ var (
 
 func newAgentsIndexes(sb *collections.SchemaBuilder) agentsIndexes {
 	return agentsIndexes{
-		address: indexes.NewUnique(
-			sb, agentsKeyAddressPrefix, "agents_by_address",
+		creator: indexes.NewMulti(
+			sb, agentsKeyCreatorPrefix, "agents_by_creator",
 			sdk.AccAddressKey,
-			collections.PairKeyCodec(sdk.AccAddressKey, sdk.AccAddressKey),
-			func(key collections.Pair[sdk.AccAddress, sdk.AccAddress], _ escrowv1alpha1.Agent) (sdk.AccAddress, error) {
-				address := key.K2()
-				return address, nil
+			sdk.AccAddressKey,
+			func(_ sdk.AccAddress, value escrowv1alpha1.Agent) (sdk.AccAddress, error) {
+				creator := value.Creator
+				return creator, nil
 			},
 		),
 	}
 }
 
 type agentsIndexes struct {
-	address *indexes.Unique[sdk.AccAddress, collections.Pair[sdk.AccAddress, sdk.AccAddress], escrowv1alpha1.Agent]
+	creator *indexes.Multi[sdk.AccAddress, sdk.AccAddress, escrowv1alpha1.Agent]
 }
 
-func (a agentsIndexes) IndexesList() []collections.Index[collections.Pair[sdk.AccAddress, sdk.AccAddress], escrowv1alpha1.Agent] {
-	return []collections.Index[collections.Pair[sdk.AccAddress, sdk.AccAddress], escrowv1alpha1.Agent]{
-		a.address,
+func (a agentsIndexes) IndexesList() []collections.Index[sdk.AccAddress, escrowv1alpha1.Agent] {
+	return []collections.Index[sdk.AccAddress, escrowv1alpha1.Agent]{
+		a.creator,
 	}
 }
 

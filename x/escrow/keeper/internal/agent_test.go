@@ -21,11 +21,14 @@ func (s *KeeperTestSuite) TestCreateAgent() {
 		}
 		s.NotNil(agent)
 
-		err = s.keeper.HasAgent(s.ctx, agent, subject.creator)
+		agentBefore, err := s.keeper.GetAgent(s.ctx, agent)
 		s.Assert().Error(err)
+		s.Assert().Nil(agentBefore)
 
-		err = s.keeper.HasAgent(ctx, agent, subject.creator)
+		agentAfter, err := s.keeper.GetAgent(ctx, agent)
 		s.Require().NoError(err)
+		s.Require().NotNil(agentAfter)
+		s.Require().Equal(subject.creator, sdk.AccAddress(agentAfter.Creator))
 
 		return nil
 	}

@@ -217,7 +217,9 @@ func (k Keeper) initGenesisAgent(ctx context.Context, agent *escrowv1alpha1.Gene
 		return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
 	}
 
-	return k.setAgent(ctx, address, creator, &escrowv1alpha1.Agent{})
+	return k.setAgent(ctx, address, &escrowv1alpha1.Agent{
+		Creator: creator,
+	})
 }
 
 func (k Keeper) initGenesisProposals(ctx context.Context, proposals []*escrowv1alpha1.GenesisState_Proposal) error {
@@ -297,13 +299,13 @@ func (k Keeper) exportGenesisParams(ctx context.Context) (*escrowv1alpha1.Genesi
 
 func (k Keeper) exportGenesisAgents(ctx context.Context) ([]*escrowv1alpha1.GenesisState_Agent, error) {
 	agents := []*escrowv1alpha1.GenesisState_Agent{}
-	if err := k.iterateAgents(ctx, func(address, creator sdk.AccAddress, agent escrowv1alpha1.Agent) error {
+	if err := k.iterateAgents(ctx, func(address sdk.AccAddress, agent escrowv1alpha1.Agent) error {
 		addressStr, err := k.addressBytesToString(address)
 		if err != nil {
 			return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "address")
 		}
 
-		creatorStr, err := k.addressBytesToString(creator)
+		creatorStr, err := k.addressBytesToString(agent.Creator)
 		if err != nil {
 			return errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
 		}

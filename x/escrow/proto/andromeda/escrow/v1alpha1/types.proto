@@ -11,6 +11,8 @@ message Params {
 
 // Agent defines an account taking charge of a proposal.
 message Agent {
+  // the address of the creator
+  bytes creator = 1;
 }
 
 // Proposal defines a proposal.

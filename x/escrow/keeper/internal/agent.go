@@ -49,7 +49,9 @@ func (k Keeper) CreateAgent(ctx context.Context, creator sdk.AccAddress) (sdk.Ac
 		acc := k.authKeeper.NewAccount(ctx, bac)
 		k.authKeeper.SetAccount(ctx, acc)
 
-		if err := k.setAgent(ctx, address, creator, &escrowv1alpha1.Agent{}); err != nil {
+		if err := k.setAgent(ctx, address, &escrowv1alpha1.Agent{
+			Creator: creator,
+		}); err != nil {
 			return nil, err
 		}
 
@@ -57,8 +59,8 @@ func (k Keeper) CreateAgent(ctx context.Context, creator sdk.AccAddress) (sdk.Ac
 	}
 }
 
-func (k Keeper) getAgentKey(ctx context.Context, address sdk.AccAddress) (*collections.Pair[sdk.AccAddress, sdk.AccAddress], error) {
-	key, err := k.agents.Indexes.address.MatchExact(ctx, address)
+func (k Keeper) GetAgent(ctx context.Context, address sdk.AccAddress) (*escrowv1alpha1.Agent, error) {
+	agent, err := k.agents.Get(ctx, address)
 	if err != nil {
 		if !errors.IsOf(err, collections.ErrNotFound) {
 			return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
@@ -67,60 +69,26 @@ func (k Keeper) getAgentKey(ctx context.Context, address sdk.AccAddress) (*colle
 		return nil, escrowv1alpha1.ErrAgentNotFound.Wrap(err.Error())
 	}
 
-	return &key, nil
+	return &agent, nil
 }
 
-func (k Keeper) GetAgent(ctx context.Context, address sdk.AccAddress) (sdk.AccAddress, *escrowv1alpha1.Agent, error) {
-	key, err := k.getAgentKey(ctx, address)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	creator := key.K1()
-
-	agent, err := k.agents.Get(ctx, *key)
-	if err != nil {
-		return nil, nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
-	}
-
-	return creator, &agent, nil
-}
-
-func (k Keeper) HasAgent(ctx context.Context, address, creator sdk.AccAddress) error {
-	has, err := k.agents.Has(ctx, collections.Join(creator, address))
-	if err != nil {
-		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
-	}
-
-	if !has {
-		addrStr, err := k.addressBytesToString(address)
-		if err != nil {
-			return err
-		}
-
-		return escrowv1alpha1.ErrAgentNotFound.Wrap(addrStr)
-	}
-
-	return nil
-}
-
-func (k Keeper) setAgent(ctx context.Context, address, creator sdk.AccAddress, agent *escrowv1alpha1.Agent) error {
-	if err := k.agents.Set(ctx, collections.Join(creator, address), *agent); err != nil {
+func (k Keeper) setAgent(ctx context.Context, address sdk.AccAddress, agent *escrowv1alpha1.Agent) error {
+	if err := k.agents.Set(ctx, address, *agent); err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return nil
 }
 
-func (k Keeper) removeAgent(ctx context.Context, address, creator sdk.AccAddress) error {
-	if err := k.agents.Remove(ctx, collections.Join(creator, address)); err != nil {
+func (k Keeper) removeAgent(ctx context.Context, address sdk.AccAddress) error {
+	if err := k.agents.Remove(ctx, address); err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 	}
 
 	return nil
 }
 
-func (k Keeper) iterateAgents(ctx context.Context, fn func(address, creator sdk.AccAddress, agent escrowv1alpha1.Agent) error) error {
+func (k Keeper) iterateAgents(ctx context.Context, fn func(address sdk.AccAddress, agent escrowv1alpha1.Agent) error) error {
 	iter, err := k.agents.Iterate(ctx, nil)
 	if err != nil {
 		return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
@@ -138,11 +106,10 @@ func (k Keeper) iterateAgents(ctx context.Context, fn func(address, creator sdk.
 			return escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())
 		}
 
-		creator := key.K1()
-		address := key.K2()
+		address := key
 		agent := value
 
-		if err := fn(address, creator, agent); err != nil {
+		if err := fn(address, agent); err != nil {
 			return err
 		}
 	}

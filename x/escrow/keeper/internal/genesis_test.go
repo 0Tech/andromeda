@@ -563,14 +563,14 @@ func TestInitExportGenesisAgents(t *testing.T) {
 			address := addressStringToBytes(agent.Address)
 			creator := addressStringToBytes(agent.Creator)
 
-			creatorBefore, _, err := k.GetAgent(ctxBefore, address)
+			agentBefore, err := k.GetAgent(ctxBefore, address)
 			assert.Error(t, err, i)
-			assert.Nil(t, creatorBefore, i)
+			assert.Nil(t, agentBefore, i)
 
-			creatorAfter, _, err := k.GetAgent(ctxAfter, address)
+			agentAfter, err := k.GetAgent(ctxAfter, address)
 			assert.NoError(t, err, i)
-			assert.NotNil(t, creatorAfter, i)
-			assert.Equal(t, creator, creatorAfter, i)
+			assert.NotNil(t, agentAfter, i)
+			assert.Equal(t, creator, sdk.AccAddress(agentAfter.Creator), i)
 		}
 
 		gsOutput, err := k.ExportGenesis(ctxAfter)

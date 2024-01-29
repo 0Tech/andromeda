@@ -83,7 +83,7 @@ func (m *EventUpdateParams) GetMaxMetadataLength() uint64 {
 type EventCreateAgent struct {
 	// the address of the created agent
 	Agent string `protobuf:"bytes,1,opt,name=agent,proto3" json:"agent,omitempty"`
-	// the address of the account created the agent
+	// the address of the creator
 	Creator string `protobuf:"bytes,2,opt,name=creator,proto3" json:"creator,omitempty"`
 }
 

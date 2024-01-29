@@ -17,8 +17,13 @@ func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddre
 		return 0, err
 	}
 
-	if err := k.HasAgent(ctx, agent, proposer); err != nil {
+	agentInfo, err := k.GetAgent(ctx, agent)
+	if err != nil {
 		return 0, err
+	}
+
+	if !proposer.Equals(sdk.AccAddress(agentInfo.Creator)) {
+		return 0, escrowv1alpha1.ErrPermissionDenied.Wrap("proposer differs from creator")
 	}
 
 	id, err := k.nextProposal.Next(ctx)
@@ -49,7 +54,7 @@ func (k Keeper) SubmitProposal(ctx context.Context, proposer, agent sdk.AccAddre
 		}
 	}
 
-	if err := k.removeAgent(ctx, agent, proposer); err != nil {
+	if err := k.removeAgent(ctx, agent); err != nil {
 		return 0, err
 	}
 

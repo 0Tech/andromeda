@@ -57,12 +57,12 @@ func (s queryServer) Agent(ctx context.Context, req *escrowv1alpha1.QueryAgentRe
 		return nil, errors.Wrap(err, "agent")
 	}
 
-	creator, _, err := s.keeper.GetAgent(ctx, agent)
+	agentInfo, err := s.keeper.GetAgent(ctx, agent)
 	if err != nil {
 		return nil, err
 	}
 
-	creatorStr, err := s.keeper.addressBytesToString(creator)
+	creatorStr, err := s.keeper.addressBytesToString(agentInfo.Creator)
 	if err != nil {
 		return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
 	}
@@ -80,16 +80,16 @@ func (s queryServer) Agents(ctx context.Context, req *escrowv1alpha1.QueryAgents
 		return nil, errNilRequest
 	}
 
-	agents, pageRes, err := query.CollectionPaginate(ctx, s.keeper.agents, req.Pagination, func(key collections.Pair[sdk.AccAddress, sdk.AccAddress], _ escrowv1alpha1.Agent) (*escrowv1alpha1.QueryAgentsResponse_Agent, error) {
-		creator := key.K1()
-		address := key.K2()
+	agents, pageRes, err := query.CollectionPaginate(ctx, s.keeper.agents, req.Pagination, func(key sdk.AccAddress, value escrowv1alpha1.Agent) (*escrowv1alpha1.QueryAgentsResponse_Agent, error) {
+		address := key
+		agent := value
 
 		addressStr, err := s.keeper.addressBytesToString(address)
 		if err != nil {
 			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "address")
 		}
 
-		creatorStr, err := s.keeper.addressBytesToString(creator)
+		creatorStr, err := s.keeper.addressBytesToString(agent.Creator)
 		if err != nil {
 			return nil, errors.Wrap(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), "creator")
 		}
