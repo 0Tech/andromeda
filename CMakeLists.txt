@@ -19,6 +19,8 @@ add_custom_target(buf_build)
 add_custom_target(buf_lint)
 add_custom_target(buf_generate)
 
+add_subdirectory(install)
+
 add_subdirectory(app)
 add_subdirectory(cmd/and)
 
