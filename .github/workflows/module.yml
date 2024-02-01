@@ -12,25 +12,21 @@ env:
   id: x-${{ inputs.name }}
   path: x/${{ inputs.name }}
   go-version: '1.21'
-  go-lint-version: '1.54'
-  buf-version: '1.29.0'
 jobs:
-  lint:
-    name: lint
+  go-lint:
+    name: go lint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-go@v5
       with:
         go-version: ${{ env.go-version }}
-    - name: Install linter
-      run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v${{ env.go-lint-version }}
     - name: Configure
-      run: cmake -S . -B build
+      run: cmake -S . -B build -D USE_DOCKER=NO
     - name: Lint
-      run: cmake --build build --target lint_${{ env.id }}
-  build:
-    name: build
+      run: cmake --build build --target go_lint_${{ env.id }}
+  go-build:
+    name: go build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -38,11 +34,11 @@ jobs:
       with:
         go-version: ${{ env.go-version }}
     - name: Configure
-      run: cmake -S . -B build
+      run: cmake -S . -B build -D USE_DOCKER=NO
     - name: Build
-      run: cmake --build build --target build_${{ env.id }}
-  test:
-    name: test
+      run: cmake --build build --target go_build_${{ env.id }}
+  go-test:
+    name: go test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -52,7 +48,7 @@ jobs:
       with:
         go-version: ${{ env.go-version }}
     - name: Configure
-      run: cmake -S . -B build
+      run: cmake -S . -B build -D USE_DOCKER=NO
     - name: Test
       run: |
         VERBOSE=1 ctest --test-dir build --output-on-failure --stop-on-failure -R ${{ env.id }}
@@ -69,11 +65,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: bufbuild/buf-setup-action@v1
+    - uses: actions/setup-go@v5
       with:
-        version: ${{ env.buf-version }}
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        go-version: ${{ env.go-version }}
     - name: Configure
-      run: cmake -S . -B build
+      run: cmake -S . -B build -D USE_DOCKER=NO
     - name: Lint
       run: cmake --build build --target buf_lint_${{ env.id }}
