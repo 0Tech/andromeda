@@ -2,72 +2,11 @@ project(x-escrow
   LANGUAGES NONE
 )
 
-add_custom_target(tidy_x-escrow
-  COMMAND go mod tidy
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  VERBATIM
-)
-add_dependencies(tidy
-  tidy_x-escrow
-)
-
-add_custom_target(lint_fix_x-escrow
-  COMMAND golangci-lint run --fix
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  VERBATIM
-)
-add_dependencies(lint_fix
-  lint_fix_x-escrow
-)
-
-add_custom_target(build_x-escrow
-  COMMAND go build ./...
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  VERBATIM
-)
-add_dependencies(build
-  build_x-escrow
-)
-
-add_custom_target(lint_x-escrow
-  COMMAND golangci-lint run
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  VERBATIM
-)
-add_dependencies(lint
-  lint_x-escrow
-)
-
-add_test(
-  NAME x-escrow
-  COMMAND go test -coverprofile ${CMAKE_CURRENT_BINARY_DIR}/cover.out ./...
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-add_custom_target(buf_build_x-escrow
-  COMMAND buf build
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/proto
-  VERBATIM
-)
-add_dependencies(buf_build
-  buf_build_x-escrow
-)
-
-add_custom_target(buf_lint_x-escrow
-  COMMAND buf lint
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/proto
-  VERBATIM
-)
-add_dependencies(buf_lint
-  buf_lint_x-escrow
-)
-
-add_custom_target(buf_generate_x-escrow
-  COMMAND buf generate --template buf.gen.gogo.yaml
-  COMMAND buf generate --template buf.gen.pulsar.yaml
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/proto
-  VERBATIM
-)
-add_dependencies(buf_generate
-  buf_generate_x-escrow
-)
+add_go_tidy()
+add_go_lint_fix()
+add_go_build()
+add_go_lint()
+add_go_test()
+add_buf_build()
+add_buf_lint()
+add_buf_generate()

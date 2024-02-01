@@ -6,11 +6,11 @@ function(get_version _version)
   set(${_version} 0)
 
   execute_process(
-	COMMAND protoc-gen-go-grpc -version
-	OUTPUT_VARIABLE ${_version}
+	COMMAND golangci-lint version --format short
+	OUTPUT_VARIABLE _output
   )
-  string(LENGTH "protoc-gen-go-grpc " _begin)
-  string(SUBSTRING ${${_version}} ${_begin} -1 ${_version})
+
+  string(REGEX MATCH "[0-9](\\.[0-9]+)*" ${_version} "${_output}")
   return(PROPAGATE ${_version})
 endfunction()
 
@@ -20,7 +20,7 @@ if(VERSION VERSION_EQUAL version)
 endif()
 
 execute_process(
-  COMMAND go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v${VERSION}
+  COMMAND go install github.com/golangci/golangci-lint/cmd/golangci-lint@v${VERSION}
   COMMAND_ERROR_IS_FATAL ANY
 )
 
