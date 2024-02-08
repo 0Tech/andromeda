@@ -14,10 +14,11 @@ ARG protoc_gen_go_pulsar_version=@PROTOC_GEN_GO_PULSAR_VERSION@
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y cmake
 
-RUN mkdir -p ${workdir}
-
 RUN addgroup --gid ${gid} builder
 RUN adduser --uid ${uid} --gid ${gid} builder
+
+RUN mkdir -p ${workdir} && chown ${uid}:${gid} ${workdir}
+
 USER ${uid}:${gid}
 
 RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v${go_lint_version}
@@ -32,3 +33,6 @@ RUN go install github.com/cosmos/gogoproto/protoc-gen-gocosmos@v${protoc_gen_goc
 RUN go install github.com/cosmos/cosmos-proto/cmd/protoc-gen-go-pulsar@v${protoc_gen_go_pulsar_version}
 
 WORKDIR ${workdir}
+
+COPY --chown=${uid}:${gid} mods .
+RUN go mod download

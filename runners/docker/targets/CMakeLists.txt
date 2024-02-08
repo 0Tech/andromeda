@@ -25,7 +25,21 @@ function(add_docker_test _project)
   )
 endfunction()
 
+function(cache_go_mod)
+  _get_builder_binary_dir(_builder_binary_dir)
+
+  file(RELATIVE_PATH _rel_source_dir ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+
+  configure_file(go.mod ${_builder_binary_dir}/mods/${_rel_source_dir}/go.mod
+	COPYONLY
+  )
+  configure_file(go.sum ${_builder_binary_dir}/mods/${_rel_source_dir}/go.sum
+	COPYONLY
+  )
+endfunction()
+
 function(add_go_tidy)
+  cache_go_mod()
   add_docker_target(go_tidy ${PROJECT_NAME})
 endfunction()
 add_docker_target(go_tidy "")
