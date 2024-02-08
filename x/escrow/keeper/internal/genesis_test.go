@@ -15,7 +15,7 @@ import (
 )
 
 func TestValidateGenesisParams(t *testing.T) {
-	_, _, k, _, _ := setupKeepers(t) //nolint:dogsled
+	_, _, k := setupEscrowKeeper(t)
 
 	tester := func(subject escrowv1alpha1.GenesisState_Params) error {
 		gs := k.DefaultGenesis()
@@ -41,7 +41,7 @@ func TestValidateGenesisParams(t *testing.T) {
 }
 
 func TestValidateGenesisAgents(t *testing.T) {
-	cdc, _, k, _, _ := setupKeepers(t) //nolint:dogsled
+	cdc, _, k := setupEscrowKeeper(t)
 	addressCodec := cdc.InterfaceRegistry().SigningContext().AddressCodec()
 	addressBytesToString := func(address []byte) string {
 		addressStr, err := addressCodec.BytesToString(address)
@@ -186,7 +186,7 @@ func TestValidateGenesisAgents(t *testing.T) {
 }
 
 func TestValidateGenesisProposals(t *testing.T) {
-	cdc, _, k, _, _ := setupKeepers(t) //nolint:dogsled
+	cdc, _, k := setupEscrowKeeper(t)
 	addressCodec := cdc.InterfaceRegistry().SigningContext().AddressCodec()
 	addressBytesToString := func(address []byte) string {
 		addressStr, err := addressCodec.BytesToString(address)
@@ -388,7 +388,7 @@ func TestValidateGenesisProposals(t *testing.T) {
 }
 
 func TestValidateGenesis(t *testing.T) {
-	_, _, k, _, _ := setupKeepers(t) //nolint:dogsled
+	_, _, k := setupEscrowKeeper(t)
 
 	tester := func(subject escrowv1alpha1.GenesisState) error {
 		return k.ValidateGenesis(&subject)
@@ -448,7 +448,7 @@ func TestValidateGenesis(t *testing.T) {
 }
 
 func TestInitExportGenesisParams(t *testing.T) {
-	_, ctxBefore, k, _, _ := setupKeepers(t) //nolint:dogsled
+	_, ctxBefore, k := setupEscrowKeeper(t)
 
 	tester := func(subject escrowv1alpha1.GenesisState_Params) error {
 		gsInput := k.DefaultGenesis()
@@ -491,7 +491,7 @@ func TestInitExportGenesisParams(t *testing.T) {
 }
 
 func TestInitExportGenesisAgents(t *testing.T) {
-	cdc, ctxBefore, k, _, _ := setupKeepers(t)
+	cdc, ctxBefore, k := setupEscrowKeeper(t)
 	addressCodec := cdc.InterfaceRegistry().SigningContext().AddressCodec()
 	addressBytesToString := func(address []byte) string {
 		addressStr, err := addressCodec.BytesToString(address)
@@ -568,7 +568,7 @@ func TestInitExportGenesisAgents(t *testing.T) {
 }
 
 func TestInitExportGenesisProposals(t *testing.T) {
-	cdc, ctxBefore, k, _, _ := setupKeepers(t)
+	cdc, ctxBefore, k := setupEscrowKeeper(t)
 	addressCodec := cdc.InterfaceRegistry().SigningContext().AddressCodec()
 	addressBytesToString := func(address []byte) string {
 		addressStr, err := addressCodec.BytesToString(address)
@@ -650,7 +650,7 @@ func TestInitExportGenesisProposals(t *testing.T) {
 }
 
 func TestInitExportGenesis(t *testing.T) {
-	_, ctxBefore, k, _, _ := setupKeepers(t) //nolint:dogsled
+	_, ctxBefore, k := setupEscrowKeeper(t)
 
 	tester := func(subject escrowv1alpha1.GenesisState) error {
 		assert.NoError(t, k.ValidateGenesis(&subject))

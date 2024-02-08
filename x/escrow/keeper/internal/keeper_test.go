@@ -217,6 +217,15 @@ func TestKeeperTestSuite(t *testing.T) {
 	suite.Run(t, new(KeeperTestSuite))
 }
 
+func setupEscrowKeeper(t *testing.T) (
+	codec.Codec,
+	context.Context,
+	*keeper.Keeper,
+) {
+	cdc, ctx, keeper, _, _ := setupKeepers(t)
+	return cdc, ctx, keeper
+}
+
 func setupKeepers(t *testing.T) (
 	codec.Codec,
 	context.Context,
@@ -246,16 +255,16 @@ func setupKeepers(t *testing.T) (
 	bapp.SetInterfaceRegistry(ir)
 
 	ctrl := gomock.NewController(t)
-	authKeeper := setupAuthKeeper(t, ctrl, encCfg.Codec, key)
+	authKeeper := newAuthKeeper(t, ctrl, encCfg.Codec, key)
 
-	escrowKeeper := setupEscrowKeeper(t, bapp, encCfg.Codec, key, authKeeper)
-	testKeeper := setupTestKeeper(t, bapp, encCfg.Codec, key) // register test keeper
+	escrowKeeper := newEscrowKeeper(t, bapp, encCfg.Codec, key, authKeeper)
+	testKeeper := newTestKeeper(t, bapp, encCfg.Codec, key) // register test keeper
 
 	return encCfg.Codec, testCtx.Ctx, escrowKeeper, authKeeper, testKeeper
 }
 
 // mock auth keeper
-func setupAuthKeeper(t *testing.T, ctrl *gomock.Controller, cdc codec.Codec, key *storetypes.KVStoreKey) expected.AuthKeeper {
+func newAuthKeeper(t *testing.T, ctrl *gomock.Controller, cdc codec.Codec, key *storetypes.KVStoreKey) expected.AuthKeeper {
 	authKeeper := escrowtestutil.NewMockAuthKeeper(ctrl)
 	authPrefix := []byte{0xff, 0x00}
 
@@ -320,7 +329,7 @@ func setupAuthKeeper(t *testing.T, ctrl *gomock.Controller, cdc codec.Codec, key
 	return authKeeper
 }
 
-func setupEscrowKeeper(t *testing.T, bapp *baseapp.BaseApp, cdc codec.Codec, key *storetypes.KVStoreKey, authKeeper expected.AuthKeeper) *keeper.Keeper {
+func newEscrowKeeper(t *testing.T, bapp *baseapp.BaseApp, cdc codec.Codec, key *storetypes.KVStoreKey, authKeeper expected.AuthKeeper) *keeper.Keeper {
 	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
 
 	escrowKeeper, err := keeper.NewKeeper(cdc, runtime.NewKVStoreService(key), authority, bapp.MsgServiceRouter(), authKeeper)
@@ -336,7 +345,7 @@ func setupEscrowKeeper(t *testing.T, bapp *baseapp.BaseApp, cdc codec.Codec, key
 	return escrowKeeper
 }
 
-func setupTestKeeper(t *testing.T, bapp *baseapp.BaseApp, cdc codec.Codec, key *storetypes.KVStoreKey) *testkeeper.Keeper {
+func newTestKeeper(t *testing.T, bapp *baseapp.BaseApp, cdc codec.Codec, key *storetypes.KVStoreKey) *testkeeper.Keeper {
 	testKeeper, err := testkeeper.NewKeeper(cdc, runtime.NewKVStoreService(key), nil)
 	assert.NoError(t, err)
 
