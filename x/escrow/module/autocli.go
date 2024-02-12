@@ -24,16 +24,34 @@ max_metadata_length: "42"`,
 				{
 					RpcMethod: "Agent",
 					Short:     "queries an agent.",
-					Use:       "agent --address [address]",
+					Use:       "agent --agent [agent]",
 					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"address": {
+						"agent": {
 							Usage: "the address of an agent",
 						},
 					},
-					Example: `$ and query escrow agent --address cosmos1aaa...
+					Example: `$ and query escrow agent --agent cosmos1aaa...
 agent:
   address: cosmos1aaa...
   creator: cosmos1...`,
+				},
+				{
+					RpcMethod: "AgentsByCreator",
+					Short:     "queries all the agents by its creator.",
+					Use:       "agents-by-creator --creator [creator]",
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"creator": {
+							Usage: "the address of a creator",
+						},
+					},
+					Example: `$ and query escrow agents-by-creator --creator cosmos1ccc...
+agents:
+- address: cosmos1...
+  creator: cosmos1ccc...
+- address: cosmos1...
+  creator: cosmos1ccc...
+pagination:
+  total: "2"`,
 				},
 				{
 					RpcMethod: "Agents",
@@ -52,16 +70,15 @@ pagination:
 				{
 					RpcMethod: "Proposal",
 					Short:     "queries a proposal.",
-					Use:       "proposal --id [id]",
+					Use:       "proposal --agent [agent]",
 					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"id": {
-							Usage: "the identifier of a proposal",
+						"agent": {
+							Usage: "the address of an agent in charge",
 						},
 					},
-					Example: `$ and query escrow proposal --id 3
+					Example: `$ and query escrow proposal --agent cosmos1aaa...
 proposal:
-  agent: cosmos1...
-  id: "3"
+  agent: cosmos1aaa...
   metadata: very good deal
   post_actions:
   - type: cosmos-sdk/MsgSend
@@ -81,6 +98,44 @@ proposal:
   proposer: cosmos1...`,
 				},
 				{
+					RpcMethod: "ProposalsByProposer",
+					Short:     "queries all the proposals by its proposer.",
+					Use:       "proposals-by-proposer --proposer [proposer]",
+					FlagOptions: map[string]*autocliv1.FlagOptions{
+						"proposer": {
+							Usage: "the address of a proposer",
+						},
+					},
+					Example: `$ and query escrow proposals-by-proposer --proposer cosmos1ppp...
+pagination:
+  total: "1"
+proposals:
+- agent: cosmos1...
+  metadata: limited time offer for you
+  post_actions:
+  - type: cosmos-sdk/MsgSend
+    value:
+      amount:
+      - amount: "42"
+        denom: stake
+      from_address: cosmos1...
+      to_address: cosmos1...
+  - type: /cosmos.nft.v1beta1.MsgSend
+    value:
+      class_id: ...
+      id: ...
+      receiver: cosmos1...
+      sender: cosmos1...
+  pre_actions:
+  - type: /cosmos.nft.v1beta1.MsgSend
+    value:
+      class_id: ...
+      id: ...
+      receiver: cosmos1...
+      sender: cosmos1...
+  proposer: cosmos1ppp...`,
+				},
+				{
 					RpcMethod: "Proposals",
 					Short:     "queries all the proposals.",
 					Example: `$ and query escrow proposals
@@ -88,7 +143,6 @@ pagination:
   total: "2"
 proposals:
 - agent: cosmos1...
-  id: "3"
   metadata: very good deal
   post_actions:
   - type: cosmos-sdk/MsgSend
@@ -107,7 +161,6 @@ proposals:
       sender: cosmos1...
   proposer: cosmos1...
 - agent: cosmos1...
-  id: "4"
   metadata: limited time offer for you
   post_actions:
   - type: cosmos-sdk/MsgSend
@@ -140,12 +193,7 @@ proposals:
 				{
 					RpcMethod: "UpdateParams",
 					Short:     "updates the module parameters.",
-					Long: `updates the module parameters.
-
-Note:
-  max-metadata-length:
-    it must be greater than or equal to the current's.`,
-					Use: "update-params --from [authority] --max-metadata-length [max-metadata-length]",
+					Use:       "update-params --from [authority] --max-metadata-length [max-metadata-length]",
 					FlagOptions: map[string]*autocliv1.FlagOptions{
 						"max_metadata_length": {
 							Usage: "the maximum length allowed for metadata",
@@ -226,14 +274,14 @@ Note:
 					Example: `$ and tx escrow submit-proposal --from cosmos1ppp... --agent cosmos1aaa... \
     --pre-actions '{"@type": "/cosmos.nft.v1beta1.MsgSend",
                     "class_id": "cat",
-                    "id": "octocat",
+                    "id": "leopardcat",
                     "sender": "cosmos1ppp...",
                     "receiver": "cosmos1aaa..."}' \
     --post-actions '{"@type": "/cosmos.bank.v1beta1.MsgSend",
                      "from_address": "cosmos1aaa",
                      "to_address": "cosmos1ppp...",
                      "amount": [{"amount": "42", "denom": "stake"}]}' \
-    --metadata "sell octocat for 42stake"
+    --metadata "sell leopardcat for 42stake"
 auth_info:
   fee:
     amount: []
@@ -248,7 +296,7 @@ body:
   messages:
   - '@type': /andromeda.escrow.v1alpha1.MsgSubmitProposal
     agent: cosmos1aaa...
-    metadata: sell octocat for 42stake
+    metadata: sell leopardcat for 42stake
     post_actions:
     - '@type': /cosmos.bank.v1beta1.MsgSend
       amount:
@@ -260,7 +308,7 @@ body:
     - '@type': /cosmos.nft.v1beta1.MsgSend
       value:
         class_id: cat
-        id: octocat
+        id: leopardcat
         receiver: cosmos1aaa...
         sender: cosmos1ppp...
       proposer: cosmos1ppp...
@@ -276,23 +324,20 @@ confirm transaction before signing and broadcasting [y/N]:`,
 
 Note:
   actions:
-    the signer of each message must be either the executor or the agent.`,
-					Use: "exec --proposal [proposal] --from [executor] --agent [agent] --actions [actions]",
+    the signer of each message must be either the executor or one of the agents.`,
+					Use: "exec --from [executor] --agents [agents] --actions [actions]",
 					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"proposal": {
-							Usage: "the identifier of the proposal",
-						},
-						"agent": {
-							Usage: "the address of the agent in charge",
+						"agents": {
+							Usage: "the addresses of the agents in charge",
 						},
 						"actions": {
 							Usage: "the messages which will be executed on the execution",
 						},
 					},
-					Example: `$ and tx escrow exec --proposal 2 --from cosmos1eee... --agent cosmos1... \
+					Example: `$ and tx escrow exec --from cosmos1eee... --agents cosmos1aaa... \
     --actions '{"@type": "/cosmos.nft.v1beta1.MsgSend",
                 "class_id": "cat",
-                "id": "octocat",
+                "id": "leopardcat",
                 "sender": "cosmos1aaa...",
                 "receiver": "cosmos1eee..."}' \
     --actions '{"@type": "/cosmos.bank.v1beta1.MsgSend",
@@ -315,7 +360,7 @@ body:
     actions:
     - '@type': /cosmos.nft.v1beta1.MsgSend
       class_id: cat
-      id: octocat
+      id: leopardcat
       receiver: cosmos1eee...
       sender: cosmos1aaa...
     - '@type': /cosmos.bank.v1beta1.MsgSend
@@ -324,9 +369,9 @@ body:
         denom: stake
       from_address: cosmos1eee...
       to_address: cosmos1aaa...
-    agent: cosmos1aaa...
+    agents:
+    - cosmos1aaa...
     executor: cosmos1eee...
-    proposal: "2"
   non_critical_extension_options: []
   timeout_height: "0"
 signatures: []

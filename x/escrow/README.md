@@ -30,6 +30,7 @@ reduce such efforts on common use cases.
 * [Client](#client)
     * [CLI](#cli)
     * [gRPC](#grpc)
+* [Examples](#examples)
 
 
 ## Concepts
@@ -74,9 +75,9 @@ A transaction begins with a certain proposer submitting a proposal. It is
 triggered by broadcasting `Msg/SubmitProposal`. The message has information of
 the proposer, the agent, the pre-actions and post-actions.
 An agent MUST be prepared by the proposer, in prior to the submission. The
-signers included in the pre-actions and post-actions MUST be either the
-proposer or the agent. As mentioned above, pre-actions will be executed in this
-step.
+signer of each message included in the pre-actions and post-actions MUST be
+either the proposer or the agent. As mentioned above, pre-actions will be
+executed in this step.
 
 After successful submission of the proposal, the agent would be pruned from the
 state.
@@ -85,9 +86,10 @@ state.
 
 A proposal would be executed by a certain executor who is interested in. It is
 triggered by broadcasting `Msg/Exec`. The message has information of the
-executor, the agent and the actions. The agent MUST be indentical with that of
-the proposal. The signers included in the actions MUST be either the executor
-or the agent.
+executor, the agents and the actions. Each agent MUST have the corresponding
+proposal. The signer of each message included in the actions MUST be either the
+executor or one of the agents. The execution order of the post-actions is same
+as the inclusion order of the agents.
 
 After successful execution of the proposal, the proposal would be pruned from
 the state.
@@ -109,19 +111,17 @@ https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1a
 
 ### Agents
 
-* Agents: `0x11 | creator_address | agent_address -> ProtocolBuffer(Agent)`
+* Agents: `0x11 | agent_address -> ProtocolBuffer(Agent)`
+* AgentsByCreator: `0x12 | creator_address | agent_address`
 
 ```protobuf reference
 https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L9-L11
 ```
 
-### NextProposal
-
-* NextProposal: `0x20 -> uint64`
-
 ### Proposals
 
-* Proposals: `0x21 | proposer_address | proposal_id -> ProtocolBuffer(Proposal)`
+* Proposals: `0x20 | agent_address -> ProtocolBuffer(Proposal)`
+* ProposalsByProposer: `0x21 | proposer_address | agent_address`
 
 ```protobuf reference
 https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L13-L23
@@ -200,11 +200,13 @@ Usage:
   and query escrow [command]
 
 Available Commands:
-  agent       queries an agent.
-  agents      queries all the agents.
-  params      queries the module parameters.
-  proposal    queries a proposal.
-  proposals   queries all the proposals.
+  agent                 queries an agent.
+  agents                queries all the agents.
+  agents-by-creator     queries all the agents by its creator.
+  params                queries the module parameters.
+  proposal              queries a proposal.
+  proposals             queries all the proposals.
+  proposals-by-proposer queries all the proposals by its proposer.
 ```
 
 ##### params
@@ -234,13 +236,36 @@ and query escrow agent --help
 queries an agent.
 
 Usage:
-  and query escrow agent --address [address] [flags]
+  and query escrow agent --agent [agent] [flags]
 
 Examples:
-$ and query escrow agent --address cosmos1aaa...
+$ and query escrow agent --agent cosmos1aaa...
 agent:
   address: cosmos1aaa...
   creator: cosmos1...
+```
+
+##### agents-by-creator
+
+```bash
+and query escrow agents-by-creator --help
+```
+
+```bash
+queries all the agents by its creator.
+
+Usage:
+  and query escrow agents-by-creator --creator [creator] [flags]
+
+Examples:
+$ and query escrow agents-by-creator --creator cosmos1ccc...
+agents:
+- address: cosmos1...
+  creator: cosmos1ccc...
+- address: cosmos1...
+  creator: cosmos1ccc...
+pagination:
+  total: "2"
 ```
 
 ##### agents
@@ -278,13 +303,12 @@ and query escrow proposal --help
 queries a proposal.
 
 Usage:
-  and query escrow proposal --id [id] [flags]
+  and query escrow proposal --agent [agent] [flags]
 
 Examples:
-$ and query escrow proposal --id 3
+$ and query escrow proposal --agent cosmos1aaa...
 proposal:
-  agent: cosmos1...
-  id: "3"
+  agent: cosmos1aaa...
   metadata: very good deal
   post_actions:
   - type: cosmos-sdk/MsgSend
@@ -302,6 +326,49 @@ proposal:
       receiver: cosmos1...
       sender: cosmos1...
   proposer: cosmos1...
+```
+
+##### proposals-by-proposer
+
+```bash
+and query escrow proposals-by-proposer --help
+```
+
+```bash
+queries all the proposals by its proposer.
+
+Usage:
+  and query escrow proposals-by-proposer --proposer [proposer] [flags]
+
+Examples:
+$ and query escrow proposals-by-proposer --proposer cosmos1ppp...
+pagination:
+  total: "1"
+proposals:
+- agent: cosmos1...
+  metadata: limited time offer for you
+  post_actions:
+  - type: cosmos-sdk/MsgSend
+    value:
+      amount:
+      - amount: "42"
+        denom: stake
+      from_address: cosmos1...
+      to_address: cosmos1...
+  - type: /cosmos.nft.v1beta1.MsgSend
+    value:
+      class_id: ...
+      id: ...
+      receiver: cosmos1...
+      sender: cosmos1...
+  pre_actions:
+  - type: /cosmos.nft.v1beta1.MsgSend
+    value:
+      class_id: ...
+      id: ...
+      receiver: cosmos1...
+      sender: cosmos1...
+  proposer: cosmos1ppp...
 ```
 
 ##### proposals
@@ -322,7 +389,6 @@ pagination:
   total: "2"
 proposals:
 - agent: cosmos1...
-  id: "3"
   metadata: very good deal
   post_actions:
   - type: cosmos-sdk/MsgSend
@@ -341,7 +407,6 @@ proposals:
       sender: cosmos1...
   proposer: cosmos1...
 - agent: cosmos1...
-  id: "4"
   metadata: limited time offer for you
   post_actions:
   - type: cosmos-sdk/MsgSend
@@ -395,10 +460,6 @@ and tx escrow update-params --help
 
 ```bash
 updates the module parameters.
-
-Note:
-  max-metadata-length:
-    it must be greater than or equal to the current's.
 
 Usage:
   and tx escrow update-params --from [authority] --max-metadata-length [max-metadata-length] [flags]
@@ -478,20 +539,20 @@ Note:
     the signer of each message must be either the proposer or the agent.
 
 Usage:
-  and tx escrow submit-proposal --from [proposer] --agent [agent] --pre-actions [pre-actions] --post-actions [post-actions] [flags]
+  and tx escrow submit-proposal --from [proposer] --agent [agent] --pre-actions [pre-actions] --post-actions [post-actions] --metadata [metadata] [flags]
 
 Examples:
 $ and tx escrow submit-proposal --from cosmos1ppp... --agent cosmos1aaa... \
     --pre-actions '{"@type": "/cosmos.nft.v1beta1.MsgSend",
                     "class_id": "cat",
-                    "id": "octocat",
+                    "id": "leopardcat",
                     "sender": "cosmos1ppp...",
                     "receiver": "cosmos1aaa..."}' \
     --post-actions '{"@type": "/cosmos.bank.v1beta1.MsgSend",
                      "from_address": "cosmos1aaa",
                      "to_address": "cosmos1ppp...",
                      "amount": [{"amount": "42", "denom": "stake"}]}' \
-    --metadata "sell octocat for 42stake"
+    --metadata "sell leopardcat for 42stake"
 auth_info:
   fee:
     amount: []
@@ -506,7 +567,7 @@ body:
   messages:
   - '@type': /andromeda.escrow.v1alpha1.MsgSubmitProposal
     agent: cosmos1aaa...
-    metadata: sell octocat for 42stake
+    metadata: sell leopardcat for 42stake
     post_actions:
     - '@type': /cosmos.bank.v1beta1.MsgSend
       amount:
@@ -518,7 +579,7 @@ body:
     - '@type': /cosmos.nft.v1beta1.MsgSend
       value:
         class_id: cat
-        id: octocat
+        id: leopardcat
         receiver: cosmos1aaa...
         sender: cosmos1ppp...
       proposer: cosmos1ppp...
@@ -539,16 +600,16 @@ executes a proposal.
 
 Note:
   actions:
-    the signer of each message must be either the executor or the agent.
+    the signer of each message must be either the executor or one of the agents.
 
 Usage:
-  and tx escrow exec --proposal [proposal] --from [executor] --agent [agent] --actions [actions] [flags]
+  and tx escrow exec --from [executor] --agents [agents] --actions [actions] [flags]
 
 Examples:
-$ and tx escrow exec --proposal 2 --from cosmos1eee... --agent cosmos1... \
+$ and tx escrow exec --from cosmos1eee... --agents cosmos1aaa... \
     --actions '{"@type": "/cosmos.nft.v1beta1.MsgSend",
                 "class_id": "cat",
-                "id": "octocat",
+                "id": "leopardcat",
                 "sender": "cosmos1aaa...",
                 "receiver": "cosmos1eee..."}' \
     --actions '{"@type": "/cosmos.bank.v1beta1.MsgSend",
@@ -571,7 +632,7 @@ body:
     actions:
     - '@type': /cosmos.nft.v1beta1.MsgSend
       class_id: cat
-      id: octocat
+      id: leopardcat
       receiver: cosmos1eee...
       sender: cosmos1aaa...
     - '@type': /cosmos.bank.v1beta1.MsgSend
@@ -580,9 +641,9 @@ body:
         denom: stake
       from_address: cosmos1eee...
       to_address: cosmos1aaa...
-    agent: cosmos1aaa...
+    agents:
+    - cosmos1aaa...
     executor: cosmos1eee...
-    proposal: "2"
   non_critical_extension_options: []
   timeout_height: "0"
 signatures: []
@@ -599,9 +660,11 @@ grpcurl -plaintext \
 ```bash
 andromeda.escrow.v1alpha1.Query.Agent
 andromeda.escrow.v1alpha1.Query.Agents
+andromeda.escrow.v1alpha1.Query.AgentsByCreator
 andromeda.escrow.v1alpha1.Query.Params
 andromeda.escrow.v1alpha1.Query.Proposal
 andromeda.escrow.v1alpha1.Query.Proposals
+andromeda.escrow.v1alpha1.Query.ProposalsByProposer
 ```
 
 #### andromeda.escrow.v1alpha1.Query.Params
@@ -637,7 +700,7 @@ Example:
 
 ```bash
 grpcurl -plaintext \
-  -d '{"address": "cosmos1aaa..."}' \
+  -d '{"agent": "cosmos1aaa..."}' \
   localhost:9090 andromeda.escrow.v1alpha1.Query.Agent
 ```
 
@@ -648,6 +711,41 @@ Example Output:
   "agent": {
     "address": "cosmos1aaa...",
     "creator": "cosmos1..."
+  }
+}
+```
+
+### andromeda.escrow.v1alpha1.Query.AgentsByCreator
+
+```bash
+grpcurl -plaintext \
+  localhost:9090 describe andromeda.escrow.v1alpha1.Query.AgentsByCreator
+```
+
+Example:
+
+```bash
+grpcurl -plaintext \
+  -d '{"creator": "cosmos1ccc..."}' \
+  localhost:9090 andromeda.escrow.v1alpha1.Query.AgentsByCreator
+```
+
+Example Output:
+
+```bash
+{
+  "agents": [
+    {
+      "address": "cosmos1...",
+      "creator": "cosmos1ccc..."
+    },
+    {
+      "address": "cosmos1...",
+      "creator": "cosmos1ccc..."
+    }
+  ],
+  "pagination": {
+    "total": "2"
   }
 }
 ```
@@ -701,7 +799,7 @@ Example:
 
 ```bash
 grpcurl -plaintext \
-  -d '{"id": "3"}' \
+  -d '{"agent": "cosmos1aaa..."}' \
   localhost:9090 andromeda.escrow.v1alpha1.Query.Proposal
 ```
 
@@ -710,9 +808,8 @@ Example Output:
 ```bash
 {
   "proposal": {
-    "id": "3",
+    "agent": "cosmos1aaa...",
     "proposer": "cosmos1...",
-    "agent": "cosmos1...",
     "preActions": [
       {
         "@type": "/cosmos.nft.v1beta1.MsgSend",
@@ -740,6 +837,67 @@ Example Output:
 }
 ```
 
+### andromeda.escrow.v1alpha1.Query.ProposalsByProposer
+
+```bash
+grpcurl -plaintext \
+  localhost:9090 describe andromeda.escrow.v1alpha1.Query.ProposalsByProposer
+```
+
+Example:
+
+```bash
+grpcurl -plaintext \
+  -d '{"proposer": "cosmos1ppp..."}' \
+  localhost:9090 andromeda.escrow.v1alpha1.Query.ProposalsByProposer
+```
+
+Example Output:
+
+```bash
+{
+  "proposals": [
+    {
+      "agent": "cosmos1...",
+      "proposer": "cosmos1ppp...",
+      "preActions": [
+        {
+          "@type": "/cosmos.nft.v1beta1.MsgSend",
+          "classId": "...",
+          "id": "...",
+          "sender": "cosmos1...",
+          "receiver": "cosmos1..."
+        }
+      ],
+      "postActions": [
+        {
+          "@type": "/cosmos.bank.v1beta1.MsgSend",
+          "amount": [
+            {
+              "denom": "stake",
+              "amount": "42"
+            }
+          ],
+          "fromAddress": "cosmos1...",
+          "toAddress": "cosmos1..."
+        },
+        {
+          "@type": "/cosmos.nft.v1beta1.MsgSend",
+          "classId": "...",
+          "id": "...",
+          "sender": "cosmos1...",
+          "receiver": "cosmos1..."
+        }
+      ],
+      "metadata": "limited time offer for you"
+    },
+  ],
+  "pagination": {
+    "total": "1"
+  }
+}
+```
+
 ### andromeda.escrow.v1alpha1.Query.Proposals
 
 ```bash
@@ -760,9 +918,8 @@ Example Output:
 {
   "proposals": [
     {
-      "id": "3",
-      "proposer": "cosmos1...",
       "agent": "cosmos1...",
+      "proposer": "cosmos1...",
       "preActions": [
         {
           "@type": "/cosmos.nft.v1beta1.MsgSend",
@@ -788,9 +945,8 @@ Example Output:
       "metadata": "very good deal"
     },
     {
-      "id": "4",
-      "proposer": "cosmos1...",
       "agent": "cosmos1...",
+      "proposer": "cosmos1...",
       "preActions": [
         {
           "@type": "/cosmos.nft.v1beta1.MsgSend",
@@ -827,4 +983,239 @@ Example Output:
     "total": "2"
   }
 }
+```
+
+
+## Examples
+
+### Selling an NFT for coins
+
+It would be the most trivial usage of this module. In this example, a proposer
+`cosmos1ppp...` sells an x/nft token `cat:leopardcat` for x/bank coins
+`42stake`.
+
+```yaml
+agent: cosmos1aaa...
+metadata: sell leopardcat for 42stake
+post_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "42"
+    denom: stake
+  from_address: cosmos1aaa...
+  to_address: cosmos1ppp...
+pre_actions:
+- '@type': /cosmos.nft.v1beta1.MsgSend
+  value:
+    class_id: cat
+    id: leopardcat
+    receiver: cosmos1aaa...
+    sender: cosmos1ppp...
+proposer: cosmos1ppp...
+```
+
+The proposal would be executed by `cosmos1eee...`, who is willing to pay
+`42stake` for `cat:leopardcat`.
+
+```yaml
+actions:
+- '@type': /cosmos.nft.v1beta1.MsgSend
+  class_id: cat
+  id: leopardcat
+  receiver: cosmos1eee...
+  sender: cosmos1aaa...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "42"
+    denom: stake
+  from_address: cosmos1eee...
+  to_address: cosmos1aaa...
+agents:
+- cosmos1aaa...
+executor: cosmos1eee...
+```
+
+### Selling coins for an NFT
+
+It may sound strange, but one can sell coins for a certain NFT. In this
+example, a proposer `cosmos1ppp...` sells x/bank coins `42stake` for an x/nft
+token `cat:leopardcat`.
+
+```yaml
+agent: cosmos1aaa...
+metadata: sell 42stake for leopardcat
+post_actions:
+- '@type': /cosmos.nft.v1beta1.MsgSend
+  value:
+    class_id: cat
+    id: leopardcat
+    receiver: cosmos1ppp...
+    sender: cosmos1aaa...
+pre_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "42"
+    denom: stake
+  from_address: cosmos1ppp...
+  to_address: cosmos1aaa...
+proposer: cosmos1ppp...
+```
+
+The proposal would be executed by `cosmos1eee...`, who is willing to pay
+`cat:leopardcat` for `42stake`.
+
+```yaml
+actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "42"
+    denom: stake
+  from_address: cosmos1aaa...
+  to_address: cosmos1eee...
+- '@type': /cosmos.nft.v1beta1.MsgSend
+  class_id: cat
+  id: leopardcat
+  receiver: cosmos1aaa...
+  sender: cosmos1eee...
+agents:
+- cosmos1aaa...
+executor: cosmos1eee...
+```
+
+### Selling an NFT to a specific account
+
+One may want to offer deals to a specific account. In this example, a proposer
+`cosmos1ppp...` sells an x/nft token `cat:leopardcat` for x/bank coins
+`42stake` to `cosmos1eee...`.
+
+```yaml
+agent: cosmos1aaa...
+metadata: sell leopardcat for 42stake
+post_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "42"
+    denom: stake
+  from_address: cosmos1aaa...
+  to_address: cosmos1ppp...
+- '@type': /cosmos.nft.v1beta1.MsgSend
+  value:
+    class_id: cat
+    id: leopardcat
+    receiver: cosmos1eee...
+    sender: cosmos1aaa...
+pre_actions:
+- '@type': /cosmos.nft.v1beta1.MsgSend
+  value:
+    class_id: cat
+    id: leopardcat
+    receiver: cosmos1aaa...
+    sender: cosmos1ppp...
+proposer: cosmos1ppp...
+```
+
+Technically, the proposal could be executed by anyone. However, it would not be
+a wise choice executing this proposal for the others, because the messages
+included in the pre-actions, actions and post-actions are all-or-none. And
+this proposal has a specific receipient of the NFT, so the proposer can assure
+the designated recipient will receive the NFT eventually.
+
+The recipient, `cosmos1eee...`, who has an interest on this deal, will execute
+the proposal.
+
+```yaml
+actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "42"
+    denom: stake
+  from_address: cosmos1eee...
+  to_address: cosmos1aaa...
+agents:
+- cosmos1aaa...
+executor: cosmos1eee...
+```
+
+#### Mediating sellings
+
+One can mediate multiple proposals. In this example, one proposer
+`cosmos1ppp...` sells x/bank coins `1notscam` for x/bank coins `42stake`.
+
+```yaml
+agent: cosmos1aaa...
+metadata: sell 1notscam for 42stake
+post_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "42"
+    denom: stake
+  from_address: cosmos1aaa...
+  to_address: cosmos1ppp...
+pre_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "1"
+    denom: notscam
+  from_address: cosmos1ppp...
+  to_address: cosmos1aaa...
+proposer: cosmos1ppp...
+```
+
+The other proposer `cosmos1qqq...` sells x/bank coins `4242stake` for x/bank
+coins `1notscam`.
+
+```yaml
+agent: cosmos1bbb...
+metadata: sell 1notscam for 4242stake
+post_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "1"
+    denom: notscam
+  from_address: cosmos1bbb...
+  to_address: cosmos1qqq...
+pre_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "4242"
+    denom: stake
+  from_address: cosmos1qqq...
+  to_address: cosmos1bbb...
+proposer: cosmos1qqq...
+```
+
+In real life, this is a typical type of scam. If you execute the first proposal
+to buy `1notscam`, hoping to sell it to `cosmos1qqq...` to earn the difference
+`4200stake`, they will execute the second proposal immediately. But on a cosmos
+chain, it won't work, because you can send multiple messages in a tx, ensuring
+they would be executed in all-or-none manner.
+
+Or, you can mediate the proposals, meaning executing multiple proposals in a
+one `Msg/Exec`. In this way, you don't even need to prepare `42stake` to
+trigger the first proposal.
+
+```yaml
+actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "4200"
+    denom: stake
+  from_address: cosmos1bbb...
+  to_address: cosmos1eee...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "42"
+    denom: stake
+  from_address: cosmos1bbb...
+  to_address: cosmos1aaa...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "1"
+    denom: notscam
+  from_address: cosmos1aaa...
+  to_address: cosmos1bbb...
+agents:
+- cosmos1aaa...
+- cosmos1bbb...
+executor: cosmos1eee...
 ```

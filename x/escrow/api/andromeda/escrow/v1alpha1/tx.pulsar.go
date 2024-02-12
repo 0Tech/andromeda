@@ -3919,7 +3919,6 @@ type MsgUpdateParams struct {
 	// the address of the module authority
 	Authority string `protobuf:"bytes,1,opt,name=authority,proto3" json:"authority,omitempty"`
 	// the maximum length allowed for metadata
-	// Note: it must be greater than or equal to the current's.
 	MaxMetadataLength uint64 `protobuf:"varint,2,opt,name=max_metadata_length,json=maxMetadataLength,proto3" json:"max_metadata_length,omitempty"`
 }
 
