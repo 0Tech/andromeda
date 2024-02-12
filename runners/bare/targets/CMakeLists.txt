@@ -1,4 +1,3 @@
-add_custom_target(go_tidy)
 function(add_go_tidy)
   set(_target go_tidy_${PROJECT_NAME})
   add_custom_target(${_target}
@@ -14,7 +13,6 @@ function(add_go_tidy)
   )
 endfunction()
 
-add_custom_target(go_lint_fix)
 function(add_go_lint_fix)
   set(_target go_lint_fix_${PROJECT_NAME})
   add_custom_target(${_target}
@@ -30,7 +28,6 @@ function(add_go_lint_fix)
   )
 endfunction()
 
-add_custom_target(go_build)
 function(add_go_build)
   set(_target go_build_${PROJECT_NAME})
   add_custom_target(${_target}
@@ -61,7 +58,6 @@ function(add_go_build_executable)
   )
 endfunction()
 
-add_custom_target(go_lint)
 function(add_go_lint)
   set(_target go_lint_${PROJECT_NAME})
   add_custom_target(${_target}
@@ -85,7 +81,6 @@ function(add_go_test)
   )
 endfunction()
 
-add_custom_target(buf_build)
 function(add_buf_build)
   set(_target buf_build_${PROJECT_NAME})
   add_custom_target(${_target}
@@ -101,7 +96,6 @@ function(add_buf_build)
   )
 endfunction()
 
-add_custom_target(buf_lint)
 function(add_buf_lint)
   set(_target buf_lint_${PROJECT_NAME})
   add_custom_target(${_target}
@@ -117,7 +111,6 @@ function(add_buf_lint)
   )
 endfunction()
 
-add_custom_target(buf_generate)
 function(add_buf_generate)
   set(_target buf_generate_${PROJECT_NAME})
   add_custom_target(${_target}
