@@ -1,38 +1,29 @@
-FROM golang:@GO_VERSION@-bookworm
-
-ARG uid=1000
-ARG gid=1000
-ARG workdir
-
-ARG go_lint_version=@GO_LINT_VERSION@
-ARG buf_version=@BUF_VERSION@
-ARG protoc_gen_go_version=@PROTOC_GEN_GO_VERSION@
-ARG protoc_gen_go_grpc_version=@PROTOC_GEN_GO_GRPC_VERSION@
-ARG protoc_gen_grpc_gateway_version=@PROTOC_GEN_GRPC_GATEWAY_VERSION@
-ARG protoc_gen_gocosmos_version=@PROTOC_GEN_GOCOSMOS_VERSION@
-ARG protoc_gen_go_pulsar_version=@PROTOC_GEN_GO_PULSAR_VERSION@
+FROM debian:bookworm AS platform
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y cmake
 
-RUN addgroup --gid ${gid} builder
-RUN adduser --uid ${uid} --gid ${gid} builder
+FROM platform AS builders
 
-RUN mkdir -p ${workdir} && chown ${uid}:${gid} ${workdir}
+WORKDIR /tmp/builders
+COPY install .
+RUN cmake -S . -B build -Wno-dev && cmake --build build --target install_builders
+
+FROM platform AS final
+
+ARG uid=1000
+ARG gid=1000
+
+RUN addgroup --system --gid ${gid} builder
+RUN adduser --system --uid ${uid} --gid ${gid} builder --home /home/builder
+
+COPY --from=builders /usr/local /usr/local/
+COPY --from=builders --chown=${uid}:${gid} /root/go /home/builder/go/
+
+ENV PATH /home/builder/go/bin:/usr/local/bin:/usr/bin
+
+WORKDIR /tmp/mods
+RUN chown ${uid}:${gid} .
+COPY --chown=${uid}:${gid} mods .
 
 USER ${uid}:${gid}
-
-RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v${go_lint_version}
-
-RUN go install github.com/bufbuild/buf/cmd/buf@v${buf_version}
-
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v${protoc_gen_go_version}
-RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v${protoc_gen_go_grpc_version}
-RUN go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@v${protoc_gen_grpc_gateway_version}
-
-RUN go install github.com/cosmos/gogoproto/protoc-gen-gocosmos@v${protoc_gen_gocosmos_version}
-RUN go install github.com/cosmos/cosmos-proto/cmd/protoc-gen-go-pulsar@v${protoc_gen_go_pulsar_version}
-
-WORKDIR ${workdir}
-
-COPY --chown=${uid}:${gid} mods .
 RUN go mod download

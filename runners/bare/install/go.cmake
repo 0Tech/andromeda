@@ -9,13 +9,41 @@ function(get_version _version)
 	COMMAND go version
 	OUTPUT_VARIABLE _output
   )
-  string(REGEX MATCH "[0-9]\\.[0-9]+" ${_version} "${_output}")
+  string(REGEX MATCH "[0-9](\\.[0-9]+)*" ${_version} "${_output}")
   return(PROPAGATE ${_version})
 endfunction()
 
-get_version(version)
-if(VERSION VERSION_EQUAL version)
-  return()
-endif()
+function(coerce _input _output)
+  string(REGEX MATCH "[0-9]\\.[0-9]+" ${_output} "${_input}")
+  return(PROPAGATE ${_output})
+endfunction()
 
-message(FATAL_ERROR "go ${VERSION} not found")
+get_version(version)
+block()
+  coerce(${VERSION} expecting)
+  coerce("${version}" actual)
+  if(actual VERSION_EQUAL expecting)
+	return()
+  endif()
+endblock()
+
+message(WARNING "No go ${VERSION} found. Automatic installation is destructive and requires write permission on your filesystem. Manual installation is highly recommended.")
+
+# TODO: fix hard coding
+file(DOWNLOAD https://go.dev/dl/go${VERSION}.linux-amd64.tar.gz go.tar.gz)
+
+# libarchive bug
+if(NOT DEFINED ENV{LANG})
+  set(ENV{LANG} C.UTF-8)
+endif()
+file(ARCHIVE_EXTRACT
+  INPUT ${CMAKE_CURRENT_BINARY_DIR}/go.tar.gz
+  TOUCH
+)
+
+file(INSTALL ${CMAKE_CURRENT_BINARY_DIR}/go/
+  DESTINATION /usr/local
+  USE_SOURCE_PERMISSIONS
+)
+
+message(STATUS "Installed ${VERSION}")

@@ -11,18 +11,16 @@ on:
 env:
   id: x-${{ inputs.name }}
   path: x/${{ inputs.name }}
-  go-version: '1.21'
 jobs:
   go-lint:
     name: go lint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-go@v5
-      with:
-        go-version: ${{ env.go-version }}
     - name: Configure
       run: cmake -S . -B build -D USE_DOCKER=NO
+    - name: Install builders
+      run: cmake --build build --target install_builders
     - name: Lint
       run: cmake --build build --target go_lint_${{ env.id }}
   go-build:
@@ -30,11 +28,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-go@v5
-      with:
-        go-version: ${{ env.go-version }}
     - name: Configure
       run: cmake -S . -B build -D USE_DOCKER=NO
+    - name: Install builders
+      run: cmake --build build --target install_builders
     - name: Build
       run: cmake --build build --target go_build_${{ env.id }}
   go-test:
@@ -44,11 +41,10 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-    - uses: actions/setup-go@v5
-      with:
-        go-version: ${{ env.go-version }}
     - name: Configure
       run: cmake -S . -B build -D USE_DOCKER=NO
+    - name: Install builders
+      run: cmake --build build --target install_builders
     - name: Test
       run: |
         VERBOSE=1 ctest --test-dir build --output-on-failure --stop-on-failure -R ${{ env.id }}
@@ -65,10 +61,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-go@v5
-      with:
-        go-version: ${{ env.go-version }}
     - name: Configure
       run: cmake -S . -B build -D USE_DOCKER=NO
+    - name: Install builders
+      run: cmake --build build --target install_builders
     - name: Lint
       run: cmake --build build --target buf_lint_${{ env.id }}

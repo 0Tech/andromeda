@@ -1,6 +1,5 @@
 function(add_docker_target _type _project)
-  _get_builder_working_dir(_builder_working_dir)
-  _get_builder_image(_builder_image)
+  _get_builder_binary_dir(_builder_binary_dir)
 
   set(_target ${_type})
   if(_project)
@@ -8,33 +7,19 @@ function(add_docker_target _type _project)
   endif()
 
   add_custom_target(${_target}
-	COMMAND docker run --rm --mount type=bind,src=${CMAKE_SOURCE_DIR},dst=${_builder_working_dir} ${_builder_image} sh -c "cmake -S . -B /tmp/build -D USE_DOCKER=NO && cmake --build /tmp/build --target ${_target}"
+	COMMAND cmake -D IDFILE=${_builder_binary_dir}/id.txt -D BIND_DIR=${CMAKE_SOURCE_DIR} -D "COMMAND=cmake -S . -B /tmp/build -D USE_DOCKER=NO && cmake --build /tmp/build --target ${_target}" -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/docker-run.cmake
 	VERBATIM
   )
 endfunction()
 
 function(add_docker_test _project)
-  _get_builder_working_dir(_builder_working_dir)
-  _get_builder_image(_builder_image)
+  _get_builder_binary_dir(_builder_binary_dir)
 
   set(_target ${_project})
 
   add_test(
 	NAME ${_target}
-	COMMAND docker run --rm --mount type=bind,src=${CMAKE_SOURCE_DIR},dst=${_builder_working_dir} ${_builder_image} sh -c "cmake -S . -B /tmp/build -D USE_DOCKER=NO && ctest --test-dir /tmp/build -R ${_target}"
-  )
-endfunction()
-
-function(cache_go_mod)
-  _get_builder_binary_dir(_builder_binary_dir)
-
-  file(RELATIVE_PATH _rel_source_dir ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-  configure_file(go.mod ${_builder_binary_dir}/mods/${_rel_source_dir}/go.mod
-	COPYONLY
-  )
-  configure_file(go.sum ${_builder_binary_dir}/mods/${_rel_source_dir}/go.sum
-	COPYONLY
+	COMMAND cmake -D IDFILE=${_builder_binary_dir}/id.txt -D BIND_DIR=${CMAKE_SOURCE_DIR} -D "COMMAND=cmake -S . -B /tmp/build -D USE_DOCKER=NO && ctest --test-dir /tmp/build --output-on-failure -R ${_target}" -P ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/docker-run.cmake
   )
 endfunction()
 
