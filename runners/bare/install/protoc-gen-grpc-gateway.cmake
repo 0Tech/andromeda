@@ -2,12 +2,9 @@
 
 cmake_policy(SET CMP0140 NEW)
 
-function(get_version _version)
-  set(${_version} 0)
-  return(PROPAGATE ${_version})
-endfunction()
+include(version.cmake)
 
-get_version(version)
+get_version(version protoc-gen-grpc-gateway github.com/grpc-ecosystem/grpc-gateway)
 if(VERSION VERSION_EQUAL version)
   return()
 endif()

@@ -18,9 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Configure
-      run: cmake -S . -B build -D USE_DOCKER=NO
-    - name: Install builders
-      run: cmake --build build --target install_builders
+      run: cmake -S . -B build -D FIX_IS_ERROR=ON
     - name: Lint
       run: cmake --build build --target go_lint_${{ env.id }}
   go-build:
@@ -29,9 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Configure
-      run: cmake -S . -B build -D USE_DOCKER=NO
-    - name: Install builders
-      run: cmake --build build --target install_builders
+      run: cmake -S . -B build -D FIX_IS_ERROR=ON
     - name: Build
       run: cmake --build build --target go_build_${{ env.id }}
   go-test:
@@ -42,9 +38,9 @@ jobs:
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
     - name: Configure
-      run: cmake -S . -B build -D USE_DOCKER=NO
+      run: cmake -S . -B build -D FIX_IS_ERROR=ON
     - name: Install builders
-      run: cmake --build build --target install_builders
+      run: cmake --build build --target install_go
     - name: Test
       run: |
         VERBOSE=1 ctest --test-dir build --output-on-failure --stop-on-failure -R ${{ env.id }}
@@ -56,14 +52,21 @@ jobs:
         SONAR_TOKEN: ${{ secrets.sonar-token }}
       with:
         projectBaseDir: ${{ env.path }}/
+  buf-format:
+    name: buf format
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure
+      run: cmake -S . -B build -D FIX_IS_ERROR=ON
+    - name: Lint
+      run: cmake --build build --target buf_format_${{ env.id }}
   buf-lint:
     name: buf lint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Configure
-      run: cmake -S . -B build -D USE_DOCKER=NO
-    - name: Install builders
-      run: cmake --build build --target install_builders
+      run: cmake -S . -B build -D FIX_IS_ERROR=ON
     - name: Lint
       run: cmake --build build --target buf_lint_${{ env.id }}

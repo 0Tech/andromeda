@@ -1,11 +1,11 @@
-set(USE_DOCKER TRUE CACHE BOOL "use docker to run binaries")
+option(USE_DOCKER "use docker to run binaries")
 
 add_custom_target(go_tidy)
-add_custom_target(go_lint_fix)
-add_custom_target(go_build)
 add_custom_target(go_lint)
+add_custom_target(go_build)
 
 add_custom_target(buf_build)
+add_custom_target(buf_format)
 add_custom_target(buf_lint)
 add_custom_target(buf_generate)
 

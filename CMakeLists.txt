@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.25.1)
 
-cmake_policy(SET CMP0140 NEW)
-
 option(CMAKE_COLOR_DIAGNOSTICS
   "Enable/Disable color output during build.")
 

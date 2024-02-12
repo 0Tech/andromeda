@@ -1,3 +1,5 @@
+option(FIX_IS_ERROR "")
+
 function(add_go_tidy)
   set(_target go_tidy_${PROJECT_NAME})
   add_custom_target(${_target}
@@ -13,17 +15,27 @@ function(add_go_tidy)
   )
 endfunction()
 
-function(add_go_lint_fix)
-  set(_target go_lint_fix_${PROJECT_NAME})
-  add_custom_target(${_target}
-	COMMAND golangci-lint run --fix
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-	VERBATIM
-  )
+function(add_go_lint)
+  set(_target go_lint_${PROJECT_NAME})
+
+  if(FIX_IS_ERROR)
+	add_custom_target(${_target}
+	  COMMAND golangci-lint run
+	  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+	  VERBATIM
+	)
+  else()
+	add_custom_target(${_target}
+	  COMMAND golangci-lint run --fix
+	  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+	  VERBATIM
+	)
+  endif()
+
   add_dependencies(${_target}
 	install_golangci-lint
   )
-  add_dependencies(go_lint_fix
+  add_dependencies(go_lint
 	${_target}
   )
 endfunction()
@@ -58,21 +70,6 @@ function(add_go_build_executable)
   )
 endfunction()
 
-function(add_go_lint)
-  set(_target go_lint_${PROJECT_NAME})
-  add_custom_target(${_target}
-	COMMAND golangci-lint run
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-	VERBATIM
-  )
-  add_dependencies(${_target}
-	install_golangci-lint
-  )
-  add_dependencies(go_lint
-	${_target}
-  )
-endfunction()
-
 function(add_go_test)
   add_test(
 	NAME ${PROJECT_NAME}
@@ -92,6 +89,31 @@ function(add_buf_build)
 	install_buf
   )
   add_dependencies(buf_build
+	${_target}
+  )
+endfunction()
+
+function(add_buf_format)
+  set(_target buf_format_${PROJECT_NAME})
+
+  if(FIX_IS_ERROR)
+	add_custom_target(${_target}
+	  COMMAND buf format --diff --exit-code
+	  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/proto
+	  VERBATIM
+	)
+  else()
+	add_custom_target(${_target}
+	  COMMAND buf format --write
+	  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/proto
+	  VERBATIM
+	)
+  endif()
+
+  add_dependencies(${_target}
+	install_buf
+  )
+  add_dependencies(buf_format
 	${_target}
   )
 endfunction()
@@ -123,6 +145,9 @@ function(add_buf_generate)
 	install_buf
 	install_protoc-gen-go
 	install_protoc-gen-go-grpc
+	install_protoc-gen-gocosmos
+	install_protoc-gen-go-pulsar
+	install_protoc-gen-grpc-gateway
   )
   add_dependencies(buf_generate
 	${_target}
