@@ -45,8 +45,8 @@ message EventExec {
   // the address of the account executed the proposal
   string executor = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
-  // the address of the agent in charge
-  string agent = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  // the addresses of the agents in charge
+  repeated string agents = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // the messages executed on the execution
   repeated google.protobuf.Any actions = 3;

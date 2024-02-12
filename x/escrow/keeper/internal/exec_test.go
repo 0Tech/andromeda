@@ -11,47 +11,40 @@ import (
 
 func (s *KeeperTestSuite) TestExec() {
 	type exec struct {
-		executor sdk.AccAddress
-		agent    sdk.AccAddress
-		actions  []*codectypes.Any
+		agents  []sdk.AccAddress
+		actions []*codectypes.Any
 	}
 
 	tester := func(subject exec) error {
-		s.NotNil(subject.executor)
-		s.NotNil(subject.agent)
+		s.NotNil(subject.agents)
 		s.NotNil(subject.actions)
 
 		ctx, _ := sdk.UnwrapSDKContext(s.ctx).CacheContext()
-		err := s.keeper.Exec(ctx, subject.executor, subject.agent, subject.actions)
+		err := s.keeper.Exec(ctx, subject.agents, subject.actions)
 		if err != nil {
 			return err
 		}
 
-		_, err = s.keeper.GetProposal(s.ctx, subject.agent)
-		s.Assert().NoError(err)
+		for i, agent := range subject.agents {
+			_, err = s.keeper.GetProposal(s.ctx, agent)
+			s.Assert().NoError(err, i)
 
-		_, err = s.keeper.GetProposal(ctx, subject.agent)
-		s.Require().Error(err)
+			_, err = s.keeper.GetProposal(ctx, agent)
+			s.Require().Error(err, i)
+		}
 
 		return nil
 	}
 	cases := []map[string]testutil.Case[exec]{
 		{
-			"executor already exists": {
+			"proposals already exist": {
 				Malleate: func(subject *exec) {
-					subject.executor = s.stranger
-				},
-			},
-		},
-		{
-			"agent already exists": {
-				Malleate: func(subject *exec) {
-					subject.agent = s.agentAny
+					subject.agents = []sdk.AccAddress{s.agentAny}
 				},
 			},
 			"proposal not found": {
 				Malleate: func(subject *exec) {
-					subject.agent = s.agentIdle
+					subject.agents = []sdk.AccAddress{s.agentIdle}
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrProposalNotFound

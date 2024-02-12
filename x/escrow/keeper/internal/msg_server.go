@@ -151,8 +151,8 @@ func (s msgServer) Exec(ctx context.Context, req *escrowv1alpha1.MsgExec) (*escr
 		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil executor")
 	}
 
-	if req.Agent == "" {
-		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil agent")
+	if req.Agents == nil {
+		return nil, escrowv1alpha1.ErrUnimplemented.Wrap("nil agents")
 	}
 
 	if req.Actions == nil {
@@ -164,24 +164,28 @@ func (s msgServer) Exec(ctx context.Context, req *escrowv1alpha1.MsgExec) (*escr
 		return nil, errors.Wrap(err, "executor")
 	}
 
-	agent, err := s.keeper.addressStringToBytes(req.Agent)
-	if err != nil {
-		return nil, errors.Wrap(err, "agent")
+	agents := make([]sdk.AccAddress, len(req.Agents))
+	for i, agent := range req.Agents {
+		var err error
+		agents[i], err = s.keeper.addressStringToBytes(agent)
+		if err != nil {
+			return nil, errors.Wrap(indexedError(err, i), "agents")
+		}
 	}
 
-	signers := []sdk.AccAddress{executor, agent}
+	signers := append([]sdk.AccAddress{executor}, agents...)
 
 	if err := s.keeper.validateActions(req.Actions, signers); err != nil {
 		return nil, errors.Wrap(err, "actions")
 	}
 
-	if err := s.keeper.Exec(ctx, executor, agent, req.Actions); err != nil {
+	if err := s.keeper.Exec(ctx, agents, req.Actions); err != nil {
 		return nil, err
 	}
 
 	if err := sdk.UnwrapSDKContext(ctx).EventManager().EmitTypedEvent(&escrowv1alpha1.EventExec{
 		Executor: req.Executor,
-		Agent:    req.Agent,
+		Agents:   req.Agents,
 		Actions:  req.Actions,
 	}); err != nil {
 		return nil, escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error())

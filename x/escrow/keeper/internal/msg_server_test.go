@@ -265,7 +265,7 @@ func (s *KeeperTestSuite) TestMsgExec() {
 
 		eventExpected, err := sdk.TypedEventToEvent(&escrowv1alpha1.EventExec{
 			Executor: subject.Executor,
-			Agent:    subject.Agent,
+			Agents:   subject.Agents,
 			Actions:  subject.Actions,
 		})
 		s.Require().NoError(err)
@@ -303,27 +303,27 @@ func (s *KeeperTestSuite) TestMsgExec() {
 			},
 		},
 		{
-			"nil agent": {
+			"nil agents": {
 				Error: func() error {
 					return escrowv1alpha1.ErrUnimplemented
 				},
 			},
-			"valid agent": {
+			"valid agents": {
 				Malleate: func(subject *escrowv1alpha1.MsgExec) {
-					subject.Agent = s.addressBytesToString(s.agentAny)
+					subject.Agents = []string{s.addressBytesToString(s.agentAny)}
 				},
 			},
-			"invalid agent": {
+			"invalid agents": {
 				Malleate: func(subject *escrowv1alpha1.MsgExec) {
-					subject.Agent = notInBech32
+					subject.Agents = []string{notInBech32}
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrInvalidAddress
 				},
 			},
-			"agent not actions signer": {
+			"agents not actions signer": {
 				Malleate: func(subject *escrowv1alpha1.MsgExec) {
-					subject.Agent = s.addressBytesToString(createRandomAccounts(1)[0])
+					subject.Agents = []string{s.addressBytesToString(createRandomAccounts(1)[0])}
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrPermissionDenied

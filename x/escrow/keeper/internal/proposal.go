@@ -59,27 +59,23 @@ func (k Keeper) validateActions(actions []*codectypes.Any, signers []sdk.AccAddr
 	}
 
 	for i, action := range actions {
-		addIndex := func(err error) error {
-			return errors.Wrapf(err, "index %d", i)
-		}
-
 		msg, err := k.anyToMsg(*action)
 		if err != nil {
-			return addIndex(err)
+			return indexedError(err, i)
 		}
 
 		actionSigners, _, err := k.cdc.GetMsgV1Signers(msg)
 		if err != nil {
-			return addIndex(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()))
+			return indexedError(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), i)
 		}
 
 		for _, signer := range actionSigners {
 			if !signerMap[string(signer)] {
 				signerStr, err := k.addressBytesToString(signer)
 				if err != nil {
-					return addIndex(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()))
+					return indexedError(escrowv1alpha1.ErrInvariantBroken.Wrap(err.Error()), i)
 				}
-				return addIndex(errors.Wrap(escrowv1alpha1.ErrPermissionDenied.Wrap("wrong signer"), signerStr))
+				return indexedError(errors.Wrap(escrowv1alpha1.ErrPermissionDenied.Wrap("wrong signer"), signerStr), i)
 			}
 		}
 	}

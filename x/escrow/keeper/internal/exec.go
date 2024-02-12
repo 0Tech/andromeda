@@ -11,10 +11,19 @@ import (
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
 )
 
-func (k Keeper) Exec(ctx context.Context, _, agent sdk.AccAddress, actions []*codectypes.Any) error {
-	proposal, err := k.GetProposal(ctx, agent)
-	if err != nil {
-		return err
+func (k Keeper) Exec(ctx context.Context, agents []sdk.AccAddress, actions []*codectypes.Any) error {
+	var postActions []*codectypes.Any
+	for _, agent := range agents {
+		proposal, err := k.GetProposal(ctx, agent)
+		if err != nil {
+			return err
+		}
+
+		postActions = append(postActions, proposal.PostActions...)
+
+		if err := k.removeProposal(ctx, agent); err != nil {
+			return err
+		}
 	}
 
 	for _, phase := range []struct {
@@ -27,7 +36,7 @@ func (k Keeper) Exec(ctx context.Context, _, agent sdk.AccAddress, actions []*co
 		},
 		{
 			name:    "post_actions",
-			actions: proposal.PostActions,
+			actions: postActions,
 		},
 	} {
 		if err := k.executeActions(ctx, phase.actions); err != nil {
@@ -35,7 +44,7 @@ func (k Keeper) Exec(ctx context.Context, _, agent sdk.AccAddress, actions []*co
 		}
 	}
 
-	return k.removeProposal(ctx, agent)
+	return nil
 }
 
 func (k Keeper) executeActions(ctx context.Context, actions []*codectypes.Any) error {
