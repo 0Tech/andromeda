@@ -1,5 +1,11 @@
 function(get_version _version _binary _module)
+  set(${_version} 0)
+
   find_file(_binary_path ${_binary})
+  if(_binary_path STREQUAL _binary_path-NOTFOUND)
+	return(PROPAGATE ${_version})
+  endif()
+
   execute_process(
 	COMMAND go version -m ${_binary_path}
 	OUTPUT_VARIABLE _output

@@ -1,50 +1,58 @@
 name: Check Module
+run-name: Check x/${{ inputs.name }}
 on:
   workflow_call:
     inputs:
       name:
         required: true
         type: string
+      timeout-minutes:
+        required: false
+        type: number
+        default: 30
     secrets:
       sonar-token:
         required: true
 env:
-  id: x-${{ inputs.name }}
+  target: x-${{ inputs.name }}
   path: x/${{ inputs.name }}
 jobs:
   go-lint:
     name: go lint
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
     steps:
     - uses: actions/checkout@v4
     - name: Configure
-      run: cmake -S . -B build -D FIX_IS_ERROR=ON
+      run: cmake -S . -B build -D USE_DOCKER=ON -D FIX_IS_ERROR=ON
     - name: Lint
-      run: cmake --build build --target go_lint_${{ env.id }}
+      run: cmake --build build --target go_lint_${{ env.target }}
   go-build:
     name: go build
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
     steps:
     - uses: actions/checkout@v4
     - name: Configure
-      run: cmake -S . -B build -D FIX_IS_ERROR=ON
+      run: cmake -S . -B build -D USE_DOCKER=ON -D FIX_IS_ERROR=ON
     - name: Build
-      run: cmake --build build --target go_build_${{ env.id }}
+      run: cmake --build build --target go_build_${{ env.target }}
   go-test:
     name: go test
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
     - name: Configure
-      run: cmake -S . -B build -D FIX_IS_ERROR=ON
+      run: cmake -S . -B build -D USE_DOCKER=ON -D FIX_IS_ERROR=ON
     - name: Install builders
-      run: cmake --build build --target install_go
+      run: cmake --build build --target install_builders
     - name: Test
       run: |
-        VERBOSE=1 ctest --test-dir build --output-on-failure --stop-on-failure -R ${{ env.id }}
-        mv build/${{ env.path }}/cover.out ${{ env.path }}/
+        VERBOSE=1 ctest --test-dir build --output-on-failure --stop-on-failure -R ${{ env.target }}
+        mv build/${{ env.path }}/docker/${{ env.path }}/cover.out ${{ env.path }}/
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
@@ -55,18 +63,20 @@ jobs:
   buf-format:
     name: buf format
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
     steps:
     - uses: actions/checkout@v4
     - name: Configure
-      run: cmake -S . -B build -D FIX_IS_ERROR=ON
+      run: cmake -S . -B build -D USE_DOCKER=ON -D FIX_IS_ERROR=ON
     - name: Lint
-      run: cmake --build build --target buf_format_${{ env.id }}
+      run: cmake --build build --target buf_format_${{ env.target }}
   buf-lint:
     name: buf lint
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
     steps:
     - uses: actions/checkout@v4
     - name: Configure
-      run: cmake -S . -B build -D FIX_IS_ERROR=ON
+      run: cmake -S . -B build -D USE_DOCKER=ON -D FIX_IS_ERROR=ON
     - name: Lint
-      run: cmake --build build --target buf_lint_${{ env.id }}
+      run: cmake --build build --target buf_lint_${{ env.target }}
