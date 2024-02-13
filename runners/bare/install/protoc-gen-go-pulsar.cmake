@@ -2,7 +2,9 @@
 
 cmake_policy(SET CMP0140 NEW)
 
-include(version.cmake)
+include(common.cmake)
+
+require_variables(VERSION)
 
 get_version(version protoc-gen-go-pulsar github.com/cosmos/cosmos-proto)
 if(VERSION VERSION_EQUAL version)

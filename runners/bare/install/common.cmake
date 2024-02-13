@@ -1,3 +1,11 @@
+function(require_variables)
+  foreach(_var ${ARGV})
+	if(NOT DEFINED ${_var})
+	  message(FATAL_ERROR "required variable `${_var}` not found")
+	endif()
+  endforeach()
+endfunction()
+
 function(get_version _version _binary _module)
   set(${_version} 0)
 

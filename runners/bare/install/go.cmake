@@ -2,6 +2,8 @@
 
 cmake_policy(SET CMP0140 NEW)
 
+include(common.cmake)
+
 function(get_version _version)
   set(${_version} 0)
 
@@ -17,6 +19,8 @@ function(coerce _input _output)
   string(REGEX MATCH "[0-9]\\.[0-9]+" ${_output} "${_input}")
   return(PROPAGATE ${_output})
 endfunction()
+
+require_variables(VERSION)
 
 get_version(version)
 block()
