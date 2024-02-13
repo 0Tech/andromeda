@@ -10,20 +10,20 @@ RUN cmake -S . -B build -Wno-dev && cmake --build build --target install_builder
 
 FROM platform AS final
 
-ARG uid=1000
-ARG gid=1000
+ARG UID
+ARG GID
 
-RUN addgroup --system --gid ${gid} builder
-RUN adduser --system --uid ${uid} --gid ${gid} builder --home /home/builder
+RUN addgroup --system --gid ${GID} builder
+RUN adduser --system --uid ${UID} --gid ${GID} builder --home /home/builder
 
 COPY --from=builders /usr/local /usr/local/
-COPY --from=builders --chown=${uid}:${gid} /root/go /home/builder/go/
+COPY --from=builders --chown=${UID}:${GID} /root/go /home/builder/go/
 
 ENV PATH /home/builder/go/bin:/usr/local/bin:/usr/bin
 
 WORKDIR /tmp/mods
-RUN chown ${uid}:${gid} .
-COPY --chown=${uid}:${gid} mods .
+RUN chown ${UID}:${GID} .
+COPY --chown=${UID}:${GID} mods .
 
-USER ${uid}:${gid}
+USER ${UID}:${GID}
 RUN go mod download

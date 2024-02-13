@@ -6,7 +6,7 @@ on:
   pull_request:
 jobs:
   check-modules:
-    name: check modules
+    name: x-${{ matrix.name }}
     strategy:
       matrix:
         include:
