@@ -2,7 +2,7 @@ package internal_test
 
 import (
 	"context"
-	"math/rand"
+	"crypto/rand"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -38,13 +38,16 @@ import (
 
 const notInBech32 = "addresslverygoodtestingaddress" // does not include the separator
 
-//nolint:gosec
 func randomString(size int) string {
-	res := make([]rune, size)
+	res := make([]byte, size)
+	_, err := rand.Read(res)
+	if err != nil {
+		panic(err)
+	}
 
-	letters := []rune("0123456789abcdef")
+	const letters = "0123456789abcdef"
 	for i := range res {
-		res[i] = letters[rand.Intn(len(letters))]
+		res[i] = letters[res[i]%byte(len(letters))]
 	}
 
 	return string(res)
