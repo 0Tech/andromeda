@@ -113,8 +113,11 @@ func (k Keeper) removeProposal(ctx context.Context, agent sdk.AccAddress) error 
 	return nil
 }
 
+// fixActions replace nil array of actions into empty array.
+// It must be used for unmarshalled proposals from the state.
+// Do NOT use this for proposals from untrusted source.
+// TODO: find better solution
 func (k Keeper) fixActions(proposal *escrowv1alpha1.Proposal) {
-	// TODO: find better solution
 	if proposal.PreActions == nil {
 		proposal.PreActions = []*codectypes.Any{}
 	}
