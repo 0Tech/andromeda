@@ -8,7 +8,7 @@ project(andromeda
 )
 enable_testing()
 
-add_subdirectory(runners)
+add_subdirectory(builders)
 
 add_subdirectory(app)
 add_subdirectory(cmd/and)
