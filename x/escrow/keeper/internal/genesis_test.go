@@ -7,7 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	escrowv1alpha1 "github.com/0tech/andromeda/x/escrow/andromeda/escrow/v1alpha1"
@@ -49,8 +48,8 @@ func TestValidateGenesisAgents(t *testing.T) {
 		return addressStr
 	}
 
-	addresses := simtestutil.CreateIncrementalAccounts(2)
-	creatorStr := addressBytesToString(createRandomAccounts(1)[0])
+	addresses := createRandomAddresses(2)
+	creatorStr := addressBytesToString(createRandomAddress())
 
 	tester := func(subject []*escrowv1alpha1.GenesisState_Agent) error {
 		gs := k.DefaultGenesis()
@@ -194,8 +193,8 @@ func TestValidateGenesisProposals(t *testing.T) {
 		return addressStr
 	}
 
-	agents := createRandomAccounts(2)
-	proposerStr := addressBytesToString(createRandomAccounts(1)[0])
+	agents := createRandomAddresses(2)
+	proposerStr := addressBytesToString(createRandomAddress())
 
 	tester := func(subject []*escrowv1alpha1.GenesisState_Proposal) error {
 		gs := k.DefaultGenesis()
@@ -504,8 +503,8 @@ func TestInitExportGenesisAgents(t *testing.T) {
 		return addressBytes
 	}
 
-	addresses := simtestutil.CreateIncrementalAccounts(4)
-	creatorStr := addressBytesToString(createRandomAccounts(1)[0])
+	addresses := createIncrementalAddresses(4)
+	creatorStr := addressBytesToString(createRandomAddress())
 
 	tester := func(subject []*escrowv1alpha1.GenesisState_Agent) error {
 		gsInput := k.DefaultGenesis()
@@ -581,8 +580,8 @@ func TestInitExportGenesisProposals(t *testing.T) {
 		return addressBytes
 	}
 
-	agents := simtestutil.CreateIncrementalAccounts(4)
-	proposerStr := addressBytesToString(createRandomAccounts(1)[0])
+	agents := createIncrementalAddresses(4)
+	proposerStr := addressBytesToString(createRandomAddress())
 
 	tester := func(subject []*escrowv1alpha1.GenesisState_Proposal) error {
 		gsInput := k.DefaultGenesis()

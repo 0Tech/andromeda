@@ -53,8 +53,16 @@ func randomString(size int) string {
 	return string(res)
 }
 
-func createRandomAccounts(size int) []sdk.AccAddress {
+func createIncrementalAddresses(size int) []sdk.AccAddress {
+	return simtestutil.CreateIncrementalAccounts(size)
+}
+
+func createRandomAddresses(size int) []sdk.AccAddress {
 	return simtestutil.CreateRandomAccounts(size)
+}
+
+func createRandomAddress() sdk.AccAddress {
+	return createRandomAddresses(1)[0]
 }
 
 type KeeperTestSuite struct {
@@ -121,11 +129,11 @@ func (s *KeeperTestSuite) SetupTest() {
 		&s.buyer,
 		&s.stranger,
 	}
-	for i, account := range createRandomAccounts(len(accounts)) {
-		*accounts[i] = account
+	for _, account := range accounts {
+		*account = createRandomAddress()
 
 		account := &authtypes.BaseAccount{
-			Address: s.addressBytesToString(account),
+			Address: s.addressBytesToString(*account),
 		}
 		authKeeper.SetAccount(s.ctx, authKeeper.NewAccount(s.ctx, account))
 	}

@@ -61,7 +61,7 @@ func (s *KeeperTestSuite) TestQueryAgent() {
 			},
 			"agent not found": {
 				Malleate: func(subject *escrowv1alpha1.QueryAgentRequest) {
-					subject.Agent = s.addressBytesToString(createRandomAccounts(1)[0])
+					subject.Agent = s.addressBytesToString(createRandomAddress())
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrAgentNotFound

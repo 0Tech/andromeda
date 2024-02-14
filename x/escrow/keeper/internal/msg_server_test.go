@@ -163,7 +163,7 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 			},
 			"proposer not actions signer": {
 				Malleate: func(subject *escrowv1alpha1.MsgSubmitProposal) {
-					subject.Proposer = s.addressBytesToString(createRandomAccounts(1)[0])
+					subject.Proposer = s.addressBytesToString(createRandomAddress())
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrPermissionDenied
@@ -191,7 +191,7 @@ func (s *KeeperTestSuite) TestMsgSubmitProposal() {
 			},
 			"agent not actions signer": {
 				Malleate: func(subject *escrowv1alpha1.MsgSubmitProposal) {
-					subject.Agent = s.addressBytesToString(createRandomAccounts(1)[0])
+					subject.Agent = s.addressBytesToString(createRandomAddress())
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrPermissionDenied
@@ -295,7 +295,7 @@ func (s *KeeperTestSuite) TestMsgExec() {
 			},
 			"executor not actions signer": {
 				Malleate: func(subject *escrowv1alpha1.MsgExec) {
-					subject.Executor = s.addressBytesToString(createRandomAccounts(1)[0])
+					subject.Executor = s.addressBytesToString(createRandomAddress())
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrPermissionDenied
@@ -323,7 +323,7 @@ func (s *KeeperTestSuite) TestMsgExec() {
 			},
 			"agents not actions signer": {
 				Malleate: func(subject *escrowv1alpha1.MsgExec) {
-					subject.Agents = []string{s.addressBytesToString(createRandomAccounts(1)[0])}
+					subject.Agents = []string{s.addressBytesToString(createRandomAddress())}
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrPermissionDenied

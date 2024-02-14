@@ -69,7 +69,7 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 			},
 			"agent not found": {
 				Malleate: func(subject *submitProposal) {
-					subject.agent = createRandomAccounts(1)[0]
+					subject.agent = createRandomAddress()
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrAgentNotFound
