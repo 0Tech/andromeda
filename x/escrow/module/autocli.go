@@ -11,40 +11,64 @@ var _ autocli.HasAutoCLIConfig = (*AppModule)(nil)
 
 func (AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 	return &autocliv1.ModuleOptions{
-		Query: &autocliv1.ServiceCommandDescriptor{
-			Service: escrowv1alpha1.Query_ServiceDesc.ServiceName,
-			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
-				{
-					RpcMethod: "Params",
-					Short:     "queries the module parameters.",
-					Use:       "params",
-					Example: `$ and query escrow params
+		Query: autoCLIQuery(),
+		Tx:    autoCLITx(),
+	}
+}
+
+func autoCLIQuery() *autocliv1.ServiceCommandDescriptor {
+	return &autocliv1.ServiceCommandDescriptor{
+		Service: escrowv1alpha1.Query_ServiceDesc.ServiceName,
+		RpcCommandOptions: []*autocliv1.RpcCommandOptions{
+			autoCLIQueryParams(),
+			autoCLIQueryAgent(),
+			autoCLIQueryAgentsByCreator(),
+			autoCLIQueryAgents(),
+			autoCLIQueryProposal(),
+			autoCLIQueryProposalsByProposer(),
+			autoCLIQueryProposals(),
+		},
+	}
+}
+
+func autoCLIQueryParams() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "Params",
+		Short:     "queries the module parameters.",
+		Use:       "params",
+		Example: `$ and query escrow params
 max_metadata_length: "42"`,
-				},
-				{
-					RpcMethod: "Agent",
-					Short:     "queries an agent.",
-					Use:       "agent --agent [agent]",
-					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"agent": {
-							Usage: "the address of an agent",
-						},
-					},
-					Example: `$ and query escrow agent --agent cosmos1aaa...
+	}
+}
+
+func autoCLIQueryAgent() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "Agent",
+		Short:     "queries an agent.",
+		Use:       "agent --agent [agent]",
+		FlagOptions: map[string]*autocliv1.FlagOptions{
+			"agent": {
+				Usage: "the address of an agent",
+			},
+		},
+		Example: `$ and query escrow agent --agent cosmos1aaa...
 agent:
   address: cosmos1aaa...
   creator: cosmos1...`,
-				},
-				{
-					RpcMethod: "AgentsByCreator",
-					Short:     "queries all the agents by its creator.",
-					Use:       "agents-by-creator --creator [creator]",
-					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"creator": {
-							Usage: "the address of a creator",
-						},
-					},
-					Example: `$ and query escrow agents-by-creator --creator cosmos1ccc...
+	}
+}
+
+func autoCLIQueryAgentsByCreator() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "AgentsByCreator",
+		Short:     "queries all the agents by its creator.",
+		Use:       "agents-by-creator --creator [creator]",
+		FlagOptions: map[string]*autocliv1.FlagOptions{
+			"creator": {
+				Usage: "the address of a creator",
+			},
+		},
+		Example: `$ and query escrow agents-by-creator --creator cosmos1ccc...
 agents:
 - address: cosmos1...
   creator: cosmos1ccc...
@@ -52,11 +76,14 @@ agents:
   creator: cosmos1ccc...
 pagination:
   total: "2"`,
-				},
-				{
-					RpcMethod: "Agents",
-					Short:     "queries all the agents.",
-					Example: `$ and query escrow agents
+	}
+}
+
+func autoCLIQueryAgents() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "Agents",
+		Short:     "queries all the agents.",
+		Example: `$ and query escrow agents
 agents:
 - address: cosmos1...
   creator: cosmos1...
@@ -66,17 +93,20 @@ agents:
   creator: cosmos1...
 pagination:
   total: "3"`,
-				},
-				{
-					RpcMethod: "Proposal",
-					Short:     "queries a proposal.",
-					Use:       "proposal --agent [agent]",
-					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"agent": {
-							Usage: "the address of an agent in charge",
-						},
-					},
-					Example: `$ and query escrow proposal --agent cosmos1aaa...
+	}
+}
+
+func autoCLIQueryProposal() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "Proposal",
+		Short:     "queries a proposal.",
+		Use:       "proposal --agent [agent]",
+		FlagOptions: map[string]*autocliv1.FlagOptions{
+			"agent": {
+				Usage: "the address of an agent in charge",
+			},
+		},
+		Example: `$ and query escrow proposal --agent cosmos1aaa...
 proposal:
   agent: cosmos1aaa...
   metadata: very good deal
@@ -96,17 +126,20 @@ proposal:
       receiver: cosmos1...
       sender: cosmos1...
   proposer: cosmos1...`,
-				},
-				{
-					RpcMethod: "ProposalsByProposer",
-					Short:     "queries all the proposals by its proposer.",
-					Use:       "proposals-by-proposer --proposer [proposer]",
-					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"proposer": {
-							Usage: "the address of a proposer",
-						},
-					},
-					Example: `$ and query escrow proposals-by-proposer --proposer cosmos1ppp...
+	}
+}
+
+func autoCLIQueryProposalsByProposer() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "ProposalsByProposer",
+		Short:     "queries all the proposals by its proposer.",
+		Use:       "proposals-by-proposer --proposer [proposer]",
+		FlagOptions: map[string]*autocliv1.FlagOptions{
+			"proposer": {
+				Usage: "the address of a proposer",
+			},
+		},
+		Example: `$ and query escrow proposals-by-proposer --proposer cosmos1ppp...
 pagination:
   total: "1"
 proposals:
@@ -134,11 +167,14 @@ proposals:
       receiver: cosmos1...
       sender: cosmos1...
   proposer: cosmos1ppp...`,
-				},
-				{
-					RpcMethod: "Proposals",
-					Short:     "queries all the proposals.",
-					Example: `$ and query escrow proposals
+	}
+}
+
+func autoCLIQueryProposals() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "Proposals",
+		Short:     "queries all the proposals.",
+		Example: `$ and query escrow proposals
 pagination:
   total: "2"
 proposals:
@@ -184,22 +220,32 @@ proposals:
       receiver: cosmos1...
       sender: cosmos1...
   proposer: cosmos1...`,
-				},
+	}
+}
+
+func autoCLITx() *autocliv1.ServiceCommandDescriptor {
+	return &autocliv1.ServiceCommandDescriptor{
+		Service: escrowv1alpha1.Msg_ServiceDesc.ServiceName,
+		RpcCommandOptions: []*autocliv1.RpcCommandOptions{
+			autoCLITxUpdateParams(),
+			autoCLITxCreateAgent(),
+			autoCLITxSubmitProposal(),
+			autoCLITxExec(),
+		},
+	}
+}
+
+func autoCLITxUpdateParams() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "UpdateParams",
+		Short:     "updates the module parameters.",
+		Use:       "update-params --from [authority] --max-metadata-length [max-metadata-length]",
+		FlagOptions: map[string]*autocliv1.FlagOptions{
+			"max_metadata_length": {
+				Usage: "the maximum length allowed for metadata",
 			},
 		},
-		Tx: &autocliv1.ServiceCommandDescriptor{
-			Service: escrowv1alpha1.Msg_ServiceDesc.ServiceName,
-			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
-				{
-					RpcMethod: "UpdateParams",
-					Short:     "updates the module parameters.",
-					Use:       "update-params --from [authority] --max-metadata-length [max-metadata-length]",
-					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"max_metadata_length": {
-							Usage: "the maximum length allowed for metadata",
-						},
-					},
-					Example: `$ and tx escrow update-params --from cosmos1aaa... --max-metadata-length 42
+		Example: `$ and tx escrow update-params --from cosmos1aaa... --max-metadata-length 42
 auth_info:
   fee:
     amount: []
@@ -219,12 +265,15 @@ body:
   timeout_height: "0"
 signatures: []
 confirm transaction before signing and broadcasting [y/N]:`,
-				},
-				{
-					RpcMethod: "CreateAgent",
-					Short:     "creates an escrow agent for a proposal.",
-					Use:       "create-agent --from [creator]",
-					Example: `$ and tx escrow create-agent --from cosmos1ccc...
+	}
+}
+
+func autoCLITxCreateAgent() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "CreateAgent",
+		Short:     "creates an escrow agent for a proposal.",
+		Use:       "create-agent --from [creator]",
+		Example: `$ and tx escrow create-agent --from cosmos1ccc...
 auth_info:
   fee:
     amount: []
@@ -243,11 +292,14 @@ body:
   timeout_height: "0"
 signatures: []
 confirm transaction before signing and broadcasting [y/N]:`,
-				},
-				{
-					RpcMethod: "SubmitProposal",
-					Short:     "submits a proposal.",
-					Long: `submits a proposal.
+	}
+}
+
+func autoCLITxSubmitProposal() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "SubmitProposal",
+		Short:     "submits a proposal.",
+		Long: `submits a proposal.
 
 Note:
   agent:
@@ -256,22 +308,22 @@ Note:
     the signer of each message must be either the proposer or the agent.
   post-actions:
     the signer of each message must be either the proposer or the agent.`,
-					Use: "submit-proposal --from [proposer] --agent [agent] --pre-actions [pre-actions] --post-actions [post-actions] --metadata [metadata]",
-					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"agent": {
-							Usage: "the address of the agent in charge",
-						},
-						"pre_actions": {
-							Usage: "the messages which will be executed on the submission",
-						},
-						"post_actions": {
-							Usage: "the messages which will be executed after the actions included in Msg/Exec",
-						},
-						"metadata": {
-							Usage: "any arbitrary metadata attached to the proposal",
-						},
-					},
-					Example: `$ and tx escrow submit-proposal --from cosmos1ppp... --agent cosmos1aaa... \
+		Use: "submit-proposal --from [proposer] --agent [agent] --pre-actions [pre-actions] --post-actions [post-actions] --metadata [metadata]",
+		FlagOptions: map[string]*autocliv1.FlagOptions{
+			"agent": {
+				Usage: "the address of the agent in charge",
+			},
+			"pre_actions": {
+				Usage: "the messages which will be executed on the submission",
+			},
+			"post_actions": {
+				Usage: "the messages which will be executed after the actions included in Msg/Exec",
+			},
+			"metadata": {
+				Usage: "any arbitrary metadata attached to the proposal",
+			},
+		},
+		Example: `$ and tx escrow submit-proposal --from cosmos1ppp... --agent cosmos1aaa... \
     --pre-actions '{"@type": "/cosmos.nft.v1beta1.MsgSend",
                     "class_id": "cat",
                     "id": "leopardcat",
@@ -316,25 +368,28 @@ body:
   timeout_height: "0"
 signatures: []
 confirm transaction before signing and broadcasting [y/N]:`,
-				},
-				{
-					RpcMethod: "Exec",
-					Short:     "executes a proposal.",
-					Long: `executes a proposal.
+	}
+}
+
+func autoCLITxExec() *autocliv1.RpcCommandOptions {
+	return &autocliv1.RpcCommandOptions{
+		RpcMethod: "Exec",
+		Short:     "executes a proposal.",
+		Long: `executes a proposal.
 
 Note:
   actions:
     the signer of each message must be either the executor or one of the agents.`,
-					Use: "exec --from [executor] --agents [agents] --actions [actions]",
-					FlagOptions: map[string]*autocliv1.FlagOptions{
-						"agents": {
-							Usage: "the addresses of the agents in charge",
-						},
-						"actions": {
-							Usage: "the messages which will be executed on the execution",
-						},
-					},
-					Example: `$ and tx escrow exec --from cosmos1eee... --agents cosmos1aaa... \
+		Use: "exec --from [executor] --agents [agents] --actions [actions]",
+		FlagOptions: map[string]*autocliv1.FlagOptions{
+			"agents": {
+				Usage: "the addresses of the agents in charge",
+			},
+			"actions": {
+				Usage: "the messages which will be executed on the execution",
+			},
+		},
+		Example: `$ and tx escrow exec --from cosmos1eee... --agents cosmos1aaa... \
     --actions '{"@type": "/cosmos.nft.v1beta1.MsgSend",
                 "class_id": "cat",
                 "id": "leopardcat",
@@ -376,8 +431,5 @@ body:
   timeout_height: "0"
 signatures: []
 confirm transaction before signing and broadcasting [y/N]:`,
-				},
-			},
-		},
 	}
 }
