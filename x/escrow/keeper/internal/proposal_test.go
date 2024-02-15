@@ -44,11 +44,35 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 
 		return nil
 	}
+
+	proposer := s.seller
+	agent := s.agentIdle
+	agentInfo, err := s.keeper.GetAgent(s.ctx, agent)
+	s.NoError(err)
+	s.Equal(proposer, sdk.AccAddress(agentInfo.Creator))
+
+	validAsset := "snake"
+	_, err = s.testQueryServer.Asset(s.ctx, &testv1alpha1.QueryAssetRequest{
+		Account: s.addressBytesToString(proposer),
+		Asset:   validAsset,
+	})
+	s.NoError(err)
+
+	invalidAsset := "whale"
+	_, err = s.testQueryServer.Asset(s.ctx, &testv1alpha1.QueryAssetRequest{
+		Account: s.addressBytesToString(proposer),
+		Asset:   invalidAsset,
+	})
+	s.Error(err)
+
+	param, err := s.keeper.GetParams(s.ctx)
+	s.NoError(err)
+
 	cases := []map[string]testutil.Case[submitProposal]{
 		{
 			"proposer already exists": {
 				Malleate: func(subject *submitProposal) {
-					subject.proposer = s.seller
+					subject.proposer = proposer
 				},
 			},
 			"proposer differs from creator": {
@@ -63,7 +87,7 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 		{
 			"agent already exists": {
 				Malleate: func(subject *submitProposal) {
-					subject.agent = s.agentIdle
+					subject.agent = agent
 				},
 			},
 			"agent not found": {
@@ -82,7 +106,7 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 						&testv1alpha1.MsgSend{
 							Sender:    s.addressBytesToString(s.seller),
 							Recipient: s.addressBytesToString(s.agentIdle),
-							Asset:     "snake",
+							Asset:     validAsset,
 						},
 					})
 				},
@@ -93,7 +117,7 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 						&testv1alpha1.MsgSend{
 							Sender:    s.addressBytesToString(s.seller),
 							Recipient: s.addressBytesToString(s.agentIdle),
-							Asset:     "whale", // proposer does not have "whale"
+							Asset:     invalidAsset,
 						},
 					})
 				},
@@ -123,7 +147,7 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 			},
 			"large metadata": {
 				Malleate: func(subject *submitProposal) {
-					subject.metadata = string(make([]rune, s.keeper.DefaultGenesis().Params.MaxMetadataLength+1))
+					subject.metadata = string(make([]rune, param.MaxMetadataLength+1))
 				},
 				Error: func() error {
 					return escrowv1alpha1.ErrLargeMetadata

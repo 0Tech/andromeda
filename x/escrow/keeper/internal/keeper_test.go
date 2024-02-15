@@ -77,6 +77,8 @@ type KeeperTestSuite struct {
 	queryServer escrowv1alpha1.QueryServer
 	msgServer   escrowv1alpha1.MsgServer
 
+	testQueryServer testv1alpha1.QueryServer
+
 	seller   sdk.AccAddress
 	buyer    sdk.AccAddress
 	stranger sdk.AccAddress
@@ -119,6 +121,8 @@ func (s *KeeperTestSuite) SetupTest() {
 
 	s.queryServer = keeper.NewQueryServer(*s.keeper)
 	s.msgServer = keeper.NewMsgServer(*s.keeper)
+
+	s.testQueryServer = testkeeper.NewQueryServer(*testKeeper)
 
 	err := s.keeper.InitGenesis(s.ctx, s.keeper.DefaultGenesis())
 	s.NoError(err)
