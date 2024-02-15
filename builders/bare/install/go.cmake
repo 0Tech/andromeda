@@ -20,7 +20,7 @@ function(coerce _input _output)
   return(PROPAGATE ${_output})
 endfunction()
 
-require_variables(VERSION)
+require_variables(VERSION CMAKE_SYSTEM_NAME CMAKE_SYSTEM_PROCESSOR)
 
 get_version(version)
 block()
@@ -33,8 +33,29 @@ endblock()
 
 message(WARNING "No go ${VERSION} found. Automatic installation is destructive and requires write permission on your filesystem. Manual installation is highly recommended.")
 
-# TODO: fix hard coding
-file(DOWNLOAD https://go.dev/dl/go${VERSION}.linux-amd64.tar.gz go.tar.gz)
+# Determine Operating System
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+  set(OS "linux")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+  set(OS "windows")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+  set(OS "darwin")
+else()
+  message(FATAL_ERROR "Unsupported operating system.")
+endif()
+
+# Determine Architecture
+if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+  set(ARCH "amd64")
+elseif(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
+  set(ARCH "arm64")
+else()
+  message(FATAL_ERROR "Unsupported architecture.")
+endif()
+
+set(GO_BINARY_URL "https://dl.google.com/go/go${VERSION}.${OS}-${ARCH}.tar.gz")
+
+file(DOWNLOAD ${GO_BINARY_URL} go.tar.gz)
 
 # libarchive bug
 if(NOT DEFINED ENV{LANG})

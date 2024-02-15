@@ -18,7 +18,7 @@ add_custom_target(install_builders
 )
 
 add_custom_target(install_go
-  COMMAND cmake -D VERSION=${GO_VERSION} -P go.cmake
+  COMMAND cmake -D VERSION=${GO_VERSION} -D CMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME} -D CMAKE_SYSTEM_PROCESSOR=${CMAKE_SYSTEM_PROCESSOR} -P go.cmake
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   VERBATIM
 )
