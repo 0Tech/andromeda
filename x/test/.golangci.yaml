@@ -34,10 +34,23 @@ linters-settings:
   depguard:
     rules:
       main:
+        files:
+        - $all
+        - "!$test"
+        - "!**/testutil/*.go"
+        allow:
+        - $gostd
+        - github.com/grpc-ecosystem/grpc-gateway/runtime
+        - cosmossdk.io
+        - github.com/cosmos/cosmos-sdk
+        - github.com/0tech/andromeda
+      test:
+        files:
+        - $test
+        - "**/testutil/*.go"
         allow:
         - $gostd
         - github.com/stretchr/testify
-        - github.com/grpc-ecosystem/grpc-gateway/runtime
         - cosmossdk.io
         - github.com/cosmos/cosmos-sdk
         - github.com/0tech/andromeda

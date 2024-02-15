@@ -27,7 +27,7 @@ linters-settings:
     - prefix(github.com/0tech/andromeda)
   depguard:
     rules:
-      main:
+      all:
         allow:
         - $gostd
         - github.com/stretchr/testify
