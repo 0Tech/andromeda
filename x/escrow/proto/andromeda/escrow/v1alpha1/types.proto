@@ -1,0 +1,31 @@
+syntax = "proto3";
+package andromeda.escrow.v1alpha1;
+
+import "google/protobuf/any.proto";
+
+// Params defines the parameters for the module.
+message Params {
+  // the maximum length allowed for metadata
+  uint64 max_metadata_length = 1;
+}
+
+// Agent defines an account taking charge of a proposal.
+message Agent {
+  // the address of the creator
+  bytes creator = 1;
+}
+
+// Proposal defines a proposal.
+message Proposal {
+  // the address of the proposer
+  bytes proposer = 1;
+
+  // the messages which has been executed on the submission
+  repeated google.protobuf.Any pre_actions = 2;
+
+  // the messages which will be executed after the actions included in Msg/Exec
+  repeated google.protobuf.Any post_actions = 3;
+
+  // any arbitrary metadata attached to the proposal
+  string metadata = 4;
+}

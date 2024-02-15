@@ -1,0 +1,40 @@
+run:
+  timeout: 5m
+linters:
+  enable:
+  - depguard
+  - dogsled
+  - exportloopref
+  - goconst
+  - gocritic
+  - gofumpt
+  - gosec
+  - misspell
+  - nakedret
+  - nolintlint
+  - revive
+  - stylecheck
+  - unconvert
+
+linters-settings:
+  gci:
+    custom-order: true
+    sections:
+    - standard
+    - default
+    - prefix(cosmossdk.io)
+    - prefix(github.com/cosmos/cosmos-sdk)
+    - prefix(github.com/0tech/andromeda)
+  depguard:
+    rules:
+      all:
+        allow:
+        - $gostd
+        - github.com/spf13/cobra
+        - github.com/spf13/pflag
+        - github.com/spf13/viper
+        - github.com/cometbft/cometbft
+        - cosmossdk.io
+        - github.com/cosmos/cosmos-db
+        - github.com/cosmos/cosmos-sdk
+        - github.com/0tech/andromeda

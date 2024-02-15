@@ -1,0 +1,56 @@
+run:
+  timeout: 5m
+  skip-files:
+  - ".*\\.pb\\.go$"
+  - ".*\\.pb\\.gw\\.go$"
+  - ".*\\.pulsar\\.go$"
+  - ".*\\.mock\\.go$"
+
+linters:
+  enable:
+  - depguard
+  - dogsled
+  - exportloopref
+  - goconst
+  - gocritic
+  - gofumpt
+  - gosec
+  - misspell
+  - nakedret
+  - nolintlint
+  - revive
+  - stylecheck
+  - unconvert
+
+linters-settings:
+  gci:
+    custom-order: true
+    sections:
+    - standard
+    - default
+    - prefix(cosmossdk.io)
+    - prefix(github.com/cosmos/cosmos-sdk)
+    - prefix(github.com/0tech/andromeda)
+  depguard:
+    rules:
+      main:
+        files:
+        - $all
+        - "!$test"
+        - "!**/testutil/*.go"
+        allow:
+        - $gostd
+        - github.com/grpc-ecosystem/grpc-gateway/runtime
+        - cosmossdk.io
+        - github.com/cosmos/cosmos-sdk
+        - github.com/0tech/andromeda
+      test:
+        files:
+        - $test
+        - "**/testutil/*.go"
+        allow:
+        - $gostd
+        - github.com/stretchr/testify
+        - cosmossdk.io
+        - github.com/cosmos/cosmos-sdk
+        - github.com/0tech/andromeda

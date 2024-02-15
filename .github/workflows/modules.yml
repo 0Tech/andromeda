@@ -1,0 +1,21 @@
+name: Check Modules
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+jobs:
+  check-modules:
+    name: x-${{ matrix.name }}
+    strategy:
+      matrix:
+        include:
+        - name: test
+          sonar-token: SONAR_TOKEN_X_TEST
+        - name: escrow
+          sonar-token: SONAR_TOKEN_X_ESCROW
+    uses: ./.github/workflows/module.yml
+    with:
+      name: ${{ matrix.name }}
+    secrets:
+      sonar-token: ${{ secrets[matrix.sonar-token] }}

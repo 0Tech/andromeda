@@ -1,0 +1,96 @@
+syntax = "proto3";
+package andromeda.escrow.v1alpha1;
+
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "google/protobuf/any.proto";
+
+// Msg defines the module's Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams updates the module parameters.
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+
+  // CreateAgent creates an escrow agent for a proposal.
+  rpc CreateAgent(MsgCreateAgent) returns (MsgCreateAgentResponse);
+
+  // SubmitProposal submits a proposal.
+  rpc SubmitProposal(MsgSubmitProposal) returns (MsgSubmitProposalResponse);
+
+  // Exec executes a proposal.
+  rpc Exec(MsgExec) returns (MsgExecResponse);
+}
+
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+
+  // the address of the module authority
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the maximum length allowed for metadata
+  uint64 max_metadata_length = 2;
+}
+
+// MsgUpdateParamsResponse is the Msg/UpdateParams response type.
+message MsgUpdateParamsResponse {}
+
+// MsgCreateAgent is the Msg/CreateAgent request type.
+message MsgCreateAgent {
+  option (cosmos.msg.v1.signer) = "creator";
+
+  // the address of the account creating the agent
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgCreateAgentResponse is the Msg/CreateAgent response type.
+message MsgCreateAgentResponse {
+  // the address of the created agent
+  string agent = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgSubmitProposal is the Msg/SubmitProposal request type.
+message MsgSubmitProposal {
+  option (cosmos.msg.v1.signer) = "proposer";
+
+  // the address of the proposer
+  string proposer = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the address of the agent in charge
+  // Note: it must be created by the proposer.
+  string agent = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the messages which will be executed on the submission
+  // Note: the signer of each message must be either the proposer or the agent.
+  repeated google.protobuf.Any pre_actions = 3;
+
+  // the messages which will be executed after the actions included in Msg/Exec
+  // Note: the signer of each message must be either the proposer or the agent.
+  repeated google.protobuf.Any post_actions = 4;
+
+  // any arbitrary metadata attached to the proposal
+  string metadata = 5;
+}
+
+// MsgSubmitProposalResponse is the Msg/SubmitProposal response type.
+message MsgSubmitProposalResponse {}
+
+// MsgExec is the Msg/Exec request type.
+message MsgExec {
+  option (cosmos.msg.v1.signer) = "executor";
+
+  // the address of the account executing the proposal
+  string executor = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the addresses of the agents in charge
+  repeated string agents = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the messages which will be executed on the execution
+  // Note: the signer of each message must be either the executor or one of the
+  // agents.
+  repeated google.protobuf.Any actions = 3;
+}
+
+// MsgExecResponse is the Msg/Exec response type.
+message MsgExecResponse {}

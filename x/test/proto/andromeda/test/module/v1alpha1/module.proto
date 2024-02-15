@@ -1,0 +1,9 @@
+syntax = "proto3";
+package andromeda.test.module.v1alpha1;
+
+import "cosmos/app/v1alpha1/module.proto";
+
+// Module is the config object of the module.
+message Module {
+  option (cosmos.app.v1alpha1.module) = {go_import: "github.com/0tech/andromeda/x/test"};
+}

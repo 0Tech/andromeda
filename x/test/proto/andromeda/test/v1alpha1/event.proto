@@ -1,0 +1,25 @@
+syntax = "proto3";
+package andromeda.test.v1alpha1;
+
+import "cosmos_proto/cosmos.proto";
+
+// EventCreate is emitted on Msg/Create.
+message EventCreate {
+  // the address of the creator
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the name of the asset created
+  string asset = 2;
+}
+
+// EventSend is emitted on Msg/Send.
+message EventSend {
+  // the address of the sender
+  string sender = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the address of the recipient
+  string recipient = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the name of the asset sent
+  string asset = 3;
+}

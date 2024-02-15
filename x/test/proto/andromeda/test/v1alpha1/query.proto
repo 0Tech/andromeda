@@ -1,0 +1,64 @@
+syntax = "proto3";
+package andromeda.test.v1alpha1;
+
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "cosmos_proto/cosmos.proto";
+import "google/api/annotations.proto";
+
+// Query defines the module's Query service.
+service Query {
+  // Asset queries an asset.
+  rpc Asset(QueryAssetRequest) returns (QueryAssetResponse) {
+    option (google.api.http).get = "/andromeda/test/v1alpha1/accounts/{account}/assets/{asset}";
+  }
+
+  // Assets queries all the assets.
+  rpc Assets(QueryAssetsRequest) returns (QueryAssetsResponse) {
+    option (google.api.http).get = "/andromeda/test/v1alpha1/accounts/{account}/assets";
+  }
+}
+
+// QueryAssetRequest is the request type for the Query/Asset RPC method.
+message QueryAssetRequest {
+  // the address of an account
+  string account = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // the name of an asset
+  string asset = 2;
+}
+
+// QueryAssetResponse is the response type for the Query/Asset RPC method.
+message QueryAssetResponse {
+  // Asset defines an asset identified by its name.
+  message Asset {
+    // the name of the asset
+    string name = 1;
+  }
+
+  // the corresponding asset
+  Asset asset = 1;
+}
+
+// QueryAssetsRequest is the request type for the Query/Assets RPC method.
+message QueryAssetsRequest {
+  // the address of an account
+  string account = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // optional pagination for the request
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryAssetsResponse is the response type for the Query/Assets RPC method.
+message QueryAssetsResponse {
+  // Asset defines an asset identified by its name.
+  message Asset {
+    // the name of the asset
+    string name = 1;
+  }
+
+  // all the assets owned by the account
+  repeated Asset assets = 1;
+
+  // pagination in the response
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

@@ -1,0 +1,17 @@
+version: v1
+name: buf.build/andromeda/x-test
+deps:
+  - buf.build/googleapis/googleapis
+  - buf.build/cosmos/cosmos-sdk
+  - buf.build/cosmos/cosmos-proto
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT
+    - COMMENTS
+  except:
+    - UNARY_RPC
+    - SERVICE_SUFFIX
+    - RPC_REQUEST_STANDARD_NAME
