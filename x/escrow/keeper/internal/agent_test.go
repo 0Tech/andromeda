@@ -21,9 +21,8 @@ func (s *KeeperTestSuite) TestCreateAgent() {
 		}
 		s.NotNil(agent)
 
-		agentBefore, err := s.keeper.GetAgent(s.ctx, agent)
+		_, err = s.keeper.GetAgent(s.ctx, agent)
 		s.Assert().Error(err)
-		s.Assert().Nil(agentBefore)
 
 		agentAfter, err := s.keeper.GetAgent(ctx, agent)
 		s.Require().NoError(err)

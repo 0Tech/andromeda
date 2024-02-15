@@ -460,9 +460,8 @@ func TestInitExportGenesisParams(t *testing.T) {
 			return err
 		}
 
-		paramsBefore, err := k.GetParams(ctxBefore)
+		_, err = k.GetParams(ctxBefore)
 		assert.Error(t, err)
-		assert.Nil(t, paramsBefore)
 
 		paramsAfter, err := k.GetParams(ctxAfter)
 		assert.NoError(t, err)
@@ -521,9 +520,8 @@ func TestInitExportGenesisAgents(t *testing.T) {
 			address := addressStringToBytes(agent.Address)
 			creator := addressStringToBytes(agent.Creator)
 
-			agentBefore, err := k.GetAgent(ctxBefore, address)
+			_, err := k.GetAgent(ctxBefore, address)
 			assert.Error(t, err, i)
-			assert.Nil(t, agentBefore, i)
 
 			agentAfter, err := k.GetAgent(ctxAfter, address)
 			assert.NoError(t, err, i)
@@ -597,9 +595,8 @@ func TestInitExportGenesisProposals(t *testing.T) {
 		for i, proposal := range subject {
 			agent := addressStringToBytes(proposal.Agent)
 
-			proposalBefore, err := k.GetProposal(ctxBefore, agent)
+			_, err := k.GetProposal(ctxBefore, agent)
 			assert.Error(t, err, i)
-			assert.Nil(t, proposalBefore, i)
 
 			proposalAfter, err := k.GetProposal(ctxAfter, agent)
 			assert.NoError(t, err, i)

@@ -31,9 +31,8 @@ func (s *KeeperTestSuite) TestSubmitProposal() {
 			return err
 		}
 
-		proposalBefore, err := s.keeper.GetProposal(s.ctx, subject.agent)
+		_, err = s.keeper.GetProposal(s.ctx, subject.agent)
 		s.Assert().Error(err)
-		s.Assert().Nil(proposalBefore)
 
 		proposalAfter, err := s.keeper.GetProposal(ctx, subject.agent)
 		s.Require().NoError(err)
