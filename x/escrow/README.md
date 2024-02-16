@@ -980,7 +980,7 @@ Example Output:
 
 It would be the most trivial usage of this module. In this example, a proposer
 `cosmos1ppp...` sells an x/nft token `cat:leopardcat` for x/bank coins
-`42stake`.
+`42stake`:
 
 ```yaml
 agent: cosmos1aaa...
@@ -1003,7 +1003,7 @@ proposer: cosmos1ppp...
 ```
 
 The proposal would be executed by `cosmos1eee...`, who is willing to pay
-`42stake` for `cat:leopardcat`.
+`42stake` for `cat:leopardcat`:
 
 ```yaml
 actions:
@@ -1027,7 +1027,7 @@ executor: cosmos1eee...
 
 It may sound strange, but one can sell coins for a certain NFT. In this
 example, a proposer `cosmos1ppp...` sells x/bank coins `42stake` for an x/nft
-token `cat:leopardcat`.
+token `cat:leopardcat`:
 
 ```yaml
 agent: cosmos1aaa...
@@ -1050,7 +1050,7 @@ proposer: cosmos1ppp...
 ```
 
 The proposal would be executed by `cosmos1eee...`, who is willing to pay
-`cat:leopardcat` for `42stake`.
+`cat:leopardcat` for `42stake`:
 
 ```yaml
 actions:
@@ -1074,7 +1074,7 @@ executor: cosmos1eee...
 
 One may want to offer deals to a specific account. In this example, a proposer
 `cosmos1ppp...` sells an x/nft token `cat:leopardcat` for x/bank coins
-`42stake` to `cosmos1eee...`.
+`42stake` to `cosmos1eee...`:
 
 ```yaml
 agent: cosmos1aaa...
@@ -1109,7 +1109,7 @@ this proposal has a specific receipient of the NFT, so the proposer can assure
 the designated recipient will receive the NFT eventually.
 
 The recipient, `cosmos1eee...`, who has an interest on this deal, will execute
-the proposal.
+the proposal:
 
 ```yaml
 actions:
@@ -1127,7 +1127,7 @@ executor: cosmos1eee...
 ### Broker
 
 One can broker multiple proposals. In this example, one proposer
-`cosmos1ppp...` sells x/bank coins `1notscam` for x/bank coins `42stake`.
+`cosmos1ppp...` sells x/bank coins `1notscam` for x/bank coins `42stake`:
 
 ```yaml
 agent: cosmos1aaa...
@@ -1150,7 +1150,7 @@ proposer: cosmos1ppp...
 ```
 
 The other proposer `cosmos1qqq...` sells x/bank coins `4242stake` for x/bank
-coins `1notscam`.
+coins `1notscam`:
 
 ```yaml
 agent: cosmos1bbb...
@@ -1179,8 +1179,7 @@ chain, it won't work, because you can send multiple messages in a tx, ensuring
 they would be executed in all-or-none manner.
 
 Or, you can broker the proposals, meaning executing multiple proposals in one
-`Msg/Exec`. In this way, you don't even need to prepare `42stake` to trigger
-the first proposal.
+`Msg/Exec`:
 
 ```yaml
 actions:
@@ -1208,12 +1207,15 @@ agents:
 executor: cosmos1eee...
 ```
 
+In this way, you don't even need to prepare `42stake` to trigger the first
+proposal.
+
 ### Retail
 
 Wholesalers often sell large amount of assets at a reduced price. One can be a
 retailer when certain amount of relevant proposals are accumulated on the
 chain. In this example, a wholesaler `cosmos1wholesaler...` sells x/bank coins
-`10000egg` for x/bank coins `10000000stake`.
+`10000egg` for x/bank coins `10000000stake`:
 
 ```yaml
 agent: cosmos1wholesaleragent...
@@ -1236,7 +1238,7 @@ proposer: cosmos1wholesaler...
 ```
 
 For simplicity, suppose there were 100 proposals selling x/bank coins
-`150000stake` for x/bank coins `100egg`.
+`150000stake` for x/bank coins `100egg`:
 
 ```yaml
 agent: cosmos1consumerzeroagent...
@@ -1258,7 +1260,7 @@ pre_actions:
 proposer: cosmos1consumerzero...
 ```
 
-In this case, literally anyone can be a retailer, executing the proposals.
+In this case, literally anyone can be a retailer, executing the proposals:
 
 ```yaml
 actions:
