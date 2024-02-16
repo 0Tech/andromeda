@@ -9,9 +9,9 @@ Some modules have messages which may use other messages. Typical examples would
 be:
 
 * [`x/escrow`](../escrow/README.md)
-* [`x/authz`](https://github.com/cosmos/cosmos-sdk/x/authz/README.md)
-* [`x/gov`](https://github.com/cosmos/cosmos-sdk/x/gov/README.md)
-* [`x/group`](https://github.com/cosmos/cosmos-sdk/x/group/README.md)
+* [`x/authz`](https://github.com/cosmos/cosmos-sdk/blob/v0.50.3/x/authz/README.md)
+* [`x/gov`](https://github.com/cosmos/cosmos-sdk/blob/v0.50.3/x/gov/README.md)
+* [`x/group`](https://github.com/cosmos/cosmos-sdk/blob/v0.50.3/x/group/README.md)
 
 Testing those kind of messages requires messages with ownership semantics,
 however, the corresponding module often lacks such kind of messages. While

@@ -7,4 +7,6 @@ Here are some testing-grade modules, along with their respective documentation:
 
 ## Cosmos SDK
 
-You can always use modules from [Cosmos SDK](https://github.com/cosmos/cosmos-sdk) for your applications.
+You can always use modules from
+[Cosmos SDK](https://github.com/cosmos/cosmos-sdk/blob/v0.50.3/x/README.md) for
+your applications.
