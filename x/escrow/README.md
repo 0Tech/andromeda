@@ -15,6 +15,13 @@ involves cumbersome preparation for certain tailer made contract code. The
 trade itself would be quite simple and obvious, hence this module tries to
 reduce such efforts on common use cases.
 
+Taking it a step further, this module allows us to build an ecosystem for
+healthy, speedy and convenient transactions. One can execute multiple proposals
+together, which lowers the hurdles to becoming a retailer or broker. Hence, if
+it's a quite reasonable deal, some user will trigger your proposal (together
+with other proposals) for their profit, meaning you don't even need to find
+matching proposals by yourself. Just submit a proposal and forget about it.
+
 
 ## Contents
 
@@ -969,7 +976,7 @@ Example Output:
 
 ## Examples
 
-### Selling an NFT for coins
+### Sale of an NFT for coins
 
 It would be the most trivial usage of this module. In this example, a proposer
 `cosmos1ppp...` sells an x/nft token `cat:leopardcat` for x/bank coins
@@ -1016,7 +1023,7 @@ agents:
 executor: cosmos1eee...
 ```
 
-### Selling coins for an NFT
+### Sale of coins for an NFT
 
 It may sound strange, but one can sell coins for a certain NFT. In this
 example, a proposer `cosmos1ppp...` sells x/bank coins `42stake` for an x/nft
@@ -1063,7 +1070,7 @@ agents:
 executor: cosmos1eee...
 ```
 
-### Selling an NFT to a specific account
+### Sale of an NFT to a specific account
 
 One may want to offer deals to a specific account. In this example, a proposer
 `cosmos1ppp...` sells an x/nft token `cat:leopardcat` for x/bank coins
@@ -1117,9 +1124,9 @@ agents:
 executor: cosmos1eee...
 ```
 
-#### Mediating sellings
+### Broker
 
-One can mediate multiple proposals. In this example, one proposer
+One can broker multiple proposals. In this example, one proposer
 `cosmos1ppp...` sells x/bank coins `1notscam` for x/bank coins `42stake`.
 
 ```yaml
@@ -1171,9 +1178,9 @@ to buy `1notscam`, hoping to sell it to `cosmos1qqq...` to earn the difference
 chain, it won't work, because you can send multiple messages in a tx, ensuring
 they would be executed in all-or-none manner.
 
-Or, you can mediate the proposals, meaning executing multiple proposals in a
-one `Msg/Exec`. In this way, you don't even need to prepare `42stake` to
-trigger the first proposal.
+Or, you can broker the proposals, meaning executing multiple proposals in one
+`Msg/Exec`. In this way, you don't even need to prepare `42stake` to trigger
+the first proposal.
 
 ```yaml
 actions:
@@ -1200,3 +1207,105 @@ agents:
 - cosmos1bbb...
 executor: cosmos1eee...
 ```
+
+### Retail
+
+Wholesalers often sell large amount of assets at a reduced price. One can be a
+retailer when certain amount of relevant proposals are accumulated on the
+chain. In this example, a wholesaler `cosmos1wholesaler...` sells x/bank coins
+`10000egg` for x/bank coins `10000000stake`.
+
+```yaml
+agent: cosmos1wholesaleragent...
+metadata: sell 10000egg for 10000000stake
+post_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "10000000"
+    denom: stake
+  from_address: cosmos1wholesaleragent...
+  to_address: cosmos1wholesaler...
+pre_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "10000"
+    denom: egg
+  from_address: cosmos1wholesaler...
+  to_address: cosmos1wholesaleragent...
+proposer: cosmos1wholesaler...
+```
+
+For simplicity, suppose there were 100 proposals selling x/bank coins
+`150000stake` for x/bank coins `100egg`.
+
+```yaml
+agent: cosmos1consumerzeroagent...
+metadata: sell 150000stake for 100egg
+post_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100"
+    denom: egg
+  from_address: cosmos1consumerzeroagent...
+  to_address: cosmos1consumerzero...
+pre_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "150000"
+    denom: stake
+  from_address: cosmos1consumerzero...
+  to_address: cosmos1consumerzeroagent...
+proposer: cosmos1consumerzero...
+```
+
+In this case, literally anyone can be a retailer, executing the proposals.
+
+```yaml
+actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "50000"
+    denom: stake
+  from_address: cosmos1consumerzeroagent...
+  to_address: cosmos1retailer...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100000"
+    denom: stake
+  from_address: cosmos1consumerzeroagent...
+  to_address: cosmos1wholesaleragent...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100"
+    denom: egg
+  from_address: cosmos1wholesaleragent...
+  to_address: cosmos1consumerzeroagent...
+...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "50000"
+    denom: stake
+  from_address: cosmos1consumerninetynineagent...
+  to_address: cosmos1retailer...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100000"
+    denom: stake
+  from_address: cosmos1consumerninetynineagent...
+  to_address: cosmos1wholesaleragent...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100"
+    denom: egg
+  from_address: cosmos1wholesaleragent...
+  to_address: cosmos1consumerninetynineagent...
+agents:
+- cosmos1wholesaleragent...
+- cosmos1consumerzeroagent...
+...
+- cosmos1consumerninetynineagent...
+executor: cosmos1retailer...
+```
+
+Obviously, the actions in this example are not optimal, but it's sufficient for
+the demonstration.
