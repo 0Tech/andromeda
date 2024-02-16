@@ -703,7 +703,7 @@ Example Output:
 }
 ```
 
-### andromeda.escrow.v1alpha1.Query.AgentsByCreator
+#### andromeda.escrow.v1alpha1.Query.AgentsByCreator
 
 ```bash
 grpcurl -plaintext \
@@ -738,7 +738,7 @@ Example Output:
 }
 ```
 
-### andromeda.escrow.v1alpha1.Query.Agents
+#### andromeda.escrow.v1alpha1.Query.Agents
 
 ```bash
 grpcurl -plaintext \
@@ -825,7 +825,7 @@ Example Output:
 }
 ```
 
-### andromeda.escrow.v1alpha1.Query.ProposalsByProposer
+#### andromeda.escrow.v1alpha1.Query.ProposalsByProposer
 
 ```bash
 grpcurl -plaintext \
@@ -886,7 +886,7 @@ Example Output:
 }
 ```
 
-### andromeda.escrow.v1alpha1.Query.Proposals
+#### andromeda.escrow.v1alpha1.Query.Proposals
 
 ```bash
 grpcurl -plaintext \
