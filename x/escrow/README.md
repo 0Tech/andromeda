@@ -1,5 +1,8 @@
 # `x/escrow`
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=0tech_andromeda_x-escrow&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=0tech_andromeda_x-escrow)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=0tech_andromeda_x-escrow&metric=coverage)](https://sonarcloud.io/summary/new_code?id=0tech_andromeda_x-escrow)
+
 ## Abstract
 
 This module provides means to execute messages whose signers come from
@@ -101,9 +104,7 @@ the state.
 
 * Params: `0x00 -> ProtocolBuffer(Params)`
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L6-L7
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L6-L10
 
 ### NextAgent
 
@@ -114,72 +115,52 @@ https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1a
 * Agents: `0x11 | agent_address -> ProtocolBuffer(Agent)`
 * AgentsByCreator: `0x12 | creator_address | agent_address`
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L9-L11
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L12-L16
 
 ### Proposals
 
 * Proposals: `0x20 | agent_address -> ProtocolBuffer(Proposal)`
 * ProposalsByProposer: `0x21 | proposer_address | agent_address`
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L13-L23
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L18-L31
 
 
 ## Msg Service
 
 ### Msg/UpdateParams
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L25-L38
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L25-L34
 
 ### Msg/CreateAgent
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L43-L49
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L39-L45
 
 ### Msg/SubmitProposal
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L57-L75
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L53-L74
 
 ### Msg/Exec
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L83-L99
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L79-L93
 
 
 ## Events
 
 ### EventUpdateParams
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L7-L9
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L7-L14
 
 ### EventCreateAgent
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L11-L18
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L16-L23
 
 ### EventSubmitProposal
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L20-L36
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L25-L41
 
 ### EventExec
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L38-L48
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L43-L53
 
 
 ## Client
