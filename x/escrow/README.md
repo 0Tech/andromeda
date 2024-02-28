@@ -1,5 +1,9 @@
 # `x/escrow`
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=0tech_andromeda_x-escrow&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=0tech_andromeda_x-escrow)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=0tech_andromeda_x-escrow&metric=coverage)](https://sonarcloud.io/summary/new_code?id=0tech_andromeda_x-escrow)
+[![Go Report Card](https://goreportcard.com/badge/github.com/0tech/andromeda/x/escrow)](https://goreportcard.com/report/github.com/0tech/andromeda/x/escrow)
+
 ## Abstract
 
 This module provides means to execute messages whose signers come from
@@ -11,6 +15,13 @@ the half-signed transaction (which x/group tries to avoid), while the latter
 involves cumbersome preparation for certain tailer made contract code. The
 trade itself would be quite simple and obvious, hence this module tries to
 reduce such efforts on common use cases.
+
+Taking it a step further, this module allows us to build an ecosystem for
+healthy, speedy and convenient transactions. One can execute multiple proposals
+together, which lowers the hurdles to becoming a retailer or broker. Hence, if
+it's a quite reasonable deal, some user will trigger your proposal (together
+with other proposals) for their profit, meaning you don't even need to find
+matching proposals by yourself. Just submit a proposal and forget about it.
 
 
 ## Contents
@@ -101,9 +112,7 @@ the state.
 
 * Params: `0x00 -> ProtocolBuffer(Params)`
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L6-L7
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L6-L10
 
 ### NextAgent
 
@@ -114,72 +123,52 @@ https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1a
 * Agents: `0x11 | agent_address -> ProtocolBuffer(Agent)`
 * AgentsByCreator: `0x12 | creator_address | agent_address`
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L9-L11
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L12-L16
 
 ### Proposals
 
 * Proposals: `0x20 | agent_address -> ProtocolBuffer(Proposal)`
 * ProposalsByProposer: `0x21 | proposer_address | agent_address`
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L13-L23
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/types.proto#L18-L31
 
 
 ## Msg Service
 
 ### Msg/UpdateParams
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L25-L38
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L25-L34
 
 ### Msg/CreateAgent
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L43-L49
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L39-L45
 
 ### Msg/SubmitProposal
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L57-L75
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L53-L74
 
 ### Msg/Exec
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L83-L99
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/tx.proto#L79-L93
 
 
 ## Events
 
 ### EventUpdateParams
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L7-L9
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L7-L14
 
 ### EventCreateAgent
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L11-L18
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L16-L23
 
 ### EventSubmitProposal
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L20-L36
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L25-L41
 
 ### EventExec
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L38-L48
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/escrow/proto/andromeda/escrow/v1alpha1/event.proto#L43-L53
 
 
 ## Client
@@ -715,7 +704,7 @@ Example Output:
 }
 ```
 
-### andromeda.escrow.v1alpha1.Query.AgentsByCreator
+#### andromeda.escrow.v1alpha1.Query.AgentsByCreator
 
 ```bash
 grpcurl -plaintext \
@@ -750,7 +739,7 @@ Example Output:
 }
 ```
 
-### andromeda.escrow.v1alpha1.Query.Agents
+#### andromeda.escrow.v1alpha1.Query.Agents
 
 ```bash
 grpcurl -plaintext \
@@ -837,7 +826,7 @@ Example Output:
 }
 ```
 
-### andromeda.escrow.v1alpha1.Query.ProposalsByProposer
+#### andromeda.escrow.v1alpha1.Query.ProposalsByProposer
 
 ```bash
 grpcurl -plaintext \
@@ -898,7 +887,7 @@ Example Output:
 }
 ```
 
-### andromeda.escrow.v1alpha1.Query.Proposals
+#### andromeda.escrow.v1alpha1.Query.Proposals
 
 ```bash
 grpcurl -plaintext \
@@ -988,11 +977,11 @@ Example Output:
 
 ## Examples
 
-### Selling an NFT for coins
+### Sale of an NFT for coins
 
 It would be the most trivial usage of this module. In this example, a proposer
 `cosmos1ppp...` sells an x/nft token `cat:leopardcat` for x/bank coins
-`42stake`.
+`42stake`:
 
 ```yaml
 agent: cosmos1aaa...
@@ -1015,7 +1004,7 @@ proposer: cosmos1ppp...
 ```
 
 The proposal would be executed by `cosmos1eee...`, who is willing to pay
-`42stake` for `cat:leopardcat`.
+`42stake` for `cat:leopardcat`:
 
 ```yaml
 actions:
@@ -1035,11 +1024,11 @@ agents:
 executor: cosmos1eee...
 ```
 
-### Selling coins for an NFT
+### Sale of coins for an NFT
 
 It may sound strange, but one can sell coins for a certain NFT. In this
 example, a proposer `cosmos1ppp...` sells x/bank coins `42stake` for an x/nft
-token `cat:leopardcat`.
+token `cat:leopardcat`:
 
 ```yaml
 agent: cosmos1aaa...
@@ -1062,7 +1051,7 @@ proposer: cosmos1ppp...
 ```
 
 The proposal would be executed by `cosmos1eee...`, who is willing to pay
-`cat:leopardcat` for `42stake`.
+`cat:leopardcat` for `42stake`:
 
 ```yaml
 actions:
@@ -1082,11 +1071,11 @@ agents:
 executor: cosmos1eee...
 ```
 
-### Selling an NFT to a specific account
+### Sale of an NFT to a specific account
 
 One may want to offer deals to a specific account. In this example, a proposer
 `cosmos1ppp...` sells an x/nft token `cat:leopardcat` for x/bank coins
-`42stake` to `cosmos1eee...`.
+`42stake` to `cosmos1eee...`:
 
 ```yaml
 agent: cosmos1aaa...
@@ -1121,7 +1110,7 @@ this proposal has a specific receipient of the NFT, so the proposer can assure
 the designated recipient will receive the NFT eventually.
 
 The recipient, `cosmos1eee...`, who has an interest on this deal, will execute
-the proposal.
+the proposal:
 
 ```yaml
 actions:
@@ -1136,10 +1125,10 @@ agents:
 executor: cosmos1eee...
 ```
 
-#### Mediating sellings
+### Broker
 
-One can mediate multiple proposals. In this example, one proposer
-`cosmos1ppp...` sells x/bank coins `1notscam` for x/bank coins `42stake`.
+One can broker multiple proposals. In this example, one proposer
+`cosmos1ppp...` sells x/bank coins `1notscam` for x/bank coins `42stake`:
 
 ```yaml
 agent: cosmos1aaa...
@@ -1162,7 +1151,7 @@ proposer: cosmos1ppp...
 ```
 
 The other proposer `cosmos1qqq...` sells x/bank coins `4242stake` for x/bank
-coins `1notscam`.
+coins `1notscam`:
 
 ```yaml
 agent: cosmos1bbb...
@@ -1190,9 +1179,8 @@ to buy `1notscam`, hoping to sell it to `cosmos1qqq...` to earn the difference
 chain, it won't work, because you can send multiple messages in a tx, ensuring
 they would be executed in all-or-none manner.
 
-Or, you can mediate the proposals, meaning executing multiple proposals in a
-one `Msg/Exec`. In this way, you don't even need to prepare `42stake` to
-trigger the first proposal.
+Or, you can broker the proposals, meaning executing multiple proposals in one
+`Msg/Exec`:
 
 ```yaml
 actions:
@@ -1219,3 +1207,108 @@ agents:
 - cosmos1bbb...
 executor: cosmos1eee...
 ```
+
+In this way, you don't even need to prepare `42stake` to trigger the first
+proposal.
+
+### Retail
+
+Wholesalers often sell large amount of assets at a reduced price. One can be a
+retailer when certain amount of relevant proposals are accumulated on the
+chain. In this example, a wholesaler `cosmos1wholesaler...` sells x/bank coins
+`10000egg` for x/bank coins `10000000stake`:
+
+```yaml
+agent: cosmos1wholesaleragent...
+metadata: sell 10000egg for 10000000stake
+post_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "10000000"
+    denom: stake
+  from_address: cosmos1wholesaleragent...
+  to_address: cosmos1wholesaler...
+pre_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "10000"
+    denom: egg
+  from_address: cosmos1wholesaler...
+  to_address: cosmos1wholesaleragent...
+proposer: cosmos1wholesaler...
+```
+
+For simplicity, suppose there were 100 proposals selling x/bank coins
+`150000stake` for x/bank coins `100egg`:
+
+```yaml
+agent: cosmos1consumerzeroagent...
+metadata: sell 150000stake for 100egg
+post_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100"
+    denom: egg
+  from_address: cosmos1consumerzeroagent...
+  to_address: cosmos1consumerzero...
+pre_actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "150000"
+    denom: stake
+  from_address: cosmos1consumerzero...
+  to_address: cosmos1consumerzeroagent...
+proposer: cosmos1consumerzero...
+```
+
+In this case, literally anyone can be a retailer, executing the proposals:
+
+```yaml
+actions:
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "50000"
+    denom: stake
+  from_address: cosmos1consumerzeroagent...
+  to_address: cosmos1retailer...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100000"
+    denom: stake
+  from_address: cosmos1consumerzeroagent...
+  to_address: cosmos1wholesaleragent...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100"
+    denom: egg
+  from_address: cosmos1wholesaleragent...
+  to_address: cosmos1consumerzeroagent...
+...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "50000"
+    denom: stake
+  from_address: cosmos1consumerninetynineagent...
+  to_address: cosmos1retailer...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100000"
+    denom: stake
+  from_address: cosmos1consumerninetynineagent...
+  to_address: cosmos1wholesaleragent...
+- '@type': /cosmos.bank.v1beta1.MsgSend
+  amount:
+  - amount: "100"
+    denom: egg
+  from_address: cosmos1wholesaleragent...
+  to_address: cosmos1consumerninetynineagent...
+agents:
+- cosmos1wholesaleragent...
+- cosmos1consumerzeroagent...
+...
+- cosmos1consumerninetynineagent...
+executor: cosmos1retailer...
+```
+
+Obviously, the actions in this example are not optimal, but it's sufficient for
+the demonstration.

@@ -1,14 +1,18 @@
 # `x/test`
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=0tech_andromeda_x-test&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=0tech_andromeda_x-test)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=0tech_andromeda_x-test&metric=coverage)](https://sonarcloud.io/summary/new_code?id=0tech_andromeda_x-test)
+[![Go Report Card](https://goreportcard.com/badge/github.com/0tech/andromeda/x/test)](https://goreportcard.com/report/github.com/0tech/andromeda/x/test)
+
 ## Abstract
 
 Some modules have messages which may use other messages. Typical examples would
 be:
 
 * [`x/escrow`](../escrow/README.md)
-* [`x/authz`](https://github.com/cosmos/cosmos-sdk/x/authz/README.md)
-* [`x/gov`](https://github.com/cosmos/cosmos-sdk/x/gov/README.md)
-* [`x/group`](https://github.com/cosmos/cosmos-sdk/x/group/README.md)
+* [`x/authz`](https://github.com/cosmos/cosmos-sdk/blob/v0.50.3/x/authz/README.md)
+* [`x/gov`](https://github.com/cosmos/cosmos-sdk/blob/v0.50.3/x/gov/README.md)
+* [`x/group`](https://github.com/cosmos/cosmos-sdk/blob/v0.50.3/x/group/README.md)
 
 Testing those kind of messages requires messages with ownership semantics,
 however, the corresponding module often lacks such kind of messages. While
@@ -45,36 +49,25 @@ One can change the prefix through the argument of the keeper.
 
 * Assets: `0xff | owner_address | asset_name -> ProtocolBuffer(Asset)`
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/test/proto/andromeda/test/v1alpha1/types.proto#L3-L5
-```
-
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/test/proto/andromeda/test/v1alpha1/types.proto#L4-L5
 
 ## Msg Service
 
 ### Msg/Create
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/test/proto/andromeda/test/v1alpha1/tx.proto#L18-L27
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/test/proto/andromeda/test/v1alpha1/tx.proto#L18-L28
 
 ### Msg/Send
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/test/proto/andromeda/test/v1alpha1/tx.proto#L32-L44
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/test/proto/andromeda/test/v1alpha1/tx.proto#L33-L46
 
 
 ## Events
 
 ### EventCreate
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/test/proto/andromeda/test/v1alpha1/event.proto#L6-L13
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/test/proto/andromeda/test/v1alpha1/event.proto#L6-L13
 
 ### EventSend
 
-```protobuf reference
-https://github.com/0tech/andromeda/blob/main/x/test/proto/andromeda/test/v1alpha1/event.proto#L15-L25
-```
+https://github.com/0Tech/andromeda/blob/f405ccd9e13c31233f4d34d46b500a05eb8ef8e7/x/test/proto/andromeda/test/v1alpha1/event.proto#L15-L25
