@@ -2,6 +2,7 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=0tech_andromeda_x-escrow&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=0tech_andromeda_x-escrow)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=0tech_andromeda_x-escrow&metric=coverage)](https://sonarcloud.io/summary/new_code?id=0tech_andromeda_x-escrow)
+[![Go Report Card](https://goreportcard.com/badge/github.com/0tech/andromeda/x/escrow)](https://goreportcard.com/report/github.com/0tech/andromeda/x/escrow)
 
 ## Abstract
 
